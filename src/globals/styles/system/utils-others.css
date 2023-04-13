@@ -1,0 +1,11 @@
+:root {
+  --card-border: 1px solid rgba(151, 151, 170, 0.22);
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.user-select-none {
+  user-select: none;
+}

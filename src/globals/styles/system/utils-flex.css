@@ -1,0 +1,34 @@
+/*flex*/
+.d-flex {
+  display: flex;
+}
+
+.vc {
+  display: flex;
+  align-items: center;
+}
+
+.hc {
+  display: flex;
+  justify-content: center;
+}
+
+.cc {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sb {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flex-dir-col {
+  flex-direction: column;
+}
+
+.jfe {
+  display: flex;
+  justify-content: flex-end;
+}

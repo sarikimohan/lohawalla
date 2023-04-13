@@ -1,0 +1,12 @@
+.container {
+	width: 100%;
+	min-height: inherit;
+}
+
+.container > div {
+	min-height: inherit;
+}
+
+.container > div:nth-child(2) {
+	flex: 1;
+}

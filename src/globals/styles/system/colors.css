@@ -1,0 +1,78 @@
+:root {
+	--fuschia: #2a333e;
+	--iris: #4b4ded;
+	--peach: #f3d9da;
+	--onyx: #0e0e2c;
+	--evergreen: #31d0aa;
+	--slate: #4a4a68;
+	--light-slate: #8c8ca1;
+	--dorian: #ecf1f4;
+	--cloud: #fafcfe;
+	--text-body: #5c5c77;
+	--text-subtitle: #9797aa;
+	--light: #fafcfe;
+}
+
+.bg-fuschia {
+	background-color: var(--fuschia);
+}
+
+.bg-iris {
+	background-color: var(--iris);
+}
+
+.bg-onyx {
+	background-color: var(--onyx);
+}
+
+.bg-peach {
+	background-color: var(--peach);
+}
+
+.bg-evergreen {
+	background-color: var(--evergreen);
+}
+
+.bg-light {
+	background-color: var(--light);
+}
+
+.bg-text-body {
+	background-color: var(--text-body);
+}
+
+.bg-text-subtitle {
+	background-color: var(--text-subtitle);
+}
+
+.fcolor-fuschia {
+	color: var(--fuschia);
+}
+
+.fcolor-iris {
+	color: var(--iris);
+}
+
+.fcolor-onyx {
+	color: var(--onyx);
+}
+
+.fcolor-peach {
+	color: var(--peach);
+}
+
+.fcolor-evergreen {
+	color: var(--evergreen);
+}
+
+.fcolor-light {
+	color: var(--light);
+}
+
+.fcolor-text-body {
+	color: var(--text-body);
+}
+
+.fcolor-text-subtitle {
+	color: var(--text-subtitle);
+}

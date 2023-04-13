@@ -1,0 +1,61 @@
+/** utilities */
+
+/*line heights*/
+.lh-130 {
+  line-height: 130%;
+}
+.lh-140 {
+  line-height: 140%;
+}
+.lh-150 {
+  line-height: 150%;
+}
+.lh-160 {
+  line-height: 160%;
+}
+
+/*font weights*/
+.fw-400 {
+  font-weight: 400;
+}
+
+.fw-500 {
+  font-weight: 500;
+}
+
+.fw-600 {
+  font-weight: 600;
+}
+
+.fw-700 {
+  font-weight: 700;
+}
+
+.fw-800 {
+  font-weight: 800;
+}
+
+.fw-900 {
+  font-weight: 900;
+}
+
+.fw-medium {
+  font-weight: 500;
+}
+
+.fw-bold {
+  font-weight: 700;
+}
+
+/*text transforms*/
+.capitalize {
+  text-transform: capitalize;
+}
+.uppercase {
+  text-transform: uppercase;
+}
+
+/*selection*/
+.select-none {
+  user-select: none;
+}

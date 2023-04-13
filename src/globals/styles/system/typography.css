@@ -1,0 +1,73 @@
+.title {
+	font-family: "Inter", sans-serif;
+	letter-spacing: -3px;
+	font-weight: bold;
+	font-size: 4rem;
+}
+
+.h2 {
+	font-family: "Inter", sans-serif;
+	font-weight: bold;
+	letter-spacing: -3px;
+	font-size: 2.5rem;
+}
+
+.h3 {
+	font-family: "Inter", sans-serif;
+	letter-spacing: -2px;
+	font-weight: bold;
+	font-size: 1.5rem;
+}
+
+.subtitle {
+	font-family: "Inter", sans-serif;
+	font-weight: 500;
+	font-size: 1.5rem;
+	letter-spacing: 0px;
+}
+
+.body {
+	font-family: "Inter", sans-serif;
+	letter-spacing: 0;
+	font-weight: 500;
+	font-size: 1rem;
+}
+
+.bold {
+	font-family: "Inter", sans-serif;
+	font-weight: bold;
+	font-size: 1rem;
+	letter-spacing: 0;
+}
+
+.small {
+	font-family: "Inter", sans-serif;
+	font-weight: 500;
+	font-size: 0.875rem;
+	letter-spacing: 0;
+}
+
+.pretitle {
+	font-family: "Inter", sans-serif;
+	font-weight: bold;
+	font-size: 12px;
+	letter-spacing: 0;
+	text-transform: uppercase;
+	letter-spacing: 0.3px;
+}
+
+.button {
+	font-family: "Inter", sans-serif;
+	font-weight: bold;
+	font-size: 1rem;
+	letter-spacing: 3px;
+	text-transform: uppercase;
+}
+
+.link {
+	font-family: "Inter", sans-serif;
+	letter-spacing: 0;
+	font-weight: bold;
+	font-size: 1rem;
+	text-decoration: underline;
+}

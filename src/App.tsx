@@ -1,26 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import logo from "./logo.svg";
+import { Route, Routes } from "react-router-dom";
+import style from "./App.module.css";
+import ScreenContainer from "./Components/common/Layout/ScreenContainer/ScreenContainer";
+import Sidebar from "./Components/common/Sidebar/Sidebar";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<ScreenContainer>
+			<div className={style.container + " d-flex"}>
+				<div>
+					<Sidebar />
+				</div>
+				<div></div>
+			</div>
+		</ScreenContainer>
+	);
 }
 
 export default App;

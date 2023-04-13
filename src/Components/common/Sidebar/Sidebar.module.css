@@ -1,0 +1,10 @@
+.container {
+  width: 254px;
+  height: 100%;
+  border-right: 1px solid #dddfe5;
+}
+
+.buttonBox {
+  padding-left: 1px;
+  border-bottom: 1px solid #dddfe5;
+}
