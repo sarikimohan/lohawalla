@@ -1,0 +1,13 @@
+.avatarContainer {
+  display: flex;
+}
+
+.nameText {
+  margin-right: 16px;
+}
+
+.profileIconWrapper {
+  padding: 3px;
+  border-radius: 400px;
+  border: 0.4px solid var(--text-body);
+}

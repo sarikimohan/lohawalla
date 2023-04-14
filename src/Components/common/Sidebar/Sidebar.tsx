@@ -4,6 +4,8 @@ import SidebarButton from "./components/SidebarButton";
 import style from "./Sidebar.module.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import Spacer from "../Spacer/Spacer";
+import DashBoardScreenPath from "@src/screens/Dashboard/ScreenPath.constant";
+import CategoriesScreenPath from "@src/screens/Categories/ScreenPath.constant";
 
 function Sidebar() {
 	const [current, setCurrent] = useState(0);
@@ -25,7 +27,7 @@ function Sidebar() {
 					setActive={setCurrent}
 					label={"Dashboard"}
 					currentActive={current}
-					onClick={() => navigate("/")}
+					onClick={() => navigate(DashBoardScreenPath())}
 				/>
 				<SidebarButton
 					activeIcon={<AssetIndex.PlusActive />}
@@ -43,7 +45,7 @@ function Sidebar() {
 					setActive={setCurrent}
 					label={"Category"}
 					currentActive={current}
-					onClick={() => navigate("/category/")}
+					onClick={() => navigate(CategoriesScreenPath())}
 				/>
 				<SidebarButton
 					activeIcon={<AssetIndex.FolderActive />}

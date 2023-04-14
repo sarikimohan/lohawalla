@@ -1,0 +1,26 @@
+.box {
+  padding: 34px 50px 10px 50px;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.rightContents {
+  display: flex;
+  align-items: center;
+}
+
+.clockWrapper {
+  padding-right: 32px;
+}
+
+.divider {
+  height: 42px;
+  border: 1px solid #dddfe5;
+}
+
+.profileWrapper {
+  padding-left: 32px;
+}
