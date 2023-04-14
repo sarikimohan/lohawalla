@@ -4,7 +4,10 @@ export const InitialState: Categories.State = {
 	categoryList: [],
 	filter: {
 		query: "",
-		filters: [],
+		filters: [
+			{ id: "cname", name: "category name", isActive: true },
+			{ id: "ccode", name: "category code", isActive: true },
+		],
 	},
 	loading: {
 		fetchCategoryList: AsyncStateFactory(),

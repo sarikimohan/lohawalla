@@ -1,5 +1,5 @@
 export default class StateUtils<T> {
-	protected state: T;
+	state: T;
 	protected setState: (setter: (newState: T) => T) => void;
 
 	constructor(state: T, setState: (setter: (newState: T) => T) => void) {
