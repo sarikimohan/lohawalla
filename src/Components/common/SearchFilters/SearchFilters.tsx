@@ -7,7 +7,7 @@ import useBoundingClientRect from '@src/modules/hooks/useBoundingClientRect';
 // in --> [{id, label}] --> out [{id}]
 export interface SearchFilterOptions {
   id: string;
-  label: string;
+  name: string;
   isActive: boolean;
 }
 

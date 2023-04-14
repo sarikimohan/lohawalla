@@ -1,3 +1,3 @@
-const apis = {
+export const apis = {
   fetchCategories : ''
 }

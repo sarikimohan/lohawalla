@@ -5,7 +5,7 @@ import DefaultButton from '@src/Components/common/buttons/DefaultButton/DefaultB
 
 interface SearchFilterButtonProps {
   onClick: (id: string) => void;
-  data: { label: string; isActive: boolean; id: string };
+  data: { name: string; isActive: boolean; id: string };
 }
 
 export default function SearchFilterButton(props: SearchFilterButtonProps) {
@@ -46,7 +46,7 @@ export default function SearchFilterButton(props: SearchFilterButtonProps) {
   return (
     <DefaultButton
       onClick={() => props.onClick(data.id)}
-      label={data.label}
+      label={data.name}
       styles={styles}
       Controller={(a, s) => {
         if (data.isActive) return InteractionEnum.ACTIVE;
