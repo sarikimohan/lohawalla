@@ -1,11 +1,11 @@
 import React from "react";
 
 interface TypeStyleProps extends SpacingParams {
-	text?: string;
+	children?: React.ReactNode;
 	textParams?: React.HTMLAttributes<HTMLParagraphElement>;
 }
 
-export function Title({ text, textParams, ...params }: TypeStyleProps) {
+export function Title({ children, textParams, ...params }: TypeStyleProps) {
 	return (
 		<p
 			className="title"
@@ -14,12 +14,12 @@ export function Title({ text, textParams, ...params }: TypeStyleProps) {
 				...params,
 			}}
 		>
-			{text}
+			{children}
 		</p>
 	);
 }
 
-export function H2({ text, textParams, ...params }: TypeStyleProps) {
+export function H2({ children, textParams, ...params }: TypeStyleProps) {
 	return (
 		<p
 			className="h2"
@@ -28,12 +28,12 @@ export function H2({ text, textParams, ...params }: TypeStyleProps) {
 				...params,
 			}}
 		>
-			{text}
+			{children}
 		</p>
 	);
 }
 
-export function H3({ text, textParams, ...params }: TypeStyleProps) {
+export function H3({ children, textParams, ...params }: TypeStyleProps) {
 	return (
 		<p
 			className="h3"
@@ -42,12 +42,12 @@ export function H3({ text, textParams, ...params }: TypeStyleProps) {
 				...params,
 			}}
 		>
-			{text}
+			{children}
 		</p>
 	);
 }
 
-export function Subtitle({ text, textParams, ...params }: TypeStyleProps) {
+export function Subtitle({ children, textParams, ...params }: TypeStyleProps) {
 	return (
 		<p
 			className="subtitle"
@@ -56,12 +56,12 @@ export function Subtitle({ text, textParams, ...params }: TypeStyleProps) {
 				...params,
 			}}
 		>
-			{text}
+			{children}
 		</p>
 	);
 }
 
-export function Body({ text, textParams, ...params }: TypeStyleProps) {
+export function Body({ children, textParams, ...params }: TypeStyleProps) {
 	return (
 		<p
 			className="body"
@@ -70,12 +70,12 @@ export function Body({ text, textParams, ...params }: TypeStyleProps) {
 				...params,
 			}}
 		>
-			{text}
+			{children}
 		</p>
 	);
 }
 
-export function Bold({ text, textParams, ...params }: TypeStyleProps) {
+export function Bold({ children, textParams, ...params }: TypeStyleProps) {
 	return (
 		<p
 			className="bold"
@@ -84,12 +84,12 @@ export function Bold({ text, textParams, ...params }: TypeStyleProps) {
 				...params,
 			}}
 		>
-			{text}
+			{children}
 		</p>
 	);
 }
 
-export function Small({ text, textParams, ...params }: TypeStyleProps) {
+export function Small({ children, textParams, ...params }: TypeStyleProps) {
 	return (
 		<p
 			className="small"
@@ -98,12 +98,12 @@ export function Small({ text, textParams, ...params }: TypeStyleProps) {
 				...params,
 			}}
 		>
-			{text}
+			{children}
 		</p>
 	);
 }
 
-export function Pretitle({ text, textParams, ...params }: TypeStyleProps) {
+export function Pretitle({ children, textParams, ...params }: TypeStyleProps) {
 	return (
 		<p
 			className="pretitle"
@@ -112,12 +112,12 @@ export function Pretitle({ text, textParams, ...params }: TypeStyleProps) {
 				...params,
 			}}
 		>
-			{text}
+			{children}
 		</p>
 	);
 }
 
-export function Button({ text, textParams, ...params }: TypeStyleProps) {
+export function Button({ children, textParams, ...params }: TypeStyleProps) {
 	return (
 		<p
 			className="button"
@@ -126,12 +126,12 @@ export function Button({ text, textParams, ...params }: TypeStyleProps) {
 				...params,
 			}}
 		>
-			{text}
+			{children}
 		</p>
 	);
 }
 
-export function Link({ text, textParams, ...params }: TypeStyleProps) {
+export function Link({ children, textParams, ...params }: TypeStyleProps) {
 	return (
 		<p
 			className="link"
@@ -140,7 +140,7 @@ export function Link({ text, textParams, ...params }: TypeStyleProps) {
 				...params,
 			}}
 		>
-			{text}
+			{children}
 		</p>
 	);
 }

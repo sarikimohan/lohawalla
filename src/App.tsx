@@ -5,9 +5,13 @@ import ScreenContainer from "./Components/common/Layout/ScreenContainer/ScreenCo
 import Sidebar from "./Components/common/Sidebar/Sidebar";
 import DashBoardScreenPath from "./screens/Dashboard/ScreenPath.constant";
 import CategoriesScreenPath from "./screens/Categories/ScreenPath.constant";
+import Categories from "./screens/Categories/Categories";
 
 //* screen imports
 const LazyDashboard = React.lazy(() => import("./screens/Dashboard/Dashboard"));
+const LazyCategories = React.lazy(
+	() => import("./screens/Categories/Categories")
+);
 
 function App() {
 	return (
@@ -28,7 +32,16 @@ function App() {
 								}
 							/>
 						</Route>
-						<Route path={CategoriesScreenPath()}>{/* <Route index /> */}</Route>
+						<Route path={CategoriesScreenPath()}>
+							<Route
+								index
+								element={
+									<React.Suspense fallback="loading...">
+										<LazyCategories />
+									</React.Suspense>
+								}
+							/>
+						</Route>
 					</Routes>
 				</div>
 			</div>

@@ -1,0 +1,10 @@
+.container {
+  overflow-y: hidden;
+  /* max-height: 400px; */
+}
+
+.rowsContainer {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 400px;
+}

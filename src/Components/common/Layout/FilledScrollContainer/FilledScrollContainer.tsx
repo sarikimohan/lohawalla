@@ -1,5 +1,5 @@
 import React from "react";
-import style from "./FilledScrollContainer.module.scss";
+import style from "./FilledScrollContainer.module.css";
 
 interface FilledScrollContainerProps {
 	children?: React.ReactNode;
