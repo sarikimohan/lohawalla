@@ -17,13 +17,9 @@ namespace Categories {
 
   interface State {
     categoryList: CategoryListData[];
-    filter: {
-      query: string;
-      filters: Filter[];
-    };
+    filter: Filter;
     loading: {
       fetchCategoryList: AsyncState;
     }
   }
-  
 }

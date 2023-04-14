@@ -1,7 +1,7 @@
 import FilledScrollContainer from "@src/Components/common/Layout/FilledScrollContainer/FilledScrollContainer";
 import TitleNavBar from "@src/Components/common/NavBar/TitleNavBar";
 import LAYOUT_CONSTANTS from "@src/globals/constants/layout.constants";
-import React from "react";
+import React, { useState } from "react";
 import { Card } from "@mui/material";
 import { Subtitle } from "@src/Components/common/Typography/TypeStyles";
 import SpacingDiv from "@src/Components/common/Layout/SpacingDiv/SpacingDiv";
@@ -13,10 +13,13 @@ import { columnConfig } from "./configurations/GridColumnConfig";
 import useWidth from "@src/modules/hooks/useWidth";
 import BannerContainer from "@src/Components/common/BannerContainer/BannerContainer";
 import RowContainer from "@src/Components/common/Grid/RowContainer.default";
+import { InitialState } from "./management/state/InitialState";
 
 function Categories() {
 	const widthService = useWidth();
-	console.log(widthService.width);
+
+	const [state, setState] = useState<Categories.State>(InitialState);
+
 	return (
 		<>
 			<div>
