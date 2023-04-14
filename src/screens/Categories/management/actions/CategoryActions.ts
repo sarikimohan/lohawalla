@@ -17,5 +17,4 @@ export default class CategoryActions extends ComponentActions<Categories.State> 
 		});
 	}
 
-	
 }
