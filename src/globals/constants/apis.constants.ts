@@ -1,6 +1,6 @@
 import { env } from "process";
 
-const baseApi = env.MODE==='dev'?"http://localhost:8080/": "https://54.234.87.11/";
+const baseApi = env.MODE ==='dev'?"http://localhost:8080/": "https://54.234.87.11/";
 
 const addBaseApi = (path: string) => baseApi;
 const FormApi  = (path: string) => 'purchaser/forms';
