@@ -16,6 +16,9 @@ import SpacingDiv from "@src/Components/common/Layout/SpacingDiv/SpacingDiv";
 import SearchBar from "@src/Components/common/SearchBar/SearchBar";
 import SearchFilters from "@src/Components/common/SearchFilters/SearchFilters";
 import DefaultButton from "@src/Components/common/buttons/DefaultButton/DefaultButton";
+import { InitialState } from "./management/state/InitialState";
+import CategorySpecificationAction from "./management/actions/CategorySpecificationAction";
+import { H2 } from "@src/Components/common/Typography/TypeStyles";
 
 export const CategorySpecificationContext = React.createContext({});
 
@@ -24,7 +27,14 @@ function CategorySpecification() {
 	const { ref, height } = useHeight();
 	const { id } = useParams();
 
-	console.log("received id ", id);
+	const [state, setState] = useState<CategorySpecification.State>(InitialState);
+	const specActions = new CategorySpecificationAction(state, (p) =>
+		setState(p)
+	);
+
+	useEffect(() => {
+		specActions.fetchData(id as string);
+	}, []);
 
 	return (
 		<CategorySpecificationContext.Provider value={{ label: "label" }}>
@@ -36,7 +46,7 @@ function CategorySpecification() {
 				style={{ height: `calc(100vh - ${height}px)` }}
 			>
 				<div className={style.headingRow + " mb-3"}>
-					<p className="header-2 fcolor-fuschia">{}</p>
+					<H2>{state.categoryName}</H2>
 				</div>
 
 				<div className="d-flex w-100">

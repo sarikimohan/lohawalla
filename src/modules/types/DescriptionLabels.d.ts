@@ -1,4 +1,4 @@
 interface DescriptionLabels {
-	label: string;
+	key: string;
 	value: string;
 }

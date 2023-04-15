@@ -13,7 +13,8 @@ function ScreenContainer(props: ScreenContainerProps) {
 		<div
 			style={{
 				width: "100%",
-				minHeight: "100vh",
+				height: "100vh",
+				overflow: 'hidden',
 				...props.containerProps?.style,
 			}}
 			{...props.containerProps}

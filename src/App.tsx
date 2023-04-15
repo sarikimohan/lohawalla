@@ -4,9 +4,6 @@ import style from "./App.module.css";
 import ScreenContainer from "./Components/common/Layout/ScreenContainer/ScreenContainer";
 import Sidebar from "./Components/common/Sidebar/Sidebar";
 import DashBoardScreenPath from "./screens/Dashboard/ScreenPath.constant";
-import CategoriesScreenPath from "./screens/Categories/ScreenPath.constant";
-import Categories from "./screens/Categories/Categories";
-import CategorySpecification from "./screens/CategorySpecification/CategorySpecification";
 
 //* screen imports
 const LazyDashboard = React.lazy(() => import("./screens/Dashboard/Dashboard"));
