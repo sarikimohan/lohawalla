@@ -1,4 +1,12 @@
 namespace CategorySpecification {
+  export interface CategorySpecifications {
+		categoryName: "",
+		description: "",
+		descriptionLabels: [],
+		creditDetails: [],
+		negotiationDetails: 0,
+		images: [],
+	};
 	export interface ItemGridData {
 		_id: string;
 		srNo: number;
