@@ -7,7 +7,7 @@ export default class StateUtils<T> {
 		this.setState = setState;
 	}
 
-	mutateState(setter: (state: T) => void) {
+	public mutateState(setter: (state: T) => void) {
 
 		this.setState((s) => {
       const newState = {...s};

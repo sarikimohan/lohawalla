@@ -8,34 +8,15 @@ namespace ItemSpecification {
 		};
 		companyProductName: string;
 	}
-
-	const GST_PERCENTAGE_VALUES = {
-		0: 0,
-		5: 5,
-		12: 12,
-		18: 18,
-		28: 28,
-	};
-
-	interface GSTDetails {
-		value: number;
-		type: "numeric" | "percentage";
-	}
-
-	interface Margin {
-		online: number;
-		cash: number;
-	}
-
+	
 	interface ItemSpecification {
-		companyProductName: string;
+		itemName: string;
+		categoryName: string;
 		description: string;
 		descriptionLabels: DescriptionLabels[];
-		productList: CompanyProduct[];
-		filter: Filter;
+		margin: Margin;
 		gst: GSTDetails;
-		loading: {
-			fetchData: AsyncState;
-		};
+		companyProductList: CompanyProduct[];
+		filter: Filter; 
 	}
 }

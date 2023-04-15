@@ -46,7 +46,7 @@ function Categories() {
 							<div>
 								<SearchFilters
 									options={categoryAction.getOptions()}
-									onItemClick={categoryAction.toggleFilter}
+									onItemClick={(e) => categoryAction.toggleFilter(e)}
 								/>
 							</div>
 						</div>

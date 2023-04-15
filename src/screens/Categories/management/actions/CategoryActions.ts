@@ -16,13 +16,12 @@ export default class CategoryActions extends StateUtils<Categories.State> {
 	}
 
 	toggleFilter(id: string) {
-		// this.mutateState((p) => {
-		// 	for (let filter of p.filter.filters) {
-		// 		if (filter.id === id) {
-		// 			filter.isActive = !filter.isActive;
-		// 		}
-		// 	}
-		// });
-		console.log(this.mutateState);
+		this.mutateState((p) => {
+			for (let filter of p.filter.filters) {
+				if (filter.id === id) {
+					filter.isActive = !filter.isActive;
+				}
+			}
+		});
 	}
 }
