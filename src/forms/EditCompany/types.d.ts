@@ -1,18 +1,23 @@
-namespace EditCategory {
-	type ModifyStatus = "initial" | "modified" | "added" | "deleted";
-
+namespace EditCompany {
 	interface State {
-		categoryName: string;
-		categoryCode: string;
+		companyName: string;
 		description: string;
+
 		images: string[];
 		addedImages: string[];
 		imageFiles: File[];
-		credit: Credit;
+
+		priceStructure: (PriceField & {
+			modifyStatus: ModifyStatus;
+			_id: string;
+		})[];
+
+		tempPriceStructure: PriceField[];
+
 		descriptionLabels: (DescriptionLabels & { _id: string })[];
 
 		loading: {
-			saveImages: AsyncState;
+			saveImage: AsyncState;
 			saveData: AsyncState;
 		};
 	}
