@@ -1,13 +1,5 @@
-export const InitialState: ItemSpecification.ItemSpecification ={
-  itemName: "",
-  categoryName: "",
-  description: "",
-  descriptionLabels: [],
-  margin: {online: 0, cash: 0},
-  gst: {value: 0, type:'numeric'},
-  companyProductList: [],
-  filter: {
-    query: '',
-    filters : []
-  }
-}
+import getScreenPath from "@src/modules/Utils/getScreenName";
+
+const ItemsSpecificationScreenPath = getScreenPath("itemSpecification");
+
+export default ItemsSpecificationScreenPath;
