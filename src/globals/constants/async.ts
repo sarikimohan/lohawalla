@@ -394,8 +394,17 @@ export async function getCategoryGridData(){
   return response.data;
 }
 
-async function getCategorySpecification(reqParams: useId){
-  let response = await API.get(apis.getCategorySpecification(reqParams.id));
+interface CategorySpecifications{
+  categoryName: "",
+  description: "",
+  descriptionLabels: [],
+  creditDetails: [],
+  negotiationDetails: 0,
+  images: [],
+};
+
+export async function getCategorySpecification(reqParams: useId){
+  let response = await API.get<CategorySpecifications>(apis.getCategorySpecification(reqParams.id));
   return response.data;
 }
 

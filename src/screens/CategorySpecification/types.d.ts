@@ -1,4 +1,12 @@
 namespace CategorySpecification {
+  export interface CategorySpecifications {
+		categoryName: "",
+		description: "",
+		descriptionLabels: [],
+		creditDetails: [],
+		negotiationDetails: 0,
+		images: [],
+	};
 	export interface ItemGridData {
 		_id: string;
 		srNo: number;
@@ -28,7 +36,7 @@ namespace CategorySpecification {
 	}
 
 	export interface Actions {
-		fetchData(): void;
+		fetchData(id:string): void;
 		filterList(): ItemGridData[];
 		setQuery(query: string): void;
 		toggleFilter(id: string): void;
