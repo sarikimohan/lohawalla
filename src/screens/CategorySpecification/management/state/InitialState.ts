@@ -7,6 +7,7 @@ export const InitialState: CategorySpecification.State = {
 	credits: [],
 	negotiation: 0,
 	itemList: [],
+	images: [],
 	filter: {
 		query: "",
 		filters: [],

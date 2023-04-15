@@ -394,22 +394,35 @@ export async function getCategoryGridData(){
   return response.data;
 }
 
-interface CategorySpecifications{
-  categoryName: "",
-  description: "",
-  descriptionLabels: [],
-  creditDetails: [],
-  negotiationDetails: 0,
-  images: [],
-};
-
+interface CategorySpecifications {
+	categoryName: string;
+	description: string;
+	descriptionLabels: { key: string; value: string }[];
+	creditDetails: { days: number; value: number }[];
+	negotiationDetails: number;
+  images: string[]
+}
 export async function getCategorySpecification(reqParams: useId){
   let response = await API.get<CategorySpecifications>(apis.getCategorySpecification(reqParams.id));
   return response.data;
 }
 
-async function getItemGridData(reqParams: useId){
-  let response = await API.get(apis.getItemGridData(reqParams.id))
+interface ItemGridData {
+  _id: string;
+  srNo: number;
+  itemName: {
+    name: string;
+    imageURL: string;
+  };
+  itemCode: number;
+  entryTime: string;
+  rowStatus: {
+    isFixed: boolean;
+    fixedPosition: number;
+  };
+}
+export async function getItemGridData(reqParams: useId){
+  let response = await API.get<ItemGridData[]>(apis.getItemGridData(reqParams.id))
   return response.data
 }
 

@@ -37,7 +37,9 @@ function Categories() {
 			>
 				<Card variant="outlined" sx={{ padding: 4 }}>
 					<SpacingDiv marginBottom={24}>
-						<Subtitle>Category(40)</Subtitle>
+						<Subtitle>
+							Category({categoryAction.getCategoryGridData().length})
+						</Subtitle>
 					</SpacingDiv>
 					<SpacingDiv
 						containerProps={{ className: "crow sb" }}

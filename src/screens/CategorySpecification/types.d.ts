@@ -30,13 +30,14 @@ namespace CategorySpecification {
 		negotiation: number;
 		itemList: ItemGridData[];
     filter: Filter;
+		images: string[];
     loading: {
       fetchData: AsyncState
     }
 	}
 
 	export interface Actions {
-		fetchData(id:string): void;
+		fetchData(id: string): void;
 		filterList(): ItemGridData[];
 		setQuery(query: string): void;
 		toggleFilter(id: string): void;

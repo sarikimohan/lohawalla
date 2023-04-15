@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 function ImageNameContainer(data: Categories.CategoryGridData, width: number) {
 	const navigate = useNavigate();
 	return (
-		<div style={{ width }} onClick={() => navigate(`/category/${data._id}`)}>
+		<div style={{ width }} onClick={() => navigate(`/categories/${data._id}`)}>
 			<ImageNameDisplay
 				name={data.categoryName.name}
 				imageURL={data.categoryName.imageURL}

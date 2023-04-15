@@ -8,19 +8,7 @@ import { useNavigate } from "react-router-dom";
 function NumberDisplay(data: Categories.CategoryGridData, width: number) {
 	const navigate = useNavigate();
 	return (
-		// <motion.p
-		// 	className="small fcolor-text-body fw-medium cursor-pointer h-100"
-		// 	style={{
-		// 		width,
-		// 		color: "var(--iris)",
-		// 		border: "1px solid rgb(0,0,0,0)",
-		// 	}}
-		// 	whileHover={{ borderColor: "var(--iris)", scale: 1.1 }}
-		// 	onClick={() => navigate(`/category/setActiveCompany/${data._id}`)}
-		// >
-		// 	{data.noOfItems}
-		// </motion.p>
-		<div>
+		<div onClick={() => navigate(`/categores/setActiveCompany/${data._id}`)}>
 			<ScaleOnHover>
 				<BorderOnHover>
 					<div style={{ width }}>
