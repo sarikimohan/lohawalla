@@ -1,7 +1,7 @@
 import FilledScrollContainer from "@src/Components/common/Layout/FilledScrollContainer/FilledScrollContainer";
 import TitleNavBar from "@src/Components/common/NavBar/TitleNavBar";
 import LAYOUT_CONSTANTS from "@src/globals/constants/layout.constants";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card } from "@mui/material";
 import { Subtitle } from "@src/Components/common/Typography/TypeStyles";
 import SpacingDiv from "@src/Components/common/Layout/SpacingDiv/SpacingDiv";
@@ -22,6 +22,10 @@ function Categories() {
 	const [state, setState] = useState<Categories.State>(InitialState);
 	const categoryAction = new CategoryActions(state, (s) => setState(s));
 
+	useEffect(() => {
+		categoryAction.fetchCategoryGridData();
+	}, []);
+
 	return (
 		<>
 			<div>
@@ -41,7 +45,11 @@ function Categories() {
 					>
 						<div className="d-flex vc">
 							<SpacingDiv marginRight={16}>
-								<SearchBar />
+								<SearchBar
+									onChange={(e) => {
+										categoryAction.setQuery(e);
+									}}
+								/>
 							</SpacingDiv>
 							<div>
 								<SearchFilters
@@ -59,23 +67,7 @@ function Categories() {
 					</SpacingDiv>
 					<div ref={widthService.ref}>
 						<Grid<Categories.CategoryGridData>
-							data={[
-								{
-									_id: "1",
-									srNo: 1,
-									categoryCode: 243234,
-									categoryName: {
-										name: "tmt",
-										imageURL: null,
-									},
-									entryTime: "",
-									noOfItems: 3,
-									rowStatus: {
-										isFixed: false,
-										fixedPosition: 32,
-									},
-								},
-							]}
+							data={categoryAction.filterCategoryData()}
 							config={columnConfig}
 							width={widthService.width}
 							BannerContainer={(children) => (

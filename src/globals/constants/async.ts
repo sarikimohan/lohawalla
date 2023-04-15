@@ -2,6 +2,7 @@ import axios from "axios";
 import { env } from "process";
 import apis from "./apis.constants";
 import { responsiveFontSizes } from "@mui/material";
+import { MODE } from "./modes.constants";
 
 const baseURLS = {
   dev: 'http://localhost:8080/',
@@ -15,8 +16,10 @@ type ObjectLiteral<T> = {
 };
 
 const API = axios.create({
-  baseURL: baseURLS[env.MODE as modes],
+  baseURL: baseURLS[MODE],
 });
+
+console.log(baseURLS[MODE])
 
 interface GetAnyThingProps {
   name: string
@@ -370,9 +373,25 @@ async function getItemUnique(reqParams: checkItemNameUnique){
 }
 
 //PAGES
-async function getCategoryGridData(){
-  let response = await API.get(apis.getCategoryGridData);
-  return response.data
+interface CategoryGridData {
+	srNo: number;
+	categoryName: {
+		name: string;
+		imageURL: string;
+	};
+	categoryCode: string;
+	entryTime: string;
+	noOfItems: number;
+	rowStatus: {
+		isFixed: boolean;
+		fixedPosition: number;
+	};
+	_id: string;
+}
+
+export async function getCategoryGridData(){
+  let response = await API.get<CategoryGridData[]>(apis.getCategoryGridData);
+  return response.data;
 }
 
 async function getCategorySpecification(reqParams: useId){

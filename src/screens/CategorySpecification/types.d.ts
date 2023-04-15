@@ -26,4 +26,8 @@ namespace CategorySpecification {
       fetchData: AsyncState
     }
 	}
+
+	export interface Actions {
+		
+	}
 }

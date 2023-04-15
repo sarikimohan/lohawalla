@@ -16,14 +16,14 @@ namespace Categories {
 	}
 
 	interface State {
-		categoryList: CategoryListData[];
+		categoryList: CategoryGridData[];
 		filter: Filter;
 		loading: {
 			fetchCategoryList: AsyncState;
 		};
 	}
 
-	interface Actions {
+	export interface Actions {
 		/**
 		 * set the query from the input
 		 */
