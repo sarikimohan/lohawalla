@@ -6,9 +6,7 @@ namespace CompanyProducts {
       imageURL: string;
       name: string;
     };
-    price: number;
-    entryTime: string;
-    noOfProducts: number;
+    companyProductName: string;
   }  
 	interface State {
 		products: CompanyProduct[];
