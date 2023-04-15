@@ -16,6 +16,15 @@ export default class CategorySpecificationAction
 	fetchData(id: string): void {
 		(async () => {
 			try {
+				this.mutateState(p => p.loading.fetchData.status = 'initialized');
+
+			} catch(err) {}
+
+
+		})();
+
+		(async () => {
+			try {
 				this.mutateState((p) => {
 					p.loading.fetchData.status = "initialized";
 				});
