@@ -12,4 +12,8 @@ namespace CompanyProducts {
 		products: CompanyProduct[];
 		filter: Filter;
 	}
+
+  interface Actions{
+
+  }
 }

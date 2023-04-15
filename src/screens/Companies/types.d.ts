@@ -1,5 +1,5 @@
 namespace Companies {
-	interface CompanyListRow {
+	export interface CompanyListRow {
 		_id: string;
 		srNo: number;
 		companyName: {
@@ -14,5 +14,14 @@ namespace Companies {
 	interface State {
 		companyList: CompanyListRow[];
 		filter: Filter;
+		loading: {
+			fetchCompanyList: AsyncState;
+		};
+	}
+
+	interface Actions{
+    CompanyListRow() : void;
+    filterCompanylistRow() : CompanyListRow[]
+		setQuery(query:string) : void
 	}
 }
