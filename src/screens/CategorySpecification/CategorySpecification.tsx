@@ -19,12 +19,14 @@ import DefaultButton from "@src/Components/common/buttons/DefaultButton/DefaultB
 import { InitialState } from "./management/state/InitialState";
 import CategorySpecificationAction from "./management/actions/CategorySpecificationAction";
 import { H2 } from "@src/Components/common/Typography/TypeStyles";
+import FilledScrollContainer from "@src/Components/common/Layout/FilledScrollContainer/FilledScrollContainer";
+import LAYOUT_CONSTANTS from "@src/globals/constants/layout.constants";
 
 export const CategorySpecificationContext = React.createContext({});
 
 function CategorySpecification() {
 	const widthService = useWidth();
-	const { ref, height } = useHeight();
+	const heightService = useHeight();
 	const { id } = useParams();
 
 	const [state, setState] = useState<CategorySpecification.State>(InitialState);
@@ -38,21 +40,25 @@ function CategorySpecification() {
 
 	return (
 		<CategorySpecificationContext.Provider value={{ label: "label" }}>
-			<div className={style.navContainer + " mb-3"} ref={ref}>
+			<div ref={heightService.ref}>
 				<BackNavBar title={"Category Specification"} />
 			</div>
 			<div
-				className={style.pageContainer}
-				style={{ height: `calc(100vh - ${height}px)` }}
+				style={{
+					height: `calc(100vh - ${heightService.height}px)`,
+					overflow: "auto",
+					paddingTop: 40,
+				}}
+				className="p-7 pt-1"
 			>
-				<div className={style.headingRow + " mb-3"}>
+				<div className={style.headingRow + " mb-5"}>
 					<H2>{state.categoryName}</H2>
 				</div>
 
 				<div className="d-flex w-100">
 					<div className={style.col_1}>
 						<div className="mb-2">
-							<ImagePreview images={[]} />
+							<ImagePreview images={state.images} />
 						</div>
 						<div className={style.descriptionCard + " mb-3"}>
 							<div className={style.descriptionBanner}>
@@ -61,17 +67,15 @@ function CategorySpecification() {
 								</div>
 							</div>
 							<div className={style.descriptionBody}>
-								{[].map((val, index) => (
+								{state.credits.map((val, index) => (
 									<div className="crow sb" key={index}>
 										<div className={style.descriptionCell}>
 											<p className="fw-bold fcolor-text-subtitle body">
-												{/* {val.days} days */}
+												{val.days} days
 											</p>
 										</div>
 										<div className={style.descriptionCell}>
-											<p className="fw-medium fcolor-onyx body">
-												{/*val.value*/}%
-											</p>
+											<p className="fw-medium fcolor-onyx body">{val.value}%</p>
 										</div>
 									</div>
 								))}
@@ -95,7 +99,7 @@ function CategorySpecification() {
 									</div>
 									<div className={style.descriptionCell}>
 										<p className="fw-medium fcolor-onyx body">
-											{/* {data.negotiationDetails}% */}
+											{state.negotiation}%
 										</p>
 									</div>
 								</div>
@@ -107,7 +111,7 @@ function CategorySpecification() {
 							<div className="mb-3" style={{ marginRight: 100 }}>
 								<p className="pretitle fcolor-text-subtitle mb-1">CATEGORY</p>
 								<p className="body fw-bold fcolor-text-body">
-									{/* {data.categoryName} */}
+									{state.categoryName}
 								</p>
 							</div>
 							<div>
@@ -117,7 +121,7 @@ function CategorySpecification() {
 						<div className={style.descriptionContainer + " mb-3"}>
 							<p className="pretitle fcolor-text-subtitle mb-1">DESCRIPTION</p>
 							<p className="body fw-medium fcolor-text-body">
-								{/* {data.description} */}
+								{state.description}
 							</p>
 						</div>
 
@@ -131,17 +135,15 @@ function CategorySpecification() {
 								</div>
 							</div>
 							<div className={style.descriptionBody}>
-								{[].map((val, index) => (
+								{state.descriptionLabels.map((val, index) => (
 									<div className="crow sb" key={index}>
 										<div className={style.descriptionCell}>
 											<p className="fw-bold fcolor-text-subtitle body">
-												{/* {val.key} */}
+												{val.key}
 											</p>
 										</div>
 										<div className={style.descriptionCell}>
-											<p className="fw-medium fcolor-onyx body">
-												{/*val.value*/}
-											</p>
+											<p className="fw-medium fcolor-onyx body">{val.value}</p>
 										</div>
 									</div>
 								))}
@@ -149,17 +151,26 @@ function CategorySpecification() {
 						</div>
 					</div>
 				</div>
-				<Card className={style.cardContainer + " mb-8"}>
+				<Card className={style.cardContainer + " mb-8"} variant="outlined">
 					<div ref={widthService.ref}>
-						<p className="subtitle fcolor-onyx ">Items({})</p>
+						<p className="subtitle fcolor-onyx ">
+							Items({state.itemList.length})
+						</p>
 						<Spacer height={40} />
 						<SpacingDiv containerProps={{ className: "crow sb" }}>
 							<div className="d-flex vc">
 								<SpacingDiv marginRight={16}>
-									<SearchBar onChange={(e) => {}} />
+									<SearchBar
+										onChange={(e) => {
+											specActions.setQuery(e);
+										}}
+									/>
 								</SpacingDiv>
 								<div>
-									<SearchFilters options={[]} onItemClick={(e) => null} />
+									<SearchFilters
+										options={state.filter.filters}
+										onItemClick={(e) => specActions.toggleFilter(e)}
+									/>
 								</div>
 							</div>
 							<div>
@@ -180,7 +191,7 @@ function CategorySpecification() {
 							width={widthService.width}
 							paddingLeft={32}
 							paddingRight={32}
-							data={[]}
+							data={specActions.filterList()}
 							config={id ? getColConfig(id, "") : []}
 						/>
 					</div>

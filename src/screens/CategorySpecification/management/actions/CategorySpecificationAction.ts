@@ -1,4 +1,5 @@
 import {
+	getCategorySpecItemGridData,
 	getCategorySpecification,
 	getItemGridData,
 } from "@src/globals/constants/async";
@@ -17,11 +18,20 @@ export default class CategorySpecificationAction
 	fetchData(id: string): void {
 		(async () => {
 			try {
+				this.mutateState(p => p.loading.fetchData.status = 'initialized');
+
+			} catch(err) {}
+
+
+		})();
+
+		(async () => {
+			try {
 				this.mutateState((p) => {
 					p.loading.fetchData.status = "initialized";
 				});
 				const specData = await getCategorySpecification({ id });
-				const itemData = await getItemGridData({ id });
+				const itemData = await getCategorySpecItemGridData(id);
 
 
 				this.mutateState(p => {
@@ -33,6 +43,7 @@ export default class CategorySpecificationAction
 					p.images = specData.images;
 					
 					p.itemList = itemData;
+					console.log(itemData);
 				})
 
 				this.mutateState((p) => (p.loading.fetchData.status = "success"));
@@ -43,6 +54,7 @@ export default class CategorySpecificationAction
 	}
 
 	filterList(): CategorySpecification.ItemGridData[] {
+		console.log('value of item list', this.state.itemList);
 		return this.state.itemList.filter((v)=>{
 			for(let filter of this.state.filter.filters){
 				if(filter.isActive){

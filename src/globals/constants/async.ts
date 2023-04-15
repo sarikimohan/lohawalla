@@ -421,8 +421,13 @@ interface ItemGridData {
     fixedPosition: number;
   };
 }
+export async function getCategorySpecItemGridData(id: string) {
+  const res = await API.get<ItemGridData[]>(apis.getCategorySpecificationItemGrid(id));
+  return res.data;
+}
+
 export async function getItemGridData(reqParams: useId){
-  let response = await API.get<ItemGridData[]>(apis.getItemGridData(reqParams.id))
+  let response = await API.get<any>(apis.getItemGridData(reqParams.id))
   return response.data
 }
 

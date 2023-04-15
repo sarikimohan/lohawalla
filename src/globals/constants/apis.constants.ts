@@ -85,6 +85,8 @@ const apis = {
 	getCategoryGridData: PagesApi("/category/getCategoryGridData"),
 	getCategorySpecification: (id: string) =>
 		PagesApi(`/categorySpecification/specification/${id}`),
+	getCategorySpecificationItemGrid: (id: string) =>
+		PagesApi(`/categorySpecification/getItemGrid/${id}`),
 	getItemGridData: (id: string) =>
 		PagesApi(`/categoryNumberOfItem/getItemGridData/${id}`),
 	updateItemActiveCompany: PagesApi(

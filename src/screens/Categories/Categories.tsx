@@ -15,10 +15,11 @@ import BannerContainer from "@src/Components/common/BannerContainer/BannerContai
 import RowContainer from "@src/Components/common/Grid/RowContainer.default";
 import { InitialState } from "./management/state/InitialState";
 import CategoryActions from "./management/actions/CategoryActions";
+import useHeight from "@src/modules/hooks/useHeight";
 
 function Categories() {
 	const widthService = useWidth();
-
+	const heightService = useHeight();
 	const [state, setState] = useState<Categories.State>(InitialState);
 	const categoryAction = new CategoryActions(state, (s) => setState(s));
 
@@ -27,13 +28,16 @@ function Categories() {
 	}, []);
 
 	return (
-		<>
-			<div>
+		<div>
+			<div ref={heightService.ref}>
 				<TitleNavBar title={"Categories"} />
 			</div>
-			<FilledScrollContainer
-				paddingTop={LAYOUT_CONSTANTS.NavBarBottomMargin}
-				padding={LAYOUT_CONSTANTS.contentPadding}
+			<div
+				style={{
+					height: `calc(100vh - ${heightService.height}px)`,
+					overflow: "auto",
+				}}
+				className='p-7'
 			>
 				<Card variant="outlined" sx={{ padding: 4 }}>
 					<SpacingDiv marginBottom={24}>
@@ -83,8 +87,8 @@ function Categories() {
 						/>
 					</div>
 				</Card>
-			</FilledScrollContainer>
-		</>
+			</div>
+		</div>
 	);
 }
 
