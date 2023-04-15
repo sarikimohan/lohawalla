@@ -1,0 +1,17 @@
+.imageSmallContainer {
+	height: 44px;
+	width: 44px;
+	border-radius: 4px;
+	object-fit: cover;
+	object-position: center center;
+	margin-right: 16px;
+	overflow: hidden;
+	cursor: pointer;
+	position: relative;
+}
+
+.imageSmall {
+	height: 100%;
+	width: 100%;
+  object-fit: cover;
+}
