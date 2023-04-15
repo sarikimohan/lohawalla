@@ -14,11 +14,13 @@ import useWidth from "@src/modules/hooks/useWidth";
 import BannerContainer from "@src/Components/common/BannerContainer/BannerContainer";
 import RowContainer from "@src/Components/common/Grid/RowContainer.default";
 import { InitialState } from "./management/state/InitialState";
+import CategoryActions from "./management/actions/CategoryActions";
 
 function Categories() {
 	const widthService = useWidth();
 
 	const [state, setState] = useState<Categories.State>(InitialState);
+	const categoryAction = new CategoryActions(state, (s) => setState(s));
 
 	return (
 		<>
@@ -43,8 +45,8 @@ function Categories() {
 							</SpacingDiv>
 							<div>
 								<SearchFilters
-									options={[]}
-									onItemClick={function (id: string): void {}}
+									options={categoryAction.getOptions()}
+									onItemClick={(e) => categoryAction.toggleFilter(e)}
 								/>
 							</div>
 						</div>
