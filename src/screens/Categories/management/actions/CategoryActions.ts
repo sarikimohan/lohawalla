@@ -26,12 +26,13 @@ export default class CategoryActions
 				if (filter.isActive) {
 					const query = this.state.filter.query.toLowerCase().trim();
 					if (filter.name === "category name") {
-						return isPrefix(v.categoryName.name.toLowerCase(), query);
+						if(isPrefix(v.categoryName.name.toLowerCase(), query)) return true;
 					}
 					if (filter.name === "category code") {
-						return isPrefix(v.categoryCode.toString().toLowerCase(), query);
+						if(isPrefix(v.categoryCode.toString().toLowerCase(), query)) return true;
 					}
 				}
+				return false;
 			}
 		});
 	}
