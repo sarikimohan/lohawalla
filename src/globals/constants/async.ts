@@ -449,10 +449,22 @@ async function getItemData(reqParams: useId){
 async function getCompanyProductGridData(reqParams: useId) {
   let response = await API.get(apis.getCompanyProductGridData(reqParams.id))
   return response.data
-} 
+}
 
-async function getCompanyGridData(){
-  let response = await API.get(apis.getCompanyGridData)
+interface CompanyGridData {
+  _id: string;
+  srNo: number;
+  companyName: {
+    imageURL: string;
+    name: string;
+  };
+  price: number;
+  entryTime: string;
+  noOfProducts: number;
+}
+
+export async function getCompanyGridData(){
+  let response = await API.get<CompanyGridData[]>(apis.getCompanyGridData)
   return response.data
 }
 
