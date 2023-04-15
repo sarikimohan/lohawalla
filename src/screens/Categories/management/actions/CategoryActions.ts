@@ -24,4 +24,6 @@ export default class CategoryActions extends StateUtils<Categories.State> {
 			}
 		});
 	}
+
+	
 }
