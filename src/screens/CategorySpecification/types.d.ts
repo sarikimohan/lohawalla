@@ -28,6 +28,9 @@ namespace CategorySpecification {
 	}
 
 	export interface Actions {
-		
+		fetchData(): void;
+		filterList(): ItemGridData[];
+		setQuery(query: string): void;
+		toggleFilter(id: string): void;
 	}
 }
