@@ -42,6 +42,7 @@ function ImagePreview(props: ImagePreviewProps) {
 						setSelected={function (): void {
 							setSelection(i);
 						}}
+						key={i}
 					/>
 				))}
 			</div>

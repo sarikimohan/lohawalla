@@ -11,7 +11,7 @@ export default function ImageSmall(props: {
 }) {
 	const s =
 		props.currentSelected === props.index ? { opacity: 1 } : { opacity: 0.5 };
-	console.log(props.sideLength);
+
 	return (
 		<motion.div
 			className={style.imageSmallContainer}

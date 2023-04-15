@@ -10,7 +10,18 @@ export const InitialState: CategorySpecification.State = {
 	images: [],
 	filter: {
 		query: "",
-		filters: [],
+		filters: [
+			{
+				id: "1",
+				name: "item name",
+				isActive: true,
+			},
+			{
+				id: "2",
+				name: "item code",
+				isActive: true,
+			},
+		],
 	},
 	loading: {
 		fetchData: AsyncStateFactory(),
