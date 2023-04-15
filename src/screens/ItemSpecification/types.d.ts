@@ -9,7 +9,7 @@ namespace ItemSpecification {
 		companyProductName: string;
 	}
 	
-	interface ItemSpecification {
+	interface State {
 		itemName: string;
 		categoryName: string;
 		description: string;

@@ -1,0 +1,13 @@
+.navContainer {
+  width: 100%;
+}
+
+.pageContainer {
+  width: 100%;
+  overflow-y: hidden;
+  padding: 0 50px;
+}
+
+.container {
+  padding-top: 32px;
+}

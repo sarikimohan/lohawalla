@@ -1,0 +1,67 @@
+.contentContainer {
+  flex: 1 0;
+}
+
+.container {
+  padding-top: 32px;
+}
+
+.cardContainer {
+  padding: 32px;
+  border-radius: 12px;
+}
+
+.navContainer {
+  width: 100%;
+}
+
+.pageContainer {
+  width: 100%;
+  overflow-y: auto;
+  padding: 0 50px;
+}
+
+.col_1 {
+  flex-basis: 50%;
+  padding-right: 50px;
+}
+
+.col_2 {
+  flex-basis: 50%;
+}
+
+.descriptionContainer {
+  max-width: 470px;
+  width: fit-content;
+}
+
+.descriptionCard {
+  border: var(--card-border);
+  border-radius: 8px;
+  max-width: 500px;
+  padding: 8px;
+}
+
+.descriptionBanner {
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  background-color: var(--text-body);
+  border-radius: 6px;
+}
+
+.descriptionCell {
+  padding: 10px;
+  padding-right: 80px;
+  max-width: 40%;
+}
+
+.descriptionCell_Header {
+  padding: 10px;
+  padding-right: 80px;
+}
+
+.descriptionBody {
+  padding: 8px 16px;
+}

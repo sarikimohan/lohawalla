@@ -17,4 +17,8 @@ namespace CompanySpecification {
 		companyList: CompanyProduct[];
 		filter: Filter;
 	}
+
+	interface Actions {
+		
+	}
 }
