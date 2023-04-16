@@ -10,6 +10,7 @@ export const InitialState: CompanySpecification.State = {
 		query: "",
 		filters: [],
 	},
+  images: [],
 	loading: {
 		fetch: AsyncStateFactory(),
 	},

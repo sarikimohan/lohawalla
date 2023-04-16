@@ -24,6 +24,7 @@ export default class CompanySpecActions
 					p.descriptionLabels = companySpec.descriptionLabels;
 					p.priceStructure = companySpec.priceStructure;
 					p.companyList = companyProdList;
+          p.images = companySpec.images;
 
 					p.loading.fetch.status = "success";
 				});

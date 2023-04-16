@@ -16,6 +16,7 @@ namespace CompanySpecification {
 		priceStructure: PriceField[];
 		companyList: CompanyProduct[];
 		filter: Filter;
+		images: string[];
 		loading: {
 			fetch: AsyncState
 		}

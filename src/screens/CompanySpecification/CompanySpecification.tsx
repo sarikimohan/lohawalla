@@ -14,6 +14,8 @@ import Grid from "@src/Components/common/Grid/Grid";
 import BannerContainer from "@src/Components/common/BannerContainer/BannerContainer";
 import RowContainer from "@src/Components/common/Grid/RowContainer.default";
 import { Card } from "@mui/material";
+import { InitialState } from "./managment/state/InitialState";
+import CompanySpecActions from "./managment/actions/CompanySpecificationAction";
 
 const CompanySpecificationContext = React.createContext({});
 
@@ -21,9 +23,13 @@ function CompanySpecification() {
 	const { ref, height } = useHeight();
 	const widthService = useWidth();
 	const { id } = useParams();
-	const [showForm, setShowForm] = useState(false);
-	const [editForm, setEditForm] = useState(false);
-	const [refresh, setRefresh] = useState(false);
+
+	const [state, setState] = useState<CompanySpecification.State>(InitialState);
+	const companySpecActions = new CompanySpecActions(state, setState);
+
+	useEffect(() => {
+		companySpecActions.fetch(id as string);
+	}, []);
 
 	return (
 		<CompanySpecificationContext.Provider value={{}}>
@@ -35,7 +41,7 @@ function CompanySpecification() {
 				style={{ height: `calc(100vh - ${height}px)` }}
 			>
 				<div className={style.headingRow + " mb-8 mt-3"}>
-					<p className="header-2 fcolor-fuschia">{}</p>
+					<p className="header-2 fcolor-fuschia">{state.companyName}</p>
 				</div>
 				<div className={"crow mb-5 mt-3 sb"}>
 					<p className="header-2 fcolor-fuschia">About</p>
@@ -45,7 +51,7 @@ function CompanySpecification() {
 				<div className="d-flex w-100 mb-3">
 					<div className={style.col_1}>
 						<div className="mb-2">
-							<ImagePreview images={[]} />
+							<ImagePreview images={state.images} />
 						</div>
 
 						<div className={style.descriptionCard + " mb-3"}>
@@ -55,15 +61,18 @@ function CompanySpecification() {
 								</div>
 							</div>
 							<div className={style.descriptionBody}>
-								{[].map((val, index) => (
+								{state.priceStructure.map((val, index) => (
 									<div className="crow sb" key={index}>
 										<div className={style.descriptionCell}>
 											<p className="fw-bold fcolor-text-subtitle body">
-												{/* {val.key} */}
+												{val.operation === "add" ? "+" : "-"} {val.name}{" "}
+												{val.type === "percentage" && "%"}
 											</p>
 										</div>
 										<div className={style.descriptionCell}>
-											<p className="fw-medium fcolor-onyx body">{val}</p>
+											<p className="fw-medium fcolor-onyx body">
+												{val.value === -1 ? "custom" : val.value}
+											</p>
 										</div>
 									</div>
 								))}
@@ -74,19 +83,23 @@ function CompanySpecification() {
 						<div className="crow">
 							<div className="mb-3 mr-5">
 								<p className="pretitle fcolor-text-subtitle mb-1">COMPANY</p>
-								<p className="body fw-bold fcolor-text-body">{}</p>
+								<p className="body fw-bold fcolor-text-body">
+									{state.companyName}
+								</p>
 							</div>
-							<div onClick={() => setEditForm(true)}>
+							<div onClick={() => {}}>
 								<AssetIndex.EditSquare />
 							</div>
 						</div>
-						<div className={style.descriptionContainer + " mb-3"}>
+						{/* <div className={style.descriptionContainer + " mb-3"}>
 							<p className="pretitle fcolor-text-subtitle mb-1">TYPE</p>
 							<p className="body fw-bold fcolor-text-body">STEEL INDUSTRY</p>
-						</div>
+						</div> */}
 						<div className={style.descriptionContainer + " mb-3"}>
 							<p className="pretitle fcolor-text-subtitle mb-1">DESCRIPTION</p>
-							<p className="body fw-medium fcolor-text-body">{}</p>
+							<p className="body fw-medium fcolor-text-body">
+								{state.description}
+							</p>
 						</div>
 
 						<div className={style.descriptionCard}>
@@ -99,13 +112,15 @@ function CompanySpecification() {
 								</div>
 							</div>
 							<div className={style.descriptionBody}>
-								{[].map((val, index) => (
+								{state.descriptionLabels.map((val, index) => (
 									<div className="crow sb" key={index}>
 										<div className={style.descriptionCell}>
-											<p className="fw-bold fcolor-text-subtitle body">{val}</p>
+											<p className="fw-bold fcolor-text-subtitle body">
+												{val.key}
+											</p>
 										</div>
 										<div className={style.descriptionCell}>
-											<p className="fw-medium fcolor-onyx body">{val}</p>
+											<p className="fw-medium fcolor-onyx body">{val.value}</p>
 										</div>
 									</div>
 								))}
@@ -117,26 +132,30 @@ function CompanySpecification() {
 				<Card className="p-3 w-100 mb-8">
 					<div ref={widthService.ref}>
 						<div className="crow mb-3">
-							<p className="subtitle fcolor-onyx">Company Products ({})</p>
+							<p className="subtitle fcolor-onyx">
+								Company Products ({state.companyList.length})
+							</p>
 						</div>
 						<div className="crow sb mb-3">
 							<div className="vc">
 								<div className="pr-2">
-									<SearchBar />
+									<SearchBar
+										onChange={(e) => {
+											companySpecActions.setQuery(e);
+										}}
+									/>
 								</div>
 								<div>
 									<SearchFilters options={[]} onItemClick={(e) => {}} />
 								</div>
 							</div>
 							<DefaultButton
-								onClick={() => {
-									setShowForm(true);
-								}}
+								onClick={() => {}}
 								label={"+ add company product"}
 							/>
 						</div>
 						<Grid<CompanySpecification.CompanyProduct>
-							data={[]}
+							data={companySpecActions.filter()}
 							config={columnConfig}
 							BannerContainer={(children) => (
 								<BannerContainer>{children}</BannerContainer>
