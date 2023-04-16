@@ -43,3 +43,7 @@ svg {
 ::-webkit-scrollbar-thumb:hover {
   background: #b3b3b3;
 }
+
+* {
+  font-family: var(--font-inter);
+}

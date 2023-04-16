@@ -4,32 +4,38 @@ import PopUpContainer from "@src/Components/common/Layout/PopUpContainer/PopUpCo
 import ProgressBar from "@src/Components/common/ProgressBar/ProgressBar";
 import React, { useState } from "react";
 import { InitialState } from "./managment/state/initialState";
+import AddCategoryContext, {
+	useAddCategoryContext,
+} from "./managment/context/AddCategoryContext";
+import FirstPart from "./parts/FirstPart/FirstPart";
+
+function Mapper() {
+	const { state } = useAddCategoryContext();
+
+	return <>{state.page === 0 && <FirstPart />}</>;
+}
 
 function AddCategoryForm() {
-
-  const [state, setState] = useState(InitialState);
-
-  
-
 	return (
-		<PopUpContainer>
-			<FormContainer>
-				<div className="mb-4">
-					<FormHeader
-						navBack={() => {}}
-						close={() => {}}
-						heading={"Product"}
-						preHeading={"ADD"}
-					/>
-				</div>
+		<AddCategoryContext>
+			<PopUpContainer>
+				<FormContainer>
+					<div className="mb-4">
+						<FormHeader
+							navBack={() => {}}
+							close={() => {}}
+							heading={"Product"}
+							preHeading={"ADD"}
+						/>
+					</div>
 
-				<div className="mb-5">
-					<ProgressBar currentStep={1} steps={3} />
-				</div>
-
-
-			</FormContainer>
-		</PopUpContainer>
+					<div className="mb-5">
+						<ProgressBar currentStep={1} steps={3} />
+					</div>
+					<Mapper />
+				</FormContainer>
+			</PopUpContainer>
+		</AddCategoryContext>
 	);
 }
 

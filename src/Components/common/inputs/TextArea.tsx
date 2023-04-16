@@ -2,6 +2,7 @@ import AssetIndex from "@src/assets/AssetIndex";
 import { motion } from "framer-motion";
 import React, { useState } from "react";
 import style from "./Input.module.css";
+import { useField } from "formik";
 
 interface ComStyles {
 	container?: object;
@@ -25,17 +26,13 @@ enum InputInteractions {
 
 interface InputProps<T = string> {
 	width: string | number;
-	error: { hasError: boolean; errorMessage: string };
-	isValid: boolean;
-	setData: (e: T) => void;
-	onBlur?: (e: T) => void;
-	data: T;
 	inputStateStylesConfig?: InputStateStyles;
 	placeHolder: string;
 	inputClassName?: string;
 	maxLength?: number;
 	disabled?: boolean;
 	height?: number;
+	name: string;
 }
 
 const styles: InputStateStyles = {
@@ -65,13 +62,17 @@ const styles: InputStateStyles = {
 	},
 };
 
-function mapper(state: InputInteractions, props: InputProps): ComStyles {
+function mapper(
+	state: InputInteractions,
+	props: InputProps,
+	status: "default" | "valid" | "error"
+): ComStyles {
 	const _styles = props.inputStateStylesConfig
 		? props.inputStateStylesConfig
 		: styles;
 
-	if (props.isValid) return _styles.valid;
-	if (props.error.hasError) return _styles.error;
+	if (status === "valid") return _styles.valid;
+	if (status === "error") return _styles.error;
 
 	switch (state) {
 		case InputInteractions.ACTIVE:
@@ -83,58 +84,69 @@ function mapper(state: InputInteractions, props: InputProps): ComStyles {
 
 function IconMapper(
 	state: InputInteractions,
-	_props: InputProps
+	status: "default" | "valid" | "error"
 ): React.ReactNode {
-	if (_props.isValid) {
+	if (status === "valid") {
 		return <AssetIndex.TickIcon />;
 	}
 
-	if (_props.error.hasError) {
+	if (status === "error") {
 		return <AssetIndex.ErrorIcon />;
 	}
 
 	return <></>;
 }
 
-function TextArea(props: InputProps) {
+function FormikTextArea(props: InputProps) {
 	const [interaction, setInteraction] = useState<InputInteractions>(
 		InputInteractions.DEFAULT
 	);
+
+	const [field, meta, helpers] = useField(props.name);
+
+	const { onBlur, ...rest } = field;
 
 	return (
 		<div className={style.wrapper} style={{ width: props.width }}>
 			<motion.div
 				className={style.container}
 				style={{ ...styles.default.container, height: props.height }}
-				animate={mapper(interaction, props).container}
+				animate={
+					mapper(
+						interaction,
+						props,
+						meta.touched ? (meta.error ? "error" : "valid") : "default"
+					).container
+				}
 			>
-				<div className={style.inputBox} style={{ height: "100%" }}>
+				<div className={style.inputBox}>
 					<textarea
 						className={style.input + " " + props.inputClassName}
 						placeholder={props.placeHolder}
 						onFocus={() => setInteraction(InputInteractions.ACTIVE)}
 						onBlur={(e) => {
-							props.onBlur && props.onBlur(e.target.value);
 							setInteraction(InputInteractions.DEFAULT);
+							onBlur(e);
 						}}
-						onChange={(e) => {
-							props.setData(e.target.value);
-						}}
-						value={props.data}
 						maxLength={props.maxLength}
 						disabled={props.disabled}
-						style={{ height: "100%", padding: 8 }}
+						{...rest}
 					/>
 				</div>
-				<div className={style.iconBox}>{IconMapper(interaction, props)}</div>
+				<div className={style.iconBox}>
+					{IconMapper(
+						interaction,
+						meta.touched ? (meta.error ? "error" : "valid") : "default"
+					)}
+				</div>
 			</motion.div>
-			{props.error.hasError && (
+			{meta.touched && meta.error && (
 				<p className="mt-1" style={{ color: "red", fontSize: 13 }}>
-					{props.error.errorMessage}
+					{meta.error}
 				</p>
 			)}
 		</div>
 	);
 }
 
-export default TextArea;
+export default FormikTextArea;
