@@ -7,29 +7,35 @@ import FormFileUpload from "@src/Components/common/FormFileUpload/FormFileUpload
 import AssetIndex from "@src/assets/AssetIndex";
 import TextArea from "@src/Components/common/inputs/TextArea";
 import { useFormik } from "formik";
-import { useAddCategoryContext } from "../../managment/context/AddCategoryContext";
 import Input from "@src/Components/common/inputs/Input";
 import { Formik } from "formik";
 import FormikInput from "@src/Components/common/inputs/FormikInput";
 import FormikTextArea from "@src/Components/common/inputs/TextArea";
 import * as Yup from "yup";
+import { useAddCategoryContext } from "../../AddCategoryForm";
 
 const validationSchema = Yup.object({
 	categoryName: Yup.string().required("required"),
-	categoryCode: Yup.string().matches(/^[0-9]*$/, { message: "not a number" }).required(),
+	categoryCode: Yup.string()
+		.matches(/^[0-9]*$/, { message: "not a number" })
+		.required(),
 	description: Yup.string().required(),
 });
 
 function FirstPart() {
-	const { state, setStateActions } = useAddCategoryContext();
-
+	const { state, setStateActions, addCategoryActions } =
+		useAddCategoryContext();
+	console.log(state);
 	return (
 		<div className={style.inputBox}>
 			<p className="body fw-medium fcolor-fuschia">Category Name</p>
 			<Spacer height={8} />
 			<Formik
 				initialValues={state.firstForm}
-				onSubmit={(v, h) => {}}
+				onSubmit={(v, h) => {
+					setStateActions.setFirstForm(v);
+					addCategoryActions.navFront();
+				}}
 				validationSchema={validationSchema}
 			>
 				{(props) => (
@@ -78,8 +84,9 @@ function FirstPart() {
 						<div className="crow jfe">
 							<DefaultButton
 								onClick={() => {
+									props.validateForm();
 									if (props.isValid) {
-										setStateActions.setFirstForm(props.values);
+										props.submitForm();
 									}
 								}}
 								label={"Next"}
