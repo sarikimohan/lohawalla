@@ -192,7 +192,7 @@ function CategorySpecification() {
 							paddingLeft={32}
 							paddingRight={32}
 							data={specActions.filterList()}
-							config={id ? getColConfig(id, "") : []}
+							config={id ? getColConfig(id, state.categoryName) : []}
 						/>
 					</div>
 				</Card>

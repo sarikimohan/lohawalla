@@ -1,5 +1,25 @@
-import getScreenPath from "@src/modules/Utils/getScreenName";
+import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 
-const ItemsSpecificationScreenPath = getScreenPath("itemSpecification");
-
-export default ItemsSpecificationScreenPath;
+export const InitialState: ItemSpecification.State = {
+	itemName: "",
+	categoryName: "",
+	description: "",
+	descriptionLabels: [],
+	margin: {
+    online: 0,
+    cash: 0
+  },
+	gst: {
+    type: 'numeric',
+    value: 0
+  },
+	companyProductList: [],
+	filter: {
+    filters: [],
+    query: ''
+  },
+	images: [],
+  loading: {
+    fetch: AsyncStateFactory()
+  }
+};

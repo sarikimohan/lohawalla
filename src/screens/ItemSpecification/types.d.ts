@@ -8,7 +8,7 @@ namespace ItemSpecification {
 		};
 		companyProductName: string;
 	}
-	
+
 	interface State {
 		itemName: string;
 		categoryName: string;
@@ -17,6 +17,17 @@ namespace ItemSpecification {
 		margin: Margin;
 		gst: GSTDetails;
 		companyProductList: CompanyProduct[];
-		filter: Filter; 
+		filter: Filter;
+		images: string[];
+
+		loading: {
+			fetch: AsyncState
+		}
+	}
+
+	interface Actions {
+		setQuery(query: string): void;
+		getFilteredList(): CompanyProduct[];
+		fetch(id: string): void;
 	}
 }
