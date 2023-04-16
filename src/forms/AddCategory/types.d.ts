@@ -1,17 +1,44 @@
 namespace AddCategory {
 	interface State {
+		firstForm: FirstFormState;
+
+		images: string[];
+
+		secondForm: SecondFormState;
+
+		thirdForm: ThirdFormState;
+
+		page: number;
+
+		loading: {
+			saveImage: AsyncState;
+			saveData: AsyncState;
+		};
+	}
+
+	interface FirstFormState {
 		categoryName: string;
 		categoryCode: string;
 		description: string;
 		unit: string;
-		images: string[];
+	}
+	interface SecondFormState {
 		credit: Credit[];
 		negotiation: number;
+	}
+	interface ThirdFormState {
 		descriptionLabels: DescriptionLabels[];
-		
-		loading: {
-			saveImage: AsyncState;
-			saveData: AsyncState;
-		}
+	}
+
+	interface Actions {
+		navFront();
+		navBack();
+		submit();
+	}
+
+	interface StateSettingActions {
+		setFirstForm(data: FirstFormState);
+		setSecondForm(data: SecondFormState);
+		setThridForm(data: ThirdFormState);
 	}
 }
