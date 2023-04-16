@@ -134,7 +134,7 @@ function ItemSpecification() {
 				<Card className={style.cardContainer + " mb-8"} variant="outlined">
 					<div ref={widthService.ref}>
 						<p className="subtitle fcolor-onyx ">
-							Company Products ({state.companyProductList.length})
+							Item Products ({state.companyProductList.length})
 						</p>
 						<Spacer height={40} />
 

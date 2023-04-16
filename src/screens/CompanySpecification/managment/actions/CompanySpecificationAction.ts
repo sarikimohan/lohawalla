@@ -24,7 +24,7 @@ export default class CompanySpecActions
 					p.descriptionLabels = companySpec.descriptionLabels;
 					p.priceStructure = companySpec.priceStructure;
 					p.companyList = companyProdList;
-          p.images = companySpec.images;
+					p.images = companySpec.images;
 
 					p.loading.fetch.status = "success";
 				});
@@ -41,6 +41,7 @@ export default class CompanySpecActions
 	}
 	filter(): CompanySpecification.CompanyProduct[] {
 		const query = this.state.filter.query.toLowerCase().trim();
+		if (query === "") return this.state.companyList;
 		return this.state.companyList.filter((v) => {
 			isPrefix(v.companyProductName.toLowerCase(), query);
 		});

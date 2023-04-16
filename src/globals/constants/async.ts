@@ -503,8 +503,12 @@ interface CompanyGridData {
 }
 
 export async function getCompanyGridData() {
-	let response = await API.get<CompanyGridData[]>(apis.getCompanyGridData);
-	return response.data;
+	try {
+		let response = await API.get<CompanyGridData[]>(apis.getCompanyGridData);
+		return response.data;
+	} catch (err) {
+		throw new Error();
+	}
 }
 
 interface CompanySpecificationData {

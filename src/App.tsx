@@ -6,6 +6,8 @@ import Sidebar from "./Components/common/Sidebar/Sidebar";
 import DashBoardScreenPath from "./screens/Dashboard/ScreenPath.constant";
 import ItemSpecification from "./screens/ItemSpecification/ItemSpecification";
 import ProductSpecification from "./screens/ProductSpecification/ProductSpecification";
+import Company from "./screens/Companies/Company";
+import CompanySpecification from "./screens/CompanySpecification/CompanySpecification";
 
 //* screen imports
 const LazyDashboard = React.lazy(() => import("./screens/Dashboard/Dashboard"));
@@ -59,6 +61,11 @@ function App() {
 							/>
 							<Route path="item/:pid" element={<ItemSpecification />} />
 							<Route path="product/:id" element={<ProductSpecification />} />
+						</Route>
+
+						<Route path="/company">
+							<Route path="" element={<Company />} />
+							<Route path=":id" element={<CompanySpecification />} />
 						</Route>
 					</Routes>
 				</div>

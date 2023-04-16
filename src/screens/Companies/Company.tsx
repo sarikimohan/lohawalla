@@ -10,9 +10,18 @@ import Grid from "@src/Components/common/Grid/Grid";
 import { columnConfig } from "./configuration/CompanyGridConfig";
 import BannerContainer from "@src/Components/common/BannerContainer/BannerContainer";
 import RowContainer from "@src/Components/common/Grid/RowContainer.default";
+import { InitialState } from "./management/state/initialState";
+import CompanyActions from "./management/actions/CompanyActions";
 
 function Company() {
 	const widthService = useWidth();
+
+	const [state, setState] = useState<Companies.State>(InitialState);
+	const companyActions = new CompanyActions(state, setState);
+
+	useEffect(() => {
+		companyActions.CompanyListRow();
+	}, []);
 
 	return (
 		<>
@@ -24,7 +33,9 @@ function Company() {
 					<div ref={widthService.ref}>
 						<div className="crow sb mb-3">
 							<div>
-								<p className="subtitle fcolor-onyx">Companies({})</p>
+								<p className="subtitle fcolor-onyx">
+									Companies({state.companyList.length})
+								</p>
 							</div>
 							<div>
 								{/* <DefaultButton
@@ -36,7 +47,11 @@ function Company() {
 						<div className="crow sb mb-3">
 							<div className="vc">
 								<div className="pr-2">
-									<SearchBar onChange={(e) => {}} />
+									<SearchBar
+										onChange={(e) => {
+											companyActions.setQuery(e);
+										}}
+									/>
 								</div>
 								<div>
 									<SearchFilters options={[]} onItemClick={(e) => {}} />
@@ -48,7 +63,7 @@ function Company() {
 						</div>
 
 						<Grid<Companies.CompanyListRow>
-							data={[]}
+							data={companyActions.filterCompanylistRow()}
 							config={columnConfig}
 							BannerContainer={(children) => (
 								<BannerContainer>{children}</BannerContainer>

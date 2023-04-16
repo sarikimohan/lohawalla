@@ -13,9 +13,13 @@ const ProductSpecificationContext = React.createContext({});
 function ProductSpecification() {
 	const { ref, height } = useHeight();
 	const [showForm, setShowForm] = useState(false);
-
+	const { id } = useParams();
 	const [state, setState] = useState<ProductSpecification.State>(InitialState);
 	const prodSpecActions = new ProdSpecActions(state, setState);
+
+	useEffect(() => {
+		prodSpecActions.fetch(id as string);
+	}, []);
 
 	return (
 		<ProductSpecificationContext.Provider value={{}}>
@@ -46,7 +50,9 @@ function ProductSpecification() {
 								{state.priceStructure.map((v, i) => (
 									<div className="crow sb" key={i}>
 										<div className={style.descriptionCell}>
-											<p className="fw-bold fcolor-text-subtitle body">{v.name}</p>
+											<p className="fw-bold fcolor-text-subtitle body">
+												{v.name}
+											</p>
 										</div>
 										<div className={style.descriptionCell}>
 											<p className="fw-medium fcolor-onyx body">{v.value}</p>
@@ -68,7 +74,9 @@ function ProductSpecification() {
 										<p className="fw-bold fcolor-text-subtitle body">Online</p>
 									</div>
 									<div className={style.descriptionCell}>
-										<p className="fw-medium fcolor-onyx body">{state.margin.online}</p>
+										<p className="fw-medium fcolor-onyx body">
+											{state.margin.online}
+										</p>
 									</div>
 								</div>
 
@@ -77,7 +85,9 @@ function ProductSpecification() {
 										<p className="fw-bold fcolor-text-subtitle body">Cash</p>
 									</div>
 									<div className={style.descriptionCell}>
-										<p className="fw-medium fcolor-onyx body">{state.margin.cash}</p>
+										<p className="fw-medium fcolor-onyx body">
+											{state.margin.cash}
+										</p>
 									</div>
 								</div>
 							</div>
@@ -92,10 +102,14 @@ function ProductSpecification() {
 							<div className={style.descriptionBody}>
 								<div className="crow sb">
 									<div className={style.descriptionCell}>
-										<p className="fw-bold fcolor-text-subtitle body">{state.gst.key}</p>
+										<p className="fw-bold fcolor-text-subtitle body">
+											{state.gst.key}
+										</p>
 									</div>
 									<div className={style.descriptionCell}>
-										<p className="fw-medium fcolor-onyx body">{state.gst.value}</p>
+										<p className="fw-medium fcolor-onyx body">
+											{state.gst.value}
+										</p>
 									</div>
 								</div>
 							</div>
@@ -105,7 +119,9 @@ function ProductSpecification() {
 						<div className="crow">
 							<div className="mb-3">
 								<p className="pretitle fcolor-text-subtitle mb-1">PRODUCT</p>
-								<p className="body fw-bold fcolor-text-body">{state.productName}</p>
+								<p className="body fw-bold fcolor-text-body">
+									{state.productName}
+								</p>
 							</div>
 							<div onClick={() => setShowForm(true)}>
 								<AssetIndex.EditSquare />
@@ -113,7 +129,9 @@ function ProductSpecification() {
 						</div>
 						<div className={style.descriptionContainer + " mb-3"}>
 							<p className="pretitle fcolor-text-subtitle mb-1">COMPANY</p>
-							<p className="body fw-bold fcolor-text-body">{state.companyName}</p>
+							<p className="body fw-bold fcolor-text-body">
+								{state.companyName}
+							</p>
 						</div>
 						<div className={style.descriptionContainer + " mb-3"}>
 							<p className="pretitle fcolor-text-subtitle mb-1">
@@ -123,7 +141,9 @@ function ProductSpecification() {
 						</div>
 						<div className={style.descriptionContainer + " mb-3"}>
 							<p className="pretitle fcolor-text-subtitle mb-1">DESCRIPTION</p>
-							<p className="body fw-medium fcolor-text-body">{state.description}</p>
+							<p className="body fw-medium fcolor-text-body">
+								{state.description}
+							</p>
 						</div>
 
 						<div className={style.descriptionCard}>
@@ -139,7 +159,9 @@ function ProductSpecification() {
 								{state.descriptionLabels.map((v, i) => (
 									<div className="crow sb" key={i}>
 										<div className={style.descriptionCell}>
-											<p className="fw-bold fcolor-text-subtitle body">{v.key}</p>
+											<p className="fw-bold fcolor-text-subtitle body">
+												{v.key}
+											</p>
 										</div>
 										<div className={style.descriptionCell}>
 											<p className="fw-medium fcolor-onyx body">{v.value}</p>

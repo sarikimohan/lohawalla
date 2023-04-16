@@ -97,7 +97,7 @@ const apis = {
 	getItemData: (id: string) => PagesApi(`/itemSpecification/getItemData/${id}`),
 	getCompanyProductGridData: (id: string) =>
 		PagesApi(`/itemSpecification/getCompanyProductGridData/${id}`),
-	getCompanyGridData: PagesApi(`/companyListing/getCompanyProductGridData`),
+	getCompanyGridData: PagesApi(`/companyListing/getCompanyGridData`),
 	getCompanySpecificationData: (id: string) =>
 		PagesApi(`/companySpecification/getCompanySpecificationData/${id}`),
 	getProductGridData: (id: string) =>

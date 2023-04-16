@@ -41,10 +41,10 @@ function CompanySpecification() {
 				style={{ height: `calc(100vh - ${height}px)` }}
 			>
 				<div className={style.headingRow + " mb-8 mt-3"}>
-					<p className="header-2 fcolor-fuschia">{state.companyName}</p>
+					<p className="h2 fcolor-fuschia">{state.companyName}</p>
 				</div>
 				<div className={"crow mb-5 mt-3 sb"}>
-					<p className="header-2 fcolor-fuschia">About</p>
+					<p className="h2 fcolor-fuschia">About</p>
 					<DefaultButton onClick={() => {}} label={"change product price"} />
 				</div>
 
@@ -65,7 +65,7 @@ function CompanySpecification() {
 									<div className="crow sb" key={index}>
 										<div className={style.descriptionCell}>
 											<p className="fw-bold fcolor-text-subtitle body">
-												{val.operation === "add" ? "+" : "-"} {val.name}{" "}
+												{val.operation === "add" ? "+" : "-"} {val.name}
 												{val.type === "percentage" && "%"}
 											</p>
 										</div>
@@ -129,7 +129,7 @@ function CompanySpecification() {
 					</div>
 				</div>
 
-				<Card className="p-3 w-100 mb-8">
+				<Card className="p-3 w-100 mb-8" variant="outlined">
 					<div ref={widthService.ref}>
 						<div className="crow mb-3">
 							<p className="subtitle fcolor-onyx">
