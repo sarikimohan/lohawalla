@@ -6,6 +6,7 @@ import useHeight from "@src/modules/hooks/useHeight";
 import BackNavBar from "@src/Components/common/NavBar/BackNavBar";
 import ImagePreview from "@src/Components/common/ImagePreview/ImagePreview";
 import { InitialState } from "./managment/state/initialState";
+import ProdSpecActions from "./managment/actions/ProductSpecificationAction";
 
 const ProductSpecificationContext = React.createContext({});
 
@@ -14,6 +15,7 @@ function ProductSpecification() {
 	const [showForm, setShowForm] = useState(false);
 
 	const [state, setState] = useState<ProductSpecification.State>(InitialState);
+	const prodSpecActions = new ProdSpecActions(state, setState);
 
 	return (
 		<ProductSpecificationContext.Provider value={{}}>
@@ -25,13 +27,13 @@ function ProductSpecification() {
 				style={{ height: `calc(100vh - ${height}px)` }}
 			>
 				<div className={style.headingRow + " mb-6 mt-5"}>
-					<p className="header-2 fcolor-fuschia">{}</p>
+					<p className="h2 fcolor-fuschia">{state.productName}</p>
 				</div>
 
 				<div className="d-flex w-100 mb-5">
 					<div className={style.col_1}>
 						<div className="mb-2">
-							<ImagePreview images={[]} />
+							<ImagePreview images={state.images} />
 						</div>
 
 						<div className={style.descriptionCard + " mb-3"}>
@@ -41,13 +43,13 @@ function ProductSpecification() {
 								</div>
 							</div>
 							<div className={style.descriptionBody}>
-								{[].map((v, i) => (
+								{state.priceStructure.map((v, i) => (
 									<div className="crow sb" key={i}>
 										<div className={style.descriptionCell}>
-											<p className="fw-bold fcolor-text-subtitle body">{v}</p>
+											<p className="fw-bold fcolor-text-subtitle body">{v.name}</p>
 										</div>
 										<div className={style.descriptionCell}>
-											<p className="fw-medium fcolor-onyx body">{v}</p>
+											<p className="fw-medium fcolor-onyx body">{v.value}</p>
 										</div>
 									</div>
 								))}
@@ -66,7 +68,7 @@ function ProductSpecification() {
 										<p className="fw-bold fcolor-text-subtitle body">Online</p>
 									</div>
 									<div className={style.descriptionCell}>
-										<p className="fw-medium fcolor-onyx body">{}</p>
+										<p className="fw-medium fcolor-onyx body">{state.margin.online}</p>
 									</div>
 								</div>
 
@@ -75,7 +77,7 @@ function ProductSpecification() {
 										<p className="fw-bold fcolor-text-subtitle body">Cash</p>
 									</div>
 									<div className={style.descriptionCell}>
-										<p className="fw-medium fcolor-onyx body">{}</p>
+										<p className="fw-medium fcolor-onyx body">{state.margin.cash}</p>
 									</div>
 								</div>
 							</div>
@@ -90,10 +92,10 @@ function ProductSpecification() {
 							<div className={style.descriptionBody}>
 								<div className="crow sb">
 									<div className={style.descriptionCell}>
-										<p className="fw-bold fcolor-text-subtitle body">{}</p>
+										<p className="fw-bold fcolor-text-subtitle body">{state.gst.key}</p>
 									</div>
 									<div className={style.descriptionCell}>
-										<p className="fw-medium fcolor-onyx body">{}</p>
+										<p className="fw-medium fcolor-onyx body">{state.gst.value}</p>
 									</div>
 								</div>
 							</div>
@@ -103,7 +105,7 @@ function ProductSpecification() {
 						<div className="crow">
 							<div className="mb-3">
 								<p className="pretitle fcolor-text-subtitle mb-1">PRODUCT</p>
-								<p className="body fw-bold fcolor-text-body">{}</p>
+								<p className="body fw-bold fcolor-text-body">{state.productName}</p>
 							</div>
 							<div onClick={() => setShowForm(true)}>
 								<AssetIndex.EditSquare />
@@ -111,7 +113,7 @@ function ProductSpecification() {
 						</div>
 						<div className={style.descriptionContainer + " mb-3"}>
 							<p className="pretitle fcolor-text-subtitle mb-1">COMPANY</p>
-							<p className="body fw-bold fcolor-text-body">{}</p>
+							<p className="body fw-bold fcolor-text-body">{state.companyName}</p>
 						</div>
 						<div className={style.descriptionContainer + " mb-3"}>
 							<p className="pretitle fcolor-text-subtitle mb-1">
@@ -121,7 +123,7 @@ function ProductSpecification() {
 						</div>
 						<div className={style.descriptionContainer + " mb-3"}>
 							<p className="pretitle fcolor-text-subtitle mb-1">DESCRIPTION</p>
-							<p className="body fw-medium fcolor-text-body">{}</p>
+							<p className="body fw-medium fcolor-text-body">{state.description}</p>
 						</div>
 
 						<div className={style.descriptionCard}>
@@ -134,13 +136,13 @@ function ProductSpecification() {
 								</div>
 							</div>
 							<div className={style.descriptionBody}>
-								{[].map((v, i) => (
+								{state.descriptionLabels.map((v, i) => (
 									<div className="crow sb" key={i}>
 										<div className={style.descriptionCell}>
-											<p className="fw-bold fcolor-text-subtitle body">{v}</p>
+											<p className="fw-bold fcolor-text-subtitle body">{v.key}</p>
 										</div>
 										<div className={style.descriptionCell}>
-											<p className="fw-medium fcolor-onyx body">{v}</p>
+											<p className="fw-medium fcolor-onyx body">{v.value}</p>
 										</div>
 									</div>
 								))}
