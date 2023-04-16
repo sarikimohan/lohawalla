@@ -48,8 +48,8 @@ export const columnConfig: ColumnConfig<CompanySpecification.CompanyProduct>[] =
 						>
 							<img
 								src={
-									data.companyName.imageURL !== ""
-										? data.companyName.imageURL
+									data.company.imageURL !== ""
+										? data.company.imageURL
 										: ImageIndex.CategoryImage
 								}
 								style={{
@@ -61,7 +61,7 @@ export const columnConfig: ColumnConfig<CompanySpecification.CompanyProduct>[] =
 							/>
 						</div>
 						<p className="small fcolor-text-body fw-medium ml-2">
-							{data.companyName.name}
+							{data.company.name}
 						</p>
 					</div>
 				);

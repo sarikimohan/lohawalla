@@ -2,7 +2,7 @@ namespace CompanySpecification {
 	interface CompanyProduct {
     _id: string;
     srNo: number;
-    companyName: {
+    company: {
       imageURL: string;
       name: string;
     };
@@ -16,9 +16,14 @@ namespace CompanySpecification {
 		priceStructure: PriceField[];
 		companyList: CompanyProduct[];
 		filter: Filter;
+		loading: {
+			fetch: AsyncState
+		}
 	}
 
 	interface Actions {
-		
+		fetch(id: string): void;
+		filter(): CompanyProduct[];
+		setQuery(query: string): void;
 	}
 }

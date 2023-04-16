@@ -483,7 +483,6 @@ export async function getItemData(reqParams: useId) {
 	return response.data;
 }
 
-
 export async function getCompanyProductGridData(reqParams: useId) {
 	let response = await API.get<CompanyProductGridData[]>(
 		apis.getCompanyProductGridData(reqParams.id)
@@ -508,8 +507,23 @@ export async function getCompanyGridData() {
 	return response.data;
 }
 
-async function getCompanySpecificationData(reqParams: useId) {
-	let response = await API.get(apis.getCompanySpecificationData(reqParams.id));
+interface CompanySpecificationData {
+	companyName: string;
+	description: string;
+	descriptionLabels: {key: string, value: string}[],
+	priceStructure: {
+    name: string;
+    type: 'numeric'|'percentage';
+    operation: 'subtract'|'add';
+    value: number;
+    fixed: boolean;
+  }[],
+	images: string[]
+}
+export async function getCompanySpecificationData(reqParams: useId) {
+	let response = await API.get<CompanySpecificationData>(
+		apis.getCompanySpecificationData(reqParams.id)
+	);
 	return response.data;
 }
 
