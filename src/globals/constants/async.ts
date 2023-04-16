@@ -548,9 +548,25 @@ export async function getProductGridData(reqParams: useId) {
 	return response.data;
 }
 
-async function getAllCompaniesWithBaseRate() {
-	let response = await API.get(apis.getAllCompaniesWithBaseRate);
-	return response.data;
+interface SetCompanyBasePrice {
+	srNo: string;
+	companyName: {
+		_id: string;
+		name: string;
+		imageURL: string;
+	};
+	cost: string;
+	entryTime: string;
+}
+export async function getAllCompaniesWithBaseRate() {
+	try {
+		let response = await API.get<SetCompanyBasePrice[]>(
+			apis.getAllCompaniesWithBaseRate
+		);
+		return response.data;
+	} catch (error) {
+		throw new Error();
+	}
 }
 
 type baseRate = { _id: string; value: number };

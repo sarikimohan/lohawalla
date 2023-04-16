@@ -6,7 +6,7 @@ namespace SetBasePrice {
 			name: string;
 			imageURL: string;
 		};
-		cost: number;
+		cost: string;
 		entryTime: string;
 	}
 

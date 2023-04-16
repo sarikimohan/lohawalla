@@ -11,8 +11,17 @@ import BannerContainer from "@src/Components/common/BannerContainer/BannerContai
 import RowContainer from "@src/Components/common/Grid/RowContainer.default";
 import useWidth from "@src/modules/hooks/useWidth";
 
+import SetBasePriceAction from "./managment/actions/SetBasePriceAction";
+import { InitialState } from "./managment/state/initialState";
+
 function AddBasePrice() {
 	const widthService = useWidth();
+	const [state, setState] = useState<SetBasePrice.State>(InitialState);
+	const setBasePriceActions = new SetBasePriceAction(state, setState);
+
+	useEffect(() => {
+		setBasePriceActions.fetch();
+	}, []);
 
 	return (
 		<>
@@ -23,12 +32,16 @@ function AddBasePrice() {
 				<Card className="p-3 pt-5 mb-2" variant="outlined">
 					<div ref={widthService.ref}>
 						<div className="crow mb-3">
-							<p className="subtitle fcolor-onyx">Total Products ({})</p>
+							<p className="subtitle fcolor-onyx">
+								Total Products ({state.setList.length})
+							</p>
 						</div>
 						<div className="crow mb-3 sb">
 							<div className="d-flex vc">
 								<div className="mr-2">
-									<SearchBar />
+									<SearchBar
+										onChange={(e) => setBasePriceActions.setQuery(e)}
+									/>
 								</div>
 								<div>
 									<SearchFilters options={[]} onItemClick={() => {}} />
@@ -36,17 +49,12 @@ function AddBasePrice() {
 							</div>
 							<div>
 								{/* FIXME set loading states */}
-								<DefaultButton
-									onClick={function (): void {
-										throw new Error("Function not implemented.");
-									}}
-									label={"save"}
-								/>
+								<DefaultButton onClick={function (): void {}} label={"save"} />
 							</div>
 						</div>
 						<div>
 							<Grid<SetBasePrice.SetCompanyBasePrice>
-								data={[]}
+								data={setBasePriceActions.filter()}
 								config={columnConfig}
 								BannerContainer={(children) => (
 									<BannerContainer width={widthService.width}>

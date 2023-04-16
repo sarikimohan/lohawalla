@@ -74,16 +74,14 @@ export const columnConfig: ColumnConfig<SetBasePrice.SetCompanyBasePrice>[] = [
 			return (
 				<div style={{ width }}>
 					<Input
-						width={""}
+						width={width * 0.7}
 						error={{
 							hasError: false,
 							errorMessage: "",
 						}}
 						isValid={false}
-						setData={function (e: string): void {
-							throw new Error("Function not implemented.");
-						}}
-						data={""}
+						setData={function (e: string): void {}}
+						data={data.cost}
 						type={"number"}
 						placeHolder={"enter value"}
 					/>
