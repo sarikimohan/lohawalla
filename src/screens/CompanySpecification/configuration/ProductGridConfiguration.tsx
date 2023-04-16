@@ -36,7 +36,7 @@ export const columnConfig: ColumnConfig<CompanySpecification.CompanyProduct>[] =
 					<div
 						style={{ width }}
 						className="vc cursor-pointer"
-						onClick={() => navigate(`/category/product/${data._id}`)}
+						onClick={() => navigate(`/categories/product/${data._id}`)}
 					>
 						<div
 							style={{

@@ -13,5 +13,14 @@ namespace SetBasePrice {
 	interface State {
 		setList: SetCompanyBasePrice[];
 		filter: Filter;
+		loading: {
+			fetch: AsyncState;
+		};
+	}
+
+	interface Actions {
+		fetch();
+		setQuery(query: string);
+		filter(): SetCompanyBasePrice[];
 	}
 }

@@ -8,6 +8,7 @@ import ItemSpecification from "./screens/ItemSpecification/ItemSpecification";
 import ProductSpecification from "./screens/ProductSpecification/ProductSpecification";
 import Company from "./screens/Companies/Company";
 import CompanySpecification from "./screens/CompanySpecification/CompanySpecification";
+import AddBasePrice from "./screens/SetBasePrice/AddBasePrice";
 
 //* screen imports
 const LazyDashboard = React.lazy(() => import("./screens/Dashboard/Dashboard"));
@@ -67,6 +68,8 @@ function App() {
 							<Route path="" element={<Company />} />
 							<Route path=":id" element={<CompanySpecification />} />
 						</Route>
+
+						<Route path="/basePrice" element={<AddBasePrice />} />
 					</Routes>
 				</div>
 			</div>
