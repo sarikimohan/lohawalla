@@ -5,12 +5,16 @@ import style from "./ProductSpecification.module.css";
 import useHeight from "@src/modules/hooks/useHeight";
 import BackNavBar from "@src/Components/common/NavBar/BackNavBar";
 import ImagePreview from "@src/Components/common/ImagePreview/ImagePreview";
+import { InitialState } from "./managment/state/initialState";
 
 const ProductSpecificationContext = React.createContext({});
 
 function ProductSpecification() {
 	const { ref, height } = useHeight();
 	const [showForm, setShowForm] = useState(false);
+
+	const [state, setState] = useState<ProductSpecification.State>(InitialState);
+
 	return (
 		<ProductSpecificationContext.Provider value={{}}>
 			<div className={style.navContainer} ref={ref}>
@@ -40,9 +44,7 @@ function ProductSpecification() {
 								{[].map((v, i) => (
 									<div className="crow sb" key={i}>
 										<div className={style.descriptionCell}>
-											<p className="fw-bold fcolor-text-subtitle body">
-												{v}
-											</p>
+											<p className="fw-bold fcolor-text-subtitle body">{v}</p>
 										</div>
 										<div className={style.descriptionCell}>
 											<p className="fw-medium fcolor-onyx body">{v}</p>
@@ -64,9 +66,7 @@ function ProductSpecification() {
 										<p className="fw-bold fcolor-text-subtitle body">Online</p>
 									</div>
 									<div className={style.descriptionCell}>
-										<p className="fw-medium fcolor-onyx body">
-											{}
-										</p>
+										<p className="fw-medium fcolor-onyx body">{}</p>
 									</div>
 								</div>
 
@@ -75,9 +75,7 @@ function ProductSpecification() {
 										<p className="fw-bold fcolor-text-subtitle body">Cash</p>
 									</div>
 									<div className={style.descriptionCell}>
-										<p className="fw-medium fcolor-onyx body">
-											{}
-										</p>
+										<p className="fw-medium fcolor-onyx body">{}</p>
 									</div>
 								</div>
 							</div>
@@ -92,14 +90,10 @@ function ProductSpecification() {
 							<div className={style.descriptionBody}>
 								<div className="crow sb">
 									<div className={style.descriptionCell}>
-										<p className="fw-bold fcolor-text-subtitle body">
-											{}
-										</p>
+										<p className="fw-bold fcolor-text-subtitle body">{}</p>
 									</div>
 									<div className={style.descriptionCell}>
-										<p className="fw-medium fcolor-onyx body">
-											{}
-										</p>
+										<p className="fw-medium fcolor-onyx body">{}</p>
 									</div>
 								</div>
 							</div>
@@ -109,9 +103,7 @@ function ProductSpecification() {
 						<div className="crow">
 							<div className="mb-3">
 								<p className="pretitle fcolor-text-subtitle mb-1">PRODUCT</p>
-								<p className="body fw-bold fcolor-text-body">
-									{}
-								</p>
+								<p className="body fw-bold fcolor-text-body">{}</p>
 							</div>
 							<div onClick={() => setShowForm(true)}>
 								<AssetIndex.EditSquare />
@@ -119,23 +111,17 @@ function ProductSpecification() {
 						</div>
 						<div className={style.descriptionContainer + " mb-3"}>
 							<p className="pretitle fcolor-text-subtitle mb-1">COMPANY</p>
-							<p className="body fw-bold fcolor-text-body">
-								{}
-							</p>
+							<p className="body fw-bold fcolor-text-body">{}</p>
 						</div>
 						<div className={style.descriptionContainer + " mb-3"}>
 							<p className="pretitle fcolor-text-subtitle mb-1">
 								CATEGORY ITEM
 							</p>
-							<p className="body fw-bold fcolor-text-body">
-								{}
-							</p>
+							<p className="body fw-bold fcolor-text-body">{}</p>
 						</div>
 						<div className={style.descriptionContainer + " mb-3"}>
 							<p className="pretitle fcolor-text-subtitle mb-1">DESCRIPTION</p>
-							<p className="body fw-medium fcolor-text-body">
-								{}
-							</p>
+							<p className="body fw-medium fcolor-text-body">{}</p>
 						</div>
 
 						<div className={style.descriptionCard}>
@@ -151,9 +137,7 @@ function ProductSpecification() {
 								{[].map((v, i) => (
 									<div className="crow sb" key={i}>
 										<div className={style.descriptionCell}>
-											<p className="fw-bold fcolor-text-subtitle body">
-												{v}
-											</p>
+											<p className="fw-bold fcolor-text-subtitle body">{v}</p>
 										</div>
 										<div className={style.descriptionCell}>
 											<p className="fw-medium fcolor-onyx body">{v}</p>

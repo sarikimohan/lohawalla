@@ -7,7 +7,15 @@ namespace ProductSpecification {
 		descriptionLabels: DescriptionLabels[];
 		priceStructure: PriceField[];
 		margin: Margin;
-		gst: GSTDetails;
+		gst: {key: string, value: string|number};
 		images: string[];
+
+		loading: {
+			fetch: AsyncState
+		}
+	}
+
+	interface Actions {
+		fetch(id: string);
 	}
 }

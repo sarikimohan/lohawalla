@@ -510,15 +510,15 @@ export async function getCompanyGridData() {
 interface CompanySpecificationData {
 	companyName: string;
 	description: string;
-	descriptionLabels: {key: string, value: string}[],
+	descriptionLabels: { key: string; value: string }[];
 	priceStructure: {
-    name: string;
-    type: 'numeric'|'percentage';
-    operation: 'subtract'|'add';
-    value: number;
-    fixed: boolean;
-  }[],
-	images: string[]
+		name: string;
+		type: "numeric" | "percentage";
+		operation: "subtract" | "add";
+		value: number;
+		fixed: boolean;
+	}[];
+	images: string[];
 }
 export async function getCompanySpecificationData(reqParams: useId) {
 	let response = await API.get<CompanySpecificationData>(
@@ -559,8 +559,28 @@ async function updateCompanyBaseRate(reqBody: newData) {
 	return response.data;
 }
 
-async function getProductSpecification(reqParams: useId) {
-	let response = await API.get(apis.getProductSpecification(reqParams.id));
+interface CompanyProduct {
+	productName: string;
+	companyName: string;
+	categoryName: string;
+	description: string;
+	descriptionLabels: { key: string; value: string }[];
+	priceStructure: {
+		name: string;
+		value: number;
+		type: "numeric" | "percentage";
+		operation: "subtract" | "add";
+		fixed: boolean;
+	}[];
+	marginStructure: { cash: number; online: number };
+	gstDetails: { key: "numeric" | "percentage"; value: string | number };
+	images: string[];
+}
+
+export async function getProductSpecification(reqParams: useId) {
+	let response = await API.get<CompanyProduct>(
+		apis.getProductSpecification(reqParams.id)
+	);
 	return response.data;
 }
 
