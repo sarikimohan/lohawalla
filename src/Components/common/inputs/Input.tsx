@@ -1,6 +1,6 @@
 import AssetIndex from "@src/assets/AssetIndex";
 import { motion } from "framer-motion";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "./Input.module.css";
 import { useField } from "formik";
 
@@ -26,7 +26,10 @@ enum InputInteractions {
 
 interface InputProps<T = string> {
 	width: string | number;
-	error: { hasError: boolean | undefined | string; errorMessage: string | undefined };
+	error: {
+		hasError: boolean | undefined | string;
+		errorMessage: string | undefined;
+	};
 	isValid: boolean | undefined | string;
 	setData?: (e: T) => void;
 	onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -41,6 +44,7 @@ interface InputProps<T = string> {
 	disabled?: boolean;
 	height?: number;
 	name?: string;
+	onEnter?: () => void;
 }
 
 const styles: InputStateStyles = {
@@ -105,6 +109,23 @@ function Input(props: InputProps) {
 	const [interaction, setInteraction] = useState<InputInteractions>(
 		InputInteractions.DEFAULT
 	);
+
+	const ref = React.createRef<HTMLInputElement>();
+
+	useEffect(() => {
+		const { onEnter } = props;
+		const fn = (e: KeyboardEvent) => {
+			if (e.key === "Enter") onEnter && onEnter();
+		};
+		const elem = ref.current as HTMLInputElement;
+
+		elem.addEventListener("keydown", fn);
+
+		return () => {
+			elem.removeEventListener("keydown", fn);
+		};
+	}, []);
+
 	return (
 		<div className={style.wrapper} style={{ width: props.width }}>
 			<motion.div
@@ -114,6 +135,7 @@ function Input(props: InputProps) {
 			>
 				<div className={style.inputBox}>
 					<input
+						ref={ref}
 						type={props.type}
 						className={style.input + " " + props.inputClassName}
 						placeholder={props.placeHolder}

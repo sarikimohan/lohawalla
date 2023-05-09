@@ -1,0 +1,11 @@
+.backButtonBox {
+  margin-right: 20px;
+}
+
+.headerRow {
+  display: flex;
+}
+
+.headingBox {
+  flex: 1;
+}

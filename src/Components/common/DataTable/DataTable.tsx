@@ -13,14 +13,23 @@ interface Data {
 	value: any;
 }
 
+export type DataTableError = {
+	keyError?: string;
+	valueError?: string;
+};
+
+export type DataTableAddFn = (props: Data) => {
+	keyError?: string;
+	valueError?: string;
+};
+
 interface DataTableProps {
 	header?: { first: string; second: string };
 	placeholder?: { key: string; value: string };
 	data: Data[];
 	getPath: (d: Data, index: number) => string;
-	onAdd?: (
-		props: Data
-	) => { keyError?: string; valueError?: string } | undefined;
+	onAdd?: DataTableAddFn;
+	onDelete?: (index: number) => void;
 }
 
 export default function DataTable(props: DataTableProps) {
@@ -30,6 +39,7 @@ export default function DataTable(props: DataTableProps) {
 		data,
 		getPath,
 		onAdd,
+		onDelete,
 	} = props;
 
 	const [inputData, setInputData] = useState<Data>({
@@ -48,29 +58,73 @@ export default function DataTable(props: DataTableProps) {
 	});
 
 	const handleAdd = () => {
+		if (inputData.key === "") {
+			setErrors((p) => ({
+				...p,
+				key: {
+					hasError: true,
+					errorMessage: "cannot be empty",
+				},
+			}));
+		} else {
+			setErrors((p) => ({
+				...p,
+				key: {
+					hasError: false,
+					errorMessage: "cannot be empty",
+				},
+			}));
+		}
+
+		if (inputData.value === "") {
+			setErrors((p) => ({
+				...p,
+				value: {
+					hasError: true,
+					errorMessage: "cannot be empty",
+				},
+			}));
+			return;
+		} else {
+			setErrors((p) => ({
+				...p,
+				value: {
+					hasError: false,
+					errorMessage: "cannot be empty",
+				},
+			}));
+		}
+
 		if (onAdd) {
 			const verdict = onAdd(inputData);
-			if (verdict) {
-				const { keyError, valueError } = verdict;
-				if (keyError) {
-					setErrors((p) => ({
-						...p,
-						key: {
-							hasError: true,
-							errorMessage: keyError,
-						},
-					}));
-				}
-				if (valueError) {
-					setErrors((p) => ({
-						...p,
-						value: {
-							hasError: true,
-							errorMessage: valueError,
-						},
-					}));
-				}
+			const { keyError, valueError } = verdict;
+			if (keyError) {
+				setErrors((p) => ({
+					...p,
+					key: {
+						hasError: true,
+						errorMessage: keyError,
+					},
+				}));
 			}
+			if (valueError) {
+				setErrors((p) => ({
+					...p,
+					value: {
+						hasError: true,
+						errorMessage: valueError,
+					},
+				}));
+			}
+			if (!keyError && !valueError) {
+				setInputData({ key: "", value: "" });
+			}
+		}
+	};
+
+	const handleDelete = (index: number) => {
+		if (onDelete) {
+			onDelete(index);
 		}
 	};
 
@@ -96,7 +150,10 @@ export default function DataTable(props: DataTableProps) {
 									/>
 								</div>
 							</div>
-							<div className="flex items-center justify-center w-10">
+							<div
+								className="flex items-center justify-center w-10"
+								onClick={() => handleDelete(i)}
+							>
 								<RotateAndScale>
 									<AssetIndex.MinusCircleIcon />
 								</RotateAndScale>
@@ -116,11 +173,12 @@ export default function DataTable(props: DataTableProps) {
 							error={errors.key}
 							isValid={undefined}
 							data={inputData.key}
-							type={"number"}
+							type={"text"}
 							placeHolder={placeholder.key}
 							onChange={(v) =>
 								setInputData((p) => ({ ...p, key: v.target.value }))
 							}
+							onEnter={handleAdd}
 						/>
 					</div>
 					<div className="basis-2/5">
@@ -128,12 +186,13 @@ export default function DataTable(props: DataTableProps) {
 							width={""}
 							error={errors.value}
 							isValid={undefined}
-							data={""}
-							type={"number"}
+							data={inputData.value}
+							type={"text"}
 							placeHolder={placeholder.value}
 							onChange={(v) =>
 								setInputData((p) => ({ ...p, value: v.target.value }))
 							}
+							onEnter={handleAdd}
 						/>
 					</div>
 				</div>
