@@ -15,6 +15,6 @@ export default class AddCategoryActions
 		});
 	}
 	submit() {
-		throw new Error("Method not implemented.");
+		
 	}
 }

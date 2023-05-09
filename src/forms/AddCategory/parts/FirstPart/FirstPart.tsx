@@ -17,6 +17,7 @@ const validationSchema = Yup.object({
 		.matches(/^[0-9]*$/, { message: "not a number" })
 		.required(),
 	description: Yup.string().required(),
+	unit: Yup.string().required(),
 });
 
 function FirstPart() {
@@ -57,6 +58,17 @@ function FirstPart() {
 						/>
 						<Spacer height={8 * 2} />
 
+						<p className="body fw-medium fcolor-fuschia">Unit</p>
+						<Spacer height={8} />
+						<FormikInput
+							width={"100%"}
+							type={"text"}
+							placeHolder="ton"
+							inputClassName={style.formInput}
+							name="unit"
+						/>
+						<Spacer height={8 * 2} />
+
 						<p className="body fw-medium fcolor-fuschia">Description</p>
 						<Spacer height={8} />
 						<FormikTextArea
@@ -76,7 +88,13 @@ function FirstPart() {
 						</div>
 						<Spacer height={16} />
 
-						<FormFileUpload onChange={(d) => {}} />
+						<FormFileUpload
+							onChange={(d) => {
+								setStateActions.mutateState((p) => {
+									p.images = d;
+								});
+							}}
+						/>
 						<Spacer height={16} />
 						<div className="crow jfe">
 							<DefaultButton

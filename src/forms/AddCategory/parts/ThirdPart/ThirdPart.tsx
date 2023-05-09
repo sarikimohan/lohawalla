@@ -10,13 +10,17 @@ import { useAddCategoryContext } from "../../AddCategoryForm";
 import * as yup from "yup";
 
 function ThirdPart() {
-	const { state } = useAddCategoryContext();
+	const { state, addCategoryActions, setStateActions } =
+		useAddCategoryContext();
 	return (
 		<Card variant="outlined" sx={{ padding: 3 }}>
 			<Formik
 				initialValues={state.thirdForm}
 				onSubmit={function (v, h) {
+					setStateActions.setThridForm(v);
+
 					// TODO add the submission
+					addCategoryActions.submit();
 				}}
 			>
 				{(props) => (

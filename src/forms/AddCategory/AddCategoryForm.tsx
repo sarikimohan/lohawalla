@@ -48,7 +48,7 @@ function AddCategoryForm() {
 								addCategoryActions.navBack();
 							}}
 							close={() => {}}
-							heading={"Product"}
+							heading={"Category"}
 							preHeading={"ADD"}
 						/>
 					</div>
@@ -59,7 +59,6 @@ function AddCategoryForm() {
 					<Mapper />
 				</FormContainer>
 			</PopUpContainer>
-			
 		</Context.Provider>
 	);
 }

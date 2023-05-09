@@ -2,7 +2,7 @@ namespace AddCategory {
 	interface State {
 		firstForm: FirstFormState;
 
-		images: string[];
+		images: File[] | null;
 
 		secondForm: SecondFormState;
 
