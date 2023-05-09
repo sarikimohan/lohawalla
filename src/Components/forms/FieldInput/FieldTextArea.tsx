@@ -29,10 +29,9 @@ interface InputProps<T = string> {
 	error?: string;
 	isValid: boolean | undefined | string;
 	setData?: (e: T) => void;
-	onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 	onBlur?: (e: T) => void;
 	data: T;
-	type: React.HTMLInputTypeAttribute;
 	inputStateStylesConfig?: InputStateStyles;
 	placeHolder: string;
 	inputClassName?: string;
@@ -102,19 +101,19 @@ function IconMapper(
 	return <></>;
 }
 
-export default function FieldInput(props: InputProps) {
+export default function FieldTextArea(props: InputProps) {
 	const [interaction, setInteraction] = useState<InputInteractions>(
 		InputInteractions.DEFAULT
 	);
 
-	const ref = React.createRef<HTMLInputElement>();
+	const ref = React.createRef<HTMLTextAreaElement>();
 
 	useEffect(() => {
 		const { onEnter } = props;
 		const fn = (e: KeyboardEvent) => {
 			if (e.key === "Enter") onEnter && onEnter();
 		};
-		const elem = ref.current as HTMLInputElement;
+		const elem = ref.current as HTMLTextAreaElement;
 
 		elem.addEventListener("keydown", fn);
 
@@ -131,9 +130,8 @@ export default function FieldInput(props: InputProps) {
 				animate={mapper(interaction, props).container}
 			>
 				<div className={style.inputBox}>
-					<input
+					<textarea
 						ref={ref}
-						type={props.type}
 						className={style.input + " " + props.inputClassName}
 						placeholder={props.placeHolder}
 						onFocus={() => setInteraction(InputInteractions.ACTIVE)}
@@ -147,7 +145,6 @@ export default function FieldInput(props: InputProps) {
 						}}
 						value={props.data}
 						maxLength={props.maxLength}
-						pattern={props.pattern}
 						disabled={props.disabled}
 						name={props.name}
 					/>

@@ -1,7 +1,7 @@
 namespace AddCompany {
 	interface FieldData {
 		/**
-		 * the value of the field 
+		 * the value of the field
 		 */
 		value: string;
 		/**
@@ -20,16 +20,28 @@ namespace AddCompany {
 	}
 	interface NewPriceField {
 		id: string;
-		name: string;
+		name: FieldData;
 		type: PercNum;
 		operation: OpType;
+	}
+	interface FormPriceField {
+		name: string;
+		type: "numeric" | "percentage";
+		operation: "subtract" | "add";
+		value: FieldData;
+		fixed: boolean;
+	}
+
+	interface DescriptionLabels {
+		key: string;
+		value: FieldData;
 	}
 	interface State {
 		page: number;
 		firstForm: FirstFormData;
 		images: File[] | null;
 
-		priceStructure: PriceField[];
+		priceStructure: FormPriceField[];
 		tempPriceStructure: NewPriceField[];
 		descriptionLabels: DescriptionLabels[];
 

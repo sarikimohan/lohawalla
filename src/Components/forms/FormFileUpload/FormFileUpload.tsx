@@ -45,63 +45,68 @@ function FormFileUpload(props: FormFileUploadProps) {
 	};
 
 	return (
-		<div className={style.fileUploadContainer}>
-			<div className={style.uploadBox}>
-				<div className="vc flex-dir-col">
-					<AssetIndex.ImageFileIcon />
-					<Spacer height={12} />
-					<p className="body fcolor-text-body">Select File</p>
-				</div>
-				<input
-					type="file"
-					accept=".jpg, .png"
-					className={style.fileInput}
-					onChange={(e) => {
-						setImageFiles(e.target.files);
-					}}
-					name={"lhw-image"}
-					multiple
-				/>
+		<div>
+			<div className="mb-5">
+				<p className="h3 text-slate-700">Upload a Photo of Item</p>
 			</div>
-			{fileSelection && (
-				<div className={"crow"}>
-					{fileSelection.map((v, i) => (
-						<div
-							className="p-1"
-							style={{
-								position: "relative",
-								display: v.status ? "block" : "none",
-							}}
-							key={i}
-						>
-							<ImageSmall
-								index={i}
-								src={URL.createObjectURL(v.file)}
-								currentSelected={i}
-								setSelected={function (): void {
-									removeImage(v.file);
-								}}
-								sideLength={66}
-							/>
-							<div
-								style={{
-									position: "absolute",
-									top: 0,
-									right: 0,
-									transform: "scale(0.8)",
-									cursor: "pointer",
-								}}
-								onClick={() => {
-									removeImage(v.file);
-								}}
-							>
-								<AssetIndex.MinusCircleIcon />
-							</div>
-						</div>
-					))}
+			<div className={style.fileUploadContainer}>
+				<div className={style.uploadBox}>
+					<div className="vc flex-dir-col">
+						<AssetIndex.ImageFileIcon />
+						<Spacer height={12} />
+						<p className="body fcolor-text-body">Select File</p>
+					</div>
+					<input
+						type="file"
+						accept=".jpg, .png"
+						className={style.fileInput}
+						onChange={(e) => {
+							setImageFiles(e.target.files);
+						}}
+						name={"lhw-image"}
+						multiple
+					/>
 				</div>
-			)}
-			<Spacer height={16} />
+				{fileSelection && (
+					<div className={"crow"}>
+						{fileSelection.map((v, i) => (
+							<div
+								className="p-1"
+								style={{
+									position: "relative",
+									display: v.status ? "block" : "none",
+								}}
+								key={i}
+							>
+								<ImageSmall
+									index={i}
+									src={URL.createObjectURL(v.file)}
+									currentSelected={i}
+									setSelected={function (): void {
+										removeImage(v.file);
+									}}
+									sideLength={66}
+								/>
+								<div
+									style={{
+										position: "absolute",
+										top: 0,
+										right: 0,
+										transform: "scale(0.8)",
+										cursor: "pointer",
+									}}
+									onClick={() => {
+										removeImage(v.file);
+									}}
+								>
+									<AssetIndex.MinusCircleIcon />
+								</div>
+							</div>
+						))}
+					</div>
+				)}
+				<Spacer height={16} />
+			</div>
 		</div>
 	);
 }

@@ -87,7 +87,7 @@ export default function AddPriceField(props: Props) {
 											const value = props.values.pfArr;
 											value.push({
 												id: nanoid(),
-												name: "",
+												name: {value: ''},
 												type: "numeric",
 												operation: "add",
 											});

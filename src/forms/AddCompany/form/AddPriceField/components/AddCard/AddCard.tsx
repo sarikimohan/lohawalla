@@ -23,7 +23,7 @@ export default function AddCard(props: Props) {
 		<Card variant="outlined" sx={{ padding: 2, width: props.width }}>
 			<div className="flex justify-between">
 				<p className="body text-slate-400 font-medium mb-3">
-					Add {props.data.name}
+					Add {props.data.name.value}
 				</p>
 				<div onClick={() => onDelete && onDelete()}>
 					<RotateAndScale>

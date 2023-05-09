@@ -5,11 +5,21 @@ export const InitialState: AddCompany.State = {
 	page: 0,
 	firstForm: { companyName: { value: "" }, description: { value: "" } },
 	images: null,
-	priceStructure: [],
+	priceStructure: [
+		{
+			name: "basic rate",
+			type: "numeric",
+			operation: "add",
+			value: {
+				value: "",
+			},
+			fixed: true,
+		},
+	],
 	tempPriceStructure: [
 		{
 			id: nanoid(),
-			name: "",
+			name: { value: "" },
 			type: "numeric",
 			operation: "add",
 		},

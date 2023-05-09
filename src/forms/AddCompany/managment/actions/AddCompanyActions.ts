@@ -1,23 +1,6 @@
 import StateUtils from "@src/modules/StateManagement/Core/StateUtils";
 
 export default class AddCompanyActions extends StateUtils<AddCompany.State> {
-	setFirstForm(data: AddCompany.FirstFormData) {
-		this.mutateState((p) => {
-			p.firstForm = data;
-		});
-	}
-
-	setPriceFields(data: PriceField[]) {
-		this.mutateState((p) => {
-			p.priceStructure = data;
-		});
-	}
-
-	setDescription(data: DescriptionLabels[]) {
-		this.mutateState((p) => {
-			p.descriptionLabels = data;
-		});
-	}
 
 	/**
 	 * this section focuses on the navigation
