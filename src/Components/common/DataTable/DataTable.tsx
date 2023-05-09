@@ -144,7 +144,7 @@ export default function DataTable(props: DataTableProps) {
 								</div>
 								<div className="basis-2/5">
 									<FormikInput
-										type={"number"}
+										type={"text"}
 										placeHolder={""}
 										name={getPath(v, i)}
 									/>

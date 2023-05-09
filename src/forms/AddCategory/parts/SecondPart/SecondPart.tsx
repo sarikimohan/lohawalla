@@ -6,7 +6,7 @@ import Spacer from "@src/Components/common/Spacer/Spacer";
 import FormikInput from "@src/Components/common/inputs/FormikInput";
 import { Formik } from "formik";
 import { useAddCategoryContext } from "../../AddCategoryForm";
-import { Button, Card } from "@mui/material";
+import { Card } from "@mui/material";
 import DataTable, {
 	DataTableError,
 } from "@src/Components/common/DataTable/DataTable";

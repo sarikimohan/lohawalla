@@ -8,6 +8,7 @@ import FirstPart from "./parts/FirstPart/FirstPart";
 import AddCategoryActions from "./managment/actions/AddCategoryActions";
 import SetStateActions from "./managment/actions/SetStateActions";
 import SecondPart from "./parts/SecondPart/SecondPart";
+import ThirdPart from "./parts/ThirdPart/ThirdPart";
 
 interface ContextInterface {
 	addCategoryActions: AddCategoryActions;
@@ -26,6 +27,7 @@ function Mapper() {
 		<>
 			{state.page === 0 && <FirstPart />}
 			{state.page === 1 && <SecondPart />}
+			{state.page === 2 && <ThirdPart />}
 		</>
 	);
 }

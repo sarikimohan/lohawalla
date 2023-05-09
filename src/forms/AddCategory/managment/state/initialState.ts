@@ -1,7 +1,7 @@
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 
 export const InitialState: AddCategory.State = {
-	page: 1,
+	page: 2,
 	loading: {
 		saveImage: AsyncStateFactory(),
 		saveData: AsyncStateFactory(),
