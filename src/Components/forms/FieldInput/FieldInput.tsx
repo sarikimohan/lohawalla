@@ -26,10 +26,7 @@ enum InputInteractions {
 
 interface InputProps<T = string> {
 	width?: string | number;
-	error: {
-		hasError: boolean | undefined | string;
-		errorMessage: string | undefined;
-	};
+	error?: string;
 	isValid: boolean | undefined | string;
 	setData?: (e: T) => void;
 	onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -80,7 +77,7 @@ function mapper(state: InputInteractions, props: InputProps): ComStyles {
 		: styles;
 
 	if (props.isValid) return _styles.valid;
-	if (props.error.hasError) return _styles.error;
+	if (props.error) return _styles.error;
 
 	switch (state) {
 		case InputInteractions.ACTIVE:
@@ -98,7 +95,7 @@ function IconMapper(
 		return <AssetIndex.TickIcon />;
 	}
 
-	if (_props.error.hasError) {
+	if (_props.error) {
 		return <AssetIndex.ErrorIcon />;
 	}
 
@@ -157,9 +154,9 @@ function Input(props: InputProps) {
 				</div>
 				<div className={style.iconBox}>{IconMapper(interaction, props)}</div>
 			</motion.div>
-			{props.error.hasError && (
+			{props.error && (
 				<p className="mt-1" style={{ color: "red", fontSize: 13 }}>
-					{props.error.errorMessage}
+					{props.error}
 				</p>
 			)}
 		</div>

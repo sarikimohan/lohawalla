@@ -1,5 +1,6 @@
 import { Card, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import FormikInput from "@src/Components/common/inputs/FormikInput";
+import Input from "@src/Components/common/inputs/Input";
 import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAndScale";
 import AssetIndex from "@src/assets/AssetIndex";
 import React from "react";
@@ -16,6 +17,8 @@ interface Props {
 
 export default function AddCard(props: Props) {
 	const { onDelete } = props;
+	console.log(props.descName);
+
 	return (
 		<Card variant="outlined" sx={{ padding: 2, width: props.width }}>
 			<div className="flex justify-between">
@@ -42,7 +45,18 @@ export default function AddCard(props: Props) {
 						</td>
 						<td>
 							<div className="p-3">
-								<FormikInput name={props.descName} />
+								{/* <FormikInput name={props.descName} type="text" placeHolder="" /> */}
+								<Input
+									width={""}
+									error={{
+										hasError: undefined,
+										errorMessage: undefined,
+									}}
+									isValid={undefined}
+									data={""}
+									type={"number"}
+									placeHolder={""}
+								/>
 							</div>
 						</td>
 					</tr>

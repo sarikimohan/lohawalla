@@ -10,6 +10,7 @@ import FormCardHeader from "@src/Components/forms/FormCardHeader/FormCardHeader"
 import AssetIndex from "@src/assets/AssetIndex";
 import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAndScale";
 import AddPriceField from "./form/AddPriceField/AddPriceField";
+import { useFormik } from "formik";
 
 interface Props {}
 interface ContextProps {
@@ -73,7 +74,7 @@ export default function AddCompany(props: Props) {
 									<tbody>
 										<tr className="mb-2 border-b">
 											<td align="center">
-												<p className="text-md font-bold text-slate-700">
+												<p className="text-md font-bold text-slate-700 py-5">
 													+Basic Rate
 												</p>
 											</td>
