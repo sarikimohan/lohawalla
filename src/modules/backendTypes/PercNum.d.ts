@@ -1,0 +1,1 @@
+type PercNum = 'percentage' | 'numeric';

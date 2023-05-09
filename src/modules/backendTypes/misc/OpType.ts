@@ -1,0 +1,1 @@
+export type OpType = 'subtract' | 'add';

@@ -26,9 +26,9 @@ enum InputInteractions {
 
 interface InputProps<T = string> {
 	width?: string | number;
-	type: React.HTMLInputTypeAttribute;
+	type?: React.HTMLInputTypeAttribute;
 	inputStateStylesConfig?: InputStateStyles;
-	placeHolder: string;
+	placeHolder?: string;
 	inputClassName?: string;
 	maxLength?: number;
 	pattern?: string;

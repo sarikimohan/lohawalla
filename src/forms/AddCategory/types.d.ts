@@ -46,15 +46,4 @@ namespace AddCategory {
 		submitForm();
 	}
 
-	interface FormData {
-		name: string;
-		code: number;
-		description: string;
-		unit: string;
-		credit: Credit[];
-		negotiation: number;
-		descriptionLabels: DescriptionData[];
-		by: NameIdPair;
-		images: string[];
-	}
 }

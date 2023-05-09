@@ -23,6 +23,7 @@ export default function RotateAndScale({
 		<motion.div
 			whileHover={{ scale, rotate }}
 			whileTap={{ scale: abs(1 - abs((scale as number) - 1)) }}
+			className="cursor-pointer"
 		>
 			{children}
 		</motion.div>

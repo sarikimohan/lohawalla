@@ -1,0 +1,1 @@
+type OpType = 'subtract' | 'add';
