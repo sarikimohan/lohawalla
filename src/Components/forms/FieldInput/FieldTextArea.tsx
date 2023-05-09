@@ -63,7 +63,6 @@ const styles: InputStateStyles = {
 	},
 	valid: {
 		container: {
-			background: "#FFFFFF",
 			border: "1px solid #31D0AA",
 			boxShadow: "0px 0px 0px 4px rgba(49, 208, 170, 0.2)",
 		},

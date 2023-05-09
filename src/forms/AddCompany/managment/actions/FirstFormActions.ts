@@ -13,6 +13,7 @@ export default class FormActions extends StateUtils<AddCompany.State> {
 	}
 
 	validateFirstForm() {
+		let isValid = true;
 		const error: {
 			name?: string;
 			description?: string;
@@ -25,10 +26,12 @@ export default class FormActions extends StateUtils<AddCompany.State> {
 		const { companyName, description } = this.state.firstForm;
 		if (companyName.value === "") {
 			error.name = reqErr;
+			isValid = false;
 		}
 
 		if (description.value === "") {
-			description.error = reqErr;
+			error.description = reqErr;
+			isValid = false;
 		}
 
 		this.mutateState((p) => {
@@ -38,5 +41,7 @@ export default class FormActions extends StateUtils<AddCompany.State> {
 			p.firstForm.companyName.isValid = !error.name;
 			p.firstForm.description.isValid = !error.description;
 		});
+
+		return isValid;
 	}
 }

@@ -1,6 +1,7 @@
 import { Card, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import FormikInput from "@src/Components/common/inputs/FormikInput";
 import Input from "@src/Components/common/inputs/Input";
+import FieldInput from "@src/Components/forms/FieldInput/FieldInput";
 import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAndScale";
 import AssetIndex from "@src/assets/AssetIndex";
 import React from "react";
@@ -11,13 +12,13 @@ interface Props {
 	descName: string;
 	data: AddCompany.NewPriceField;
 	onDelete?: () => void;
-	onChangeType: (d: string) => void;
-	onChangeOperation: (d: string) => void;
+	onChangeType: (d: PercNum) => void;
+	onChangeOperation: (d: OpType) => void;
+	onChange: (d: string) => void;
 }
 
 export default function AddCard(props: Props) {
-	const { onDelete } = props;
-	console.log(props.descName);
+	const { onDelete, data } = props;
 
 	return (
 		<Card variant="outlined" sx={{ padding: 2, width: props.width }}>
@@ -45,17 +46,13 @@ export default function AddCard(props: Props) {
 						</td>
 						<td>
 							<div className="p-3">
-								{/* <FormikInput name={props.descName} type="text" placeHolder="" /> */}
-								<Input
-									width={""}
-									error={{
-										hasError: undefined,
-										errorMessage: undefined,
-									}}
-									isValid={undefined}
-									data={""}
-									type={"number"}
-									placeHolder={""}
+								<FieldInput
+									isValid={data.name.isValid}
+									error={data.name.error}
+									data={data.name.value}
+									onChange={(e) => props.onChange(e.target.value)}
+									type={"text"}
+									placeHolder={"name of price field"}
 								/>
 							</div>
 						</td>
@@ -74,7 +71,7 @@ export default function AddCard(props: Props) {
 										value={props.data.type}
 										label="enter type"
 										onChange={(e) => {
-											props.onChangeType(e.target.value);
+											props.onChangeType(e.target.value as PercNum);
 										}}
 									>
 										<MenuItem value={"percentage"}>percentage</MenuItem>
@@ -100,7 +97,7 @@ export default function AddCard(props: Props) {
 										value={props.data.operation}
 										label="enter type"
 										onChange={(e) => {
-											props.onChangeOperation(e.target.value);
+											props.onChangeOperation(e.target.value as OpType);
 										}}
 									>
 										<MenuItem value={"add"}>add</MenuItem>

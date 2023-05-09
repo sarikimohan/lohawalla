@@ -64,10 +64,68 @@ export default class SecondFormActions extends StateUtils<AddCompany.State> {
 		});
 	}
 
-	setDescription(data: string, i: number) {}
-	setType(data: PercNum, i: number) {}
-	setOperation(data: OpType, i: number) {}
+	deletePriceField(i: number) {
+		this.mutateState((p) => {
+			p.tempPriceStructure = p.tempPriceStructure.filter((v, k) => k !== i);
+		});
+	}
 
-	validateAddForm() {}
-	validatePriceFieldForm() {}
+	setDescription(data: string, i: number) {
+		this.mutateState((p) => {
+			p.tempPriceStructure[i].name.value = data;
+		});
+	}
+	setType(data: PercNum, i: number) {
+		this.mutateState((p) => {
+			p.tempPriceStructure[i].type = data;
+		});
+	}
+	setOperation(data: OpType, i: number) {
+		this.mutateState((p) => {
+			p.tempPriceStructure[i].operation = data;
+		});
+	}
+
+	validateAddForm() {
+		const obj: { [key: string]: boolean | undefined } = {};
+
+		for (let i = 0; i < this.state.priceStructure.length; ++i) {
+			obj[this.state.priceStructure[i].name] = true;
+		}
+
+		let verdict: (string | undefined)[] = [];
+		for (let i = 0; i < this.state.tempPriceStructure.length; ++i) {
+			const pf = this.state.tempPriceStructure[i];
+			if (obj[pf.name.value]) {
+				verdict.push("value already exists");
+			} else {
+				verdict.push(undefined);
+			}
+		}
+
+		this.mutateState((p) => {
+			for (let i = 0; i < p.tempPriceStructure.length; ++i) {
+				p.tempPriceStructure[i].name.error = verdict[i];
+				p.tempPriceStructure[i].name.isValid = !verdict[i];
+			}
+		});
+	}
+	validatePriceFieldForm() {
+		let isValid = true;
+		this.mutateState((p) => {
+			for (let i = 0; i < p.priceStructure.length; ++i) {
+				let pf = p.priceStructure[i];
+				if (pf.value.value === "") {
+					p.priceStructure[i].value.error = "required";
+					p.priceStructure[i].value.isValid = false;
+					isValid = false;
+				} else {
+					p.priceStructure[i].value.error = undefined;
+					p.priceStructure[i].value.isValid = true;
+				}
+			}
+		});
+
+		return isValid;
+	}
 }

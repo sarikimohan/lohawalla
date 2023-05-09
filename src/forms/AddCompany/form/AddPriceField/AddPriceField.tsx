@@ -41,74 +41,48 @@ const validationSchema = yup.object({
 interface Props {}
 
 export default function AddPriceField(props: Props) {
-	const { state } = useAddCompanyContext();
+	const { state, secondFormActions } = useAddCompanyContext();
 	return (
-		<PopUpContainer>
+		<PopUpContainer zIndex={500}>
 			<FormContainer>
-				<Formik
-					initialValues={{
-						pfArr: state.tempPriceStructure,
-					}}
-					onSubmit={function (v, h) {}}
-					validationSchema={validationSchema}
-				>
-					{(props) => {
-						return (
-							<div className="p-3">
-								<div>
-									<Header />
-								</div>
-								<div className="mx-8">
-									{props.values.pfArr.map((v, i) => (
-										<div className="mb-3" key={v.id}>
-											<AddCard
-												descName={`pfArr[${i}].name`}
-												data={v}
-												onChangeType={function (d: string): void {
-													props.setFieldValue(`pfArr[${i}].type`, d);
-												}}
-												onChangeOperation={function (d: string): void {
-													props.setFieldValue(`pfArr[${i}].operation`, d);
-												}}
-												onDelete={() => {
-													const list = props.values.pfArr;
-													props.setFieldValue(
-														`pfArr`,
-														list.filter((v, k) => k !== i)
-													);
-												}}
-											/>
-										</div>
-									))}
-								</div>
-								<div className="mt-4 jfe">
-									<AddMore
-										handleAdd={() => {
-											const value = props.values.pfArr;
-											value.push({
-												id: nanoid(),
-												name: {value: ''},
-												type: "numeric",
-												operation: "add",
-											});
-											props.setFieldValue("pfArr", value);
-										}}
-									/>
-								</div>
-
-								<div>
-									<DefaultButton
-										onClick={function (): void {
-											props.validateForm();
-										}}
-										label={"Save"}
-										styles={NextButtonStyleConfig}
-									/>
-								</div>
+				<div className="p-3">
+					<div>
+						<Header />
+					</div>
+					<div className="mx-8">
+						{state.tempPriceStructure.map((v, i) => (
+							<div className="mb-3" key={v.id}>
+								<AddCard
+									data={v}
+									onChangeType={function (d: PercNum): void {
+										secondFormActions.setType(d, i);
+									}}
+									onChangeOperation={function (d: OpType): void {
+										secondFormActions.setOperation(d, i);
+									}}
+									onDelete={() => {
+										secondFormActions.deletePriceField(i);
+									}}
+									descName={""}
+									onChange={function (d: string): void {
+										secondFormActions.setDescription(d, i);
+									}}
+								/>
 							</div>
-						);
-					}}
-				</Formik>
+						))}
+					</div>
+					<div className="mt-4 jfe">
+						<AddMore handleAdd={() => {secondFormActions.addPriceField()}} />
+					</div>
+
+					<div>
+						<DefaultButton
+							onClick={function (): void {}}
+							label={"Save"}
+							styles={NextButtonStyleConfig}
+						/>
+					</div>
+				</div>
 			</FormContainer>
 		</PopUpContainer>
 	);
