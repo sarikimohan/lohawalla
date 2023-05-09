@@ -21,25 +21,47 @@ export default function AddPriceField(props: Props) {
 					onSubmit={function (v, h) {}}
 				>
 					{(props) => (
-						<>
+						<div className="p-3">
 							<div>
 								<Header />
 							</div>
 							<div className="mx-8">
 								{props.values.tempPriceStructure.map((v, i) => (
-									<AddCard
-										names={{
-											descriptionName: `tempPriceStructure[${i}].descrition`,
-											typeName: "",
-											valueName: "",
-										}}
-									/>
+									<div className="mb-3">
+										<AddCard
+											descName={`tempPriceStructure[${i}].name`}
+											data={v}
+											onDelete={function () {
+												props.setFieldValue(
+													"tempPriceStructure",
+													props.values.tempPriceStructure.filter(
+														(v, k) => k !== i
+													)
+												);
+											}}
+											onChangeType={(d) => {
+												props.setFieldValue(`tempPriceStructure[${i}].type`, d);
+											}}
+											onChangeOperation={(d) => {
+												props.setFieldValue(
+													`tempPriceStructure[${i}].operation`,
+													d
+												);
+											}}
+										/>
+									</div>
 								))}
 							</div>
 							<div className="mt-4 jfe">
-								<AddMore />
+								<AddMore
+									handleAdd={() => {
+										const value = props.values.tempPriceStructure;
+										value.push({ name: "", type: "numeric", operation: "add" });
+										props.setFieldValue("tempPriceStructure", value);
+									}}
+								/>
 							</div>
-						</>
+						</div>
 					)}
 				</Formik>
 			</FormContainer>

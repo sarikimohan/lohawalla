@@ -1,4 +1,5 @@
 import StateUtils from "@src/modules/StateManagement/Core/StateUtils";
+import axios from "axios";
 
 export default class AddCategoryActions
 	extends StateUtils<AddCategory.State>
@@ -15,6 +16,13 @@ export default class AddCategoryActions
 		});
 	}
 	submit() {
-		
+		this.state
+		if(this.state.images) {
+			// save the images 
+			
+		}
+		// create the form data 
+
+		//* post 
 	}
 }

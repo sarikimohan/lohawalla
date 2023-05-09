@@ -7,19 +7,22 @@ import React from "react";
 interface Props {
 	width?: number;
 	position?: number;
-	names: {
-		descriptionName: string;
-		typeName: string;
-		valueName: string;
-	};
+	descName: string;
+	data: AddCompany.NewPriceField;
+	onDelete?: () => void;
+	onChangeType: (d: string) => void;
+	onChangeOperation: (d: string) => void;
 }
 
 export default function AddCard(props: Props) {
+	const { onDelete } = props;
 	return (
 		<Card variant="outlined" sx={{ padding: 2, width: props.width }}>
 			<div className="flex justify-between">
-				<p className="body text-slate-400 font-medium mb-3">Add</p>
-				<div>
+				<p className="body text-slate-400 font-medium mb-3">
+					Add {props.data.name}
+				</p>
+				<div onClick={() => onDelete && onDelete()}>
 					<RotateAndScale>
 						<AssetIndex.MinusCircleIcon />
 					</RotateAndScale>
@@ -38,7 +41,9 @@ export default function AddCard(props: Props) {
 							<p className="bold p-3 pl-6">Description</p>
 						</td>
 						<td>
-							<FormikInput name={""} />
+							<div className="p-3">
+								<FormikInput name={props.descName} />
+							</div>
 						</td>
 					</tr>
 					<tr>
@@ -46,29 +51,49 @@ export default function AddCard(props: Props) {
 							<p className="bold p-3 pl-6">Type</p>
 						</td>
 						<td>
-							<FormControl fullWidth>
-								<InputLabel id="demo-simple-select-label">
-									enter type
-								</InputLabel>
-								<Select<PercNum>
-									labelId="demo-simple-select-label"
-									id="demo-simple-select"
-									value={"percentage"}
-									label="enter type"
-									onChange={() => {}}
-								>
-									<MenuItem value={"percentage"}>percentage</MenuItem>
-									<MenuItem value={"numeric"}>numeric</MenuItem>
-								</Select>
-							</FormControl>
+							<div className="p-3">
+								<FormControl fullWidth>
+									<InputLabel id="demo-simple-select-label">type</InputLabel>
+									<Select<PercNum>
+										labelId="demo-simple-select-label"
+										id="demo-simple-select"
+										value={props.data.type}
+										label="enter type"
+										onChange={(e) => {
+											props.onChangeType(e.target.value);
+										}}
+									>
+										<MenuItem value={"percentage"}>percentage</MenuItem>
+										<MenuItem value={"numeric"}>numeric</MenuItem>
+									</Select>
+								</FormControl>
+							</div>
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<p className="bold p-3 pl-6">Value</p>
+							<p className="bold p-3 pl-6">Operation</p>
 						</td>
 						<td>
-							<FormikInput name={""} />
+							<div className="p-3">
+								<FormControl fullWidth>
+									<InputLabel id="demo-simple-select-label">
+										operation
+									</InputLabel>
+									<Select<OpType>
+										labelId="demo-simple-select-label"
+										id="demo-simple-select"
+										value={props.data.operation}
+										label="enter type"
+										onChange={(e) => {
+											props.onChangeOperation(e.target.value);
+										}}
+									>
+										<MenuItem value={"add"}>add</MenuItem>
+										<MenuItem value={"subtract"}>subtract</MenuItem>
+									</Select>
+								</FormControl>
+							</div>
 						</td>
 					</tr>
 				</tbody>
