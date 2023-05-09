@@ -25,7 +25,7 @@ enum InputInteractions {
 }
 
 interface InputProps<T = string> {
-	width: string | number;
+	width?: string | number;
 	type: React.HTMLInputTypeAttribute;
 	inputStateStylesConfig?: InputStateStyles;
 	placeHolder: string;
@@ -35,6 +35,7 @@ interface InputProps<T = string> {
 	disabled?: boolean;
 	height?: number;
 	name: string;
+	value?: string;
 }
 
 const styles: InputStateStyles = {
@@ -108,7 +109,10 @@ function FormikInput(props: InputProps) {
 	const { onBlur, ...rest } = field;
 
 	return (
-		<div className={style.wrapper} style={{ width: props.width }}>
+		<div
+			className={style.wrapper}
+			style={{ width: props.width ? props.width : "100%" }}
+		>
 			<motion.div
 				className={style.container}
 				style={{ ...styles.default.container, height: props.height }}

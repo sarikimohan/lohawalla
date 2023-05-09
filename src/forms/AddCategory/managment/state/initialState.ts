@@ -1,7 +1,7 @@
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 
 export const InitialState: AddCategory.State = {
-	page: 0,
+	page: 1,
 	loading: {
 		saveImage: AsyncStateFactory(),
 		saveData: AsyncStateFactory(),
@@ -14,7 +14,7 @@ export const InitialState: AddCategory.State = {
 	},
 	images: [],
 	secondForm: {
-		credit: [],
+		credit: [{ days: 3, value: 20 }],
 		negotiation: 0,
 	},
 	thirdForm: {

@@ -7,6 +7,7 @@ import { InitialState } from "./managment/state/initialState";
 import FirstPart from "./parts/FirstPart/FirstPart";
 import AddCategoryActions from "./managment/actions/AddCategoryActions";
 import SetStateActions from "./managment/actions/SetStateActions";
+import SecondPart from "./parts/SecondPart/SecondPart";
 
 interface ContextInterface {
 	addCategoryActions: AddCategoryActions;
@@ -21,7 +22,12 @@ export function useAddCategoryContext() {
 
 function Mapper() {
 	const { state } = useAddCategoryContext();
-	return <>{state.page === 0 && <FirstPart />}</>;
+	return (
+		<>
+			{state.page === 0 && <FirstPart />}
+			{state.page === 1 && <SecondPart />}
+		</>
+	);
 }
 
 function AddCategoryForm() {
@@ -46,11 +52,12 @@ function AddCategoryForm() {
 					</div>
 
 					<div className="mb-5">
-						<ProgressBar currentStep={1} steps={3} />
+						<ProgressBar currentStep={state.page + 1} steps={3} />
 					</div>
 					<Mapper />
 				</FormContainer>
 			</PopUpContainer>
+			
 		</Context.Provider>
 	);
 }

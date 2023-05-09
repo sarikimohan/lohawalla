@@ -1,0 +1,28 @@
+.card {
+  border: 1px solid rgba(151, 151, 170, 0.25);
+  border-radius: 6px;
+  width: 100%;
+  padding: 16px;
+}
+
+.inputBox {
+  background: rgba(75, 77, 237, 0.1);
+}
+
+.creditDateBox {
+  padding: 10px;
+  min-width: fit-content;
+  width: 45%;
+  max-width: 198px;
+  height: 39px;
+  border: 1px solid rgba(151, 151, 170, 0.22);
+}
+
+.creditNumberBox {
+  padding: 10px;
+  min-width: fit-content;
+  width: 40%;
+  max-width: 198px;
+  height: 39px;
+  border: 1px solid rgba(151, 151, 170, 0.22);
+}

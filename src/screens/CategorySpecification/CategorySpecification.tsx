@@ -19,8 +19,6 @@ import DefaultButton from "@src/Components/common/buttons/DefaultButton/DefaultB
 import { InitialState } from "./management/state/InitialState";
 import CategorySpecificationAction from "./management/actions/CategorySpecificationAction";
 import { H2 } from "@src/Components/common/Typography/TypeStyles";
-import FilledScrollContainer from "@src/Components/common/Layout/FilledScrollContainer/FilledScrollContainer";
-import LAYOUT_CONSTANTS from "@src/globals/constants/layout.constants";
 
 export const CategorySpecificationContext = React.createContext({});
 
