@@ -2,7 +2,9 @@ import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAn
 import AssetIndex from "@src/assets/AssetIndex";
 import React from "react";
 
-interface Props {}
+interface Props {
+	onClose: () => void;
+}
 
 export default function Header(props: Props) {
 	return (
@@ -11,7 +13,7 @@ export default function Header(props: Props) {
 				<p className="body fcolor-text-subtitle">{"Add"}</p>
 				<p className="h2 fcolor-fuschia fw-bold">{"More"}</p>
 			</div>
-			<div>
+			<div onClick={props.onClose}>
 				<RotateAndScale>
 					<AssetIndex.CloseIcon />
 				</RotateAndScale>

@@ -5,6 +5,7 @@ import AssetIndex from "@src/assets/AssetIndex";
 import React, { useState } from "react";
 import { useAddCompanyContext } from "../../AddCompany";
 import AddPriceField from "../../form/AddPriceField/AddPriceField";
+import FieldInput from "@src/Components/forms/FieldInput/FieldInput";
 
 interface Props {}
 
@@ -42,26 +43,48 @@ export default function SecondPart(props: Props) {
 
 						<tbody>
 							{state.priceStructure.map((v, i) => (
-								<>
-									<tr className="mb-2 border-b">
-										<td align="center">
-											<p className="text-md font-bold text-slate-700 py-5">
-												{v.operation === "add" ? "+" : "-"} {v.name}
-											</p>
-										</td>
-										<td align="center">
-											{v.name === "basic rate" ? <></> : <Checkbox />}
-										</td>
-										<td align="center" className="w-2/5">
-											<Input sx={{ width: "80%" }} />
-										</td>
-										<td align="center" className="w-fit">
+								<tr className="mb-2 border-b" key={v.id}>
+									<td align="center">
+										<p className="text-md font-bold text-slate-700 py-5">
+											{v.operation === "add" ? "+" : "-"} {v.name}
+										</p>
+									</td>
+									<td align="center">
+										{v.name === "basic rate" ? (
+											<></>
+										) : (
+											<Checkbox
+												onChange={(e) => {
+													secondFormActions.fixField(e.target.checked, i);
+												}}
+											/>
+										)}
+									</td>
+									<td align="center" className="w-2/5">
+										<FieldInput
+											isValid={v.value.isValid}
+											error={v.value.error}
+											data={v.value.value}
+											onChange={(d) => {
+												secondFormActions.editField(d.target.value, i);
+											}}
+											type={"number"}
+											placeHolder={"enter value"}
+											disabled={!v.fixed}
+										/>
+									</td>
+									<td align="center" className="w-fit">
+										<div
+											onClick={() => {
+												secondFormActions.deletePriceStructure(i);
+											}}
+										>
 											<RotateAndScale>
 												<AssetIndex.MinusCircleIcon />
 											</RotateAndScale>
-										</td>
-									</tr>
-								</>
+										</div>
+									</td>
+								</tr>
 							))}
 						</tbody>
 					</table>
@@ -70,6 +93,7 @@ export default function SecondPart(props: Props) {
 					<Button
 						onClick={() => {
 							setShowAddForm(true);
+							secondFormActions.flushTemp();
 						}}
 						variant="outlined"
 						sx={{ borderColor: "var(--iris)", minWidth: "max-content" }}
@@ -79,7 +103,13 @@ export default function SecondPart(props: Props) {
 					</Button>
 				</div>
 			</Card>
-			{showAddForm && <AddPriceField />}
+			{showAddForm && (
+				<AddPriceField
+					close={function (): void {
+						setShowAddForm(false);
+					}}
+				/>
+			)}
 		</>
 	);
 }

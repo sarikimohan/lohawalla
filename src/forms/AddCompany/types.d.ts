@@ -25,6 +25,7 @@ namespace AddCompany {
 		operation: OpType;
 	}
 	interface FormPriceField {
+		id: string;
 		name: string;
 		type: "numeric" | "percentage";
 		operation: "subtract" | "add";

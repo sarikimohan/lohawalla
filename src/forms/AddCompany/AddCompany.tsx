@@ -61,7 +61,6 @@ export default function AddCompany(props: Props) {
 					</div>
 				</FormContainer>
 			</PopUpContainer>
-			{showAdd && <AddPriceField />}
 		</AddCompanyContext.Provider>
 	);
 }

@@ -7,6 +7,7 @@ export const InitialState: AddCompany.State = {
 	images: null,
 	priceStructure: [
 		{
+			id: nanoid(),
 			name: "basic rate",
 			type: "numeric",
 			operation: "add",

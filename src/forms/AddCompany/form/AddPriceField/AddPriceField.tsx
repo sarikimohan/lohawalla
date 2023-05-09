@@ -38,7 +38,9 @@ const validationSchema = yup.object({
 		}),
 });
 
-interface Props {}
+interface Props {
+	close: () => void;
+}
 
 export default function AddPriceField(props: Props) {
 	const { state, secondFormActions } = useAddCompanyContext();
@@ -47,7 +49,7 @@ export default function AddPriceField(props: Props) {
 			<FormContainer>
 				<div className="p-3">
 					<div>
-						<Header />
+						<Header onClose={props.close} />
 					</div>
 					<div className="mx-8">
 						{state.tempPriceStructure.map((v, i) => (
@@ -72,12 +74,22 @@ export default function AddPriceField(props: Props) {
 						))}
 					</div>
 					<div className="mt-4 jfe">
-						<AddMore handleAdd={() => {secondFormActions.addPriceField()}} />
+						<AddMore
+							handleAdd={() => {
+								secondFormActions.addPriceField();
+							}}
+						/>
 					</div>
 
 					<div>
 						<DefaultButton
-							onClick={function (): void {}}
+							onClick={function (): void {
+								const verdict = secondFormActions.validateAddForm();
+								if (verdict) {
+									secondFormActions.saveTempPriceField();
+									props.close();
+								}
+							}}
 							label={"Save"}
 							styles={NextButtonStyleConfig}
 						/>
