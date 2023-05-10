@@ -72,7 +72,49 @@ export default class EditCategoryActions extends StateUtils<EditCategory.State> 
 		}
 
 		// check for the credit ;
+    let creditValueValidation : (string|undefined)[]= []
+    for(let i=0;i<this.state.credit.length;i++){
+      const credit = this.state.credit[i]
+      
+      if(credit.value.value ===""){
+        creditValueValidation.push("required")
+        verdict = false
+      }else{
+        if(Number.isNaN(parseInt(credit.value.value))){
+          creditValueValidation.push(undefined)
+        }else{
+          creditValueValidation.push("Only Numbers")
+        }
+      }
+    }
+
+    this.mutateState(p=>{
+      for(let i=0;i<p.credit.length;i++){
+        p.credit[i].value.error = creditValueValidation[i]
+        p.credit[i].value.isValid = !creditValueValidation[i]
+      }
+    })
     // check for description labels 
+
+    let validation: (string | undefined)[] = [];
+		for (let i = 0; i < this.state.descriptionLabels.length; ++i) {
+			const desc = this.state.descriptionLabels[i];
+
+			if (desc.value.value === "") {
+				validation.push("required");
+				verdict = false;
+			} else {
+				validation.push(undefined);
+			}
+		}
+
+		this.mutateState((p) => {
+			for (let i = 0; i < p.descriptionLabels.length; ++i) {
+				const label = p.descriptionLabels[i];
+				label.value.error = validation[i];
+				label.value.isValid = !validation[i];
+			}
+		});
 
 		this.mutateState((p) => {
 			p.categoryName.error = err.name;
