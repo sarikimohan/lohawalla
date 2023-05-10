@@ -42,6 +42,7 @@ interface InputProps<T = string> {
 	height?: number;
 	name?: string;
 	onEnter?: () => void;
+	rightIcon?: React.ReactNode;
 }
 
 const styles: InputStateStyles = {
@@ -129,7 +130,7 @@ export default function FieldInput(props: InputProps) {
 				style={{ ...styles.default.container, height: props.height }}
 				animate={mapper(interaction, props).container}
 			>
-				<div className={style.inputBox}>
+				<div className={style.inputBox + " flex justify-between items-center"}>
 					<input
 						ref={ref}
 						type={props.type}
@@ -150,11 +151,15 @@ export default function FieldInput(props: InputProps) {
 						disabled={props.disabled}
 						name={props.name}
 					/>
+					<div>{props.rightIcon}</div>
 				</div>
 				<div className={style.iconBox}>{IconMapper(interaction, props)}</div>
 			</motion.div>
 			{props.error && (
-				<p className="mt-1 w-full text-align-start" style={{ color: "red", fontSize: 13 }}>
+				<p
+					className="mt-1 w-full text-align-start"
+					style={{ color: "red", fontSize: 13 }}
+				>
 					{props.error}
 				</p>
 			)}

@@ -1,7 +1,9 @@
+import DefaultButton from "@src/Components/common/buttons/DefaultButton/DefaultButton";
+import NextButtonStyleConfig from "@src/Components/common/buttons/configurations/NextButtonStyle.config";
 import FieldInput from "@src/Components/forms/FieldInput/FieldInput";
 import FieldTextArea from "@src/Components/forms/FieldInput/FieldTextArea";
-import FormFileUpload from "@src/Components/forms/FormFileUpload/FormFileUpload";
 import React from "react";
+import FormFileUpload from "@src/Components/forms/FormFileUpload/FormFileUpload";
 
 interface Props {}
 
@@ -9,9 +11,7 @@ export default function FirstPart(props: Props) {
 	return (
 		<div>
 			<div className="mb-4">
-				<p className="text-md font-semibold text-slate-900 mb-1">
-					Category Name
-				</p>
+				<p className="text-md font-semibold text-slate-900 mb-1">Item Name</p>
 				<FieldInput
 					type={"text"}
 					placeHolder={"enter item name"}
@@ -21,29 +21,20 @@ export default function FirstPart(props: Props) {
 			</div>
 			<div className="mb-4">
 				<p className="text-md font-semibold text-slate-900 mb-1">
-					Category Code
+					Item HSN Code
 				</p>
 				<FieldInput
-					type={"text"}
-					placeHolder={"enter item name"}
+					type={"number"}
+					placeHolder={"enter item HSN Code"}
 					isValid={undefined}
 					data={""}
 				/>
 			</div>
 			<div className="mb-4">
-				<p className="text-md font-semibold text-slate-900 mb-1">Negotiation</p>
+				<p className="text-md font-semibold text-slate-900 mb-1">Item Code</p>
 				<FieldInput
 					type={"text"}
-					placeHolder={"enter negotiation value"}
-					isValid={undefined}
-					data={""}
-				/>
-			</div>
-			<div className="mb-4">
-				<p className="text-md font-semibold text-slate-900 mb-1">Unit</p>
-				<FieldInput
-					type={"text"}
-					placeHolder={"enter unit name"}
+					placeHolder={"enter item Code"}
 					isValid={undefined}
 					data={""}
 				/>
@@ -57,7 +48,7 @@ export default function FirstPart(props: Props) {
 					data={""}
 				/>
 			</div>
-			<div>
+			<div className="mb-5">
 				<FormFileUpload />
 			</div>
 		</div>

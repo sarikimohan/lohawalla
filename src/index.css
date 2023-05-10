@@ -2,52 +2,62 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('./globals/styles/globals.css');
+@import url("./globals/styles/globals.css");
 
 :root {
-  /* variables */
-  --sidebar-width: 254px;
+	/* variables */
+	--sidebar-width: 254px;
 }
 
 .searchBar {
-  outline: none;
-  border: none;
-  width: 90%;
-  font-weight: 500;
+	outline: none;
+	border: none;
+	width: 90%;
+	font-weight: 500;
 }
 
 .searchBar::placeholder {
-  font-family: 'Inter', sans-serif;
-  font-size: 14px;
-  color: var(--text-body);
-  line-height: 140%;
+	font-family: "Inter", sans-serif;
+	font-size: 14px;
+	color: var(--text-body);
+	line-height: 140%;
 }
 
-
 svg {
-  display: block;
+	display: block;
 }
 
 /* width */
 ::-webkit-scrollbar {
-  width: 10px;
+	width: 10px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+	background: #f1f1f1;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #c9c9c9;
+	background: #c9c9c9;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #b3b3b3;
+	background: #b3b3b3;
 }
 
 * {
-  font-family: var(--font-inter);
+	font-family: var(--font-inter);
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

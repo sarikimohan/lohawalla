@@ -1,40 +1,21 @@
-import DefaultButton from "@src/Components/common/buttons/DefaultButton/DefaultButton";
-import NextButtonStyleConfig from "@src/Components/common/buttons/configurations/NextButtonStyle.config";
 import FieldInput from "@src/Components/forms/FieldInput/FieldInput";
 import FieldTextArea from "@src/Components/forms/FieldInput/FieldTextArea";
-import React from "react";
 import FormFileUpload from "@src/Components/forms/FormFileUpload/FormFileUpload";
+import React from "react";
+import DefaultButton from "@src/Components/common/buttons/DefaultButton/DefaultButton";
+import NextButtonStyleConfig from "@src/Components/common/buttons/configurations/NextButtonStyle.config";
 
-interface Props {}
-
-export default function FirstPart(props: Props) {
+function FirstPart() {
+	// const { firstFormActions, state, addCompanyActions } = useAddCompanyContext();
 	return (
 		<div>
 			<div className="mb-4">
-				<p className="text-md font-semibold text-slate-900 mb-1">Item Name</p>
-				<FieldInput
-					type={"text"}
-					placeHolder={"enter item name"}
-					isValid={undefined}
-					data={""}
-				/>
-			</div>
-			<div className="mb-4">
 				<p className="text-md font-semibold text-slate-900 mb-1">
-					Item HSN Code
+					Company Name
 				</p>
 				<FieldInput
-					type={"number"}
-					placeHolder={"enter item HSN Code"}
-					isValid={undefined}
-					data={""}
-				/>
-			</div>
-			<div className="mb-4">
-				<p className="text-md font-semibold text-slate-900 mb-1">Item Code</p>
-				<FieldInput
 					type={"text"}
-					placeHolder={"enter item Code"}
+					placeHolder={"enter company name"}
 					isValid={undefined}
 					data={""}
 				/>
@@ -61,3 +42,5 @@ export default function FirstPart(props: Props) {
 		</div>
 	);
 }
+
+export default FirstPart;

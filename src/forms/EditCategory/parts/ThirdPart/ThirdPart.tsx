@@ -8,11 +8,11 @@ import React from "react";
 
 interface Props {}
 
-export default function SecondPart(props: Props) {
+export default function ThirdPart(props: Props) {
 	return (
 		<Card variant="outlined" sx={{ padding: 3 }}>
 			<div className="mb-4">
-				<FormCardHeader heading="Credit Working" subheading="Enter" />
+				<FormCardHeader heading="Global Fields" subheading="Enter" />
 			</div>
 			<Card variant="outlined" sx={{ padding: 3 }}>
 				<div className="rounded-md overflow-hidden">
@@ -23,12 +23,7 @@ export default function SecondPart(props: Props) {
 						>
 							<tr className="px-4 py-2">
 								<th>
-									<p className="text-md font-semibold text-slate-500">Days</p>
-								</th>
-								<th>
-									<p className="text-md font-semibold text-slate-500">
-										in rupees
-									</p>
+									<p className="text-md font-semibold text-slate-500">Key</p>
 								</th>
 								<th>
 									<p className="text-md font-semibold text-slate-500 ">Value</p>
@@ -44,16 +39,12 @@ export default function SecondPart(props: Props) {
 										3 days
 									</p>
 								</td>
-								<td align="center">
-									<Checkbox onChange={(e) => {}} />
-								</td>
-								<td align="center" className="w-2/5 py-3">
+								<td align="center" className="py-3">
 									<FieldInput
 										isValid={undefined}
 										data={"4"}
 										type={"number"}
 										placeHolder={"enter number"}
-										rightIcon={"₹"}
 									/>
 								</td>
 								<td align="center" className="w-fit">
@@ -68,7 +59,7 @@ export default function SecondPart(props: Props) {
 								className="mb-2 border-b"
 								style={{ borderTop: "5px solid transparent" }}
 							>
-								<td colSpan={4}>
+								<td colSpan={3}>
 									<div className="flex w-full justify-between">
 										<div className="p-2 flex justify-center">
 											<FieldInput
