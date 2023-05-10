@@ -8,9 +8,11 @@ import { InitialState } from "./managment/state/initialState";
 import FirstFormActions from "./managment/actions/FirstFormActions";
 import FirstPart from "./parts/FirstPart/FirstPart";
 import SecondPart from "./parts/SecondPart/SecondPart";
+import SecondFormActions from "./managment/actions/SecondFormActions";
 
 interface ContextProps {
 	firstFormActions: FirstFormActions;
+	secondFormActions: SecondFormActions;
 	state: AddItem.State;
 }
 
@@ -20,12 +22,14 @@ export const useAddItemContext = () => useContext(AddItemContext);
 function AddItem() {
 	const [state, setState] = useState<AddItem.State>(InitialState);
 	const firstFormActions = new FirstFormActions(state, setState);
+	const secondFormActions = new SecondFormActions(state, setState);
 
 	return (
 		<AddItemContext.Provider
 			value={{
 				state,
 				firstFormActions,
+				secondFormActions,
 			}}
 		>
 			<PopUpContainer>
