@@ -1,8 +1,8 @@
 namespace EditItem {
   interface State {
-    itemName: string;
-    itemCode: string;
-    description: string;
+    itemName: FieldData;
+    itemCode: FieldData;
+    description: FieldData;
 
     images: string[];
     imageFiles: File[]; 
@@ -10,6 +10,6 @@ namespace EditItem {
     
     margin: Margin;
     credit: Credit[];
-    descriptionLabels: DescriptionLabels[]
+    descriptionLabels: (DescriptionLabels & {_id:string})[]
   }
 }

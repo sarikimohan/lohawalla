@@ -1,7 +1,7 @@
 namespace EditCompany {
 	interface State {
-		companyName: string;
-		description: string;
+		companyName: FieldData;
+		description: FieldData;
 
 		images: string[];
 		addedImages: string[];

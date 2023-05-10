@@ -20,32 +20,44 @@ export default class EditCategoryActions extends StateUtils<EditCategory.State> 
   validateForm(){
     let verdict = true;
     const err: {
-			key?: string;
-			value?: string;
+			name?: string;
+			code?: string;
+      des?: string
 		} = {
-			key: undefined,
-			value: undefined,
+			name: undefined,
+			code: undefined,
+      des: undefined
 		};
 
     const req= "required"
 
     if(this.state.categoryName.value ===""){
-      err.key = req;
+      err.name = req;
       verdict = false
     }
 
     if(this.state.categoryCode.value===""){
-      err.key= req;
+      err.code= req;
       verdict= false
     }
 
     if(this.state.description.value===""){
-      err.key = req;
+      err.des = req;
       verdict=false;
     }
 
-    return verdict
+    this.mutateState(p=>{
+      p.categoryName.error = err.name
+      p.categoryName.isValid = !err.name
 
+      p.categoryCode.error= err.code
+      p.categoryCode.isValid= !err.code
+
+      p.description.error = err.des
+      p.description.isValid = !err.des
+    });
+
+    return verdict
   }
   
   
