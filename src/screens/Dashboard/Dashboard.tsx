@@ -18,14 +18,14 @@ function Dashboard() {
 					<TitleNavBar title={"Dashboard"} />
 				</SpacingDiv>
 				<div>
-					{/* <AddCompany /> */}
+					<AddCompany />
 					{/* <AddItem /> */}
 					{/* <AddCategoryForm /> */}
 					{/* <ErrorCard messages={[]} /> */}
 					{/* <EditCategory/> */}
 					{/* <AddCategoryForm /> */}
 					{/* <EditCompany/> */}
-					<EditItem />
+					{/* <EditItem /> */}
 				</div>
 			</div>
 		</>

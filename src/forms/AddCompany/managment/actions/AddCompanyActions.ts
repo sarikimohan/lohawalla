@@ -17,4 +17,10 @@ export default class AddCompanyActions extends StateUtils<AddCompany.State> {
 			p.page--;
 		});
 	}
+
+	setImages(images: File[] | null) {
+		this.mutateState(p => {
+			p.images = images;
+		})
+	}
 }

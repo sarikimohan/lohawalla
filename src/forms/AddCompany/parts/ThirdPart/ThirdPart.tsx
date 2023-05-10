@@ -13,7 +13,7 @@ import AddMore from "@src/Components/common/buttons/AddMore/AddMore";
 interface Props {}
 
 export default function ThirdPart(props: Props) {
-	const { state, thirdFormActions } = useAddCompanyContext();
+	const { state, thirdFormActions, saveFormActions } = useAddCompanyContext();
 
 	return (
 		<>
@@ -126,9 +126,16 @@ export default function ThirdPart(props: Props) {
 			</Card>
 			<div className="mt-8">
 				<DefaultButton
-					onClick={function (): void {}}
+					onClick={function () {
+						saveFormActions.saveForm([], {
+							name: "snehal",
+							id: "645c049dd924bdde2e265995",
+						});
+					}}
 					label={"Save"}
 					styles={NextButtonStyleConfig}
+					loading={state.loading.savedData.status === "initialized"}
+					loadingColor={"#fff"}
 				/>
 			</div>
 		</>

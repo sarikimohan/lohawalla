@@ -39,7 +39,11 @@ function FirstPart() {
 				/>
 			</div>
 			<div className="mb-5">
-				<FormFileUpload />
+				<FormFileUpload
+					onChange={(e) => {
+						addCompanyActions.setImages(e);
+					}}
+				/>
 			</div>
 			<div>
 				<DefaultButton

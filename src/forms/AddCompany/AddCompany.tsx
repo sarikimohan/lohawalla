@@ -17,6 +17,7 @@ import SecondPart from "./parts/SecondPart/SecondPart";
 import SecondFormActions from "./managment/actions/SecondFormActions";
 import ThirdFormActions from "./managment/actions/ThirdFormActions";
 import ThirdPart from "./parts/ThirdPart/ThirdPart";
+import SaveFormActions from "./managment/actions/SaveFormAction";
 
 interface Props {}
 interface ContextProps {
@@ -25,6 +26,7 @@ interface ContextProps {
 	firstFormActions: FirstFormActions;
 	secondFormActions: SecondFormActions;
 	thirdFormActions: ThirdFormActions;
+	saveFormActions: SaveFormActions;
 }
 
 const AddCompanyContext = React.createContext({} as ContextProps);
@@ -33,12 +35,12 @@ export const useAddCompanyContext = () => useContext(AddCompanyContext);
 
 export default function AddCompany(props: Props) {
 	const [state, setState] = useState<AddCompany.State>(InitialState);
-	const [showAdd, setShowAdd] = useState(false);
 
 	const addCompanyActions = new AddCompanyActions(state, setState);
 	const firstFormActions = new FirstFormActions(state, setState);
 	const secondFormActions = new SecondFormActions(state, setState);
 	const thirdFormActions = new ThirdFormActions(state, setState);
+	const saveFormActions = new SaveFormActions(state, setState);
 
 	return (
 		<AddCompanyContext.Provider
@@ -48,6 +50,7 @@ export default function AddCompany(props: Props) {
 				firstFormActions,
 				secondFormActions,
 				thirdFormActions,
+				saveFormActions,
 			}}
 		>
 			<PopUpContainer>
