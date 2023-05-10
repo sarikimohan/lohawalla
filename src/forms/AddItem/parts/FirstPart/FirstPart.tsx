@@ -4,16 +4,18 @@ import NextButtonStyleConfig from "@src/Components/common/buttons/configurations
 import FieldInput from "@src/Components/forms/FieldInput/FieldInput";
 import FieldTextArea from "@src/Components/forms/FieldInput/FieldTextArea";
 import React from "react";
+import { useAddItemContext } from "../../AddItem";
 
 interface Props {}
 
 export default function FirstPart(props: Props) {
+	const { state, firstFormActions } = useAddItemContext();
 	return (
 		<div>
 			<div className="mb-4">
 				<p className="text-md font-semibold text-slate-900 mb-1">Item Name</p>
 				<FieldInput
-					isValid={undefined}
+					isValid={state.itemName.isValid}
 					data={""}
 					type={"text"}
 					placeHolder={"enter item name"}

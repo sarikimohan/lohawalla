@@ -2,9 +2,9 @@ namespace EditCategory {
 	type ModifyStatus = "initial" | "modified" | "added" | "deleted";
 
 	interface State {
-		categoryName: string;
-		categoryCode: string;
-		description: string;
+		categoryName: FieldData;
+		categoryCode: FieldData;
+		description: FieldData;
 		images: string[];
 		addedImages: string[];
 		imageFiles: File[];

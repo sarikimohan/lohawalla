@@ -2,7 +2,7 @@ import PopUpContainer from "@src/Components/common/Layout/PopUpContainer/PopUpCo
 import ProgressBar from "@src/Components/common/ProgressBar/ProgressBar";
 import FormContainer from "@src/Components/forms/FormContainer/FormContainer";
 import FormHeader from "@src/Components/forms/FormHeader/FormHeader";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Context } from "vm";
 import { InitialState } from "./managment/state/initialState";
 import FirstFormActions from "./managment/actions/FirstFormActions";
@@ -10,9 +10,11 @@ import FirstPart from "./parts/FirstPart/FirstPart";
 
 interface ContextProps {
 	firstFormActions: FirstFormActions;
+	state: AddItem.State;
 }
 
 const AddItemContext = React.createContext({} as ContextProps);
+export const useAddItemContext = () => useContext(AddItemContext);
 
 function AddItem() {
 	const [state, setState] = useState<AddItem.State>(InitialState);
@@ -21,6 +23,7 @@ function AddItem() {
 	return (
 		<AddItemContext.Provider
 			value={{
+				state,
 				firstFormActions,
 			}}
 		>
