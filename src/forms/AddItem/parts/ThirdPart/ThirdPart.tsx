@@ -11,7 +11,7 @@ import { useAddItemContext } from "../../AddItem";
 interface Props {}
 
 export default function ThirdPart(props: Props) {
-	const { state, descriptionActions } = useAddItemContext();
+	const { state, descriptionActions,saveFormAction } = useAddItemContext();
 	return (
 		<>
 			<Card variant="outlined" sx={{ padding: 3 }}>
@@ -119,7 +119,9 @@ export default function ThirdPart(props: Props) {
 			</Card>
 			<div className="mt-8">
 				<DefaultButton
-					onClick={function (): void {}}
+					onClick={function (): void {
+						saveFormAction.saveForm([],"645c082b3b4e9c1ed321c395",{id:'645c082b3b4e9c1ed321c395',name:"fuck"})
+					}}
 					label={"Save"}
 					styles={NextButtonStyleConfig}
 				/>

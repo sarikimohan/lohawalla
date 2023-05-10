@@ -11,12 +11,15 @@ import SecondPart from "./parts/SecondPart/SecondPart";
 import SecondFormActions from "./managment/actions/SecondFormActions";
 import DescriptionActions from "./managment/actions/DescriptionActions";
 import ThirdPart from "./parts/ThirdPart/ThirdPart";
+import SubmitActions from "./managment/actions/SubmitActions";
+import { stat } from "fs";
 
 interface ContextProps {
 	firstFormActions: FirstFormActions;
 	secondFormActions: SecondFormActions;
 	descriptionActions: DescriptionActions;
 	state: AddItem.State;
+	saveFormAction : SubmitActions
 }
 
 const AddItemContext = React.createContext({} as ContextProps);
@@ -27,8 +30,7 @@ function AddItem() {
 	const firstFormActions = new FirstFormActions(state, setState);
 	const secondFormActions = new SecondFormActions(state, setState);
 	const descriptionActions = new DescriptionActions(state, setState);
-	
-
+	const saveFormAction = new SubmitActions(state,setState)
 	return (
 		<AddItemContext.Provider
 			value={{
@@ -36,6 +38,7 @@ function AddItem() {
 				firstFormActions,
 				secondFormActions,
 				descriptionActions,
+				saveFormAction
 			}}
 		>
 			<PopUpContainer>
