@@ -6,6 +6,8 @@ import React, { useState } from "react";
 import { useAddCompanyContext } from "../../AddCompany";
 import AddPriceField from "../../form/AddPriceField/AddPriceField";
 import FieldInput from "@src/Components/forms/FieldInput/FieldInput";
+import DefaultButton from "@src/Components/common/buttons/DefaultButton/DefaultButton";
+import NextButtonStyleConfig from "@src/Components/common/buttons/configurations/NextButtonStyle.config";
 
 interface Props {}
 
@@ -89,7 +91,7 @@ export default function SecondPart(props: Props) {
 						</tbody>
 					</table>
 				</div>
-				<div className="mt-8">
+				<div className="mt-8 mb-6">
 					<Button
 						onClick={() => {
 							setShowAddForm(true);
@@ -101,6 +103,20 @@ export default function SecondPart(props: Props) {
 					>
 						<p className="button fcolor-iris">ADD MORE</p>
 					</Button>
+				</div>
+				<div>
+					<DefaultButton
+						onClick={function (): void {
+							const verdict = secondFormActions.validatePriceFieldForm();
+							if (verdict) {
+								secondFormActions.mutateState((p) => {
+									p.page++;
+								});
+							}
+						}}
+						label={"Next"}
+						styles={NextButtonStyleConfig}
+					/>
 				</div>
 			</Card>
 			{showAddForm && (

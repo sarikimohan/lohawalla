@@ -48,7 +48,6 @@ function AddBasePrice() {
 								</div>
 							</div>
 							<div>
-								{/* FIXME set loading states */}
 								<DefaultButton onClick={function (): void {}} label={"save"} />
 							</div>
 						</div>

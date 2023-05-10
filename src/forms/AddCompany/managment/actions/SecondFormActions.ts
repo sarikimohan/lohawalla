@@ -1,20 +1,6 @@
 import StateUtils from "@src/modules/StateManagement/Core/StateUtils";
 import { nanoid } from "nanoid";
 
-/**
- * editField() 
-fixField() 
-
-// empty the value of
-flushTemp()
-addPriceField()
-setDescription()
-setType()
-setValue() 
-
-validateAddForm() 
-validatePriceFieldForm() 
- */
 export default class SecondFormActions extends StateUtils<AddCompany.State> {
 	editField(data: string, i: number) {
 		this.mutateState((p) => {

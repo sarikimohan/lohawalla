@@ -1,19 +1,4 @@
 namespace AddCompany {
-	interface FieldData {
-		/**
-		 * the value of the field
-		 */
-		value: string;
-		/**
-		 * if there is an error during validation
-		 */
-		error?: string;
-		/**
-		 * after validtion, if it is okay
-		 */
-		isValid?: boolean;
-	}
-
 	interface FirstFormData {
 		companyName: FieldData;
 		description: FieldData;
@@ -34,6 +19,7 @@ namespace AddCompany {
 	}
 
 	interface DescriptionLabels {
+		id: string;
 		key: string;
 		value: FieldData;
 	}
@@ -45,6 +31,11 @@ namespace AddCompany {
 		priceStructure: FormPriceField[];
 		tempPriceStructure: NewPriceField[];
 		descriptionLabels: DescriptionLabels[];
+
+		descriptionEntry: {
+			key: FieldData;
+			value: FieldData;
+		};
 
 		loading: {
 			savedImages: AsyncState;

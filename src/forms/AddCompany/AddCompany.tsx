@@ -15,6 +15,8 @@ import FirstPart from "./parts/FirstPart/FirstPart";
 import FirstFormActions from "./managment/actions/FirstFormActions";
 import SecondPart from "./parts/SecondPart/SecondPart";
 import SecondFormActions from "./managment/actions/SecondFormActions";
+import ThirdFormActions from "./managment/actions/ThirdFormActions";
+import ThirdPart from "./parts/ThirdPart/ThirdPart";
 
 interface Props {}
 interface ContextProps {
@@ -22,6 +24,7 @@ interface ContextProps {
 	addCompanyActions: AddCompanyActions;
 	firstFormActions: FirstFormActions;
 	secondFormActions: SecondFormActions;
+	thirdFormActions: ThirdFormActions;
 }
 
 const AddCompanyContext = React.createContext({} as ContextProps);
@@ -35,10 +38,17 @@ export default function AddCompany(props: Props) {
 	const addCompanyActions = new AddCompanyActions(state, setState);
 	const firstFormActions = new FirstFormActions(state, setState);
 	const secondFormActions = new SecondFormActions(state, setState);
+	const thirdFormActions = new ThirdFormActions(state, setState);
 
 	return (
 		<AddCompanyContext.Provider
-			value={{ state, addCompanyActions, firstFormActions, secondFormActions }}
+			value={{
+				state,
+				addCompanyActions,
+				firstFormActions,
+				secondFormActions,
+				thirdFormActions,
+			}}
 		>
 			<PopUpContainer>
 				<FormContainer>
@@ -58,6 +68,7 @@ export default function AddCompany(props: Props) {
 					<div className="mb-4">
 						{state.page === 0 && <FirstPart />}
 						{state.page === 1 && <SecondPart />}
+						{state.page === 2 && <ThirdPart />}
 					</div>
 				</FormContainer>
 			</PopUpContainer>
