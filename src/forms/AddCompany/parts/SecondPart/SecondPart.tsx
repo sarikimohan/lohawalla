@@ -1,4 +1,4 @@
-import { Button, Card, Checkbox, Input } from "@mui/material";
+import { Alert, Button, Card, Checkbox, Input } from "@mui/material";
 import FormCardHeader from "@src/Components/forms/FormCardHeader/FormCardHeader";
 import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAndScale";
 import AssetIndex from "@src/assets/AssetIndex";
@@ -8,6 +8,8 @@ import AddPriceField from "../../form/AddPriceField/AddPriceField";
 import FieldInput from "@src/Components/forms/FieldInput/FieldInput";
 import DefaultButton from "@src/Components/common/buttons/DefaultButton/DefaultButton";
 import NextButtonStyleConfig from "@src/Components/common/buttons/configurations/NextButtonStyle.config";
+import Attention from "@src/Components/feedback/Alerts/Attention";
+import Tip from "@src/Components/feedback/Tooltip/Tip";
 
 interface Props {}
 
@@ -19,8 +21,13 @@ export default function SecondPart(props: Props) {
 		<>
 			<Card variant="outlined" sx={{ padding: 3 }}>
 				<FormCardHeader heading="Price Structure" subheading="Enter" />
-				<div>
-					<table className="w-full">
+				<div className="my-3">
+					<Attention severity="warning">
+						+ basic rate is a special price field
+					</Attention>
+				</div>
+				<div className="rounded-md overflow-hidden">
+					<table className="w-full border">
 						<thead
 							className="bg-slate-100 h-10 border-b border-slate-400"
 							style={{ boxSizing: "border-box" }}
@@ -47,8 +54,16 @@ export default function SecondPart(props: Props) {
 							{state.priceStructure.map((v, i) => (
 								<tr className="mb-2 border-b" key={v.id}>
 									<td align="center">
-										<p className="text-md font-bold text-slate-700 py-5">
-											{v.operation === "add" ? "+" : "-"} {v.name}
+										<p className="text-md font-bold text-slate-700 py-3">
+											<span
+												className={
+													v.operation === "add"
+														? "text-green-500"
+														: "text-red-500"
+												}
+											>
+												{v.operation === "add" ? "+" : "-"} {v.name} {v.type === "numeric" ? "(₹)" : "(%)"}
+											</span>
 										</p>
 									</td>
 									<td align="center">
@@ -62,7 +77,7 @@ export default function SecondPart(props: Props) {
 											/>
 										)}
 									</td>
-									<td align="center" className="w-2/5">
+									<td align="center" className="w-2/5 py-3">
 										<FieldInput
 											isValid={v.value.isValid}
 											error={v.value.error}
@@ -91,7 +106,7 @@ export default function SecondPart(props: Props) {
 						</tbody>
 					</table>
 				</div>
-				<div className="mt-8 mb-6">
+				<div className="mt-8 mb-6 flex justify-end">
 					<Button
 						onClick={() => {
 							setShowAddForm(true);

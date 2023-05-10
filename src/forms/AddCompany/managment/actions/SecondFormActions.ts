@@ -139,7 +139,7 @@ export default class SecondFormActions extends StateUtils<AddCompany.State> {
 		this.mutateState((p) => {
 			for (let i = 0; i < p.priceStructure.length; ++i) {
 				let pf = p.priceStructure[i];
-				if (pf.value.value === "") {
+				if (pf.fixed === true && pf.value.value === "") {
 					p.priceStructure[i].value.error = "required";
 					p.priceStructure[i].value.isValid = false;
 					isValid = false;

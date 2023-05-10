@@ -154,7 +154,7 @@ export default function FieldInput(props: InputProps) {
 				<div className={style.iconBox}>{IconMapper(interaction, props)}</div>
 			</motion.div>
 			{props.error && (
-				<p className="mt-1" style={{ color: "red", fontSize: 13 }}>
+				<p className="mt-1 w-full text-align-start" style={{ color: "red", fontSize: 13 }}>
 					{props.error}
 				</p>
 			)}
