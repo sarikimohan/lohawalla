@@ -28,25 +28,25 @@ export default class FirstFormActions extends StateUtils<AddItem.State> {
 
 		if (this.state.itemName.value === "") {
 			err.itemName = "required";
-      verdict = false;
+			verdict = false;
 		}
 		if (this.state.itemHSNCode.value === "") {
 			err.itemHSNCode = "required";
-      verdict = false;
+			verdict = false;
 		} else {
 			const parse = parseInt(this.state.itemHSNCode.value);
 			if (Number.isNaN(parse)) {
 				err.itemHSNCode = "not a valid number";
-        verdict = false;
+				verdict = false;
 			}
 		}
 		if (this.state.itemCode.value === "") {
 			err.itemCode = "required";
-      verdict = false;
+			verdict = false;
 		}
 		if (this.state.description.value === "") {
 			err.description = "required";
-      verdict = false;
+			verdict = false;
 		}
 
 		this.mutateState((p) => {
@@ -54,6 +54,12 @@ export default class FirstFormActions extends StateUtils<AddItem.State> {
 			p.itemCode.error = err.itemCode;
 			p.itemHSNCode.error = err.itemHSNCode;
 			p.description.error = err.description;
+			p.itemName.isValid = !err.itemName;
+			p.itemCode.isValid = !err.itemCode;
+			p.itemHSNCode.isValid = !err.itemHSNCode;
+			p.description.isValid = !err.description;
 		});
+
+		return verdict;
 	}
 }
