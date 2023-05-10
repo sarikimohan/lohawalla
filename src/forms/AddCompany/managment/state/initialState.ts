@@ -2,7 +2,7 @@ import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStat
 import { nanoid } from "nanoid";
 
 export const InitialState: AddCompany.State = {
-	page: 2,
+	page: 0,
 	firstForm: { companyName: { value: "" }, description: { value: "" } },
 	images: null,
 	priceStructure: [
