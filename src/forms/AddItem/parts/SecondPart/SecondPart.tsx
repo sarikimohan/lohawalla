@@ -1,63 +1,98 @@
 import { Card } from "@mui/material";
+import DefaultButton from "@src/Components/common/buttons/DefaultButton/DefaultButton";
+import NextButtonStyleConfig from "@src/Components/common/buttons/configurations/NextButtonStyle.config";
 import FieldInput from "@src/Components/forms/FieldInput/FieldInput";
 import FormCardHeader from "@src/Components/forms/FormCardHeader/FormCardHeader";
 import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAndScale";
 import AssetIndex from "@src/assets/AssetIndex";
 import React from "react";
+import { useAddItemContext } from "../../AddItem";
 
 interface Props {}
 
 export default function SecondPart(props: Props) {
+	const { secondFormActions, state } = useAddItemContext();
 	return (
-		<Card variant="outlined" sx={{ padding: 3 }}>
-			<div className="mb-4">
-				<FormCardHeader heading="Margin Working" subheading="Enter" />
-			</div>
+		<>
 			<Card variant="outlined" sx={{ padding: 3 }}>
-				<table className="w-full">
-					<thead
-						className="bg-slate-100 h-10 border-b border-slate-400"
-						style={{ boxSizing: "border-box" }}
-					>
-						<tr className="px-4 py-2 rounded-md">
-							<th style={{ borderTopLeftRadius: 8 }}>
-								<p className="text-md font-semibold text-slate-500">Margin</p>
-							</th>
-							<th style={{ borderTopLeftRadius: 8 }}>
-								<p className="text-md font-semibold text-slate-500 ">Amount</p>
-							</th>
-							<th className="w-fit"></th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr className="mb-2 border-b">
-							<td align="center">
-								<p className="text-md font-bold text-slate-700 py-5">test</p>
-							</td>
-							<td align="center" className="w-2/5">
-								<FieldInput
-									isValid={false}
-									error={undefined}
-									data={""}
-									onChange={(d) => {}}
-									type={"number"}
-									placeHolder={"enter value"}
-								/>
-							</td>
-							<td align="center" className="w-fit">
-								<div onClick={() => {}}>
-									<RotateAndScale>
-										<AssetIndex.MinusCircleIcon />
-									</RotateAndScale>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							
-						</tr>
-					</tbody>
-				</table>
+				<div className="mb-4">
+					<FormCardHeader heading="Margin Working" subheading="Enter" />
+				</div>
+				<Card variant="outlined" sx={{ padding: 3 }}>
+					<div className="mb-4">
+						<p className="text-md font-bold">Margin</p>
+					</div>
+					<table className="w-full table-fixed">
+						<thead
+							className="bg-slate-100 h-10 border-b border-slate-400"
+							style={{ boxSizing: "border-box" }}
+						>
+							<tr className="px-4 py-2 rounded-md">
+								<th style={{ borderTopLeftRadius: 8 }}>
+									<p className="text-md font-semibold text-slate-500">
+										Time (Day)
+									</p>
+								</th>
+								<th style={{ borderTopRightRadius: 8 }}>
+									<p className="text-md font-semibold text-slate-500 ">
+										Percentage
+									</p>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr className="mb-2 border-b">
+								<td align="center">
+									<p className="text-md font-bold text-slate-700	py-4">Online</p>
+								</td>
+								<td align="center" className="">
+									<FieldInput
+										width={"80%"}
+										isValid={state.margin.online.isValid}
+										error={state.margin.online.error}
+										data={state.margin.online.value}
+										onChange={(d) => {
+											secondFormActions.setOnline(d.target.value);
+										}}
+										type={"number"}
+										placeHolder={"enter value"}
+									/>
+								</td>
+							</tr>
+							<tr className="mb-2 border-b">
+								<td align="center">
+									<p className="text-md font-bold text-slate-700 py-5">Cash</p>
+								</td>
+								<td align="center">
+									<FieldInput
+										width={"80%"}
+										isValid={state.margin.cash.isValid}
+										error={state.margin.cash.error}
+										data={state.margin.cash.value}
+										onChange={(d) => {
+											secondFormActions.setCash(d.target.value);
+										}}
+										type={"number"}
+										placeHolder={"enter value"}
+									/>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</Card>
 			</Card>
-		</Card>
+			<div className="crow jfe mt-8">
+				<DefaultButton
+					onClick={function () {
+						const verdict = secondFormActions.validate();
+						if (verdict) {
+							secondFormActions.mutateState((p) => p.page++);
+						}
+					}}
+					label={"Next"}
+					styles={NextButtonStyleConfig}
+				/>
+			</div>
+		</>
 	);
 }

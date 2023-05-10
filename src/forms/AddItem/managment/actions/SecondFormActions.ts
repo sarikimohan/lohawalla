@@ -21,6 +21,12 @@ export default class SecondFormActions extends StateUtils<AddItem.State> {
 		} else if (Number.isNaN(parseFloat(this.state.margin.cash.value))) {
 			err.cash = "not a number";
 			verdict = false;
+		} else {
+			const parsed = parseFloat(this.state.margin.cash.value);
+			if (parsed <= 0) {
+				err.cash = "cannot be zero or negative";
+				verdict = false;
+			}
 		}
 
 		if (this.state.margin.online.value === "") {
@@ -29,6 +35,12 @@ export default class SecondFormActions extends StateUtils<AddItem.State> {
 		} else if (Number.isNaN(parseFloat(this.state.margin.online.value))) {
 			err.online = "not a number";
 			verdict = false;
+		} else {
+			const parsed = parseFloat(this.state.margin.online.value);
+			if (parsed <= 0) {
+				err.online = "cannot be zero or negative";
+				verdict = false;
+			}
 		}
 
 		this.mutateState((p) => {
@@ -37,7 +49,6 @@ export default class SecondFormActions extends StateUtils<AddItem.State> {
 
 			p.margin.online.error = err.online;
 			p.margin.online.isValid = !err.online;
-      
 		});
 
 		return verdict;
