@@ -1,6 +1,12 @@
 namespace EditCategory {
 	type ModifyStatus = "initial" | "modified" | "added" | "deleted";
 
+	interface DescriptionLabels {
+		id: string;
+		key: string;
+		value: FieldData;
+	}
+
 	interface State {
 		categoryName: FieldData;
 		categoryCode: FieldData;
@@ -8,8 +14,22 @@ namespace EditCategory {
 		images: string[];
 		addedImages: string[];
 		imageFiles: File[];
-		credit: Credit;
-		descriptionLabels: (DescriptionLabels & { _id: string })[];
+		credit: {
+			days: number;
+			value: FieldData;
+			type: PercNum;
+		}[];
+		creditInput: {
+			key: FieldData;
+			value: FieldData;
+		};
+
+		descriptionLabels: DescriptionLabels[];
+
+		descriptionEntry: {
+			key: FieldData;
+			value: FieldData;
+		};
 
 		loading: {
 			saveImages: AsyncState;

@@ -3,9 +3,9 @@ namespace EditProduct {
     selectedCompany: string;
     selectedCategory: string;
     selectedItem: string;
-    productName: string;
-    productCode: string;
-    description: string;
+    productName: FieldData;
+    productCode: FieldData;
+    description: FieldData;
 
     images: string[];
     addedImages: string[];

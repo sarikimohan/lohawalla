@@ -1,64 +1,90 @@
 import StateUtils from "@src/modules/StateManagement/Core/StateUtils";
 
 export default class EditCategoryActions extends StateUtils<EditCategory.State> {
-  setName(d: string) {
-    this.mutateState(p=>{
-      p.categoryName.value = d
-    })
-  }
-  setCode(d: string) {
-    this.mutateState(p=>{
-      p.categoryCode.value= d
-    })
-  }
-  setDescription(d: string) {
-    this.mutateState(p=>{
-      p.description.value = d
-    })
-  }
+	setName(d: string) {
+		this.mutateState((p) => {
+			p.categoryName.value = d;
+		});
+	}
+	setCode(d: string) {
+		this.mutateState((p) => {
+			p.categoryCode.value = d;
+		});
+	}
+	setDescription(d: string) {
+		this.mutateState((p) => {
+			p.description.value = d;
+		});
+	}
 
-  validateForm(){
-    let verdict = true;
-    const err: {
+  validateAll() {
+		let verdict = true;
+		let validation: (string | undefined)[] = [];
+		for (let i = 0; i < this.state.descriptionLabels.length; ++i) {
+			const desc = this.state.descriptionLabels[i];
+
+			if (desc.value.value === "") {
+				validation.push("required");
+				verdict = false;
+			} else {
+				validation.push(undefined);
+			}
+		}
+
+		this.mutateState((p) => {
+			for (let i = 0; i < p.descriptionLabels.length; ++i) {
+				const label = p.descriptionLabels[i];
+				label.value.error = validation[i];
+				label.value.isValid = !validation[i];
+			}
+		});
+
+		return verdict;
+	}
+
+	validateForm() {
+		let verdict = true;
+		const err: {
 			name?: string;
 			code?: string;
-      des?: string
+			des?: string;
 		} = {
 			name: undefined,
 			code: undefined,
-      des: undefined
+			des: undefined,
 		};
 
-    const req= "required"
+		const req = "required";
 
-    if(this.state.categoryName.value ===""){
-      err.name = req;
-      verdict = false
-    }
+		if (this.state.categoryName.value === "") {
+			err.name = req;
+			verdict = false;
+		}
 
-    if(this.state.categoryCode.value===""){
-      err.code= req;
-      verdict= false
-    }
+		if (this.state.categoryCode.value === "") {
+			err.code = req;
+			verdict = false;
+		}
 
-    if(this.state.description.value===""){
-      err.des = req;
-      verdict=false;
-    }
+		if (this.state.description.value === "") {
+			err.des = req;
+			verdict = false;
+		}
 
-    this.mutateState(p=>{
-      p.categoryName.error = err.name
-      p.categoryName.isValid = !err.name
+		// check for the credit ;
+    // check for description labels 
 
-      p.categoryCode.error= err.code
-      p.categoryCode.isValid= !err.code
+		this.mutateState((p) => {
+			p.categoryName.error = err.name;
+			p.categoryName.isValid = !err.name;
 
-      p.description.error = err.des
-      p.description.isValid = !err.des
-    });
+			p.categoryCode.error = err.code;
+			p.categoryCode.isValid = !err.code;
 
-    return verdict
-  }
-  
-  
+			p.description.error = err.des;
+			p.description.isValid = !err.des;
+		});
+
+		return verdict;
+	}
 }

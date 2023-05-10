@@ -7,6 +7,7 @@ import { Context } from "vm";
 import { InitialState } from "./managment/state/initialState";
 import FirstFormActions from "./managment/actions/FirstFormActions";
 import FirstPart from "./parts/FirstPart/FirstPart";
+import SecondPart from "./parts/SecondPart/SecondPart";
 
 interface ContextProps {
 	firstFormActions: FirstFormActions;
@@ -46,7 +47,10 @@ function AddItem() {
 					<div className="mb-5">
 						<ProgressBar currentStep={state.page + 1} steps={3} />
 					</div>
-					<div>{state.page === 0 && <FirstPart />}</div>
+					<div>
+						{state.page === 0 && <FirstPart />}
+						{state.page === 1 && <SecondPart />}
+					</div>
 				</FormContainer>
 			</PopUpContainer>
 		</AddItemContext.Provider>
