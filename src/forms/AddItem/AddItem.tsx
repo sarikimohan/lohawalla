@@ -9,10 +9,13 @@ import FirstFormActions from "./managment/actions/FirstFormActions";
 import FirstPart from "./parts/FirstPart/FirstPart";
 import SecondPart from "./parts/SecondPart/SecondPart";
 import SecondFormActions from "./managment/actions/SecondFormActions";
+import DescriptionActions from "./managment/actions/DescriptionActions";
+import ThirdPart from "./parts/ThirdPart/ThirdPart";
 
 interface ContextProps {
 	firstFormActions: FirstFormActions;
 	secondFormActions: SecondFormActions;
+	descriptionActions: DescriptionActions;
 	state: AddItem.State;
 }
 
@@ -23,6 +26,7 @@ function AddItem() {
 	const [state, setState] = useState<AddItem.State>(InitialState);
 	const firstFormActions = new FirstFormActions(state, setState);
 	const secondFormActions = new SecondFormActions(state, setState);
+	const descriptionActions = new DescriptionActions(state, setState);
 
 	return (
 		<AddItemContext.Provider
@@ -30,6 +34,7 @@ function AddItem() {
 				state,
 				firstFormActions,
 				secondFormActions,
+				descriptionActions,
 			}}
 		>
 			<PopUpContainer>
@@ -54,6 +59,7 @@ function AddItem() {
 					<div>
 						{state.page === 0 && <FirstPart />}
 						{state.page === 1 && <SecondPart />}
+						{state.page === 2 && <ThirdPart />}
 					</div>
 				</FormContainer>
 			</PopUpContainer>

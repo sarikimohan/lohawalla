@@ -1,4 +1,4 @@
-import { Card } from "@mui/material";
+import { Card, Tooltip } from "@mui/material";
 import DefaultButton from "@src/Components/common/buttons/DefaultButton/DefaultButton";
 import NextButtonStyleConfig from "@src/Components/common/buttons/configurations/NextButtonStyle.config";
 import FieldInput from "@src/Components/forms/FieldInput/FieldInput";
@@ -7,6 +7,7 @@ import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAn
 import AssetIndex from "@src/assets/AssetIndex";
 import React from "react";
 import { useAddItemContext } from "../../AddItem";
+import Tip from "@src/Components/feedback/Tooltip/Tip";
 
 interface Props {}
 
@@ -43,7 +44,11 @@ export default function SecondPart(props: Props) {
 						<tbody>
 							<tr className="mb-2 border-b">
 								<td align="center">
-									<p className="text-md font-bold text-slate-700	py-4">Online</p>
+									<Tip title={"enter values in percentage"}>
+										<p className="text-md font-bold text-slate-700	py-4">
+											Online
+										</p>
+									</Tip>
 								</td>
 								<td align="center" className="">
 									<FieldInput
@@ -61,7 +66,11 @@ export default function SecondPart(props: Props) {
 							</tr>
 							<tr className="mb-2 border-b">
 								<td align="center">
-									<p className="text-md font-bold text-slate-700 py-5">Cash</p>
+									<Tip title={"enter values in percentage"}>
+										<p className="text-md font-bold text-slate-700 py-5">
+											Cash
+										</p>
+									</Tip>
 								</td>
 								<td align="center">
 									<FieldInput

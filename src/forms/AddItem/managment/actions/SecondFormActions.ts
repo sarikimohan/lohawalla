@@ -26,6 +26,9 @@ export default class SecondFormActions extends StateUtils<AddItem.State> {
 			if (parsed <= 0) {
 				err.cash = "cannot be zero or negative";
 				verdict = false;
+			} else if (parsed >= 100) {
+				err.cash = "percentage cannot be more than 100";
+				verdict = false;
 			}
 		}
 
@@ -39,6 +42,9 @@ export default class SecondFormActions extends StateUtils<AddItem.State> {
 			const parsed = parseFloat(this.state.margin.online.value);
 			if (parsed <= 0) {
 				err.online = "cannot be zero or negative";
+				verdict = false;
+			} else if (parsed >= 100) {
+				err.online = "percentage cannot be more than 100";
 				verdict = false;
 			}
 		}
