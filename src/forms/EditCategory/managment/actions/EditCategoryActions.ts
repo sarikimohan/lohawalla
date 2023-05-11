@@ -17,6 +17,18 @@ export default class EditCategoryActions extends StateUtils<EditCategory.State> 
 		});
 	}
 
+	setNegotiation(d:string){
+		this.mutateState(p=>{
+			p.negotiation.value = d
+		})
+	}
+
+	setUnit(d:string){
+		this.mutateState(p=>{
+			p.unit.value= d
+		})
+	}
+
 	validateForm() {
 		let verdict = true;
 		const err: {

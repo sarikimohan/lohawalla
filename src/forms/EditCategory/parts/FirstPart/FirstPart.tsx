@@ -31,37 +31,45 @@ export default function FirstPart(props: Props) {
 					Category Code
 				</p>
 				<FieldInput
+					isValid={state.categoryCode.isValid}
+					error={state.categoryCode.error}
+					data={state.categoryCode.value}
+					onChange={d=>editCategoryActions.setCode(d.target.value)}
 					type={"text"}
 					placeHolder={"enter item name"}
-					isValid={undefined}
-					data={""}
 				/>
 			</div>
 			<div className="mb-4">
 				<p className="text-md font-semibold text-slate-900 mb-1">Negotiation</p>
 				<FieldInput
+					isValid={state.negotiation.isValid}
+					error={state.negotiation.error}
+					data={state.negotiation.value}
+					onChange={d=>editCategoryActions.setNegotiation(d.target.value)}
 					type={"text"}
 					placeHolder={"enter negotiation value"}
-					isValid={undefined}
-					data={""}
 				/>
 			</div>
 			<div className="mb-4">
 				<p className="text-md font-semibold text-slate-900 mb-1">Unit</p>
 				<FieldInput
+					isValid={state.unit.isValid}
+					error={state.unit.error}
+					data={state.unit.value}
+					onChange={d=>editCategoryActions.setUnit(d.target.value)}
 					type={"text"}
 					placeHolder={"enter unit name"}
-					isValid={undefined}
-					data={""}
 				/>
 			</div>
 			<div className="mb-4">
 				<p className="text-md font-semibold text-slate-900 mb-1">Description</p>
 				<FieldTextArea
+					isValid={state.description.isValid}
+					error={state.description.error}
+					data={state.description.value}
+					onChange={d=>editCategoryActions.setDescription(d.target.value)}
 					height={100}
 					placeHolder={"enter company name"}
-					isValid={undefined}
-					data={""}
 				/>
 			</div>
 			<div>
