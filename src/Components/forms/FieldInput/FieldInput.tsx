@@ -27,11 +27,11 @@ enum InputInteractions {
 interface InputProps<T = string> {
 	width?: string | number;
 	error?: string;
-	isValid: boolean | undefined | string;
+	isValid?: boolean | undefined | string;
 	setData?: (e: T) => void;
 	onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	onBlur?: (e: T) => void;
-	data: T;
+	data?: T;
 	type: React.HTMLInputTypeAttribute;
 	inputStateStylesConfig?: InputStateStyles;
 	placeHolder: string;
@@ -43,6 +43,7 @@ interface InputProps<T = string> {
 	name?: string;
 	onEnter?: () => void;
 	rightIcon?: React.ReactNode;
+	value?: T;
 }
 
 const styles: InputStateStyles = {
@@ -145,7 +146,7 @@ export default function FieldInput(props: InputProps) {
 							props.onChange && props.onChange(e);
 							props.setData && props.setData(e.target.value);
 						}}
-						value={props.data}
+						value={props.value}
 						maxLength={props.maxLength}
 						pattern={props.pattern}
 						disabled={props.disabled}
