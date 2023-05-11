@@ -21,14 +21,25 @@ export default class CreditActions extends StateUtils<EditCategory.State> {
 			keyVal,
 			vrdct,
 			Validators.validateNull,
-			Validators.validateInt
+			Validators.validateInt,
+			(e) => {
+				for (let i of this.state.credit) {
+					if (keyVal === i.days.toString()) {
+						return keyVal + " already exists";
+					}
+				}
+			}
 		);
 
 		err.value = FieldDataService.registerValidator(
 			valueVal,
 			vrdct,
 			Validators.validateNull,
-			Validators.validateFloat
+			Validators.validateFloat,
+			(d) => {
+				const parsed = parseFloat(d);
+				if (parsed > 100) return "cannot be more than 100";
+			}
 		);
 
 		this.mutateState((p) => {
@@ -53,6 +64,8 @@ export default class CreditActions extends StateUtils<EditCategory.State> {
 				value: { value: p.creditInput.value.value },
 				type: "percentage",
 			});
+			p.creditInput.key.value = "";
+			p.creditInput.value.value = "";
 		});
 	}
 	modifyCreditValue(data: string, i: number) {

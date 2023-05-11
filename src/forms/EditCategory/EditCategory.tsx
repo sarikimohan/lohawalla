@@ -10,6 +10,7 @@ import InitialState from "./managment/state/initialState";
 import EditCategoryActions from "./managment/actions/EditCategoryActions";
 import DescriptionActions from "./managment/actions/DescriptionActions";
 import CreditActions from "./managment/actions/CreditActions";
+import DefaultButton from "@src/Components/common/buttons/DefaultButton/DefaultButton";
 
 interface Props {}
 interface ContextProps {
@@ -62,6 +63,17 @@ export default function EditCategory(props: Props) {
 						<Divider />
 					</div>
 					<ThirdPart />
+					<div className="my-5">
+						<DefaultButton
+							onClick={function () {
+								const verdict = editCategoryActions.validateForm();
+								if (verdict) {
+									console.log("okay");
+								}
+							}}
+							label={"Save"}
+						/>
+					</div>
 				</FormContainer>
 			</PopUpContainer>
 		</EditCategoryContext.Provider>
