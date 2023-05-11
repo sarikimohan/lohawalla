@@ -9,6 +9,8 @@ namespace EditCategory {
 
 	interface State {
 		page: number;
+		negotiation: FieldData;
+		unit: FieldData;
 		categoryName: FieldData;
 		categoryCode: FieldData;
 		description: FieldData;
