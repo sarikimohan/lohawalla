@@ -36,11 +36,15 @@ export class Validators {
 		if (data.length === 0) verdict = false;
 		const split = data.split(".");
 		if (split.length > 2) verdict = false;
-		if (split[1].length === 0) verdict = false;
-		if (Validators.validateInt(split[0]) || Validators.validateInt(split[1]))
-			verdict = false;
-		if (verdict === false) {
-			return "not a valid number";
+		else if (split.length === 2) {
+			if (split[1].length === 0) verdict = false;
+			if (Validators.validateInt(split[0]) || Validators.validateInt(split[1]))
+				verdict = false;
+			if (verdict === false) {
+				return "not a valid number";
+			}
+		} else {
+			return Validators.validateInt(split[0]);
 		}
 	}
 	static validateNull(data: string) {

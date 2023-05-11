@@ -7,10 +7,10 @@ import AssetIndex from "@src/assets/AssetIndex";
 import React from "react";
 import { useEditCategoryContext } from "../../EditCategory";
 
-interface Props { }
+interface Props {}
 
 export default function ThirdPart(props: Props) {
-	const { descriptionActions, state } = useEditCategoryContext()
+	const { descriptionActions, state } = useEditCategoryContext();
 	return (
 		<Card variant="outlined" sx={{ padding: 3 }}>
 			<div className="mb-4">
@@ -35,8 +35,8 @@ export default function ThirdPart(props: Props) {
 						</thead>
 
 						<tbody>
-							{
-								state.descriptionLabels.map((v, i) => (<tr className="mb-2 border-b" key={v.id}>
+							{state.descriptionLabels.map((v, i) => (
+								<tr className="mb-2 border-b" key={v.id}>
 									<td align="center">
 										<p className="text-md font-bold text-slate-700 py-3">
 											{v.key}
@@ -45,20 +45,26 @@ export default function ThirdPart(props: Props) {
 									<td align="center" className="py-3">
 										<FieldInput
 											{...v.value}
-											onChange={(d) => descriptionActions.updateField(d.target.value, i)}
-											type={"number"}
+											onChange={(d) =>
+												descriptionActions.updateField(d.target.value, i)
+											}
+											type={"text"}
 											placeHolder={"enter number"}
 										/>
 									</td>
 									<td align="center" className="w-fit">
-										<div onClick={() => { descriptionActions.deleteField(i) }}>
+										<div
+											onClick={() => {
+												descriptionActions.deleteField(i);
+											}}
+										>
 											<RotateAndScale>
 												<AssetIndex.MinusCircleIcon />
 											</RotateAndScale>
 										</div>
 									</td>
-								</tr>))
-							}
+								</tr>
+							))}
 							<tr
 								className="mb-2 border-b"
 								style={{ borderTop: "5px solid transparent" }}
@@ -71,13 +77,17 @@ export default function ThirdPart(props: Props) {
 												width={"85%"}
 												type={"text"}
 												placeHolder={"enter key"}
-												onChange={d => descriptionActions.setAddKey(d.target.value)}
+												onChange={(d) =>
+													descriptionActions.setAddKey(d.target.value)
+												}
 											/>
 										</div>
 										<div className="p-2 flex justify-center">
 											<FieldInput
 												{...state.descriptionEntry.value}
-												onChange={d => descriptionActions.setAddValue(d.target.value)}
+												onChange={(d) =>
+													descriptionActions.setAddValue(d.target.value)
+												}
 												width={"85%"}
 												type={"text"}
 												placeHolder={"enter value"}
@@ -90,12 +100,14 @@ export default function ThirdPart(props: Props) {
 					</table>
 				</div>
 				<div className="flex justify-end mt-5">
-					<AddMore handleAdd={() => {
-						const verdict = descriptionActions.validateAdd();
-						if (verdict) {
-							descriptionActions.addField();
-						}
-					}} />
+					<AddMore
+						handleAdd={() => {
+							const verdict = descriptionActions.validateAdd();
+							if (verdict) {
+								descriptionActions.addField();
+							}
+						}}
+					/>
 				</div>
 			</Card>
 		</Card>

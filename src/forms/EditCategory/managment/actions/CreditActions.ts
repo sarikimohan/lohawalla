@@ -1,9 +1,11 @@
+import { FieldDataService, Validators } from "@src/modules/FieldData/FieldData";
 import StateUtils from "@src/modules/StateManagement/Core/StateUtils";
 
 export default class CreditActions extends StateUtils<EditCategory.State> {
 	validateAdd() {
-		// check if the both are number and not empty
-		let verdict = true;
+		const vrdct = {
+			isValid: true,
+		};
 		const err: {
 			key?: string;
 			value?: string;
@@ -12,26 +14,22 @@ export default class CreditActions extends StateUtils<EditCategory.State> {
 			value: undefined,
 		};
 
-		const req = "required";
 		const keyVal = this.state.creditInput.key.value;
 		const valueVal = this.state.creditInput.value.value;
 
-		if (
-			this.state.creditInput.key.value === "" &&
-			/^[0-9]*$/.test(keyVal) === false &&
-			keyVal[0] !== "0"
-		) {
-			err.key = req;
-			verdict = false;
-		}
+		err.key = FieldDataService.registerValidator(
+			keyVal,
+			vrdct,
+			Validators.validateNull,
+			Validators.validateInt
+		);
 
-		if (
-			this.state.creditInput.value.value === "" &&
-			/^[0-9]*$/.test(valueVal) === false
-		) {
-			err.value = req;
-			verdict = false;
-		}
+		err.value = FieldDataService.registerValidator(
+			valueVal,
+			vrdct,
+			Validators.validateNull,
+			Validators.validateFloat
+		);
 
 		this.mutateState((p) => {
 			p.creditInput.key.error = err.key;
@@ -40,7 +38,8 @@ export default class CreditActions extends StateUtils<EditCategory.State> {
 			p.creditInput.value.error = err.value;
 			p.creditInput.value.isValid = !err.value;
 		});
-		return verdict;
+
+		return vrdct.isValid;
 	}
 
 	addCredit() {

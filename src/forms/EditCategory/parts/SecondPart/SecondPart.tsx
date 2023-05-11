@@ -11,6 +11,7 @@ interface Props {}
 
 export default function SecondPart(props: Props) {
 	const { state, creditActions } = useEditCategoryContext();
+
 	return (
 		<Card variant="outlined" sx={{ padding: 3 }}>
 			<div className="mb-4">
@@ -41,7 +42,7 @@ export default function SecondPart(props: Props) {
 
 						<tbody>
 							{state.credit.map((v, i) => (
-								<tr className="mb-2 border-b">
+								<tr className="mb-2 border-b" key={i}>
 									<td align="center">
 										<p className="text-md font-bold text-slate-700 py-3">
 											{v.days} days
@@ -58,11 +59,11 @@ export default function SecondPart(props: Props) {
 										<FieldInput
 											isValid={v.value.isValid}
 											error={v.value.error}
-											data={v.value.value}
+											value={v.value.value}
 											onChange={(d) => {
 												creditActions.modifyCreditValue(d.target.value, i);
 											}}
-											type={"number"}
+											type={"text"}
 											placeHolder={"enter number"}
 											rightIcon={v.type === "numeric" ? "₹" : "%"}
 										/>
@@ -122,6 +123,7 @@ export default function SecondPart(props: Props) {
 					<AddMore
 						handleAdd={() => {
 							const verdict = creditActions.validateAdd();
+							console.log("verdict", verdict);
 							if (verdict) creditActions.addCredit();
 						}}
 					/>

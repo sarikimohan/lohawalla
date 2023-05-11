@@ -76,8 +76,7 @@ function mapper(state: InputInteractions, props: InputProps): ComStyles {
 	const _styles = props.inputStateStylesConfig
 		? props.inputStateStylesConfig
 		: styles;
-
-	if (props.isValid) return _styles.valid;
+	if (props.isValid === true) return _styles.valid;
 	if (props.error) return _styles.error;
 
 	switch (state) {
@@ -92,7 +91,7 @@ function IconMapper(
 	state: InputInteractions,
 	_props: InputProps
 ): React.ReactNode {
-	if (_props.isValid) {
+	if (_props.isValid === true) {
 		return <AssetIndex.TickIcon />;
 	}
 
@@ -146,7 +145,7 @@ export default function FieldInput(props: InputProps) {
 							props.onChange && props.onChange(e);
 							props.setData && props.setData(e.target.value);
 						}}
-						value={props.value}
+						value={props.data ? props.data : props.value}
 						maxLength={props.maxLength}
 						pattern={props.pattern}
 						disabled={props.disabled}
