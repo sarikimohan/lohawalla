@@ -7,9 +7,11 @@ import FieldInput from "@src/Components/forms/FieldInput/FieldInput";
 import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAndScale";
 import AssetIndex from "@src/assets/AssetIndex";
 import AddMore from "@src/Components/common/buttons/AddMore/AddMore";
+import { verify } from "crypto";
 
 function ThirdPart() {
-	const { state, descriptionActions } = useAddCategoryContext();
+	const { state, descriptionActions, addCategoryActions } =
+		useAddCategoryContext();
 	return (
 		<Card variant="outlined" sx={{ padding: 3 }}>
 			<>
@@ -113,7 +115,16 @@ function ThirdPart() {
 					</Card>
 				</div>
 				<div className="crow jfe">
-					<SaveButton>Save</SaveButton>
+					<SaveButton
+						onClick={() => {
+							const verdict = addCategoryActions.validateThirdForm();
+							if (verdict) {
+								console.log("loading");
+							}
+						}}
+					>
+						Save
+					</SaveButton>
 				</div>
 			</>
 		</Card>

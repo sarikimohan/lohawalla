@@ -84,4 +84,26 @@ export default class AddCategoryActions extends StateUtils<AddCategory.State> {
 
 		return verdict.isValid;
 	}
+
+	validateThirdForm() {
+		const verdict = { isValid: true };
+		let verdicts: (string | undefined)[] = [];
+		for (let d of this.state.descriptionLabels) {
+			const check = FieldDataService.registerValidator(
+				d.value.value,
+				verdict,
+				Validators.validateNull
+			);
+			verdicts.push(check);
+			console.log(check);
+		}
+
+		this.mutateState((p) => {
+			for (let i = 0; i < verdicts.length; ++i) {
+				p.descriptionLabels[i].value.error = verdicts[i];
+			}
+		});
+
+		return verdict.isValid;
+	}
 }
