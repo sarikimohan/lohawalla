@@ -2,6 +2,7 @@ import { FieldDataService } from "@src/modules/FieldData/FieldData";
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 
 const InitialState: EditCategory.State = {
+	page: 0,
 	categoryName: FieldDataService.getDefaultField(),
 	categoryCode: FieldDataService.getDefaultField(),
 	description: FieldDataService.getDefaultField(),

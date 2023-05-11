@@ -17,31 +17,6 @@ export default class EditCategoryActions extends StateUtils<EditCategory.State> 
 		});
 	}
 
-  validateAll() {
-		let verdict = true;
-		let validation: (string | undefined)[] = [];
-		for (let i = 0; i < this.state.descriptionLabels.length; ++i) {
-			const desc = this.state.descriptionLabels[i];
-
-			if (desc.value.value === "") {
-				validation.push("required");
-				verdict = false;
-			} else {
-				validation.push(undefined);
-			}
-		}
-
-		this.mutateState((p) => {
-			for (let i = 0; i < p.descriptionLabels.length; ++i) {
-				const label = p.descriptionLabels[i];
-				label.value.error = validation[i];
-				label.value.isValid = !validation[i];
-			}
-		});
-
-		return verdict;
-	}
-
 	validateForm() {
 		let verdict = true;
 		const err: {

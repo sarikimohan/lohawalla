@@ -2,10 +2,13 @@ import FieldInput from "@src/Components/forms/FieldInput/FieldInput";
 import FieldTextArea from "@src/Components/forms/FieldInput/FieldTextArea";
 import FormFileUpload from "@src/Components/forms/FormFileUpload/FormFileUpload";
 import React from "react";
+import { useEditCategoryContext } from "../../EditCategory";
 
 interface Props {}
 
 export default function FirstPart(props: Props) {
+	const { editCategoryActions, state } = useEditCategoryContext();
+
 	return (
 		<div>
 			<div className="mb-4">
@@ -13,10 +16,14 @@ export default function FirstPart(props: Props) {
 					Category Name
 				</p>
 				<FieldInput
+					isValid={state.categoryName.isValid}
+					error={state.categoryName.error}
+					data={state.categoryName.value}
+					onChange={(d) => {
+						editCategoryActions.setName(d.target.value);
+					}}
 					type={"text"}
 					placeHolder={"enter item name"}
-					isValid={undefined}
-					data={""}
 				/>
 			</div>
 			<div className="mb-4">
