@@ -18,8 +18,8 @@ function Dashboard() {
 					<TitleNavBar title={"Dashboard"} />
 				</SpacingDiv>
 				<div>
-					<AddCompany />
-					{/* <AddItem /> */}
+					{/* <AddCompany /> */}
+					<AddItem />
 					{/* <AddCategoryForm /> */}
 					{/* <ErrorCard messages={[]} /> */}
 					{/* <EditCategory/> */}

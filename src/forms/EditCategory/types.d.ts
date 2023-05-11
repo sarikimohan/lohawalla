@@ -8,6 +8,7 @@ namespace EditCategory {
 	}
 
 	interface State {
+		page: number;
 		categoryName: FieldData;
 		categoryCode: FieldData;
 		description: FieldData;
