@@ -14,12 +14,8 @@ export default function EditItem(props: Props) {
 			<FormContainer>
 				<div className="mb-5">
 					<FormHeader
-						navBack={function (): void {
-							throw new Error("Function not implemented.");
-						}}
-						close={function (): void {
-							throw new Error("Function not implemented.");
-						}}
+						navBack={function (): void {}}
+						close={function (): void {}}
 						heading={"Item"}
 						preHeading={"Edit"}
 					/>

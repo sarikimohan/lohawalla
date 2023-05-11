@@ -22,7 +22,7 @@ function Dashboard() {
 					{/* <AddItem /> */}
 					{/* <AddCategoryForm /> */}
 					{/* <ErrorCard messages={[]} /> */}
-					<EditCategory/>
+					{/* <EditCategory/> */}
 					{/* <AddCategoryForm /> */}
 					{/* <EditCompany/> */}
 					{/* <EditItem /> */}
