@@ -1,23 +1,28 @@
+import { FieldDataService } from "@src/modules/FieldData/FieldData";
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 
 export const InitialState: AddCategory.State = {
-	page: 2,
+	page: 1,
 	loading: {
 		saveImage: AsyncStateFactory(),
 		saveData: AsyncStateFactory(),
 	},
 	firstForm: {
-		categoryName: "",
-		categoryCode: "",
-		description: "",
-		unit: "",
+		categoryName: FieldDataService.getDefaultField(),
+		categoryCode: FieldDataService.getDefaultField(),
+		description: FieldDataService.getDefaultField(),
+		unit: FieldDataService.getDefaultField(),
 	},
 	images: [],
-	secondForm: {
-		credit: [{ days: 3, value: 20 }],
-		negotiation: 0,
+	credit: [],
+	creditInput: {
+		key: FieldDataService.getDefaultField(),
+		value: FieldDataService.getDefaultField(),
 	},
-	thirdForm: {
-		descriptionLabels: [],
+	descriptionLabels: [],
+	descriptionEntry: {
+		key: FieldDataService.getDefaultField(),
+		value: FieldDataService.getDefaultField(),
 	},
+	negotiation: FieldDataService.getDefaultField(),
 };

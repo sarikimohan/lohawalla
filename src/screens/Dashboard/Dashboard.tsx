@@ -20,7 +20,7 @@ function Dashboard() {
 				<div>
 					{/* <AddCompany /> */}
 					{/* <AddItem /> */}
-					{/* <AddCategoryForm /> */}
+					<AddCategoryForm />
 					{/* <ErrorCard messages={[]} /> */}
 					{/* <EditCategory/> */}
 					{/* <AddCategoryForm /> */}

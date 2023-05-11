@@ -9,11 +9,15 @@ import AddCategoryActions from "./managment/actions/AddCategoryActions";
 import SetStateActions from "./managment/actions/SetStateActions";
 import SecondPart from "./parts/SecondPart/SecondPart";
 import ThirdPart from "./parts/ThirdPart/ThirdPart";
+import DescriptionActions from "./managment/actions/DescriptionActions";
+import CreditActions from "./managment/actions/CreditActions";
 
 interface ContextInterface {
 	addCategoryActions: AddCategoryActions;
 	setStateActions: SetStateActions;
 	state: AddCategory.State;
+	descriptionActions: DescriptionActions;
+	creditActions: CreditActions;
 }
 const Context = React.createContext<ContextInterface>({} as ContextInterface);
 
@@ -37,15 +41,27 @@ function AddCategoryForm() {
 
 	const addCategoryActions = new AddCategoryActions(state, setState);
 	const setStateActions = new SetStateActions(state, setState);
+	const descriptionActions = new DescriptionActions(state, setState);
+	const creditActions = new CreditActions(state, setState);
 
 	return (
-		<Context.Provider value={{ state, addCategoryActions, setStateActions }}>
+		<Context.Provider
+			value={{
+				state,
+				addCategoryActions,
+				setStateActions,
+				descriptionActions,
+				creditActions,
+			}}
+		>
 			<PopUpContainer>
 				<FormContainer>
 					<div className="mb-4">
 						<FormHeader
 							navBack={() => {
-								addCategoryActions.navBack();
+								addCategoryActions.mutateState((p) => {
+									if (p.page > 0) p.page--;
+								});
 							}}
 							close={() => {}}
 							heading={"Category"}

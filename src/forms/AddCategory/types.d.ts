@@ -1,12 +1,32 @@
 namespace AddCategory {
+	interface DescriptionLabels {
+		id: string;
+		key: string;
+		value: FieldData;
+	}
+
 	interface State {
 		firstForm: FirstFormState;
 
 		images: File[] | null;
 
-		secondForm: SecondFormState;
+		credit: {
+			days: number;
+			value: FieldData;
+			type: PercNum;
+		}[];
+		negotiation: FieldData;
+		creditInput: {
+			key: FieldData;
+			value: FieldData;
+		};
 
-		thirdForm: ThirdFormState;
+		descriptionLabels: DescriptionLabels[];
+
+		descriptionEntry: {
+			key: FieldData;
+			value: FieldData;
+		};
 
 		page: number;
 
@@ -17,14 +37,10 @@ namespace AddCategory {
 	}
 
 	interface FirstFormState {
-		categoryName: string;
-		categoryCode: string;
-		description: string;
-		unit: string;
-	}
-	interface SecondFormState {
-		credit: Credit[];
-		negotiation: number;
+		categoryName: FieldData;
+		categoryCode: FieldData;
+		description: FieldData;
+		unit: FieldData;
 	}
 	interface ThirdFormState {
 		descriptionLabels: DescriptionLabels[];
@@ -45,5 +61,4 @@ namespace AddCategory {
 	interface SubmitForm {
 		submitForm();
 	}
-
 }
