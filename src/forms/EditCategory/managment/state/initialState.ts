@@ -23,6 +23,8 @@ const InitialState: EditCategory.State = {
 		saveImages: AsyncStateFactory(),
 		saveData: AsyncStateFactory(),
 	},
+	negotiation: FieldDataService.getDefaultField(),
+	unit: FieldDataService.getDefaultField(),
 };
 
 export default InitialState;
