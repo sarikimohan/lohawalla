@@ -1,7 +1,7 @@
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 
 export const InitialState: AddItem.State = {
-	page: 1	,
+	page: 0	,
 	itemName: { value: "" },
 	itemHSNCode: { value: "" },
 	itemCode: { value: "" },

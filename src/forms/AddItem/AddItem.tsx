@@ -47,7 +47,7 @@ function AddItem() {
 						<FormHeader
 							navBack={function (): void {
 								firstFormActions.mutateState((p) => {
-									p.page--;
+									if(p.page>0)p.page--;
 								});
 							}}
 							close={function (): void {

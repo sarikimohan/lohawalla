@@ -1,8 +1,8 @@
-import apis from "@src/globals/constants/apis.constants";
 import StateUtils from "@src/modules/StateManagement/Core/StateUtils";
 import server from "@src/modules/axios/instances";
 import { NameIdPair } from "@src/modules/backendTypes/change/NameIdPair";
 import { S } from "@storybook/react/dist/types-0a347bb9";
+import { apis } from "../../fetch/apis";
 
 
 
@@ -15,7 +15,7 @@ import { S } from "@storybook/react/dist/types-0a347bb9";
     cid:string,
     name: string,
     HSNCode: number,
-    code: number,
+    code: string,
     margin: {
       online: number;
       cash: number;
@@ -32,7 +32,7 @@ export default class SubmitActions extends StateUtils<AddItem.State>{
       cid: id,
       name: this.state.itemName.value,
       HSNCode: parseInt(this.state.itemHSNCode.value),
-      code: parseInt(this.state.itemCode.value),
+      code: (this.state.itemCode.value),
       margin: {
         online: parseInt(this.state.margin.online.value) ,
         cash: parseInt(this.state.margin.cash.value)
