@@ -52,7 +52,7 @@ export default class CreditActions extends StateUtils<EditCategory.State> {
 			p.credit.push({
 				days: parseInt(p.creditInput.key.value),
 				value: { value: p.creditInput.value.value },
-				type: "numeric",
+				type: "percentage",
 			});
 		});
 	}

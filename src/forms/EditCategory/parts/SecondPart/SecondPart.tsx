@@ -89,6 +89,11 @@ export default function SecondPart(props: Props) {
 										<div className="p-2 flex justify-center">
 											<FieldInput
 												{...state.creditInput.key}
+												onChange={(d) =>
+													creditActions.mutateState((p) => {
+														p.creditInput.key.value = d.target.value;
+													})
+												}
 												width={"85%"}
 												type={"text"}
 												placeHolder={"enter key"}
@@ -97,6 +102,11 @@ export default function SecondPart(props: Props) {
 										<div className="p-2 flex justify-center">
 											<FieldInput
 												{...state.creditInput.value}
+												onChange={(d) =>
+													creditActions.mutateState((p) => {
+														p.creditInput.value.value = d.target.value;
+													})
+												}
 												width={"85%"}
 												type={"text"}
 												placeHolder={"enter value"}
@@ -109,7 +119,12 @@ export default function SecondPart(props: Props) {
 					</table>
 				</div>
 				<div className="flex justify-end mt-5">
-					<AddMore />
+					<AddMore
+						handleAdd={() => {
+							const verdict = creditActions.validateAdd();
+							if (verdict) creditActions.addCredit();
+						}}
+					/>
 				</div>
 			</Card>
 		</Card>
