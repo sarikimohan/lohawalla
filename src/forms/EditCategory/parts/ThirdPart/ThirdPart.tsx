@@ -5,10 +5,12 @@ import FormCardHeader from "@src/Components/forms/FormCardHeader/FormCardHeader"
 import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAndScale";
 import AssetIndex from "@src/assets/AssetIndex";
 import React from "react";
+import { useEditCategoryContext } from "../../EditCategory";
 
-interface Props {}
+interface Props { }
 
 export default function ThirdPart(props: Props) {
+	const { descriptionActions, state } = useEditCategoryContext()
 	return (
 		<Card variant="outlined" sx={{ padding: 3 }}>
 			<div className="mb-4">
@@ -33,28 +35,30 @@ export default function ThirdPart(props: Props) {
 						</thead>
 
 						<tbody>
-							<tr className="mb-2 border-b">
-								<td align="center">
-									<p className="text-md font-bold text-slate-700 py-3">
-										3 days
-									</p>
-								</td>
-								<td align="center" className="py-3">
-									<FieldInput
-										isValid={undefined}
-										data={"4"}
-										type={"number"}
-										placeHolder={"enter number"}
-									/>
-								</td>
-								<td align="center" className="w-fit">
-									<div onClick={() => {}}>
-										<RotateAndScale>
-											<AssetIndex.MinusCircleIcon />
-										</RotateAndScale>
-									</div>
-								</td>
-							</tr>
+							{
+								state.descriptionLabels.map((v, i) => (<tr className="mb-2 border-b" key={v.id}>
+									<td align="center">
+										<p className="text-md font-bold text-slate-700 py-3">
+											{v.key}
+										</p>
+									</td>
+									<td align="center" className="py-3">
+										<FieldInput
+											{...v.value}
+											onChange={(d) => descriptionActions.updateField(d.target.value, i)}
+											type={"number"}
+											placeHolder={"enter number"}
+										/>
+									</td>
+									<td align="center" className="w-fit">
+										<div onClick={() => { descriptionActions.deleteField(i) }}>
+											<RotateAndScale>
+												<AssetIndex.MinusCircleIcon />
+											</RotateAndScale>
+										</div>
+									</td>
+								</tr>))
+							}
 							<tr
 								className="mb-2 border-b"
 								style={{ borderTop: "5px solid transparent" }}
@@ -63,20 +67,20 @@ export default function ThirdPart(props: Props) {
 									<div className="flex w-full justify-between">
 										<div className="p-2 flex justify-center">
 											<FieldInput
+												{...state.descriptionEntry.key}
 												width={"85%"}
 												type={"text"}
 												placeHolder={"enter key"}
-												isValid={undefined}
-												data={""}
+												onChange={d => descriptionActions.setAddKey(d.target.value)}
 											/>
 										</div>
 										<div className="p-2 flex justify-center">
 											<FieldInput
+												{...state.descriptionEntry.value}
+												onChange={d => descriptionActions.setAddValue(d.target.value)}
 												width={"85%"}
 												type={"text"}
 												placeHolder={"enter value"}
-												isValid={undefined}
-												data={""}
 											/>
 										</div>
 									</div>
@@ -86,7 +90,12 @@ export default function ThirdPart(props: Props) {
 					</table>
 				</div>
 				<div className="flex justify-end mt-5">
-					<AddMore />
+					<AddMore handleAdd={() => {
+						const verdict = descriptionActions.validateAdd();
+						if (verdict) {
+							descriptionActions.addField();
+						}
+					}} />
 				</div>
 			</Card>
 		</Card>
