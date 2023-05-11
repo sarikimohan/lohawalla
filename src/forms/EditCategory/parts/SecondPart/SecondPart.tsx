@@ -5,10 +5,12 @@ import FormCardHeader from "@src/Components/forms/FormCardHeader/FormCardHeader"
 import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAndScale";
 import AssetIndex from "@src/assets/AssetIndex";
 import React from "react";
+import { useEditCategoryContext } from "../../EditCategory";
 
 interface Props {}
 
 export default function SecondPart(props: Props) {
+	const { state, creditActions } = useEditCategoryContext();
 	return (
 		<Card variant="outlined" sx={{ padding: 3 }}>
 			<div className="mb-4">
@@ -38,32 +40,46 @@ export default function SecondPart(props: Props) {
 						</thead>
 
 						<tbody>
-							<tr className="mb-2 border-b">
-								<td align="center">
-									<p className="text-md font-bold text-slate-700 py-3">
-										3 days
-									</p>
-								</td>
-								<td align="center">
-									<Checkbox onChange={(e) => {}} />
-								</td>
-								<td align="center" className="w-2/5 py-3">
-									<FieldInput
-										isValid={undefined}
-										data={"4"}
-										type={"number"}
-										placeHolder={"enter number"}
-										rightIcon={"₹"}
-									/>
-								</td>
-								<td align="center" className="w-fit">
-									<div onClick={() => {}}>
-										<RotateAndScale>
-											<AssetIndex.MinusCircleIcon />
-										</RotateAndScale>
-									</div>
-								</td>
-							</tr>
+							{state.credit.map((v, i) => (
+								<tr className="mb-2 border-b">
+									<td align="center">
+										<p className="text-md font-bold text-slate-700 py-3">
+											{v.days} days
+										</p>
+									</td>
+									<td align="center">
+										<Checkbox
+											onChange={(e) => {
+												creditActions.modityCreditType(e.target.checked, i);
+											}}
+										/>
+									</td>
+									<td align="center" className="w-2/5 py-3">
+										<FieldInput
+											isValid={v.value.isValid}
+											error={v.value.error}
+											data={v.value.value}
+											onChange={(d) => {
+												creditActions.modifyCreditValue(d.target.value, i);
+											}}
+											type={"number"}
+											placeHolder={"enter number"}
+											rightIcon={v.type === "numeric" ? "₹" : "%"}
+										/>
+									</td>
+									<td align="center" className="w-fit">
+										<div
+											onClick={() => {
+												creditActions.deleteCredit(i);
+											}}
+										>
+											<RotateAndScale>
+												<AssetIndex.MinusCircleIcon />
+											</RotateAndScale>
+										</div>
+									</td>
+								</tr>
+							))}
 							<tr
 								className="mb-2 border-b"
 								style={{ borderTop: "5px solid transparent" }}
@@ -72,20 +88,18 @@ export default function SecondPart(props: Props) {
 									<div className="flex w-full justify-between">
 										<div className="p-2 flex justify-center">
 											<FieldInput
+												{...state.creditInput.key}
 												width={"85%"}
 												type={"text"}
 												placeHolder={"enter key"}
-												isValid={undefined}
-												data={""}
 											/>
 										</div>
 										<div className="p-2 flex justify-center">
 											<FieldInput
+												{...state.creditInput.value}
 												width={"85%"}
 												type={"text"}
 												placeHolder={"enter value"}
-												isValid={undefined}
-												data={""}
 											/>
 										</div>
 									</div>
