@@ -6,12 +6,11 @@ interface Props {
 }
 
 export default function DefaultFormLabel(props: Props) {
+	const { className } = props;
 	return (
 		<p
 			className={
-				"text-md font-semibold text-slate-900 " + props.className
-					? props.className
-					: ""
+				"text-md font-semibold text-slate-900 " + (className ? className : "")
 			}
 		>
 			{props.children}
