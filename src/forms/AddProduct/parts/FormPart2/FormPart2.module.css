@@ -1,0 +1,30 @@
+.pscontainer {
+  width: 100%;
+}
+
+.divider {
+  height: 1px;
+  background-color: var(--text-subtitle);
+}
+
+.psHeader {
+  background-color: rgba(151, 151, 170, 0.22);
+  border-radius: 6px;
+  display: flex;
+  padding: 10px;
+  margin-bottom: 8px;
+}
+
+.psRowContainer {
+  padding: 10px;
+}
+
+.psRow {
+  display: flex;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.cell {
+  flex-basis: 50%;
+}

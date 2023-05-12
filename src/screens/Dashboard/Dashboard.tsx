@@ -5,6 +5,7 @@ import ErrorCard from "@src/Components/feedback/ErrorCard/ErrorCard";
 import AddCategoryForm from "@src/forms/AddCategory/AddCategoryForm";
 import AddCompany from "@src/forms/AddCompany/AddCompany";
 import AddItem from "@src/forms/AddItem/AddItem";
+import AddProductForm from "@src/forms/AddProduct/AddProductForm";
 import EditCategory from "@src/forms/EditCategory/EditCategory";
 import EditCompany from "@src/forms/EditCompany/EditCompany";
 import EditItem from "@src/forms/EditItem/EditItem";
@@ -18,8 +19,9 @@ function Dashboard() {
 					<TitleNavBar title={"Dashboard"} />
 				</SpacingDiv>
 				<div>
+					<AddProductForm />
 					{/* <AddCompany /> */}
-					<AddItem />
+					{/* <AddItem /> */}
 					{/* <AddCategoryForm /> */}
 					{/* <ErrorCard messages={[]} /> */}
 					{/* <EditCategory/> */}
