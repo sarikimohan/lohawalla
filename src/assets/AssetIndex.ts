@@ -32,7 +32,8 @@ import { ReactComponent as PasscodeLock } from "./icons/PasscodeLock.svg";
 import CategoryImage from "./image/CategoryImage.png";
 import PipesImage from "./image/PipesImage.png";
 import Lohawalla from "./image/Lohawalla.png";
-import HelloHandShake from './image/HelloHandShake.png'
+import HelloHandShake from "./image/HelloHandShake.png";
+import UnAuthImage from "./image/unauth.jpg";
 
 const AssetIndex = {
 	DashboardInactive,
@@ -65,14 +66,15 @@ const AssetIndex = {
 	MailIcon,
 	FileLock,
 	FaceId,
-	PasscodeLock
+	PasscodeLock,
 };
 
 export const ImageIndex = {
 	CategoryImage,
 	PipesImage,
 	Lohawalla,
-	HelloHandShake
+	HelloHandShake,
+	UnAuthImage,
 };
 
 export default AssetIndex;

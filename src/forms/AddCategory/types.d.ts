@@ -62,3 +62,29 @@ namespace AddCategory {
 		submitForm();
 	}
 }
+
+namespace AddCategoryAsync {
+	
+	interface CreditData {
+		days: number;
+		value: number;
+		type: PercNum;
+	}
+	interface DescriptionData {
+		key: string;
+		value: string;
+		position: number;
+	}
+	interface FormData {
+		name: string;
+		code: number;
+		description: string;
+		unit: string;
+		credit: CreditData[];
+		negotiation: number;
+		descriptionLabels: DescriptionData[];
+		by: NameIdPair;
+		images: string[];
+	}
+
+}

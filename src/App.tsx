@@ -9,6 +9,7 @@ import ProductSpecification from "./screens/ProductSpecification/ProductSpecific
 import Company from "./screens/Companies/Company";
 import CompanySpecification from "./screens/CompanySpecification/CompanySpecification";
 import AddBasePrice from "./screens/SetBasePrice/AddBasePrice";
+import AuthGuard from "./auth/AuthGuard/AuthGuard";
 
 //* screen imports
 const LazyDashboard = React.lazy(() => import("./screens/Dashboard/Dashboard"));
@@ -25,55 +26,57 @@ const Suspense = (props: { children: React.ReactNode }) => (
 
 function App() {
 	return (
-		<ScreenContainer>
-			<div className={style.container + " d-flex"}>
-				<div>
-					<Sidebar />
+		<AuthGuard>
+			<ScreenContainer>
+				<div className={style.container + " d-flex"}>
+					<div>
+						<Sidebar />
+					</div>
+					<div>
+						<Routes>
+							<Route path={DashBoardScreenPath()}>
+								<Route
+									index
+									element={
+										<React.Suspense fallback="loading...">
+											<LazyDashboard />
+										</React.Suspense>
+									}
+								/>
+							</Route>
+
+							<Route path={"/categories"}>
+								<Route
+									path=""
+									element={
+										<React.Suspense fallback="loading...">
+											<LazyCategories />
+										</React.Suspense>
+									}
+								/>
+								<Route
+									path=":id"
+									element={
+										<Suspense>
+											<LazyCategorySpecification />
+										</Suspense>
+									}
+								/>
+								<Route path="item/:pid" element={<ItemSpecification />} />
+								<Route path="product/:id" element={<ProductSpecification />} />
+							</Route>
+
+							<Route path="/company">
+								<Route path="" element={<Company />} />
+								<Route path=":id" element={<CompanySpecification />} />
+							</Route>
+
+							<Route path="/basePrice" element={<AddBasePrice />} />
+						</Routes>
+					</div>
 				</div>
-				<div>
-					<Routes>
-						<Route path={DashBoardScreenPath()}>
-							<Route
-								index
-								element={
-									<React.Suspense fallback="loading...">
-										<LazyDashboard />
-									</React.Suspense>
-								}
-							/>
-						</Route>
-
-						<Route path={"/categories"}>
-							<Route
-								path=""
-								element={
-									<React.Suspense fallback="loading...">
-										<LazyCategories />
-									</React.Suspense>
-								}
-							/>
-							<Route
-								path=":id"
-								element={
-									<Suspense>
-										<LazyCategorySpecification />
-									</Suspense>
-								}
-							/>
-							<Route path="item/:pid" element={<ItemSpecification />} />
-							<Route path="product/:id" element={<ProductSpecification />} />
-						</Route>
-
-						<Route path="/company">
-							<Route path="" element={<Company />} />
-							<Route path=":id" element={<CompanySpecification />} />
-						</Route>
-
-						<Route path="/basePrice" element={<AddBasePrice />} />
-					</Routes>
-				</div>
-			</div>
-		</ScreenContainer>
+			</ScreenContainer>
+		</AuthGuard>
 	);
 }
 

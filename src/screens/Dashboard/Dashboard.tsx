@@ -2,6 +2,7 @@ import Backdrop from "@mui/material/Backdrop";
 import SpacingDiv from "@src/Components/common/Layout/SpacingDiv/SpacingDiv";
 import TitleNavBar from "@src/Components/common/NavBar/TitleNavBar";
 import ErrorCard from "@src/Components/feedback/ErrorCard/ErrorCard";
+import AuthGuard from "@src/auth/AuthGuard/AuthGuard";
 import AddCategoryForm from "@src/forms/AddCategory/AddCategoryForm";
 import AddCompany from "@src/forms/AddCompany/AddCompany";
 import AddItem from "@src/forms/AddItem/AddItem";
