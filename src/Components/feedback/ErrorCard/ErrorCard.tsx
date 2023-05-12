@@ -5,11 +5,19 @@ import { motion } from "framer-motion";
 
 interface Props {
 	messages: string[];
-	handleClose?: () => void;
 	handleCut?: () => void;
+	primaryAction: {
+		onClick?: () => void;
+		label?: string;
+	};
+	secondaryAction?: {
+		onClick?: () => void;
+		label?: string;
+	};
 }
 
-export default function ErrorCard({ messages, handleClose, handleCut }: Props) {
+export default function ErrorCard(props: Props) {
+	const { secondaryAction } = props;
 	return (
 		<div
 			style={{ maxWidth: 400, width: "100%" }}
@@ -23,7 +31,7 @@ export default function ErrorCard({ messages, handleClose, handleCut }: Props) {
 					whileHover={{ scale: 1.1, rotate: 360 }}
 					whileTap={{ scale: 0.9 }}
 					className="flex items-center cursor-pointer"
-					onClick={handleCut}
+					onClick={props.handleCut}
 				>
 					<HighlightOffIcon />
 				</motion.div>
@@ -33,8 +41,8 @@ export default function ErrorCard({ messages, handleClose, handleCut }: Props) {
 			</h2>
 
 			<div className="container mb-7">
-				{messages.map((v) => (
-					<div className="flex mb-1">
+				{props.messages.map((v) => (
+					<div className="flex mb-1 items-center">
 						<div className="mr-2">
 							<ErrorOutlineIcon className="text-red-500" />
 						</div>
@@ -45,12 +53,26 @@ export default function ErrorCard({ messages, handleClose, handleCut }: Props) {
 				))}
 			</div>
 
-			<button
-				onClick={handleClose}
-				className="rounded-full bg-indigo-600 text-white px-4 py-2 hover:bg-indigo-700 active:scale-95"
-			>
-				close
-			</button>
+			<div className="flex">
+				<div className="mr-3">
+					<button
+						onClick={props.primaryAction.onClick}
+						className="rounded-full bg-indigo-600 text-white px-4 py-2 hover:bg-indigo-700 active:scale-95"
+					>
+						{props.primaryAction.label ? props.primaryAction.label : "Close"}
+					</button>
+				</div>
+				<div>
+					{secondaryAction && (
+						<button
+							onClick={secondaryAction.onClick}
+							className="rounded-full bg-white text-slate-700 border px-4 py-2 hover:bg-slate-100 active:scale-95"
+						>
+							{secondaryAction.label}
+						</button>
+					)}
+				</div>
+			</div>
 		</div>
 	);
 }

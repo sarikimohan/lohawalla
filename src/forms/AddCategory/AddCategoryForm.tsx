@@ -11,6 +11,9 @@ import SecondPart from "./parts/SecondPart/SecondPart";
 import ThirdPart from "./parts/ThirdPart/ThirdPart";
 import DescriptionActions from "./managment/actions/DescriptionActions";
 import CreditActions from "./managment/actions/CreditActions";
+import SaveCategoryActions from "./managment/actions/SaveCategoryActions";
+import ErrorCard from "@src/Components/feedback/ErrorCard/ErrorCard";
+import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 
 interface ContextInterface {
 	addCategoryActions: AddCategoryActions;
@@ -18,6 +21,7 @@ interface ContextInterface {
 	state: AddCategory.State;
 	descriptionActions: DescriptionActions;
 	creditActions: CreditActions;
+	saveActions: SaveCategoryActions;
 }
 const Context = React.createContext<ContextInterface>({} as ContextInterface);
 
@@ -43,6 +47,7 @@ function AddCategoryForm() {
 	const setStateActions = new SetStateActions(state, setState);
 	const descriptionActions = new DescriptionActions(state, setState);
 	const creditActions = new CreditActions(state, setState);
+	const saveActions = new SaveCategoryActions(state, setState);
 
 	return (
 		<Context.Provider
@@ -52,28 +57,47 @@ function AddCategoryForm() {
 				setStateActions,
 				descriptionActions,
 				creditActions,
+				saveActions,
 			}}
 		>
 			<PopUpContainer>
-				<FormContainer>
-					<div className="mb-4">
-						<FormHeader
-							navBack={() => {
+				{state.loading.save.status === "failed" ? (
+					<ErrorCard
+						messages={[state.loading.save.message]}
+						primaryAction={{
+							onClick: () => {
 								addCategoryActions.mutateState((p) => {
-									if (p.page > 0) p.page--;
+									p.page = 0;
+									p.loading.save = AsyncStateFactory();
 								});
-							}}
-							close={() => {}}
-							heading={"Category"}
-							preHeading={"ADD"}
-						/>
-					</div>
+							},
+							label: "Retry",
+						}}
+						secondaryAction={{
+							label: "Close",
+						}}
+					/>
+				) : (
+					<FormContainer>
+						<div className="mb-4">
+							<FormHeader
+								navBack={() => {
+									addCategoryActions.mutateState((p) => {
+										if (p.page > 0) p.page--;
+									});
+								}}
+								close={() => {}}
+								heading={"Category"}
+								preHeading={"ADD"}
+							/>
+						</div>
 
-					<div className="mb-5">
-						<ProgressBar currentStep={state.page + 1} steps={3} />
-					</div>
-					<Mapper />
-				</FormContainer>
+						<div className="mb-5">
+							<ProgressBar currentStep={state.page + 1} steps={3} />
+						</div>
+						<Mapper />
+					</FormContainer>
+				)}
 			</PopUpContainer>
 		</Context.Provider>
 	);

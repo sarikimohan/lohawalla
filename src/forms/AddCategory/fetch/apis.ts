@@ -1,3 +1,3 @@
 export const apiIndex = {
-  createCategory: 'forms/...'
-}
+	createCategory: "purchaser/forms/categoryForm/createCategory",
+};

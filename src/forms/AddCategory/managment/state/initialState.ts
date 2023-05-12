@@ -2,10 +2,9 @@ import { FieldDataService } from "@src/modules/FieldData/FieldData";
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 
 export const InitialState: AddCategory.State = {
-	page: 1,
+	page: 0,
 	loading: {
-		saveImage: AsyncStateFactory(),
-		saveData: AsyncStateFactory(),
+		save: AsyncStateFactory(),
 	},
 	firstForm: {
 		categoryName: FieldDataService.getDefaultField(),

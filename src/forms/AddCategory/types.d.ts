@@ -30,10 +30,7 @@ namespace AddCategory {
 
 		page: number;
 
-		loading: {
-			saveImage: AsyncState;
-			saveData: AsyncState;
-		};
+		loading: Record<string, AsyncState>
 	}
 
 	interface FirstFormState {
@@ -77,7 +74,7 @@ namespace AddCategoryAsync {
 	}
 	interface FormData {
 		name: string;
-		code: number;
+		code: string;
 		description: string;
 		unit: string;
 		credit: CreditData[];

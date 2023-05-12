@@ -6,12 +6,11 @@ interface Props {
 }
 
 interface UserDetails {
-	userId: string;
-	name: string;
+
 }
 
 interface AuthProps {
-	user: UserDetails;
+	user: UserDetails & NameIdPair;
 	action: {
 		logOut: () => void;
 	};
@@ -21,8 +20,8 @@ const AuthGuardContext = React.createContext<AuthProps>({} as AuthProps);
 export const useAuthGuardContext = () => useContext(AuthGuardContext);
 
 export default function AuthGuard(props: Props) {
-	const [userDetails, setUserDetails] = useState<UserDetails>({
-		userId: "",
+	const [userDetails, setUserDetails] = useState<UserDetails & NameIdPair>({
+		id: "",
 		name: "",
 	});
 
@@ -33,7 +32,7 @@ export default function AuthGuard(props: Props) {
 		const token = localStorage.getItem("token");
 		if (true) {
 			setUserDetails({
-				userId: "645de63b96eeeca238a93975",
+				id: "645de63b96eeeca238a93975",
 				name: "snehal",
 			});
 		}

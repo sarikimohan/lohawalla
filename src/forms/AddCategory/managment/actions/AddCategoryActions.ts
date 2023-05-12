@@ -95,7 +95,6 @@ export default class AddCategoryActions extends StateUtils<AddCategory.State> {
 				Validators.validateNull
 			);
 			verdicts.push(check);
-			console.log(check);
 		}
 
 		this.mutateState((p) => {

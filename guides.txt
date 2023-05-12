@@ -1,1 +1,2 @@
 purchaser/forms/companyForm/createCompany
+purchaser/forms/categoryForm/createCategory

@@ -8,10 +8,13 @@ import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAn
 import AssetIndex from "@src/assets/AssetIndex";
 import AddMore from "@src/Components/common/buttons/AddMore/AddMore";
 import { verify } from "crypto";
+import { useAuthGuardContext } from "@src/auth/AuthGuard/AuthGuard";
 
 function ThirdPart() {
-	const { state, descriptionActions, addCategoryActions } =
+	const { state, descriptionActions, addCategoryActions, saveActions } =
 		useAddCategoryContext();
+	const { user } = useAuthGuardContext();
+
 	return (
 		<Card variant="outlined" sx={{ padding: 3 }}>
 			<>
@@ -119,9 +122,10 @@ function ThirdPart() {
 						onClick={() => {
 							const verdict = addCategoryActions.validateThirdForm();
 							if (verdict) {
-								console.log("loading");
+								saveActions.save([], user);
 							}
 						}}
+						isLoading={state.loading["save"].status === "initialized"}
 					>
 						Save
 					</SaveButton>
