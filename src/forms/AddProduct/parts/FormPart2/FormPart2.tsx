@@ -1,10 +1,20 @@
-import { Card, Checkbox, Divider } from "@mui/material";
+import {
+	Autocomplete,
+	Card,
+	Checkbox,
+	Divider,
+	FormControl,
+	InputLabel,
+	MenuItem,
+	Select,
+	TextField,
+} from "@mui/material";
+import DefaultButton from "@src/Components/common/buttons/DefaultButton/DefaultButton";
+import NextButtonStyleConfig from "@src/Components/common/buttons/configurations/NextButtonStyle.config";
 import Tip from "@src/Components/feedback/Tooltip/Tip";
 import FieldInput from "@src/Components/forms/FieldInput/FieldInput";
 import FormCardHeader from "@src/Components/forms/FormCardHeader/FormCardHeader";
 import DefaultFormLabel from "@src/Components/forms/FormLabel/DefaultFormLabel";
-import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAndScale";
-import AssetIndex from "@src/assets/AssetIndex";
 import React from "react";
 
 interface Props {}
@@ -184,6 +194,48 @@ export default function FormPart2(props: Props) {
 					<FieldInput type={"number"} placeHolder={""} />
 				</div>
 			</Card>
+			<div className="my-5">
+				<Divider />
+			</div>
+			<Card variant="outlined" sx={{ padding: 3 }}>
+				<div className="mb-4">
+					<FormCardHeader heading="GST Details" subheading="Enter" />
+				</div>
+				<Card variant="outlined" sx={{ padding: 3 }}>
+					<div>
+						<DefaultFormLabel className="mb-2">Enter Gst</DefaultFormLabel>
+					</div>
+					<div className="flex justify-between">
+						<div className="basis-3/6">
+							<FormControl fullWidth>
+								<InputLabel id="demo-simple-select-label">GST</InputLabel>
+								<Select<string>
+									labelId="demo-simple-select-label"
+									id="demo-simple-select"
+									label="GST"
+									value={undefined}
+									onChange={(e) => {}}
+								>
+									<MenuItem value={"numeric"}>GST Numeric</MenuItem>
+									<MenuItem value={"percentage"}>GST Percentage</MenuItem>
+								</Select>
+							</FormControl>
+						</div>
+						<div className="basis-2/5">
+							<FieldInput type={"number"} placeHolder={"enter value"} />
+						</div>
+					</div>
+				</Card>
+			</Card>
+			<div className="flex justify-end mt-5">
+				<DefaultButton
+					onClick={function (): void {
+						throw new Error("Function not implemented.");
+					}}
+					label={"Next"}
+					styles={NextButtonStyleConfig}
+				/>
+			</div>
 		</>
 	);
 }
