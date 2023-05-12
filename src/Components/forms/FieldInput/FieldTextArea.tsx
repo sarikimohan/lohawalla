@@ -27,11 +27,12 @@ enum InputInteractions {
 interface InputProps<T = string> {
 	width?: string | number;
 	error?: string;
-	isValid: boolean | undefined | string;
+	isValid?: boolean | undefined | string;
 	setData?: (e: T) => void;
 	onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 	onBlur?: (e: T) => void;
-	data: T;
+	data?: T;
+	value?: T;
 	inputStateStylesConfig?: InputStateStyles;
 	placeHolder: string;
 	inputClassName?: string;
@@ -74,7 +75,7 @@ function mapper(state: InputInteractions, props: InputProps): ComStyles {
 		? props.inputStateStylesConfig
 		: styles;
 
-	if (props.isValid) return _styles.valid;
+	if (props.isValid === true) return _styles.valid;
 	if (props.error) return _styles.error;
 
 	switch (state) {
@@ -89,7 +90,7 @@ function IconMapper(
 	state: InputInteractions,
 	_props: InputProps
 ): React.ReactNode {
-	if (_props.isValid) {
+	if (_props.isValid === true) {
 		return <AssetIndex.TickIcon />;
 	}
 
@@ -142,7 +143,7 @@ export default function FieldTextArea(props: InputProps) {
 							props.onChange && props.onChange(e);
 							props.setData && props.setData(e.target.value);
 						}}
-						value={props.data}
+						value={props.data ? props.data : props.value}
 						maxLength={props.maxLength}
 						disabled={props.disabled}
 						name={props.name}

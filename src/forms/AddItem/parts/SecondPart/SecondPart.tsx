@@ -53,9 +53,7 @@ export default function SecondPart(props: Props) {
 								<td align="center" className="">
 									<FieldInput
 										width={"80%"}
-										isValid={state.margin.online.isValid}
-										error={state.margin.online.error}
-										data={state.margin.online.value}
+										{...state.margin.online}
 										onChange={(d) => {
 											secondFormActions.setOnline(d.target.value);
 										}}
@@ -75,9 +73,7 @@ export default function SecondPart(props: Props) {
 								<td align="center">
 									<FieldInput
 										width={"80%"}
-										isValid={state.margin.cash.isValid}
-										error={state.margin.cash.error}
-										data={state.margin.cash.value}
+										{...state.margin.cash}
 										onChange={(d) => {
 											secondFormActions.setCash(d.target.value);
 										}}

@@ -19,8 +19,8 @@ function Dashboard() {
 				</SpacingDiv>
 				<div>
 					{/* <AddCompany /> */}
-					{/* <AddItem /> */}
-					<AddCategoryForm />
+					<AddItem />
+					{/* <AddCategoryForm /> */}
 					{/* <ErrorCard messages={[]} /> */}
 					{/* <EditCategory/> */}
 					{/* <AddCategoryForm /> */}

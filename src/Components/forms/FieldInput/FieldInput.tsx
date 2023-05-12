@@ -123,6 +123,32 @@ export default function FieldInput(props: InputProps) {
 		};
 	}, []);
 
+	const [suggestion, setSuggestion] = useState<string | undefined>();
+
+	useEffect(() => {
+		if (suggestion !== undefined) {
+			setTimeout(() => {
+				setSuggestion(undefined);
+			}, 1000);
+		}
+	}, [suggestion]);
+
+	useEffect(() => {
+		const fn = (e: KeyboardEvent) => {
+			if (
+				props.type === "number" &&
+				e.key !== "Backspace" &&
+				/^[0-9]*$/.test(e.key) === false &&
+				suggestion === undefined
+			) {
+				setSuggestion("enter only numeric values");
+			}
+		};
+		const elem = ref.current as HTMLInputElement;
+		elem.addEventListener("keydown", fn);
+		return () => elem.removeEventListener("keypress", fn);
+	}, []);
+
 	return (
 		<div className={style.wrapper} style={{ width: props.width }}>
 			<motion.div
@@ -161,6 +187,14 @@ export default function FieldInput(props: InputProps) {
 					style={{ color: "red", fontSize: 13 }}
 				>
 					{props.error}
+				</p>
+			)}
+			{suggestion && (
+				<p
+					className="mt-1 w-full text-align-start text-amber-400"
+					style={{ fontSize: 13 }}
+				>
+					{suggestion}
 				</p>
 			)}
 		</div>
