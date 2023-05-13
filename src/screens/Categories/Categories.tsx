@@ -17,6 +17,8 @@ import { InitialState } from "./management/state/InitialState";
 import CategoryActions from "./management/actions/CategoryActions";
 import useHeight from "@src/modules/hooks/useHeight";
 import AddCategoryForm from "@src/forms/AddCategory/AddCategoryForm";
+import Header from "@src/Components/Grid/Header/Header";
+import TableRow from "./components/TableRow/TableRow";
 
 function Categories() {
 	const heightService = useHeight();
@@ -78,33 +80,19 @@ function Categories() {
 						</SpacingDiv>
 						<div>
 							<table className="table-auto w-full">
-								<thead>
-									<tr>
-										<th className="px-2 py-4 bg-fuschia text-white rounded-l-md">
-											<p className="text-sm font-semibold text-white">Sr No</p>
-										</th>
-										<th className="px-2 py-4 bg-fuschia text-white">
-											<p className="text-sm font-semibold text-white">
-												Category Name
-											</p>
-										</th>
-										<th className="px-2 py-4 bg-fuschia text-white">
-											<p className="text-sm font-semibold text-white">
-												Category Code
-											</p>
-										</th>
-										<th className="px-2 py-4 bg-fuschia text-white">
-											<p className="text-sm font-semibold text-white">
-												Entry Time
-											</p>
-										</th>
-										<th className="px-2 py-4 bg-fuschia text-white rounded-r-md">
-											<p className="text-sm font-semibold text-white">
-												Number Of Items
-											</p>
-										</th>
-									</tr>
-								</thead>
+								<Header
+									columns={[
+										"Sr no",
+										"Category Name",
+										"Category Code",
+										"Entry Time",
+										"No of Items",
+										"",
+									]}
+								/>
+								<tbody>
+									<TableRow />
+								</tbody>
 							</table>
 						</div>
 					</Card>
