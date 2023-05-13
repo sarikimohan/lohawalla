@@ -1,4 +1,5 @@
 import { FieldDataService } from "@src/modules/FieldData/FieldData";
+import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 
 const InitialState: AddProduct.State = {
 	page: 1,
@@ -32,6 +33,9 @@ const InitialState: AddProduct.State = {
 			value: FieldDataService.getDefaultField(),
 		},
 	},
+	loading: {
+		save: AsyncStateFactory()
+	}
 };
 
 export default InitialState;

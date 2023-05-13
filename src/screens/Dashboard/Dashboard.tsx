@@ -26,7 +26,7 @@ function Dashboard() {
 					{/* <AddCategoryForm /> */}
 					{/* <ErrorCard messages={[]} /> */}
 					{/* <EditCategory/> */}
-					<AddCategoryForm />
+					{/* <AddCategoryForm /> */}
 					{/* <EditCompany/> */}
 					{/* <EditItem /> */}
 				</div>

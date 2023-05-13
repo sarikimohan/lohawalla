@@ -1,4 +1,6 @@
-import StateUtils from "@src/modules/StateManagement/Core/StateUtils";
+import StateUtils, {
+	ServerStateUtils,
+} from "@src/modules/StateManagement/Core/StateUtils";
 import server from "@src/modules/axios/instances";
 import { NameIdPair } from "@src/modules/backendTypes/change/NameIdPair";
 import { apis } from "../../fetch/api";
@@ -27,7 +29,7 @@ interface FormFields {
 	pricefields: PriceField[];
 }
 
-export default class SaveFormActions extends StateUtils<AddCompany.State> {
+export default class SaveFormActions extends ServerStateUtils<AddCompany.State> {
 	async saveForm(images: string[], by: NameIdPair) {
 		//* created the data object
 		const d: FormFields = {
@@ -50,18 +52,14 @@ export default class SaveFormActions extends StateUtils<AddCompany.State> {
 			})),
 		};
 
-		this.mutateState((p) => {
-			p.loading.savedData.status = "initialized";
-		});
-		try {
-			await server.post(apis.createCompany, d);
-			this.mutateState((p) => {
-				p.loading.savedData.status = "success";
-			});
-		} catch (err) {
-			this.mutateState((p) => {
-				p.loading.savedData.status = "failed";
-			});
-		}
+		this.handleAsync(
+			"save",
+			() => {
+				return server.post(apis.createCompany, d);
+			},
+			{
+				errMessage: "failed to save company!",
+			}
+		);
 	}
 }

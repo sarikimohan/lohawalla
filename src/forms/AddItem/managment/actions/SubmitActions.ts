@@ -1,4 +1,6 @@
-import StateUtils from "@src/modules/StateManagement/Core/StateUtils";
+import StateUtils, {
+	ServerStateUtils,
+} from "@src/modules/StateManagement/Core/StateUtils";
 import server from "@src/modules/axios/instances";
 import { NameIdPair } from "@src/modules/backendTypes/change/NameIdPair";
 import { S } from "@storybook/react/dist/types-0a347bb9";
@@ -24,7 +26,7 @@ interface FormFields {
 	descriptionLables: DescriptionData[];
 }
 
-export default class SubmitActions extends StateUtils<AddItem.State> {
+export default class SubmitActions extends ServerStateUtils<AddItem.State> {
 	async saveForm(images: string[], id: string, by: NameIdPair) {
 		const data: FormFields = {
 			cid: id,
@@ -48,19 +50,8 @@ export default class SubmitActions extends StateUtils<AddItem.State> {
 			})),
 		};
 
-		this.mutateState((p) => {
-			p.loading.saveData.status = "initialized";
+		this.handleAsync("save", () => server.post(apis.createItem, data), {
+			errMessage: "failed to save item!",
 		});
-
-		try {
-			await server.post(apis.createItem, data);
-			this.mutateState((p) => {
-				p.loading.saveData.status = "success";
-			});
-		} catch (err) {
-			this.mutateState((p) => {
-				p.loading.saveData.status = "failed";
-			});
-		}
 	}
 }

@@ -53,5 +53,8 @@ namespace AddProduct {
 				value: FieldData;
 			};
 		};
+		loading: {
+			save: AsyncState;
+		};
 	}
 }

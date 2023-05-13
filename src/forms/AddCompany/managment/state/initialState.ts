@@ -27,8 +27,7 @@ export const InitialState: AddCompany.State = {
 	],
 	descriptionLabels: [],
 	loading: {
-		savedImages: AsyncStateFactory(),
-		savedData: AsyncStateFactory(),
+		save: AsyncStateFactory(),
 	},
 	descriptionEntry: {
 		key: { value: "" },

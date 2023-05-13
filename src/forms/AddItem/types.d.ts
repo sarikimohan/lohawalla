@@ -23,8 +23,7 @@ namespace AddItem {
 		};
 		
 		loading: {
-			imageUpload: AsyncState;
-			saveData: AsyncState;
+			save: AsyncState
 		};
 	}
 }

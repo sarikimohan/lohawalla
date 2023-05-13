@@ -16,9 +16,9 @@ import RowContainer from "@src/Components/common/Grid/RowContainer.default";
 import { InitialState } from "./management/state/InitialState";
 import CategoryActions from "./management/actions/CategoryActions";
 import useHeight from "@src/modules/hooks/useHeight";
+import AddCategoryForm from "@src/forms/AddCategory/AddCategoryForm";
 
 function Categories() {
-	const widthService = useWidth();
 	const heightService = useHeight();
 	const [state, setState] = useState<Categories.State>(InitialState);
 	const categoryAction = new CategoryActions(state, (s) => setState(s));
@@ -28,67 +28,98 @@ function Categories() {
 	}, []);
 
 	return (
-		<div>
-			<div ref={heightService.ref}>
-				<TitleNavBar title={"Categories"} />
-			</div>
-			<div
-				style={{
-					height: `calc(100vh - ${heightService.height}px)`,
-					overflow: "auto",
-				}}
-				className='p-7'
-			>
-				<Card variant="outlined" sx={{ padding: 4 }}>
-					<SpacingDiv marginBottom={24}>
-						<Subtitle>
-							Category({categoryAction.getCategoryGridData().length})
-						</Subtitle>
-					</SpacingDiv>
-					<SpacingDiv
-						containerProps={{ className: "crow sb" }}
-						marginBottom={24}
-					>
-						<div className="d-flex vc">
-							<SpacingDiv marginRight={16}>
-								<SearchBar
-									onChange={(e) => {
-										categoryAction.setQuery(e);
-									}}
-								/>
-							</SpacingDiv>
+		<>
+			<div className="mx-6">
+				<div ref={heightService.ref}>
+					<TitleNavBar title={"Categories"} />
+				</div>
+				<div
+					style={{
+						height: `calc(100vh - ${heightService.height}px)`,
+						overflow: "auto",
+					}}
+					className="p-7"
+				>
+					<Card variant="outlined" sx={{ padding: 5 }}>
+						<SpacingDiv marginBottom={24}>
+							<Subtitle>
+								Category({categoryAction.getCategoryGridData().length})
+							</Subtitle>
+						</SpacingDiv>
+						<SpacingDiv
+							containerProps={{ className: "crow sb" }}
+							marginBottom={24}
+						>
+							<div className="d-flex vc">
+								<SpacingDiv marginRight={16}>
+									<SearchBar
+										onChange={(e) => {
+											categoryAction.setQuery(e);
+										}}
+									/>
+								</SpacingDiv>
+								<div>
+									<SearchFilters
+										options={categoryAction.getOptions()}
+										onItemClick={(e) => categoryAction.toggleFilter(e)}
+									/>
+								</div>
+							</div>
 							<div>
-								<SearchFilters
-									options={categoryAction.getOptions()}
-									onItemClick={(e) => categoryAction.toggleFilter(e)}
+								<DefaultButton
+									onClick={function (): void {
+										categoryAction.mutateState((p) => {
+											p.showForm = true;
+										});
+									}}
+									label={"+ ADD CATEGORY"}
 								/>
 							</div>
-						</div>
+						</SpacingDiv>
 						<div>
-							<DefaultButton
-								onClick={function (): void {}}
-								label={"+ ADD CATEGORY"}
-							/>
+							<table className="table-auto w-full">
+								<thead>
+									<tr>
+										<th className="px-2 py-4 bg-fuschia text-white rounded-l-md">
+											<p className="text-sm font-semibold text-white">Sr No</p>
+										</th>
+										<th className="px-2 py-4 bg-fuschia text-white">
+											<p className="text-sm font-semibold text-white">
+												Category Name
+											</p>
+										</th>
+										<th className="px-2 py-4 bg-fuschia text-white">
+											<p className="text-sm font-semibold text-white">
+												Category Code
+											</p>
+										</th>
+										<th className="px-2 py-4 bg-fuschia text-white">
+											<p className="text-sm font-semibold text-white">
+												Entry Time
+											</p>
+										</th>
+										<th className="px-2 py-4 bg-fuschia text-white rounded-r-md">
+											<p className="text-sm font-semibold text-white">
+												Number Of Items
+											</p>
+										</th>
+									</tr>
+								</thead>
+							</table>
 						</div>
-					</SpacingDiv>
-					<div ref={widthService.ref}>
-						<Grid<Categories.CategoryGridData>
-							data={categoryAction.filterCategoryData()}
-							config={columnConfig}
-							width={widthService.width}
-							BannerContainer={(children) => (
-								<BannerContainer width={widthService.width}>
-									{children}
-								</BannerContainer>
-							)}
-							RowContainer={RowContainer<Categories.CategoryGridData>}
-							paddingLeft={32}
-							paddingRight={32}
-						/>
-					</div>
-				</Card>
+					</Card>
+				</div>
 			</div>
-		</div>
+			{state.showForm && (
+				<AddCategoryForm
+					onClose={() => {
+						categoryAction.mutateState((p) => {
+							p.showForm = false;
+						});
+					}}
+				/>
+			)}
+		</>
 	);
 }
 

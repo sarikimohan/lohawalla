@@ -1,7 +1,7 @@
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 
 export const InitialState: AddItem.State = {
-	page: 0	,
+	page: 0,
 	itemName: { value: "" },
 	itemHSNCode: { value: "" },
 	itemCode: { value: "" },
@@ -13,8 +13,7 @@ export const InitialState: AddItem.State = {
 	description: { value: "" },
 	descriptionLabels: [],
 	loading: {
-		imageUpload: AsyncStateFactory(),
-		saveData: AsyncStateFactory(),
+		save: AsyncStateFactory(),
 	},
 	descriptionEntry: {
 		key: { value: "" },

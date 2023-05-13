@@ -1,6 +1,7 @@
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 
 export const InitialState: Categories.State = {
+	showForm: false,
 	categoryList: [],
 	filter: {
 		query: "",
@@ -10,6 +11,6 @@ export const InitialState: Categories.State = {
 		],
 	},
 	loading: {
-		fetchCategoryList: AsyncStateFactory(),
+		get: AsyncStateFactory(),
 	},
 };

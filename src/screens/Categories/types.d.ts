@@ -16,10 +16,11 @@ namespace Categories {
 	}
 
 	interface State {
+		showForm: boolean;
 		categoryList: CategoryGridData[];
 		filter: Filter;
 		loading: {
-			fetchCategoryList: AsyncState;
+			get: AsyncState
 		};
 	}
 

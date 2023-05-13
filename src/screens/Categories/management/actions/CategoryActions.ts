@@ -38,45 +38,7 @@ export default class CategoryActions
 	}
 
 	fetchCategoryGridData() {
-		this.mutateState(
-			(p) => (p.loading.fetchCategoryList.status = "initialized")
-		);
-		getCategoryGridData()
-			.then((res) => {
-				// map
-				// we have to transform the server response to the ui state
-				this.mutateState((p) => {
-					const arr: Categories.CategoryGridData[] = [];
-					for (let data of res) {
-						const newVal: Categories.CategoryGridData = {
-							_id: data._id,
-							srNo: data.srNo,
-							categoryName: {
-								name: data.categoryName.name,
-								imageURL: data.categoryName.imageURL,
-							},
-							categoryCode: parseInt(data.categoryCode),
-							entryTime: data.entryTime,
-							noOfItems: data.noOfItems,
-							rowStatus: {
-								isFixed: false,
-								fixedPosition: 0,
-							},
-						};
-						arr.push(newVal);
-					}
-					p.categoryList = arr;
-					p.loading.fetchCategoryList.status = "success";
-				});
-			})
-			.catch((err) => {
-				this.mutateState((p) => {
-					p.loading.fetchCategoryList = {
-						status: "failed",
-						message: "some error occured",
-					};
-				});
-			});
+
 	}
 	setQuery(query: string) {
 		this.mutateState((p) => {

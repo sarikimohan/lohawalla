@@ -38,8 +38,7 @@ namespace AddCompany {
 		};
 
 		loading: {
-			savedImages: AsyncState;
-			savedData: AsyncState;
+			save: AsyncState;
 		};
 	}
 }

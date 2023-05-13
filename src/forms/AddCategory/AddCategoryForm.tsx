@@ -15,6 +15,10 @@ import SaveCategoryActions from "./managment/actions/SaveCategoryActions";
 import ErrorCard from "@src/Components/feedback/ErrorCard/ErrorCard";
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 
+interface Props {
+	onClose: () => void;
+}
+
 interface ContextInterface {
 	addCategoryActions: AddCategoryActions;
 	setStateActions: SetStateActions;
@@ -40,7 +44,7 @@ function Mapper() {
 	);
 }
 
-function AddCategoryForm() {
+function AddCategoryForm(props: Props) {
 	const [state, setState] = useState(InitialState);
 
 	const addCategoryActions = new AddCategoryActions(state, setState);
@@ -63,6 +67,7 @@ function AddCategoryForm() {
 			<PopUpContainer>
 				{state.loading.save.status === "failed" ? (
 					<ErrorCard
+						handleCut={props.onClose}
 						messages={[state.loading.save.message]}
 						primaryAction={{
 							onClick: () => {
@@ -74,6 +79,7 @@ function AddCategoryForm() {
 							label: "Retry",
 						}}
 						secondaryAction={{
+							onClick: props.onClose,
 							label: "Close",
 						}}
 					/>
@@ -86,7 +92,7 @@ function AddCategoryForm() {
 										if (p.page > 0) p.page--;
 									});
 								}}
-								close={() => {}}
+								close={props.onClose}
 								heading={"Category"}
 								preHeading={"ADD"}
 							/>
