@@ -5,7 +5,7 @@ import checkIsCodeUnique from "../../fetch/service/checkIsCodeUnique";
 
 export default class Validate extends ServerStateUtils<AddItem.State> {
 	//* ///////////////////////////// FIRST FORM /////////////////////////////
-	validateName() {
+	async validateName() {
 		// ex, unq
 		const verdict = { isValid: true };
 
@@ -16,7 +16,7 @@ export default class Validate extends ServerStateUtils<AddItem.State> {
 			Validators.validateNull
 		);
 		if (name.error === undefined) {
-			this.handleAsync("checkName", () => checkIsNameUnique(name.value), {
+			await this.handleAsync("checkName", () => checkIsNameUnique(name.value), {
 				onError: (err) => {
 					name.error = "server error, cannot check uniqueness of name";
 				},
@@ -54,7 +54,7 @@ export default class Validate extends ServerStateUtils<AddItem.State> {
 
 		return verdict.isValid;
 	}
-	validateCode() {
+	async validateCode() {
 		// ex, unq
 		const verdict = { isValid: true };
 		const code = this.state.itemCode;
@@ -65,7 +65,7 @@ export default class Validate extends ServerStateUtils<AddItem.State> {
 			Validators.validateNull
 		);
 		if (!code.error) {
-			this.handleAsync("checkCode", () => checkIsCodeUnique(code.value), {
+			await this.handleAsync("checkCode", () => checkIsCodeUnique(code.value), {
 				onError: (err) => {
 					code.error = "server error, cannot check uniqueness of code";
 				},
@@ -101,6 +101,19 @@ export default class Validate extends ServerStateUtils<AddItem.State> {
 		});
 
 		return verdict.isValid;
+	}
+
+	async validateFirstForm(onSuccess: () => void) {
+		const v = [
+			await this.validateName(),
+			this.validateHSNCode(),
+			await this.validateCode(),
+			this.validateDescription(),
+		];
+		const verdict = v.reduce((a, c) => a && c, true);
+		if (verdict) {
+			onSuccess();
+		}
 	}
 
 	//* ///////////////////////////// SECOND FORM /////////////////////////////
@@ -148,12 +161,41 @@ export default class Validate extends ServerStateUtils<AddItem.State> {
 					verdict,
 					Validators.validateNull
 				);
-        
+				data.isValid = !data.error;
+
+				p.descriptionLabels[i].value = data;
 			});
 		});
+
+		return verdict.isValid;
 	}
 
 	validateAddDescription() {
 		// value(ex) key(unique, ex);
+		const verdict = { isValid: true };
+		const data = this.state.descriptionEntry;
+
+		data.key.error = FieldDataService.registerValidator(
+			data.key.value,
+			verdict,
+			Validators.validateNull,
+			(d) => {
+				for (let dl of this.state.descriptionLabels) {
+					if (dl.key === d) {
+						return d + " already exists";
+					}
+				}
+			}
+		);
+		data.key.isValid = !data.key.error;
+
+		data.value.error = FieldDataService.registerValidator(
+			data.value.value,
+			verdict,
+			Validators.validateNull
+		);
+		data.value.isValid = !data.value.error;
+
+		return verdict.isValid;
 	}
 }
