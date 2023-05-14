@@ -44,6 +44,14 @@ function Mapper() {
 	);
 }
 
+function isError(state: { [key: string]: AsyncState }) {
+	const values = Object.values(state);
+	for (let value of values) {
+		if (value.status === "failed") return true;
+	}
+	return false;
+}
+
 function AddCategoryForm(props: Props) {
 	const [state, setState] = useState(InitialState);
 
@@ -65,7 +73,7 @@ function AddCategoryForm(props: Props) {
 			}}
 		>
 			<PopUpContainer>
-				{state.loading.save.status === "failed" ? (
+				{isError(state.loading) ? (
 					<ErrorCard
 						handleCut={props.onClose}
 						messages={[state.loading.save.message]}

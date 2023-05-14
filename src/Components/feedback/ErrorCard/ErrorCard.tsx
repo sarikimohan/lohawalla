@@ -4,7 +4,7 @@ import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { motion } from "framer-motion";
 
 interface Props {
-	messages: string[];
+	messages: (string|undefined)[];
 	handleCut?: () => void;
 	primaryAction: {
 		onClick?: () => void;
@@ -41,7 +41,7 @@ export default function ErrorCard(props: Props) {
 			</h2>
 
 			<div className="container mb-7">
-				{props.messages.map((v) => (
+				{props.messages.map((v) => v && (
 					<div className="flex mb-1 items-center">
 						<div className="mr-2">
 							<ErrorOutlineIcon className="text-red-500" />

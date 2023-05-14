@@ -85,6 +85,10 @@ export default class AddCategoryActions extends StateUtils<AddCategory.State> {
 		return verdict.isValid;
 	}
 
+	validateCategoryName() { 
+		
+	}
+
 	validateThirdForm() {
 		const verdict = { isValid: true };
 		let verdicts: (string | undefined)[] = [];

@@ -5,6 +5,8 @@ export const InitialState: AddCategory.State = {
 	page: 0,
 	loading: {
 		save: AsyncStateFactory(),
+		checkName: AsyncStateFactory(),
+		checkCode: AsyncStateFactory(),
 	},
 	firstForm: {
 		categoryName: FieldDataService.getDefaultField(),

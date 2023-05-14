@@ -1,10 +1,14 @@
 import { getCategoryGridData } from "@src/globals/constants/async";
 import ComponentActions from "@src/modules/StateManagement/Core/ComponentAction";
-import StateUtils from "@src/modules/StateManagement/Core/StateUtils";
+import StateUtils, {
+	ServerStateUtils,
+} from "@src/modules/StateManagement/Core/StateUtils";
 import isPrefix from "@src/modules/Utils/isPrefix";
+import server from "@src/modules/axios/instances";
+import fetchCategoryGrid from "../../fetch/services/fetchCategoryGrid";
 
 export default class CategoryActions
-	extends StateUtils<Categories.State>
+	extends ServerStateUtils<Categories.State>
 	implements Categories.Actions
 {
 	/**
@@ -26,10 +30,11 @@ export default class CategoryActions
 				if (filter.isActive) {
 					const query = this.state.filter.query.toLowerCase().trim();
 					if (filter.name === "category name") {
-						if(isPrefix(v.categoryName.name.toLowerCase(), query)) return true;
+						if (isPrefix(v.categoryName.name.toLowerCase(), query)) return true;
 					}
 					if (filter.name === "category code") {
-						if(isPrefix(v.categoryCode.toString().toLowerCase(), query)) return true;
+						if (isPrefix(v.categoryCode.toString().toLowerCase(), query))
+							return true;
 					}
 				}
 				return false;
@@ -37,8 +42,13 @@ export default class CategoryActions
 		});
 	}
 
-	fetchCategoryGridData() {
-
+	async fetchCategoryGridData() {
+		const res = await this.handleAsync("get", () => fetchCategoryGrid());
+		if (res) {
+			this.mutateState((p) => {
+				p.categoryList = res.data;
+			});
+		}
 	}
 	setQuery(query: string) {
 		this.mutateState((p) => {

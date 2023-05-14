@@ -1,3 +1,5 @@
+import { AxiosError } from "axios";
+
 export default class StateUtils<T> {
 	protected state: T;
 	protected setState: (setter: (newState: T) => T) => void;
@@ -51,10 +53,14 @@ export class ServerStateUtils<
 			});
 			return val;
 		} catch (err) {
+			const error = err as AxiosError;
+			const message =
+				error.status && error.status >= 500 ? "server error" : errMessage;
+			console.log("error received wasa", error);
 			this.mutateState((p) => {
 				p.loading[name] = {
 					status: "failed",
-					message: errMessage,
+					message,
 				};
 			});
 		}

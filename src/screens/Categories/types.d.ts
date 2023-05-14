@@ -6,12 +6,12 @@ namespace Categories {
 			name: string;
 			imageURL: string | null;
 		};
-		categoryCode: number;
+		categoryCode: string;
 		entryTime: string;
 		noOfItems: number;
 		rowStatus: {
 			isFixed: boolean;
-			fixedPosition: number;
+			position: number;
 		};
 	}
 
@@ -20,7 +20,7 @@ namespace Categories {
 		categoryList: CategoryGridData[];
 		filter: Filter;
 		loading: {
-			get: AsyncState
+			get: AsyncState;
 		};
 	}
 

@@ -1,4 +1,5 @@
 namespace AddCategory {
+	//* state
 	interface DescriptionLabels {
 		id: string;
 		key: string;
@@ -43,6 +44,7 @@ namespace AddCategory {
 		descriptionLabels: DescriptionLabels[];
 	}
 
+	//* actions 
 	interface Actions {
 		navFront();
 		navBack();
@@ -60,6 +62,7 @@ namespace AddCategory {
 	}
 }
 
+//* actions 
 namespace AddCategoryAsync {
 	
 	interface CreditData {
@@ -82,6 +85,10 @@ namespace AddCategoryAsync {
 		descriptionLabels: DescriptionData[];
 		by: NameIdPair;
 		images: string[];
+	}
+
+	interface IsUnique {
+		isUnique: boolean
 	}
 
 }

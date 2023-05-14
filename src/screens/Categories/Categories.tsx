@@ -19,6 +19,8 @@ import useHeight from "@src/modules/hooks/useHeight";
 import AddCategoryForm from "@src/forms/AddCategory/AddCategoryForm";
 import Header from "@src/Components/Grid/Header/Header";
 import TableRow from "./components/TableRow/TableRow";
+import RowStat from "@src/Components/Grid/RowStat/RowStat";
+import LoadingBoundary from "@src/Components/common/LoadingBoundary/LoadingBoundary";
 
 function Categories() {
 	const heightService = useHeight();
@@ -78,7 +80,7 @@ function Categories() {
 								/>
 							</div>
 						</SpacingDiv>
-						<div>
+						<LoadingBoundary asyncState={state.loading.get}>
 							<table className="table-auto w-full">
 								<Header
 									columns={[
@@ -87,14 +89,23 @@ function Categories() {
 										"Category Code",
 										"Entry Time",
 										"No of Items",
-										"",
+										{
+											name: "",
+											width: 80,
+										},
 									]}
 								/>
 								<tbody>
-									<TableRow />
+									<RowStat
+										colSpan={6}
+										isEmpty={state.categoryList.length == 0}
+										asyncState={state.loading.get}
+									>
+										<TableRow />
+									</RowStat>
 								</tbody>
 							</table>
-						</div>
+						</LoadingBoundary>
 					</Card>
 				</div>
 			</div>

@@ -1,4 +1,4 @@
-import { CircularProgress } from "@mui/material";
+import { Alert, CircularProgress } from "@mui/material";
 import React from "react";
 import { Small } from "../Typography/TypeStyles";
 
@@ -22,7 +22,7 @@ function LoadingBoundary({
 			)}
 			{asyncState.status === "failed" && (
 				<div>
-					<Small>{asyncState.message}</Small>
+					<Alert severity="error">{asyncState.message}</Alert>
 				</div>
 			)}
 			{asyncState.status === "dormant" ||
