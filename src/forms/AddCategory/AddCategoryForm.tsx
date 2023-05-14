@@ -14,6 +14,7 @@ import CreditActions from "./managment/actions/CreditActions";
 import SaveCategoryActions from "./managment/actions/SaveCategoryActions";
 import ErrorCard from "@src/Components/feedback/ErrorCard/ErrorCard";
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
+import ValidateAddCategory from "./managment/actions/Validate";
 
 interface Props {
 	onClose: () => void;
@@ -26,6 +27,7 @@ interface ContextInterface {
 	descriptionActions: DescriptionActions;
 	creditActions: CreditActions;
 	saveActions: SaveCategoryActions;
+	validate: ValidateAddCategory;
 }
 const Context = React.createContext<ContextInterface>({} as ContextInterface);
 
@@ -60,6 +62,7 @@ function AddCategoryForm(props: Props) {
 	const descriptionActions = new DescriptionActions(state, setState);
 	const creditActions = new CreditActions(state, setState);
 	const saveActions = new SaveCategoryActions(state, setState);
+	const validate = new ValidateAddCategory(state, setState);
 
 	return (
 		<Context.Provider
@@ -70,6 +73,7 @@ function AddCategoryForm(props: Props) {
 				descriptionActions,
 				creditActions,
 				saveActions,
+				validate,
 			}}
 		>
 			<PopUpContainer>

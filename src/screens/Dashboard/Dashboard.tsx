@@ -20,13 +20,17 @@ function Dashboard() {
 					<TitleNavBar title={"Dashboard"} />
 				</SpacingDiv>
 				<div>
+					<AddCategoryForm
+						onClose={function (): void {
+							throw new Error("Function not implemented.");
+						}}
+					/>
 					{/* <AddProductForm /> */}
 					{/* <AddCompany /> */}
-					<AddItem />
+					{/* <AddItem /> */}
 					{/* <AddCategoryForm /> */}
 					{/* <ErrorCard messages={[]} /> */}
 					{/* <EditCategory/> */}
-					{/* <AddCategoryForm /> */}
 					{/* <EditCompany/> */}
 					{/* <EditItem /> */}
 				</div>

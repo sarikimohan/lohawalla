@@ -11,7 +11,8 @@ import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAn
 import AddMore from "@src/Components/common/buttons/AddMore/AddMore";
 
 function SecondPart() {
-	const { state, creditActions, addCategoryActions } = useAddCategoryContext();
+	const { state, creditActions, addCategoryActions, validate } =
+		useAddCategoryContext();
 
 	return (
 		<>
@@ -124,7 +125,7 @@ function SecondPart() {
 					<div className="mt-5 flex justify-end">
 						<AddMore
 							handleAdd={() => {
-								const verdict = creditActions.validateAdd();
+								const verdict = validate.validateAddCredit();
 								if (verdict) {
 									creditActions.addCredit();
 								}

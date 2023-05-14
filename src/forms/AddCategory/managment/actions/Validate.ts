@@ -17,7 +17,7 @@ export default class ValidateAddCategory extends ServerStateUtils<AddCategory.St
 		);
 
 		if (!data.error) {
-			this.handleAsync("checkName", () => checkIsNameUnique(data.value), {
+			await this.handleAsync("checkName", () => checkIsNameUnique(data.value), {
 				onError: (err) => {
 					data.error = "server error, cannot check uniqueness of name";
 				},
@@ -48,7 +48,7 @@ export default class ValidateAddCategory extends ServerStateUtils<AddCategory.St
 		);
 
 		if (!data.error) {
-			this.handleAsync("checkCode", () => checkIsCodeUnique(data.value), {
+			await this.handleAsync("checkCode", () => checkIsCodeUnique(data.value), {
 				onError: (err) => {
 					data.error = "server error, cannot check uniqueness of code";
 				},
@@ -220,7 +220,7 @@ export default class ValidateAddCategory extends ServerStateUtils<AddCategory.St
 	}
 
 	//* ///////////////////////// THIRD FORM /////////////////////////////
-	validateDescription(onSuccess: () => void) {
+	validateDescriptionLabels(onSuccess: () => void) {
 		const verdict = { isValid: true };
 		this.mutateState((p) => {
 			p.descriptionLabels.forEach((v, i) => {
@@ -268,6 +268,10 @@ export default class ValidateAddCategory extends ServerStateUtils<AddCategory.St
 			Validators.validateNull
 		);
 		value.isValid = !value.error;
+
+		this.mutateState((p) => {
+			p.descriptionEntry = { key, value };
+		});
 
 		return verdict.isValid;
 	}

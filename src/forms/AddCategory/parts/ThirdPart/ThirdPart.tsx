@@ -11,8 +11,13 @@ import { verify } from "crypto";
 import { useAuthGuardContext } from "@src/auth/AuthGuard/AuthGuard";
 
 function ThirdPart() {
-	const { state, descriptionActions, addCategoryActions, saveActions } =
-		useAddCategoryContext();
+	const {
+		state,
+		descriptionActions,
+		addCategoryActions,
+		saveActions,
+		validate,
+	} = useAddCategoryContext();
 	const { user } = useAuthGuardContext();
 
 	return (
@@ -110,7 +115,7 @@ function ThirdPart() {
 						<div className="mt-5 flex justify-end">
 							<AddMore
 								handleAdd={() => {
-									const verdict = descriptionActions.validateAdd();
+									const verdict = validate.validateAddDescription();
 									if (verdict) descriptionActions.addField();
 								}}
 							/>
@@ -120,10 +125,9 @@ function ThirdPart() {
 				<div className="crow jfe">
 					<SaveButton
 						onClick={() => {
-							const verdict = addCategoryActions.validateThirdForm();
-							if (verdict) {
+							validate.validateDescriptionLabels(() => {
 								saveActions.save([], user);
-							}
+							});
 						}}
 						isLoading={state.loading["save"].status === "initialized"}
 					>

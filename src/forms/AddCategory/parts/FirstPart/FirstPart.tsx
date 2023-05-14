@@ -13,7 +13,7 @@ import FieldInput from "@src/Components/forms/FieldInput/FieldInput";
 import FieldTextArea from "@src/Components/forms/FieldInput/FieldTextArea";
 
 function FirstPart() {
-	const { state, setStateActions, addCategoryActions } =
+	const { state, setStateActions, addCategoryActions, validate } =
 		useAddCategoryContext();
 
 	return (
@@ -44,9 +44,6 @@ function FirstPart() {
 					addCategoryActions.mutateState((p) => {
 						p.firstForm.categoryCode.value = d.target.value;
 					});
-				}}
-				onBlur={(d) => {
-					addCategoryActions.validateCategoryCode();
 				}}
 				placeHolder="Enter “52636325”"
 				inputClassName={style.formInput}
@@ -110,13 +107,17 @@ function FirstPart() {
 			<Spacer height={16} />
 			<div className="crow jfe">
 				<DefaultButton
+					loading={
+						state.loading.checkName.status === "initialized" ||
+						state.loading.checkCode.status === "initialized"
+					}
+					loadingColor={"#fff"}
 					onClick={() => {
-						const verdict = addCategoryActions.validateFirstForm();
-						if (verdict) {
+						validate.validateFirstForm(() => {
 							addCategoryActions.mutateState((p) => {
 								p.page++;
 							});
-						}
+						});
 					}}
 					label={"Next"}
 					styles={NextButtonStyleConfig}
