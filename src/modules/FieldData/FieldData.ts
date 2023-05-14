@@ -50,4 +50,17 @@ export class Validators {
 	static validateNull(data: string) {
 		if (data.length === 0) return "required";
 	}
+
+	static min(data: string, value: number) {
+		const val = parseFloat(data);
+		if (val < value) {
+			return "value cannot be less than " + value;
+		}
+	}
+	static max(data: string, value: number) {
+		const val = parseFloat(data);
+		if (val > value) {
+			return "value cannot be more than " + value;
+		}
+	}
 }

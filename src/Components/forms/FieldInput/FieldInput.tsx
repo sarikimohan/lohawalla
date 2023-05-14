@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import style from "./Input.module.css";
 import { useField } from "formik";
+import { CircularProgress } from "@mui/material";
 
 interface ComStyles {
 	container?: object;
@@ -44,6 +45,7 @@ interface InputProps<T = string> {
 	onEnter?: () => void;
 	rightIcon?: React.ReactNode;
 	value?: T;
+	isLoading?: boolean;
 }
 
 const styles: InputStateStyles = {
@@ -178,6 +180,9 @@ export default function FieldInput(props: InputProps) {
 						name={props.name}
 					/>
 					<div>{props.rightIcon}</div>
+					<div>
+						{props.isLoading === true && <CircularProgress size={24} />}
+					</div>
 				</div>
 				<div className={style.iconBox}>{IconMapper(interaction, props)}</div>
 			</motion.div>

@@ -45,9 +45,13 @@ function FirstPart() {
 						p.firstForm.categoryCode.value = d.target.value;
 					});
 				}}
+				onBlur={(d) => {
+					addCategoryActions.validateCategoryCode();
+				}}
 				placeHolder="Enter “52636325”"
 				inputClassName={style.formInput}
 				name="categoryCode"
+				isLoading={state.loading.checkCode.status === "initialized"}
 			/>
 
 			<Spacer height={8 * 2} />

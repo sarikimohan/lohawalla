@@ -1,14 +1,21 @@
 import { FieldDataService, Validators } from "@src/modules/FieldData/FieldData";
-import StateUtils from "@src/modules/StateManagement/Core/StateUtils";
+import StateUtils, {
+	ServerStateUtils,
+} from "@src/modules/StateManagement/Core/StateUtils";
 import axios from "axios";
+import checkIsNameUnique from "../../fetch/services/checkIsNameUnique";
+import checkIsCodeUnique from "../../fetch/services/checkIsCodeUnique";
 
-export default class AddCategoryActions extends StateUtils<AddCategory.State> {
+export default class AddCategoryActions extends ServerStateUtils<AddCategory.State> {
 	validateFirstForm() {
+		this.validateCategoryName();
+		this.validateCategoryCode();
+
 		const err: { [key: string]: string | undefined } = {};
 		const verdict = { isValid: true };
 
 		err.name = FieldDataService.registerValidator(
-			this.state.firstForm.categoryName.value,
+			this.state.firstForm.categoryCode.value,
 			verdict,
 			Validators.validateNull
 		);
@@ -33,11 +40,11 @@ export default class AddCategoryActions extends StateUtils<AddCategory.State> {
 
 		this.mutateState((p) => {
 			p.firstForm.categoryCode.error = err.code;
-			p.firstForm.categoryName.error = err.name;
+			p.firstForm.categoryCode.error = err.name;
 			p.firstForm.description.error = err.description;
 			p.firstForm.unit.error = err.unit;
 			p.firstForm.categoryCode.isValid = !err.code;
-			p.firstForm.categoryName.isValid = !err.name;
+			p.firstForm.categoryCode.isValid = !err.name;
 			p.firstForm.description.isValid = !err.description;
 			p.firstForm.unit.isValid = !err.unit;
 		});
@@ -85,8 +92,73 @@ export default class AddCategoryActions extends StateUtils<AddCategory.State> {
 		return verdict.isValid;
 	}
 
-	validateCategoryName() { 
-		
+	validateCategoryName(verdict?: { isValid: boolean }) {
+		let data = this.state.firstForm.categoryName;
+		data.isValid = true;
+
+		this.mutateState((p) => {
+			p.loading.checkName.status = "initialized";
+		});
+		checkIsNameUnique(data.value)
+			.then(({ data: res }) => {
+				if (res === false) {
+					data.isValid = false;
+					data.error = `category name ${data.value} already exists`;
+					
+				}
+
+				this.mutateState((p) => {
+					p.loading.checkName.status = "success";
+				});
+			})
+			.catch((err) => {
+				data.isValid = false;
+				data.error = "server error, cannot check uniqueness of name";
+
+				this.mutateState((p) => {
+					p.loading.checkName.status = "failed";
+				});
+			})
+			.finally(() => {
+				this.mutateState((p) => {
+					p.loading.checkName.status = "dormant";
+					p.firstForm.categoryName = data;
+				});
+			});
+	}
+
+	validateCategoryCode() {
+		let data = this.state.firstForm.categoryCode;
+		data.isValid = true;
+		// load start
+		this.mutateState((p) => {
+			p.loading.checkCode.status = "initialized";
+		});
+		checkIsNameUnique(data.value)
+			.then(({ data: res }) => {
+				if (res === false) {
+					data.isValid = false;
+					data.error = `category code ${data.value} already exists`;
+				}
+
+				this.mutateState((p) => {
+					p.loading.checkCode.status = "success";
+				});
+			})
+			.catch((err) => {
+				data.isValid = false;
+				data.error = "server error, cannot check uniqueness of code";
+
+				this.mutateState((p) => {
+					p.loading.checkCode.status = "failed";
+				});
+			})
+			.finally(() => {
+				this.mutateState((p) => {
+					p.loading.checkCode.status = "dormant";
+					p.firstForm.categoryCode = data;
+				});
+			});
 	}
 
 	validateThirdForm() {

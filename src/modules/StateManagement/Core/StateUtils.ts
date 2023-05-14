@@ -28,6 +28,9 @@ export class ServerStateUtils<
 			initializedMessage?: string;
 			successMessage?: string;
 			errMessage?: string;
+			onError?: (err: AxiosError) => void;
+			onSuccess?: (data: T) => void;
+			onEnd?: (data?: T, err?: AxiosError) => void;
 		}
 	) {
 		const conf = config ? config : {};
@@ -51,9 +54,11 @@ export class ServerStateUtils<
 					message: successMessage,
 				};
 			});
+			conf.onSuccess && conf.onSuccess(val);
 			return val;
 		} catch (err) {
 			const error = err as AxiosError;
+			conf.onError && conf.onError(error);
 			const message =
 				error.status && error.status >= 500 ? "server error" : errMessage;
 			console.log("error received wasa", error);
@@ -63,6 +68,16 @@ export class ServerStateUtils<
 					message,
 				};
 			});
+		} finally {
+			conf.onEnd && conf.onEnd();
 		}
+	}
+
+	public setLoading(name: string, state: AsyncStatus, message?: string) {
+		this.mutateState((p) => {
+			p.loading[name].status = state;
+			const data = p.loading[name].message;
+			p.loading[name].message = message ? message : data;
+		});
 	}
 }
