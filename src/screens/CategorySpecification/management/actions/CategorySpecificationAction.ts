@@ -1,79 +1,64 @@
 import {
 	getCategorySpecItemGridData,
 	getCategorySpecification,
-	getItemGridData,
 } from "@src/globals/constants/async";
-import StateUtils from "@src/modules/StateManagement/Core/StateUtils";
+import StateUtils, {
+	ServerStateUtils,
+} from "@src/modules/StateManagement/Core/StateUtils";
 import isPrefix from "@src/modules/Utils/isPrefix";
+import fetchCategoryItems from "../../fetch/services/fetchCategoryItems";
+import fetchCategorySpec from "../../fetch/services/fetchCategorySpec";
 
 export default class CategorySpecificationAction
-	extends StateUtils<CategorySpecification.State>
+	extends ServerStateUtils<CategorySpecification.State>
 	implements CategorySpecification.Actions
 {
-
 	getItemListLen() {
 		return this.state.itemList.length;
 	}
 
-	fetchData(id: string): void {
-		(async () => {
-			try {
-				this.mutateState(p => p.loading.fetchData.status = 'initialized');
+	async fetchData(id: string) {
+		const res = await this.handleAsync("fetchItemData", () =>
+			fetchCategoryItems(id)
+		);
+		const resSpec = await this.handleAsync("fetchSpecData", () =>
+			fetchCategorySpec(id)
+		);
 
-			} catch(err) {}
+		if (res) {
+			this.mutateState((p) => {
+				p.itemList = res.data;
+			});
+		}
 
-
-		})();
-
-		(async () => {
-			try {
-				this.mutateState((p) => {
-					p.loading.fetchData.status = "initialized";
-				});
-				const specData = await getCategorySpecification({ id });
-				const itemData = await getCategorySpecItemGridData(id);
-
-
-				this.mutateState(p => {
-					p.categoryName = specData.categoryName;
-					p.credits = specData.creditDetails;
-					p.description = specData.description;
-					p.descriptionLabels = specData.descriptionLabels;
-					p.negotiation = specData.negotiationDetails;
-					p.images = specData.images;
-					
-					p.itemList = itemData;
-					console.log(itemData);
-				})
-
-				this.mutateState((p) => (p.loading.fetchData.status = "success"));
-			} catch (err) {
-				this.mutateState((p) => (p.loading.fetchData.status = "failed"));
-			}
-		})();
+		if (resSpec) {
+			this.mutateState((p) => {
+				p.categorySpec = resSpec.data;
+			});
+		}
 	}
 
 	filterList(): CategorySpecification.ItemGridData[] {
-		console.log('value of item list', this.state.itemList);
-		return this.state.itemList.filter((v)=>{
-			for(let filter of this.state.filter.filters){
-				if(filter.isActive){
-					const query = this.state.filter.query
-					if(filter.name === "item name"){
-						if(isPrefix(v.itemName.name.toLowerCase(), query)) return true;
+		console.log("value of item list", this.state.itemList);
+		return this.state.itemList.filter((v) => {
+			for (let filter of this.state.filter.filters) {
+				if (filter.isActive) {
+					const query = this.state.filter.query;
+					if (filter.name === "item name") {
+						if (isPrefix(v.itemName.name.toLowerCase(), query)) return true;
 					}
-					if(filter.name === "item code"){
-						if(isPrefix(v.itemCode.toString(), query)) return true;
+					if (filter.name === "item code") {
+						if (isPrefix(v.itemCode.toString(), query)) return true;
 					}
 				}
 			}
 			return false;
-		})
+		});
 	}
 	setQuery(query: string): void {
-		this.mutateState((p)=>{
-			p.filter.query = query
-		})
+		this.mutateState((p) => {
+			p.filter.query = query;
+		});
 	}
 	toggleFilter(id: string) {
 		this.mutateState((p) => {

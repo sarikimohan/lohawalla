@@ -1,13 +1,16 @@
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 
 export const InitialState: CategorySpecification.State = {
-	categoryName: "",
-	description: "",
-	descriptionLabels: [],
-	credits: [],
-	negotiation: 0,
+	categorySpec: {
+		_id: "",
+		name: "",
+		description: "",
+		descriptionLabels: [],
+		credit: [],
+		negotiation: 0,
+		images: [],
+	},
 	itemList: [],
-	images: [],
 	filter: {
 		query: "",
 		filters: [
@@ -24,6 +27,6 @@ export const InitialState: CategorySpecification.State = {
 		],
 	},
 	loading: {
-		fetchData: AsyncStateFactory(),
+		fetchItemData: AsyncStateFactory(),
 	},
 };

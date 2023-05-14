@@ -471,7 +471,7 @@ interface ItemSpecification {
 	categoryName: string;
 	itemName: string;
 	description: string;
-	descriptionLables: { key: string; value: string }[];
+	descriptionLables: { key: string; value: string, position: number }[];
 	margin: { cash: number; online: number };
 	images: string[];
 }
@@ -514,7 +514,7 @@ export async function getCompanyGridData() {
 interface CompanySpecificationData {
 	companyName: string;
 	description: string;
-	descriptionLabels: { key: string; value: string }[];
+	descriptionLabels: { key: string; value: string, position: number }[];
 	priceStructure: {
 		name: string;
 		type: "numeric" | "percentage";
@@ -584,7 +584,7 @@ interface CompanyProduct {
 	companyName: string;
 	categoryName: string;
 	description: string;
-	descriptionLabels: { key: string; value: string }[];
+	descriptionLabels: { key: string; value: string; position: number }[];
 	priceStructure: {
 		name: string;
 		value: number;

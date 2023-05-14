@@ -28,6 +28,7 @@ function CategorySpecification() {
 	const { id } = useParams();
 
 	const [state, setState] = useState<CategorySpecification.State>(InitialState);
+	const {categorySpec} = state;
 	const specActions = new CategorySpecificationAction(state, (p) =>
 		setState(p)
 	);
@@ -50,13 +51,13 @@ function CategorySpecification() {
 				className="p-7 pt-1"
 			>
 				<div className={style.headingRow + " mb-5"}>
-					<H2>{state.categoryName}</H2>
+					<H2>{categorySpec.name}</H2>
 				</div>
 
 				<div className="d-flex w-100">
 					<div className={style.col_1}>
 						<div className="mb-2">
-							<ImagePreview images={state.images} />
+							<ImagePreview images={categorySpec.images} />
 						</div>
 						<div className={style.descriptionCard + " mb-3"}>
 							<div className={style.descriptionBanner}>
@@ -65,7 +66,7 @@ function CategorySpecification() {
 								</div>
 							</div>
 							<div className={style.descriptionBody}>
-								{state.credits.map((val, index) => (
+								{categorySpec.credit.map((val, index) => (
 									<div className="crow sb" key={index}>
 										<div className={style.descriptionCell}>
 											<p className="fw-bold fcolor-text-subtitle body">
@@ -97,7 +98,7 @@ function CategorySpecification() {
 									</div>
 									<div className={style.descriptionCell}>
 										<p className="fw-medium fcolor-onyx body">
-											{state.negotiation}%
+											{categorySpec.negotiation}%
 										</p>
 									</div>
 								</div>
@@ -109,7 +110,7 @@ function CategorySpecification() {
 							<div className="mb-3" style={{ marginRight: 100 }}>
 								<p className="pretitle fcolor-text-subtitle mb-1">CATEGORY</p>
 								<p className="body fw-bold fcolor-text-body">
-									{state.categoryName}
+									{categorySpec.name}
 								</p>
 							</div>
 							<div>
@@ -119,7 +120,7 @@ function CategorySpecification() {
 						<div className={style.descriptionContainer + " mb-3"}>
 							<p className="pretitle fcolor-text-subtitle mb-1">DESCRIPTION</p>
 							<p className="body fw-medium fcolor-text-body">
-								{state.description}
+								{categorySpec.description}
 							</p>
 						</div>
 
@@ -133,7 +134,7 @@ function CategorySpecification() {
 								</div>
 							</div>
 							<div className={style.descriptionBody}>
-								{state.descriptionLabels.map((val, index) => (
+								{categorySpec.descriptionLabels.map((val, index) => (
 									<div className="crow sb" key={index}>
 										<div className={style.descriptionCell}>
 											<p className="fw-bold fcolor-text-subtitle body">
@@ -190,7 +191,7 @@ function CategorySpecification() {
 							paddingLeft={32}
 							paddingRight={32}
 							data={specActions.filterList()}
-							config={id ? getColConfig(id, state.categoryName) : []}
+							config={id ? getColConfig(id, categorySpec.name) : []}
 						/>
 					</div>
 				</Card>
