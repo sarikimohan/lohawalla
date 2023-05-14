@@ -34,7 +34,7 @@ export default class ValidateAddCategory extends ServerStateUtils<AddCategory.St
 			p.firstForm.categoryName = data;
 		});
 
-		return verdict.isValid && data.isValid;
+		return verdict.isValid && data.isValid === true;
 	}
 
 	async validateCategoryCode() {
@@ -65,7 +65,7 @@ export default class ValidateAddCategory extends ServerStateUtils<AddCategory.St
 			p.firstForm.categoryCode = data;
 		});
 
-		return verdict.isValid && data.isValid;
+		return verdict.isValid && data.isValid === true;
 	}
 
 	validateDescirption() {
