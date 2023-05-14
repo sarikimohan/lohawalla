@@ -3,6 +3,7 @@ import Text from "@src/Components/Grid/Text/Text";
 import { ImageIndex } from "@src/assets/AssetIndex";
 import BorderOnHover from "@src/Components/interactions/BorderOnHover/BorderOnHover";
 import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAndScale";
+import { Link, useNavigate } from "react-router-dom";
 
 interface Props {
 	data: Categories.CategoryGridData;
@@ -10,36 +11,39 @@ interface Props {
 
 export default function TableRow(props: Props) {
 	const { data } = props;
+
 	return (
 		<tr>
 			<td align="center" className="py-3 border-b">
 				<Text>{data.srNo}</Text>
 			</td>
 			<td align="center" className="py-3 border-b">
-				<RotateAndScale config={{ rotate: 0, scale: 1.01 }}>
-					<div className="flex items-center w-fit cursor-pointer group select-none">
-						<img
-							src={
-								data.categoryName.imageURL === "" ||
-								data.categoryName.imageURL === null
-									? ImageIndex.CategoryImage
-									: data.categoryName.imageURL
-							}
-							alt="item image"
-							style={{
-								objectFit: "cover",
-								objectPosition: "center",
-								width: 32,
-								height: 32,
-								borderRadius: 200,
-							}}
-							className="mr-3"
-						/>
-						<Text className="group-hover:font-bold transition-all	">
-							{data.categoryName.name}
-						</Text>
-					</div>
-				</RotateAndScale>
+				<Link to={`/categories/${data._id}`}>
+					<RotateAndScale config={{ rotate: 0, scale: 1.01 }}>
+						<div className="flex items-center w-fit cursor-pointer group select-none">
+							<img
+								src={
+									data.categoryName.imageURL === "" ||
+									data.categoryName.imageURL === null
+										? ImageIndex.CategoryImage
+										: data.categoryName.imageURL
+								}
+								alt="item image"
+								style={{
+									objectFit: "cover",
+									objectPosition: "center",
+									width: 32,
+									height: 32,
+									borderRadius: 200,
+								}}
+								className="mr-3"
+							/>
+							<Text className="group-hover:font-bold transition-all	">
+								{data.categoryName.name}
+							</Text>
+						</div>
+					</RotateAndScale>
+				</Link>
 			</td>
 			<td align="center" className="py-3 border-b">
 				<Text>{data.categoryCode}</Text>

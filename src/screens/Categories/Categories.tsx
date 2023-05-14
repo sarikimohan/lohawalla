@@ -21,6 +21,7 @@ import Header from "@src/Components/Grid/Header/Header";
 import TableRow from "./components/TableRow/TableRow";
 import RowStat from "@src/Components/Grid/RowStat/RowStat";
 import LoadingBoundary from "@src/Components/common/LoadingBoundary/LoadingBoundary";
+import { useNavigate } from "react-router-dom";
 
 function Categories() {
 	const heightService = useHeight();
