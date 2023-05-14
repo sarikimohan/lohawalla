@@ -17,6 +17,8 @@ function ThirdPart() {
 		addCategoryActions,
 		saveActions,
 		validate,
+		refresh,
+		onClose,
 	} = useAddCategoryContext();
 	const { user } = useAuthGuardContext();
 
@@ -126,7 +128,10 @@ function ThirdPart() {
 					<SaveButton
 						onClick={() => {
 							validate.validateDescriptionLabels(() => {
-								saveActions.save([], user);
+								saveActions.save([], user).then(() => {
+									refresh();
+									onClose();
+								});
 							});
 						}}
 						isLoading={state.loading["save"].status === "initialized"}

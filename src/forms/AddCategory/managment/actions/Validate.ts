@@ -22,6 +22,7 @@ export default class ValidateAddCategory extends ServerStateUtils<AddCategory.St
 					data.error = "server error, cannot check uniqueness of name";
 				},
 				onSuccess: ({ data: res }) => {
+					console.log(res);
 					if (res === false) {
 						data.error = "this name already exists, try another ";
 					}

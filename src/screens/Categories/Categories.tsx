@@ -29,7 +29,7 @@ function Categories() {
 
 	useEffect(() => {
 		categoryAction.fetchCategoryGridData();
-	}, []);
+	}, [state.refresh]);
 
 	return (
 		<>
@@ -101,7 +101,9 @@ function Categories() {
 										isEmpty={state.categoryList.length == 0}
 										asyncState={state.loading.get}
 									>
-										<TableRow />
+										{categoryAction.filterCategoryData().map((v, i) => {
+											return <TableRow data={v} key={i} />;
+										})}
 									</RowStat>
 								</tbody>
 							</table>
@@ -115,6 +117,9 @@ function Categories() {
 						categoryAction.mutateState((p) => {
 							p.showForm = false;
 						});
+					}}
+					refresh={() => {
+						categoryAction.mutateState((p) => void (p.refresh = !p.refresh));
 					}}
 				/>
 			)}

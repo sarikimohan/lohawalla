@@ -24,6 +24,7 @@ function Dashboard() {
 						onClose={function (): void {
 							throw new Error("Function not implemented.");
 						}}
+						refresh={() => {}}
 					/>
 					{/* <AddProductForm /> */}
 					{/* <AddCompany /> */}

@@ -2,22 +2,29 @@ import React from "react";
 import Text from "@src/Components/Grid/Text/Text";
 import { ImageIndex } from "@src/assets/AssetIndex";
 import BorderOnHover from "@src/Components/interactions/BorderOnHover/BorderOnHover";
-import ScaleOnHover from "@src/Components/interactions/ScaleOnHover/ScaleOnHover";
 import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAndScale";
 
-interface Props {}
+interface Props {
+	data: Categories.CategoryGridData;
+}
 
 export default function TableRow(props: Props) {
+	const { data } = props;
 	return (
 		<tr>
 			<td align="center" className="py-3 border-b">
-				<Text>1</Text>
+				<Text>{data.srNo}</Text>
 			</td>
 			<td align="center" className="py-3 border-b">
 				<RotateAndScale config={{ rotate: 0, scale: 1.01 }}>
 					<div className="flex items-center w-fit cursor-pointer group select-none">
 						<img
-							src={ImageIndex.CategoryImage}
+							src={
+								data.categoryName.imageURL === "" ||
+								data.categoryName.imageURL === null
+									? ImageIndex.CategoryImage
+									: data.categoryName.imageURL
+							}
 							alt="item image"
 							style={{
 								objectFit: "cover",
@@ -29,16 +36,16 @@ export default function TableRow(props: Props) {
 							className="mr-3"
 						/>
 						<Text className="group-hover:font-bold transition-all	">
-							Tmt Bar
+							{data.categoryName.name}
 						</Text>
 					</div>
 				</RotateAndScale>
 			</td>
 			<td align="center" className="py-3 border-b">
-				<Text>23087042</Text>
+				<Text>{data.categoryCode}</Text>
 			</td>
 			<td align="center" className="py-3 border-b">
-				<Text>2 May</Text>
+				<Text>{data.entryTime}</Text>
 			</td>
 			<td align="center" className="py-3 border-b">
 				<RotateAndScale config={{ rotate: 0, scale: 1.1 }}>
@@ -48,7 +55,9 @@ export default function TableRow(props: Props) {
 							borderColor: "#0000ff",
 						}}
 					>
-						<Text className="text-blue-500 underline select-none">21</Text>
+						<Text className="text-blue-500 underline select-none">
+							{data.noOfItems}
+						</Text>
 					</BorderOnHover>
 				</RotateAndScale>
 			</td>

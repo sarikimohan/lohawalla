@@ -13,4 +13,5 @@ export const InitialState: Categories.State = {
 	loading: {
 		get: AsyncStateFactory(),
 	},
+	refresh: false,
 };

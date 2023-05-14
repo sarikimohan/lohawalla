@@ -22,6 +22,7 @@ namespace Categories {
 		loading: {
 			get: AsyncState;
 		};
+		refresh: boolean;
 	}
 
 	export interface Actions {

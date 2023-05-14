@@ -18,6 +18,7 @@ import ValidateAddCategory from "./managment/actions/Validate";
 
 interface Props {
 	onClose: () => void;
+	refresh: () => void;
 }
 
 interface ContextInterface {
@@ -28,6 +29,8 @@ interface ContextInterface {
 	creditActions: CreditActions;
 	saveActions: SaveCategoryActions;
 	validate: ValidateAddCategory;
+	refresh: () => void;
+	onClose: () => void;
 }
 const Context = React.createContext<ContextInterface>({} as ContextInterface);
 
@@ -74,6 +77,8 @@ function AddCategoryForm(props: Props) {
 				creditActions,
 				saveActions,
 				validate,
+				refresh: props.refresh,
+				onClose: props.onClose
 			}}
 		>
 			<PopUpContainer>
