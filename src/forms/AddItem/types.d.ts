@@ -11,8 +11,8 @@ namespace AddItem {
 		itemCode: FieldData;
 		images: string[];
 		margin: {
-			online: FieldData,
-			cash: FieldData
+			online: FieldData;
+			cash: FieldData;
 		};
 		description: FieldData;
 		descriptionLabels: DescriptionLabels[];
@@ -21,9 +21,7 @@ namespace AddItem {
 			key: FieldData;
 			value: FieldData;
 		};
-		
-		loading: {
-			save: AsyncState
-		};
+
+		loading: { [key: string]: AsyncState };
 	}
 }

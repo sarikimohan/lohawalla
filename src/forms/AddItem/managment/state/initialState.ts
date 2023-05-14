@@ -14,6 +14,7 @@ export const InitialState: AddItem.State = {
 	descriptionLabels: [],
 	loading: {
 		save: AsyncStateFactory(),
+		checkName: AsyncStateFactory()
 	},
 	descriptionEntry: {
 		key: { value: "" },

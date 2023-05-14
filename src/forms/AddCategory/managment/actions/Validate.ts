@@ -3,6 +3,7 @@ import { ServerStateUtils } from "@src/modules/StateManagement/Core/StateUtils";
 import { AxiosError } from "axios";
 import checkIsNameUnique from "../../fetch/services/checkIsNameUnique";
 import checkIsCodeUnique from "../../fetch/services/checkIsCodeUnique";
+import { verify } from "crypto";
 
 export default class ValidateAddCategory extends ServerStateUtils<AddCategory.State> {
 	//* first form
@@ -148,6 +149,51 @@ export default class ValidateAddCategory extends ServerStateUtils<AddCategory.St
 		return verdict.isValid;
 	}
 
+	validateAddCredit() {
+		const verdict = { isValid: true };
+
+		const key = this.state.creditInput.key;
+		const value = this.state.creditInput.value;
+
+		// check null and unique
+		key.error = FieldDataService.registerValidator(
+			key.value,
+			verdict,
+			Validators.validateNull,
+			Validators.validateInt,
+			(d) => {
+				const days = parseInt(d);
+				let isPresent = false;
+				this.state.credit.forEach((v) => {
+					if (v.days === days) {
+						isPresent = true;
+						return;
+					}
+				});
+				if (isPresent) {
+					return days + " is already present";
+				}
+			}
+		);
+		key.isValid = !key.error;
+
+		value.error = FieldDataService.registerValidator(
+			value.value,
+			verdict,
+			Validators.validateNull,
+			Validators.validateFloat,
+			(d) => Validators.max(d, 100)
+		);
+		value.isValid = !value.error;
+
+		this.mutateState((p) => {
+			p.creditInput.key = key;
+			p.creditInput.value = value;
+		});
+
+		return verdict.isValid;
+	}
+
 	validateNegotiation() {
 		const verdict = { isValid: true };
 		const data = this.state.negotiation;
@@ -195,5 +241,34 @@ export default class ValidateAddCategory extends ServerStateUtils<AddCategory.St
 		if (verdict.isValid) {
 			onSuccess();
 		}
+	}
+
+	validateAddDescription() {
+		// validate empty and unique
+		const verdict = { isValid: true };
+
+		const key = this.state.descriptionEntry.key;
+		const value = this.state.descriptionEntry.value;
+
+		key.error = FieldDataService.registerValidator(
+			key.value,
+			verdict,
+			Validators.validateNull,
+			(d) => {
+				for (let { key } of this.state.descriptionLabels) {
+					if (key === d) return key + " already exists";
+				}
+			}
+		);
+		key.isValid = !key.error;
+
+		value.error = FieldDataService.registerValidator(
+			value.value,
+			verdict,
+			Validators.validateNull
+		);
+		value.isValid = !value.error;
+
+		return verdict.isValid;
 	}
 }
