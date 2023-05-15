@@ -13,10 +13,12 @@ interface DescriptionData {
 
 interface PriceField {
 	name: string;
+	value: number;
 	meta: {
 		operation: OpType;
 		type: PercNum;
 		position: number;
+		isFixed: boolean;
 	};
 }
 
@@ -44,10 +46,12 @@ export default class SaveFormActions extends ServerStateUtils<AddCompany.State> 
 			})),
 			pricefields: this.state.priceStructure.map((v, i) => ({
 				name: v.name,
+				value: parseFloat(v.value.value),
 				meta: {
 					operation: v.operation,
 					type: v.type,
 					position: i,
+					isFixed: v.fixed,
 				},
 			})),
 		};

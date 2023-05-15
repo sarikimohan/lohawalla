@@ -9,20 +9,18 @@ namespace Companies {
 		price: number;
 		entryTime: string;
 		noOfProducts: number;
-		rowStatus: RowStatus
+		rowStatus: RowStatus;
 	}
-  
+
 	interface State {
 		companyList: CompanyListRow[];
 		filter: Filter;
-		loading: {
-			fetchCompanyList: AsyncState;
-		};
+		loading: { [key: string]: AsyncState };
 	}
 
-	interface Actions{
-    CompanyListRow() : void;
-    filterCompanylistRow() : CompanyListRow[]
-		setQuery(query:string) : void
+	interface Actions {
+		CompanyListRow(): void;
+		filterCompanylistRow(): CompanyListRow[];
+		setQuery(query: string): void;
 	}
 }

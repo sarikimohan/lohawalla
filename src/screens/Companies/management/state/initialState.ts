@@ -8,5 +8,6 @@ export const InitialState: Companies.State = {
 	},
 	loading: {
 		fetchCompanyList: AsyncStateFactory(),
+		get: AsyncStateFactory(),
 	},
 };
