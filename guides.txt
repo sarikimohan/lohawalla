@@ -1,2 +1,87 @@
-purchaser/forms/companyForm/createCompany
-purchaser/forms/categoryForm/createCategory
+SET BASE PRICE 
+
+give the data of all companies with basic rate and the latest time of updation of that basic rate 
+store in the field data the values with a flag of isEdited 
+give the backend the data of the company id and the new value of basic rate for the fields that have changed 
+
+get state 
+interface Data {
+  srNo: number; 
+  companyName: {
+    name: string;
+    imageURL: string;
+  }
+  priceField: {
+    _id: string;
+    value: FieldData;
+    hasChanaged: boolean;
+  }
+  entryTime: string;
+}
+
+send state 
+interface Data {
+  changedFields: {
+    id: string;
+    value: number;
+  }
+}
+
+--------------------------------------------------------------------------------------------------------------------------
+
+BROWSE PRODUCTS 
+
+show empty initially 
+on selection of company 
+	- give all the products of the company with the price structure in the order they were entered 
+
+on selection of category 
+	- we will give all the products which will belong to that category 
+
+on selection of item 
+	- we will give all the products of the specific item
+
+then store the values of the price field in the fieldValue, and maintain a state of hasChanaged for each price field 
+
+save ->
+const changedProducts: {
+	productId: string;
+	changedPriceFields: {
+		pfid: string;
+		value: string;
+	}[]
+} = []; 
+iterate(products) {
+	iterate(price fields) {
+    if(price field has changed) {
+      if(changedProducts.last !== product){ 
+        add product in the changed products 
+      }
+      add price field in the changed 
+    }
+  }
+}
+
+send the changed Products
+
+
+getState 
+interface Data {
+  srNo: number;
+  productName: {
+    imageURL: string;
+    name: string;
+  }
+  priceFields : {
+    _id: string;
+    type: PercNum;
+    operation: OpType;
+    isFixed: boolean;
+    position: number;
+    name: string;
+    value: FieldData;
+    hasChanaged: boolean;
+    lastUpdate: string;
+  }[]
+}
+-----------------------------------------------------------------

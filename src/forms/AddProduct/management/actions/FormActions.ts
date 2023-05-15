@@ -1,9 +1,8 @@
-import StateUtils from "@src/modules/StateManagement/Core/StateUtils";
+import StateUtils, { ServerStateUtils } from "@src/modules/StateManagement/Core/StateUtils";
 
-export default class FirstFormActions extends StateUtils<AddProduct.State> {
+export default class FirstFormActions extends ServerStateUtils<AddProduct.State> {
 	fetchCompanies() {
-		this.state.firstForm
-		this.state['firstForm']
+		
 	}
 	fetchCategoies() {}
 	fetchItems() {}
@@ -12,8 +11,6 @@ export default class FirstFormActions extends StateUtils<AddProduct.State> {
 	setSelectedCategory() {}
 	setSelectedItem() {}
 	setImages() {}
-
-	validateFirstForm() {}
 }
 
 class SecondFormActions extends StateUtils<AddProduct.State> {
