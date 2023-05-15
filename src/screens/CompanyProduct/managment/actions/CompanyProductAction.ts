@@ -10,34 +10,7 @@ export default class CompanyProductsAction
 		this.mutateState((p) => (p.filter.query = query));
 	}
 	fetchProducts(id: string): void {
-		this.mutateState((p) => (p.loading.fetch.status = "initialized"));
-
-		(async () => {
-			try {
-				const data = await getProductGridData({ id });
-
-				this.mutateState((p) => {
-					data.forEach((v) => {
-						const newInp: CompanyProducts.CompanyProduct = {
-							_id: v._id,
-							srNo: v.srNo,
-							companyName: v.company,
-							companyProductName: v.companyProductName,
-						};
-						p.products.push(newInp);
-					});
-				});
-
-				this.mutateState((p) => (p.loading.fetch.status = "success"));
-			} catch (err) {
-				this.mutateState((p) => {
-					p.loading.fetch = {
-						status: "failed",
-						message: "some error occured",
-					};
-				});
-			}
-		})();
+		
 	}
 	getFilteredList(): CompanyProducts.CompanyProduct[] {
 		return this.state.products.filter((v) => {

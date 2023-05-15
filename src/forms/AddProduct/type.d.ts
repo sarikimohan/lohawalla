@@ -12,17 +12,18 @@ namespace AddProduct {
 			itemList: Entity[];
 			imageList: File[] | null;
 
-			selectedCompany: Entity | null;
-			selectedCategory: Entity | null;
-			selectedItem: Entity | null;
+			selectedCompany: FieldData<Entity | null>;
+			selectedCategory: FieldData<Entity | null>;
+			selectedItem: FieldData<Entity | null>;
 		};
 
 		secondForm: {
 			priceStructure: {
 				_id: string;
 				name: string;
-				value: number;
+				value: FieldData;
 				isFixed: boolean;
+				type: PercNum;
 			}[];
 
 			margin: {

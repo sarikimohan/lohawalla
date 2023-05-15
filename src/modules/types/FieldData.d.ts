@@ -1,8 +1,8 @@
-interface FieldData {
+interface FieldData<T = string> {
   /**
    * the value of the field
    */
-  value: string;
+  value: T;
   /**
    * if there is an error during validation
    */

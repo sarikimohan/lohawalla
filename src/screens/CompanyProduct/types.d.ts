@@ -7,6 +7,8 @@ namespace CompanyProducts {
 			name: string;
 		};
 		companyProductName: string;
+		productId: string;
+		entryTime: string;
 	}
 	interface State {
 		products: CompanyProduct[];

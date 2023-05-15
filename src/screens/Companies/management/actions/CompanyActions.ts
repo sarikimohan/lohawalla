@@ -7,7 +7,7 @@ export default class CompanyActions
 	implements Companies.Actions
 {
 	CompanyListRow(): void {
-		
+		// const res = this.handleAsync('')
 	}
 
 	filterCompanylistRow(): Companies.CompanyListRow[] {
