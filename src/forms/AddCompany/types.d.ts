@@ -37,8 +37,6 @@ namespace AddCompany {
 			value: FieldData;
 		};
 
-		loading: {
-			save: AsyncState;
-		};
+		loading: { [key: string]: AsyncState };
 	}
 }

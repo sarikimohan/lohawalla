@@ -9,6 +9,7 @@ namespace Companies {
 		price: number;
 		entryTime: string;
 		noOfProducts: number;
+		rowStatus: RowStatus
 	}
   
 	interface State {

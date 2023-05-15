@@ -7,39 +7,7 @@ export default class CompanyActions
 	implements Companies.Actions
 {
 	CompanyListRow(): void {
-		this.mutateState((p) => {
-			p.loading.fetchCompanyList.status = "initialized";
-		});
-		getCompanyGridData()
-			.then((res) => {
-				this.mutateState((p) => {
-					const arr: any[] = [];
-					for (let data of res) {
-						const newData: Companies.CompanyListRow = {
-							_id: data._id,
-							srNo: data.srNo,
-							companyName: {
-								imageURL: data.companyName.imageURL,
-								name: data.companyName.name,
-							},
-							price: data.price,
-							entryTime: data.entryTime,
-							noOfProducts: data.noOfProducts,
-						};
-						arr.push(newData);
-					}
-					p.companyList = arr;
-					p.loading.fetchCompanyList.status = "success";
-				});
-			})
-			.catch((err) => {
-				this.mutateState((p) => {
-					p.loading.fetchCompanyList = {
-						status: "failed",
-						message: "some error occured",
-					};
-				});
-			});
+		
 	}
 
 	filterCompanylistRow(): Companies.CompanyListRow[] {

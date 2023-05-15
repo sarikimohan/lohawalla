@@ -17,7 +17,7 @@ export default class ValidateAddCompany extends ServerStateUtils<AddCompany.Stat
 		);
 
 		if (data.isValid) {
-			this.handleAsync("checkName", () => checkIsNameUnique(data.value), {
+			await this.handleAsync("checkName", () => checkIsNameUnique(data.value), {
 				onError: (err) => {
 					data.error = "server error, cannot check uniqueness of name";
 				},
@@ -171,6 +171,10 @@ export default class ValidateAddCompany extends ServerStateUtils<AddCompany.Stat
 			Validators.validateNull
 		);
 		value.isValid = !value.error;
+
+		this.mutateState((p) => {
+			p.descriptionEntry = { key, value };
+		});
 
 		return verdict.isValid;
 	}

@@ -14,7 +14,7 @@ import Tip from "@src/Components/feedback/Tooltip/Tip";
 interface Props {}
 
 export default function SecondPart(props: Props) {
-	const { state, secondFormActions } = useAddCompanyContext();
+	const { state, secondFormActions, validate } = useAddCompanyContext();
 	const [showAddForm, setShowAddForm] = useState(false);
 
 	return (
@@ -62,7 +62,8 @@ export default function SecondPart(props: Props) {
 														: "text-red-500"
 												}
 											>
-												{v.operation === "add" ? "+" : "-"} {v.name} {v.type === "numeric" ? "(₹)" : "(%)"}
+												{v.operation === "add" ? "+" : "-"} {v.name}{" "}
+												{v.type === "numeric" ? "(₹)" : "(%)"}
 											</span>
 										</p>
 									</td>
@@ -122,11 +123,9 @@ export default function SecondPart(props: Props) {
 				<div>
 					<DefaultButton
 						onClick={function (): void {
-							const verdict = secondFormActions.validatePriceFieldForm();
+							const verdict = validate.validatePriceField();
 							if (verdict) {
-								secondFormActions.mutateState((p) => {
-									p.page++;
-								});
+								secondFormActions.mutateState((p) => p.page++);
 							}
 						}}
 						label={"Next"}

@@ -13,7 +13,7 @@ import AddMore from "@src/Components/common/buttons/AddMore/AddMore";
 interface Props {}
 
 export default function ThirdPart(props: Props) {
-	const { state, thirdFormActions, saveFormActions } = useAddCompanyContext();
+	const { state, thirdFormActions, validate } = useAddCompanyContext();
 
 	return (
 		<>
@@ -80,34 +80,30 @@ export default function ThirdPart(props: Props) {
 									className="mb-2 border-b"
 									style={{ borderTop: "5px solid transparent" }}
 								>
-									<td align="center" className="p-1">
-										<div className="p-2">
-											<FieldInput
-												width={"85%"}
-												isValid={state.descriptionEntry.key.isValid}
-												error={state.descriptionEntry.key.error}
-												data={state.descriptionEntry.key.value}
-												onChange={(d) => {
-													thirdFormActions.setAddKey(d.target.value);
-												}}
-												type={"text"}
-												placeHolder={"enter key"}
-											/>
-										</div>
-									</td>
-									<td align="center" className="p-1" colSpan={2}>
-										<div className="p-2">
-											<FieldInput
-												width={"85%"}
-												isValid={state.descriptionEntry.value.isValid}
-												error={state.descriptionEntry.value.error}
-												data={state.descriptionEntry.value.value}
-												onChange={(d) => {
-													thirdFormActions.setAddValue(d.target.value);
-												}}
-												type={"text"}
-												placeHolder={"enter value"}
-											/>
+									<td align="center" className="p-1" colSpan={3}>
+										<div className="flex">
+											<div className="p-2">
+												<FieldInput
+													width={"85%"}
+													{...state.descriptionEntry.key}
+													onChange={(d) => {
+														thirdFormActions.setAddKey(d.target.value);
+													}}
+													type={"text"}
+													placeHolder={"enter key"}
+												/>
+											</div>
+											<div className="p-2">
+												<FieldInput
+													width={"85%"}
+													{...state.descriptionEntry.value}
+													onChange={(d) => {
+														thirdFormActions.setAddValue(d.target.value);
+													}}
+													type={"text"}
+													placeHolder={"enter value"}
+												/>
+											</div>
 										</div>
 									</td>
 								</tr>
@@ -117,7 +113,7 @@ export default function ThirdPart(props: Props) {
 					<div className="crow jfe mt-5">
 						<AddMore
 							handleAdd={() => {
-								const verdict = thirdFormActions.validateAdd();
+								const verdict = validate.validateAddDescriptionLabels();
 								if (verdict) thirdFormActions.addField();
 							}}
 						/>
@@ -127,10 +123,13 @@ export default function ThirdPart(props: Props) {
 			<div className="mt-8">
 				<DefaultButton
 					onClick={function () {
-						saveFormActions.saveForm([], {
-							name: "snehal",
-							id: "645c049dd924bdde2e265995",
-						});
+						const verdict = validate.validateAddDescriptionLabels();
+						if (verdict) {
+							// saveFormActions.saveForm([], {
+							// 	name: "snehal",
+							// 	id: "645c049dd924bdde2e265995",
+							// });
+						}
 					}}
 					label={"Save"}
 					styles={NextButtonStyleConfig}
