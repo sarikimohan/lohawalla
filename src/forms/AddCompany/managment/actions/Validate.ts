@@ -17,7 +17,7 @@ export default class ValidateAddCompany extends ServerStateUtils<AddCompany.Stat
 		);
 
 		if (data.isValid) {
-			this.handleAsync("checkName", () => checkIsNameUnique(data.value), {
+			await this.handleAsync("checkName", () => checkIsNameUnique(data.value), {
 				onError: (err) => {
 					data.error = "server error, cannot check uniqueness of name";
 				},
@@ -125,7 +125,7 @@ export default class ValidateAddCompany extends ServerStateUtils<AddCompany.Stat
 	}
 
 	//* ///////////////////////// THIRD FORM /////////////////////////////
-	validateDescriptionLabels(onSuccess: () => void) {
+	validateDescriptionLabels() {
 		const verdict = { isValid: true };
 
 		this.mutateState((p) => {
@@ -142,9 +142,7 @@ export default class ValidateAddCompany extends ServerStateUtils<AddCompany.Stat
 			});
 		});
 
-		if (verdict.isValid) {
-			onSuccess();
-		}
+		return verdict.isValid;
 	}
 
 	validateAddDescriptionLabels() {
@@ -171,6 +169,10 @@ export default class ValidateAddCompany extends ServerStateUtils<AddCompany.Stat
 			Validators.validateNull
 		);
 		value.isValid = !value.error;
+
+		this.mutateState((p) => {
+			p.descriptionEntry = { key, value };
+		});
 
 		return verdict.isValid;
 	}

@@ -7,7 +7,8 @@ import DefaultButton from "@src/Components/common/buttons/DefaultButton/DefaultB
 import NextButtonStyleConfig from "@src/Components/common/buttons/configurations/NextButtonStyle.config";
 
 function FirstPart() {
-	const { firstFormActions, state, addCompanyActions } = useAddCompanyContext();
+	const { firstFormActions, state, addCompanyActions, validate } =
+		useAddCompanyContext();
 	return (
 		<div>
 			<div className="mb-4">
@@ -48,13 +49,14 @@ function FirstPart() {
 			<div>
 				<DefaultButton
 					onClick={() => {
-						const verdict = firstFormActions.validateFirstForm();
-						if (verdict) {
-							addCompanyActions.navFront();
-						}
+						validate.valiadteFirstForm(() => {
+							addCompanyActions.mutateState((p) => p.page++);
+						});
 					}}
 					label={"Next"}
 					styles={NextButtonStyleConfig}
+					loading={state.loading.checkName.status === "initialized"}
+					loadingColor={"#fff"}
 				/>
 			</div>
 		</div>

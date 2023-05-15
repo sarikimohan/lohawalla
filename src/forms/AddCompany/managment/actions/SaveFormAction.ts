@@ -30,7 +30,7 @@ interface FormFields {
 }
 
 export default class SaveFormActions extends ServerStateUtils<AddCompany.State> {
-	async saveForm(images: string[], by: NameIdPair) {
+	async saveForm(images: string[], by: NameIdPair, onSuccess: () => void) {
 		//* created the data object
 		const d: FormFields = {
 			name: this.state.firstForm.companyName.value,
