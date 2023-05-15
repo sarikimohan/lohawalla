@@ -14,7 +14,9 @@ export default class FirstFormActions extends ServerStateUtils<AddProduct.State>
 }
 
 class SecondFormActions extends StateUtils<AddProduct.State> {
-	fetchSecondFormData() {}
+	fetchSecondFormData() {
+		
+	}
 
 	setPriceFieldValue() {}
 	setGstValue() {}
@@ -24,8 +26,6 @@ class SecondFormActions extends StateUtils<AddProduct.State> {
 
 class ThirdFormActions extends StateUtils<AddProduct.State> {
 	setDescription() {}
-
-	validateThirdForm() {}
 }
 
 class SubmitFormActions extends StateUtils<AddProduct.State> {}

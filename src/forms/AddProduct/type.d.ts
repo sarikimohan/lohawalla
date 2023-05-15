@@ -23,7 +23,9 @@ namespace AddProduct {
 				name: string;
 				value: FieldData;
 				isFixed: boolean;
+				position: number;
 				type: PercNum;
+				operation: OpType;
 			}[];
 
 			margin: {
