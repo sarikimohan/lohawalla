@@ -6,20 +6,16 @@ export const InitialState: ItemSpecification.State = {
 	description: "",
 	descriptionLabels: [],
 	margin: {
-    online: 0,
-    cash: 0
-  },
-	gst: {
-    type: 'numeric',
-    value: 0
-  },
+		online: 0,
+		cash: 0,
+	},
 	companyProductList: [],
 	filter: {
-    filters: [],
-    query: ''
-  },
+		filters: [],
+		query: "",
+	},
 	images: [],
-  loading: {
-    fetch: AsyncStateFactory()
-  }
+	loading: {
+		fetch: AsyncStateFactory(),
+	},
 };

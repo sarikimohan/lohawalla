@@ -19,6 +19,7 @@ import SearchBar from "@src/Components/common/SearchBar/SearchBar";
 import SearchFilters from "@src/Components/common/SearchFilters/SearchFilters";
 import DefaultButton from "@src/Components/common/buttons/DefaultButton/DefaultButton";
 import LoadingBoundary from "@src/Components/common/LoadingBoundary/LoadingBoundary";
+import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 
 const ItemSpecificationContext = React.createContext({});
 
@@ -27,7 +28,26 @@ function ItemSpecification() {
 	const { ref, height } = useHeight();
 	const { pid } = useParams();
 
-	const [state, setState] = useState<ItemSpecification.State>(InitialState);
+	const [state, setState] = useState<ItemSpecification.State>({
+		itemName: "",
+		categoryName: "",
+		description: "",
+		descriptionLabels: [],
+		margin: {
+			online: 0,
+			cash: 0,
+		},
+		companyProductList: [],
+		filter: {
+			filters: [],
+			query: "",
+		},
+		images: [],
+		loading: {
+			fetch: AsyncStateFactory(),
+		},
+	});
+
 	const itemSpecActions = new ItemSpecificationAction(state, setState);
 
 	useEffect(() => {

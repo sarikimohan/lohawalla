@@ -15,19 +15,36 @@ namespace ItemSpecification {
 		description: string;
 		descriptionLabels: DescriptionLabels[];
 		margin: Margin;
-		gst: GSTDetails;
 		companyProductList: CompanyProduct[];
 		filter: Filter;
 		images: string[];
 
 		loading: {
-			fetch: AsyncState
-		}
+			fetch: AsyncState;
+		};
 	}
 
 	interface Actions {
 		setQuery(query: string): void;
 		getFilteredList(): CompanyProduct[];
 		fetch(id: string): void;
+	}
+}
+
+namespace ItemSpecAsync {
+	interface ItemSpecificationData {
+		itemName: string;
+		categoryName: string;
+		description: string;
+		descriptionLabels: {
+			key: string;
+			value: string;
+			position: number;
+		}[];
+		margin: {
+			online: number;
+			cash: number;
+		};
+		images: string[];
 	}
 }

@@ -4,6 +4,7 @@ import {
 } from "@src/globals/constants/async";
 import StateUtils from "@src/modules/StateManagement/Core/StateUtils";
 import isPrefix from "@src/modules/Utils/isPrefix";
+import getItemSpec from "../../fetch/service/getItemSpec";
 
 export default class ItemSpecificationAction
 	extends StateUtils<ItemSpecification.State>
@@ -25,18 +26,18 @@ export default class ItemSpecificationAction
 				this.mutateState((p) => {
 					p.loading.fetch.status = "initialized";
 				});
-
-				const itemSpec = await getItemData({ id });
-				const prodList = await getCompanyProductGridData({ id });
-
+				
+				const itemSpec = await getItemSpec(id);
 				this.mutateState((p) => {
-					p.categoryName = itemSpec.categoryName;
-					p.description = itemSpec.description;
-					p.descriptionLabels = itemSpec.descriptionLables;
-					p.itemName = itemSpec.itemName;
-					p.margin = itemSpec.margin;
+					const data = itemSpec.data;
+					p.itemName = data.itemName;
+					p.categoryName = data.categoryName;
+					p.description = data.description;
+					p.descriptionLabels = data.descriptionLabels;
+					p.margin = data.margin;
+					p.images = data.images;
 
-					p.companyProductList = prodList;
+					console.log(p);
 
 					p.loading.fetch.status = "success";
 				});
