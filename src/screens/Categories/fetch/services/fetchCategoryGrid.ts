@@ -17,6 +17,6 @@ export interface CategoryGridData {
 	};
 }
 
-export default function fetchCategoryGrid() {
-	return CategoriesInstance.get<CategoryGridData[]>(apiIndex.getAllCategories);
+export default async function fetchCategoryGrid() {
+	return await CategoriesInstance.get<CategoryGridData[]>(apiIndex.getAllCategories);
 }
