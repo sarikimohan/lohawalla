@@ -20,7 +20,7 @@ function Company() {
 	const companyActions = new CompanyActions(state, setState);
 
 	useEffect(() => {
-		companyActions.CompanyListRow();
+		companyActions.fetchCompanyGridData();
 	}, []);
 
 	return (
