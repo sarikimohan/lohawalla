@@ -20,12 +20,12 @@ function Dashboard() {
 					<TitleNavBar title={"Dashboard"} />
 				</SpacingDiv>
 				<div>
-					<AddCategoryForm
+					{/* <AddCategoryForm
 						onClose={function (): void {
 							throw new Error("Function not implemented.");
 						}}
 						refresh={() => {}}
-					/>
+					/> */}
 					{/* <AddProductForm /> */}
 					{/* <AddCompany /> */}
 					{/* <AddItem /> */}

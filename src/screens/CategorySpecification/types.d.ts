@@ -22,6 +22,8 @@ namespace CategorySpecification {
 	}
 
 	interface State {
+		showForm: boolean;
+		refresh: boolean;
 		categorySpec: CategorySpecData;
 		itemList: ItemGridData[];
 		filter: Filter;

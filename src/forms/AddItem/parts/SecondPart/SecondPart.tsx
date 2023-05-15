@@ -12,7 +12,7 @@ import Tip from "@src/Components/feedback/Tooltip/Tip";
 interface Props {}
 
 export default function SecondPart(props: Props) {
-	const { secondFormActions, state } = useAddItemContext();
+	const { secondFormActions, state, validate } = useAddItemContext();
 	return (
 		<>
 			<Card variant="outlined" sx={{ padding: 3 }}>
@@ -89,7 +89,7 @@ export default function SecondPart(props: Props) {
 			<div className="crow jfe mt-8">
 				<DefaultButton
 					onClick={function () {
-						const verdict = secondFormActions.validate();
+						const verdict = validate.validateMargin();
 						if (verdict) {
 							secondFormActions.mutateState((p) => p.page++);
 						}

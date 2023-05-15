@@ -27,7 +27,12 @@ interface FormFields {
 }
 
 export default class SubmitActions extends ServerStateUtils<AddItem.State> {
-	async saveForm(images: string[], id: string, by: NameIdPair) {
+	async saveForm(
+		images: string[],
+		id: string,
+		by: NameIdPair,
+		onSuccessAction?: () => void
+	) {
 		const data: FormFields = {
 			cid: id,
 			name: this.state.itemName.value,
@@ -50,8 +55,9 @@ export default class SubmitActions extends ServerStateUtils<AddItem.State> {
 			})),
 		};
 
-		this.handleAsync("save", () => server.post(apis.createItem, data), {
+		await this.handleAsync("save", () => server.post(apis.createItem, data), {
 			errMessage: "failed to save item!",
+			onSuccess: onSuccessAction,
 		});
 	}
 }

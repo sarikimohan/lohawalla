@@ -7,11 +7,21 @@ import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAn
 import AssetIndex from "@src/assets/AssetIndex";
 import React from "react";
 import { useAddItemContext } from "../../AddItem";
+import { useAuthGuardContext } from "@src/auth/AuthGuard/AuthGuard";
 
 interface Props {}
 
 export default function ThirdPart(props: Props) {
-	const { state, descriptionActions,saveFormAction } = useAddItemContext();
+	const {
+		state,
+		descriptionActions,
+		saveFormAction,
+		validate,
+		categoryId,
+		refresh,
+		onClose,
+	} = useAddItemContext();
+	const { user } = useAuthGuardContext();
 	return (
 		<>
 			<Card variant="outlined" sx={{ padding: 3 }}>
@@ -76,9 +86,7 @@ export default function ThirdPart(props: Props) {
 							>
 								<td align="center" className="p-1">
 									<FieldInput
-										isValid={state.descriptionEntry.key.isValid}
-										error={state.descriptionEntry.key.error}
-										data={state.descriptionEntry.key.value}
+										{...state.descriptionEntry.key}
 										onChange={(d) => {
 											descriptionActions.setAddKey(d.target.value);
 										}}
@@ -88,9 +96,7 @@ export default function ThirdPart(props: Props) {
 								</td>
 								<td align="center" className="p-1">
 									<FieldInput
-										isValid={state.descriptionEntry.value.isValid}
-										error={state.descriptionEntry.value.error}
-										data={state.descriptionEntry.value.value}
+										{...state.descriptionEntry.value}
 										onChange={(d) => {
 											descriptionActions.setAddValue(d.target.value);
 										}}
@@ -101,8 +107,10 @@ export default function ThirdPart(props: Props) {
 								<td align="center" className="p-1">
 									<div
 										onClick={() => {
-											const verdict = descriptionActions.validateAdd();
-											if (verdict) descriptionActions.addField();
+											const verdict = validate.validateAddDescription();
+											if (verdict) {
+												descriptionActions.addField();
+											}
 										}}
 									>
 										<RotateAndScale config={{ scale: 1.05, rotate: 0 }}>
@@ -120,10 +128,17 @@ export default function ThirdPart(props: Props) {
 			<div className="mt-8">
 				<DefaultButton
 					onClick={function (): void {
-						saveFormAction.saveForm([],"645c082b3b4e9c1ed321c395",{id:'645c082b3b4e9c1ed321c395',name:"fuck"})
+						const verdict = validate.validateDescriptionLabels();
+						if (verdict) {
+							saveFormAction.saveForm([], categoryId, user, () => {
+								refresh();
+								onClose();
+							});
+						}
 					}}
 					label={"Save"}
 					styles={NextButtonStyleConfig}
+					loading={state.loading.save.status === "initialized"}
 				/>
 			</div>
 		</>

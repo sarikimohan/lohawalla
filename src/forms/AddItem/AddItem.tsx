@@ -2,7 +2,7 @@ import PopUpContainer from "@src/Components/common/Layout/PopUpContainer/PopUpCo
 import ProgressBar from "@src/Components/common/ProgressBar/ProgressBar";
 import FormContainer from "@src/Components/forms/FormContainer/FormContainer";
 import FormHeader from "@src/Components/forms/FormHeader/FormHeader";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context } from "vm";
 import { InitialState } from "./managment/state/initialState";
 import FirstFormActions from "./managment/actions/FirstFormActions";
@@ -13,24 +13,57 @@ import DescriptionActions from "./managment/actions/DescriptionActions";
 import ThirdPart from "./parts/ThirdPart/ThirdPart";
 import SubmitActions from "./managment/actions/SubmitActions";
 import { stat } from "fs";
+import Validate from "./managment/actions/Validate";
+import ErrorCard from "@src/Components/feedback/ErrorCard/ErrorCard";
+import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 
 interface ContextProps {
 	firstFormActions: FirstFormActions;
 	secondFormActions: SecondFormActions;
 	descriptionActions: DescriptionActions;
 	state: AddItem.State;
-	saveFormAction : SubmitActions
+	saveFormAction: SubmitActions;
+	validate: Validate;
 }
 
-const AddItemContext = React.createContext({} as ContextProps);
+interface Props {
+	onClose: () => void;
+	refresh: () => void;
+	categoryId: string;
+}
+
+const AddItemContext = React.createContext({} as ContextProps & Props);
 export const useAddItemContext = () => useContext(AddItemContext);
 
-function AddItem() {
-	const [state, setState] = useState<AddItem.State>(InitialState);
+function AddItem(props: Props) {
+	const [state, setState] = useState<AddItem.State>({
+		page: 0,
+		itemName: { value: "" },
+		itemHSNCode: { value: "" },
+		itemCode: { value: "" },
+		images: [],
+		margin: {
+			online: { value: "" },
+			cash: { value: "" },
+		},
+		description: { value: "" },
+		descriptionLabels: [],
+		loading: {
+			save: AsyncStateFactory(),
+			checkName: AsyncStateFactory(),
+			checkCode: AsyncStateFactory(),
+		},
+		descriptionEntry: {
+			key: { value: "" },
+			value: { value: "" },
+		},
+	});
 	const firstFormActions = new FirstFormActions(state, setState);
 	const secondFormActions = new SecondFormActions(state, setState);
 	const descriptionActions = new DescriptionActions(state, setState);
-	const saveFormAction = new SubmitActions(state,setState)
+	const saveFormAction = new SubmitActions(state, setState);
+	const validate = new Validate(state, setState);
+
 	return (
 		<AddItemContext.Provider
 			value={{
@@ -38,34 +71,46 @@ function AddItem() {
 				firstFormActions,
 				secondFormActions,
 				descriptionActions,
-				saveFormAction
+				saveFormAction,
+				validate,
+				...props,
 			}}
 		>
 			<PopUpContainer>
-				<FormContainer>
-					<div className="mb-4">
-						<FormHeader
-							navBack={function (): void {
-								firstFormActions.mutateState((p) => {
-									if(p.page>0)p.page--;
-								});
-							}}
-							close={function (): void {
-								throw new Error("Function not implemented.");
-							}}
-							heading={"Item"}
-							preHeading={"Add"}
-						/>
-					</div>
-					<div className="mb-5">
-						<ProgressBar currentStep={state.page + 1} steps={3} />
-					</div>
-					<div>
-						{state.page === 0 && <FirstPart />}
-						{state.page === 1 && <SecondPart />}
-						{state.page === 2 && <ThirdPart />}
-					</div>
-				</FormContainer>
+				{state.loading.save.status === "failed" ? (
+					<ErrorCard
+						messages={[state.loading.save.message]}
+						primaryAction={{
+							onClick: props.onClose,
+							label: "Close",
+						}}
+					/>
+				) : (
+					<FormContainer>
+						<div className="mb-4">
+							<FormHeader
+								navBack={function (): void {
+									firstFormActions.mutateState((p) => {
+										if (p.page > 0) p.page--;
+									});
+								}}
+								close={function (): void {
+									props.onClose();
+								}}
+								heading={"Item"}
+								preHeading={"Add"}
+							/>
+						</div>
+						<div className="mb-5">
+							<ProgressBar currentStep={state.page + 1} steps={3} />
+						</div>
+						<div>
+							{state.page === 0 && <FirstPart />}
+							{state.page === 1 && <SecondPart />}
+							{state.page === 2 && <ThirdPart />}
+						</div>
+					</FormContainer>
+				)}
 			</PopUpContainer>
 		</AddItemContext.Provider>
 	);

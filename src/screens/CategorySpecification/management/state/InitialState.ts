@@ -29,4 +29,6 @@ export const InitialState: CategorySpecification.State = {
 	loading: {
 		fetchItemData: AsyncStateFactory(),
 	},
+	showForm: false,
+	refresh: false,
 };

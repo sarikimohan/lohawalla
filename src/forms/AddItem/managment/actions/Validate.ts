@@ -131,6 +131,7 @@ export default class Validate extends ServerStateUtils<AddItem.State> {
 			(d) => Validators.max(d, 100),
 			(d) => Validators.min(d, 0)
 		);
+		margin.cash.isValid = !margin.cash.error;
 
 		margin.online.error = FieldDataService.registerValidator(
 			margin.online.value,
@@ -140,6 +141,7 @@ export default class Validate extends ServerStateUtils<AddItem.State> {
 			(d) => Validators.max(d, 100),
 			(d) => Validators.min(d, 0)
 		);
+		margin.online.isValid = !margin.online.error;
 
 		this.mutateState((p) => {
 			p.margin = margin;
@@ -195,6 +197,11 @@ export default class Validate extends ServerStateUtils<AddItem.State> {
 			Validators.validateNull
 		);
 		data.value.isValid = !data.value.error;
+
+		this.mutateState((p) => {
+			p.descriptionEntry.key = data.key;
+			p.descriptionEntry.value = data.value;
+		});
 
 		return verdict.isValid;
 	}

@@ -19,6 +19,10 @@ import DefaultButton from "@src/Components/common/buttons/DefaultButton/DefaultB
 import { InitialState } from "./management/state/InitialState";
 import CategorySpecificationAction from "./management/actions/CategorySpecificationAction";
 import { H2 } from "@src/Components/common/Typography/TypeStyles";
+import AddItem from "@src/forms/AddItem/AddItem";
+import Header from "@src/Components/Grid/Header/Header";
+import TableRow from "./components/TableRow/TableRow";
+import RowStat from "@src/Components/Grid/RowStat/RowStat";
 
 export const CategorySpecificationContext = React.createContext({});
 
@@ -28,7 +32,7 @@ function CategorySpecification() {
 	const { id } = useParams();
 
 	const [state, setState] = useState<CategorySpecification.State>(InitialState);
-	const {categorySpec} = state;
+	const { categorySpec } = state;
 	const specActions = new CategorySpecificationAction(state, (p) =>
 		setState(p)
 	);
@@ -174,28 +178,56 @@ function CategorySpecification() {
 							</div>
 							<div>
 								<DefaultButton
-									onClick={function (): void {}}
-									label={"+ ADD CATEGORY"}
+									onClick={function (): void {
+										specActions.mutateState((p) => {
+											p.showForm = true;
+										});
+									}}
+									label={"+ ADD ITEM"}
 								/>
 							</div>
 						</SpacingDiv>
 						<Spacer height={24} />
-						<Grid<CategorySpecification.ItemGridData>
-							BannerContainer={(children) => (
-								<BannerContainer width={widthService.width}>
-									{children}
-								</BannerContainer>
-							)}
-							RowContainer={RowContainer<CategorySpecification.ItemGridData>}
-							width={widthService.width}
-							paddingLeft={32}
-							paddingRight={32}
-							data={specActions.filterList()}
-							config={id ? getColConfig(id, categorySpec.name) : []}
-						/>
+						<table className="w-full table-auto">
+							<Header
+								columns={[
+									"sr no",
+									"item name",
+									"item code",
+									"entry time",
+									{
+										name: "",
+										width: 100,
+									},
+								]}
+							/>
+							<tbody>
+								<RowStat colSpan={5} isEmpty={state.itemList.length === 0	}>
+									{state.itemList.map((v, i) => (
+										<TableRow data={v} key={i} />
+									))}
+								</RowStat>
+							</tbody>
+						</table>
 					</div>
 				</Card>
 			</div>
+			{state.showForm && (
+				<AddItem
+					onClose={function (): void {
+						specActions.mutateState((p) => {
+							p.showForm = false;
+						});
+					}}
+					refresh={function (): void {
+						specActions.mutateState((p) => {
+							p.refresh = !p.refresh;
+						});
+					}}
+					// TODO add a check
+					categoryId={id as string}
+				/>
+			)}
 		</CategorySpecificationContext.Provider>
 	);
 }

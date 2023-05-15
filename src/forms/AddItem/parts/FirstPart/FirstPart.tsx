@@ -9,7 +9,7 @@ import { useAddItemContext } from "../../AddItem";
 interface Props {}
 
 export default function FirstPart(props: Props) {
-	const { state, firstFormActions } = useAddItemContext();
+	const { state, firstFormActions, validate } = useAddItemContext();
 
 	return (
 		<div>
@@ -65,13 +65,17 @@ export default function FirstPart(props: Props) {
 			<div>
 				<DefaultButton
 					onClick={() => {
-						const verdict = firstFormActions.validate();
-						if (verdict) {
+						validate.validateFirstForm(() => {
 							firstFormActions.mutateState((p) => p.page++);
-						}
+						});
 					}}
 					label={"Next"}
 					styles={NextButtonStyleConfig}
+					loading={
+						state.loading.checkName.status === "initialized" ||
+						state.loading.checkCode.status === "initialized"
+					}
+					loadingColor={"#fff"}
 				/>
 			</div>
 		</div>
