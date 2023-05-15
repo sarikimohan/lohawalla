@@ -6,6 +6,11 @@ namespace AddCategory {
 		value: FieldData;
 	}
 
+	interface Unit {
+		name: string;
+		weight: number;
+	}
+
 	interface State {
 		firstForm: FirstFormState;
 
@@ -31,7 +36,7 @@ namespace AddCategory {
 
 		page: number;
 
-		loading: Record<string, AsyncState>
+		loading: Record<string, AsyncState>;
 	}
 
 	interface FirstFormState {
@@ -39,12 +44,19 @@ namespace AddCategory {
 		categoryCode: FieldData;
 		description: FieldData;
 		unit: FieldData;
+		unitSelect: {
+			showDropDown: boolean;
+			list: Unit[];
+			selected: Unit | null;
+			showWeightInput: boolean;
+			showUnitNameInput: boolean;
+		};
 	}
 	interface ThirdFormState {
 		descriptionLabels: DescriptionLabels[];
 	}
 
-	//* actions 
+	//* actions
 	interface Actions {
 		navFront();
 		navBack();
@@ -62,9 +74,8 @@ namespace AddCategory {
 	}
 }
 
-//* actions 
+//* actions
 namespace AddCategoryAsync {
-	
 	interface CreditData {
 		days: number;
 		value: number;
@@ -88,7 +99,6 @@ namespace AddCategoryAsync {
 	}
 
 	interface IsUnique {
-		isUnique: boolean
+		isUnique: boolean;
 	}
-
 }

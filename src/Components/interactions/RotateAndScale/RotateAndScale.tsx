@@ -10,6 +10,7 @@ interface Props {
 	config?: {
 		scale?: number;
 		rotate?: number;
+		onClick?: () => void;
 	};
 	children?: React.ReactNode;
 }
@@ -24,6 +25,7 @@ export default function RotateAndScale({
 			whileHover={{ scale, rotate }}
 			whileTap={{ scale: abs(1 - abs((scale as number) - 1)) }}
 			className="cursor-pointer w-fit"
+			onClick={config.onClick}
 		>
 			{children}
 		</motion.div>

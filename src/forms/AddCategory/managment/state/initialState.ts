@@ -13,6 +13,30 @@ export const InitialState: AddCategory.State = {
 		categoryCode: FieldDataService.getDefaultField(),
 		description: FieldDataService.getDefaultField(),
 		unit: FieldDataService.getDefaultField(),
+		unitSelect: {
+			showDropDown: false,
+			list: [
+				{
+					name: "ton",
+					weight: 1000,
+				},
+				{
+					name: "kg",
+					weight: 1,
+				},
+				{
+					name: "bundle",
+					weight: -1,
+				},
+				{
+					name: "custom",
+					weight: -1,
+				},
+			],
+			selected: null,
+			showWeightInput: false,
+			showUnitNameInput: false,
+		},
 	},
 	images: [],
 	credit: [],
