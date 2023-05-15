@@ -22,30 +22,36 @@ export default class FirstFormActions extends ServerStateUtils<AddProduct.State>
 		const categories = await this.handleAsync("fetchCategories", () =>
 			getAllCategoryNames()
 		);
+
+		if (categories) {
+			this.mutateState((p) => {
+				p.firstForm.categoryList = categories.data;
+			});
+		}
 	}
-	async fetchItems(id: string) {
+	async fetchItems() {
+		const selectedCategory = this.state.firstForm.selectedCategory.value;
+		if (selectedCategory === null) return;
 		const items = await this.handleAsync("fetchItems", () =>
-			getAllItemNamesOfCategory(id)
-		)
+			getAllItemNamesOfCategory(selectedCategory._id)
+		);
 
 		if (items) {
-			this.mutateState(p =>
-				p.firstForm.itemList = items.data
-			)
+			this.mutateState((p) => (p.firstForm.itemList = items.data));
 		}
 	}
 
-	setSelectedCompany(entity: AddProduct.Entity) {
+	setSelectedCompany(entity: AddProduct.Entity | null) {
 		this.mutateState((p) => {
 			p.firstForm.selectedCompany.value = entity;
 		});
 	}
-	setSelectedCategory(entity: AddProduct.Entity) {
+	setSelectedCategory(entity: AddProduct.Entity | null) {
 		this.mutateState((p) => {
 			p.firstForm.selectedCategory.value = entity;
 		});
 	}
-	setSelectedItem(entity: AddProduct.Entity) {
+	setSelectedItem(entity: AddProduct.Entity | null) {
 		this.mutateState((p) => {
 			p.firstForm.selectedItem.value = entity;
 		});
@@ -115,6 +121,4 @@ class ThirdFormActions extends StateUtils<AddProduct.State> {
 	}
 }
 
-class SubmitFormActions extends StateUtils<AddProduct.State> {
-	
-}
+class SubmitFormActions extends StateUtils<AddProduct.State> {}

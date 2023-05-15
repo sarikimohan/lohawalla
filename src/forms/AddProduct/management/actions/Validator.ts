@@ -2,35 +2,39 @@ import { FieldDataService, Validators } from "@src/modules/FieldData/FieldData";
 import { ServerStateUtils } from "@src/modules/StateManagement/Core/StateUtils";
 
 export default class AddProductValidators extends ServerStateUtils<AddProduct.State> {
+	//* //////////////////////// FIRST FORM ////////////////////////
 	validateCompany() {
-		//* //////////////////////// FIRST FORM ////////////////////////
 		const data = this.state.firstForm.selectedCompany;
-		if (data.value === null) {
-			data.error = "required";
-			return false;
-		}
-		return true;
+		data.error = data.value === null ? "req" : undefined;
+		console.log(data);
+		this.mutateState((p) => {
+			p.firstForm.selectedCompany = data;
+		});
+		return !data.error;
 	}
 	validateCategory() {
 		const data = this.state.firstForm.selectedCategory;
-		if (data.value === null) {
-			data.error = "required";
-			return false;
-		}
-		return true;
+		data.error = data.value === null ? "req" : undefined;
+		this.mutateState((p) => {
+			p.firstForm.selectedCategory = data;
+		});
+		return !data.error;
 	}
 	validateItem() {
 		const data = this.state.firstForm.selectedItem;
-		if (data.value === null) {
-			data.error = "required";
-			return false;
-		}
-		return true;
+		data.error = data.value === null ? "req" : undefined;
+		this.mutateState((p) => {
+			p.firstForm.selectedItem = data;
+		});
+		return !data.error;
 	}
 	validateFirstForm() {
-		return (
-			this.validateCategory() && this.validateCompany() && this.validateItem()
-		);
+		const v = [
+			this.validateCategory(),
+			this.validateCompany(),
+			this.validateItem(),
+		];
+		return v.reduce((a, c) => a && c, true);
 	}
 
 	//* //////////////////////// SECOND FORM ////////////////////////

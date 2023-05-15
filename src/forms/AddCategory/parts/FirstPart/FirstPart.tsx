@@ -53,14 +53,27 @@ function FirstPart() {
 				placeHolder="Enter “52636325”"
 				inputClassName={style.formInput}
 				name="categoryCode"
-				isLoading={state.loading.checkCode.status === "initialized"}
 			/>
 
 			<Spacer height={8 * 2} />
 
 			<p className="body fw-medium fcolor-fuschia">Unit</p>
 			<Spacer height={8} />
-			<div
+			<FieldInput
+				width={"100%"}
+				type={"text"}
+				{...state.firstForm.unit}
+				onChange={(d) => {
+					addCategoryActions.mutateState((p) => {
+						p.firstForm.unit.value = d.target.value;
+					});
+				}}
+				placeHolder="Enter unit"
+				inputClassName={style.formInput}
+			/>
+
+			<Spacer height={8 * 2} />
+			{/* <div
 				className="border border-slate-300 rounded-md p-3"
 				style={{ height: 48, position: "relative" }}
 				onClick={() => {
@@ -139,7 +152,7 @@ function FirstPart() {
 					/>
 					<Spacer height={8 * 2} />
 				</>
-			)}
+			)} */}
 
 			<p className="body fw-medium fcolor-fuschia">Description</p>
 			<Spacer height={8} />

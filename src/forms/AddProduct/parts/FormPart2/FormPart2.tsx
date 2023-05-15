@@ -27,7 +27,7 @@ export default function FormPart2(props: Props) {
 				<div className="border" style={{ borderRadius: "8px 8px 0px 0px" }}>
 					<table className="w-full table-fixed">
 						<thead
-							className="bg-slate-100 h-10 border-b border-slate-400"
+							className="bg-indigo-100 h-10 border-b border-slate-400"
 							style={{ boxSizing: "border-box" }}
 						>
 							<tr className="px-4 py-2 rounded-md">

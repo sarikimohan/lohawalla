@@ -6,39 +6,103 @@ import FormFileUpload from "@src/Components/forms/FormFileUpload/FormFileUpload"
 
 import DefaultFormLabel from "@src/Components/forms/FormLabel/DefaultFormLabel";
 
-import React from "react";
+import React, { useEffect } from "react";
+import { useAddProductContext } from "../../AddProductForm";
 
 interface FormPart1Props {}
 
 function FormPart1(p: FormPart1Props) {
+	const { state, addProductActions, validate } = useAddProductContext();
+
 	return (
 		<>
 			<div className="flex flex-wrap mb-4">
 				<div className="basis-1/2 p-3">
 					<DefaultFormLabel className="mb-2">Select Company</DefaultFormLabel>
 					<Autocomplete
+						getOptionLabel={(d) => d.name}
 						renderInput={(params) => (
-							<TextField error={undefined} {...params} label="Company" />
+							<TextField
+								error={state.firstForm.selectedCompany.error !== undefined}
+								{...params}
+								label="Company"
+							/>
 						)}
-						options={[]}
+						options={state.firstForm.companiesList}
+						onOpen={() => {
+							if (state.loading.fetchCompanies.status !== "success")
+								addProductActions.fetchCompanies();
+						}}
+						onChange={(e, val) => {
+							addProductActions.setSelectedCompany(val);
+						}}
+						onInputChange={(e, v, r) => {
+							if (r === "clear") {
+								addProductActions.setSelectedCompany(null);
+							}
+						}}
+						loading={state.loading.fetchCompanies.status === "initialized"}
+						clearOnEscape
+						isOptionEqualToValue={(o, v) => o._id === v._id}
 					/>
 				</div>
 				<div className="basis-1/2 p-3">
 					<DefaultFormLabel className="mb-2">Select Category</DefaultFormLabel>
 					<Autocomplete
+						getOptionLabel={(d) => d.name}
 						renderInput={(params) => (
-							<TextField error={undefined} {...params} label="Category" />
+							<TextField
+								error={state.firstForm.selectedCategory.error !== undefined}
+								{...params}
+								label="Category"
+							/>
 						)}
-						options={[]}
+						options={state.firstForm.categoryList}
+						onOpen={() => {
+							if (state.loading.fetchCategories.status !== "success") {
+								addProductActions.fetchCategoies();
+							}
+						}}
+						onChange={(e, val) => {
+							addProductActions.setSelectedCategory(val);
+						}}
+						onInputChange={(e, v, r) => {
+							if (r === "clear") {
+								addProductActions.setSelectedCategory(null);
+							}
+						}}
+						loading={state.loading.fetchCategories.status === "initialized"}
+						clearOnEscape
+						isOptionEqualToValue={(o, v) => o._id === v._id}
 					/>
 				</div>
 				<div className="basis-1/2 p-3">
 					<DefaultFormLabel className="mb-2">Select Item</DefaultFormLabel>
 					<Autocomplete
+						disabled={state.firstForm.selectedCategory.value === null}
+						getOptionLabel={(d) => d.name}
 						renderInput={(params) => (
-							<TextField error={undefined} {...params} label="Item" />
+							<TextField
+								error={state.firstForm.selectedItem.error !== undefined}
+								{...params}
+								label="Item"
+							/>
 						)}
-						options={[]}
+						options={state.firstForm.itemList}
+						onOpen={() => {
+							addProductActions.fetchItems();
+						}}
+						onChange={(e, val) => {
+							addProductActions.setSelectedItem(val);
+						}}
+						onInputChange={(e, v, r) => {
+							if (r === "clear") {
+								addProductActions.setSelectedItem(null);
+							}
+						}}
+						loading={state.loading.fetchItems.status === "initialized"}
+						clearOnEscape
+						isOptionEqualToValue={(o, v) => o._id === v._id}
 					/>
 				</div>
 			</div>
@@ -47,7 +111,9 @@ function FormPart1(p: FormPart1Props) {
 			</div>
 			<div>
 				<DefaultButton
-					onClick={function (): void {}}
+					onClick={function (): void {
+						validate.validateFirstForm();
+					}}
 					label={"Next"}
 					styles={NextButtonStyleConfig}
 				/>
