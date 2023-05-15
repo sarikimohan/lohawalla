@@ -10,12 +10,20 @@ import DefaultButton from "@src/Components/common/buttons/DefaultButton/DefaultB
 import Grid from "@src/Components/common/Grid/Grid";
 import BannerContainer from "@src/Components/common/BannerContainer/BannerContainer";
 import RowContainer from "@src/Components/common/Grid/RowContainer.default";
+import CompanyProductsAction from "./managment/actions/CompanyProductAction";
+import { InitialState } from "./managment/state/initialState";
 
 function CompanyProductListing() {
 	const widthService = useWidth();
 	const { id } = useParams();
 	const [refresh, setRefresh] = useState(false);
 	const [showForm, setShowForm] = useState(false);
+	const [state,setState] = useState<CompanyProducts.State>(InitialState)
+	const CompanyProductActions = new CompanyProductsAction(state,setState)
+
+	useEffect(()=>{
+		CompanyProductActions.fetchProducts(id as string)
+	},[])
 
 	return (
 		<>
