@@ -125,7 +125,7 @@ export default class ValidateAddCompany extends ServerStateUtils<AddCompany.Stat
 	}
 
 	//* ///////////////////////// THIRD FORM /////////////////////////////
-	validateDescriptionLabels(onSuccess: () => void) {
+	validateDescriptionLabels() {
 		const verdict = { isValid: true };
 
 		this.mutateState((p) => {
@@ -142,9 +142,7 @@ export default class ValidateAddCompany extends ServerStateUtils<AddCompany.Stat
 			});
 		});
 
-		if (verdict.isValid) {
-			onSuccess();
-		}
+		return verdict.isValid;
 	}
 
 	validateAddDescriptionLabels() {

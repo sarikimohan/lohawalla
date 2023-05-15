@@ -14,6 +14,7 @@ import SaveFormActions from "./managment/actions/SaveFormAction";
 import ValidateAddCompany from "./managment/actions/Validate";
 import { nanoid } from "nanoid";
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
+import ErrorCard from "@src/Components/feedback/ErrorCard/ErrorCard";
 
 interface Props {}
 interface ContextProps {
@@ -86,26 +87,36 @@ export default function AddCompany(props: Props) {
 			}}
 		>
 			<PopUpContainer>
-				<FormContainer>
-					<div className="mb-4">
-						<FormHeader
-							navBack={function (): void {
-								addCompanyActions.navBack();
-							}}
-							close={function (): void {}}
-							heading={"Company"}
-							preHeading={"Add"}
-						/>
-					</div>
-					<div className="mb-5">
-						<ProgressBar currentStep={state.page + 1} steps={3} />
-					</div>
-					<div className="mb-4">
-						{state.page === 0 && <FirstPart />}
-						{state.page === 1 && <SecondPart />}
-						{state.page === 2 && <ThirdPart />}
-					</div>
-				</FormContainer>
+				{state.loading.save.status === "failed" ? (
+					<ErrorCard
+						messages={[state.loading.save.message]}
+						primaryAction={{
+							onClick: () => {},
+							label: "Close",
+						}}
+					/>
+				) : (
+					<FormContainer>
+						<div className="mb-4">
+							<FormHeader
+								navBack={function (): void {
+									addCompanyActions.navBack();
+								}}
+								close={function (): void {}}
+								heading={"Company"}
+								preHeading={"Add"}
+							/>
+						</div>
+						<div className="mb-5">
+							<ProgressBar currentStep={state.page + 1} steps={3} />
+						</div>
+						<div className="mb-4">
+							{state.page === 0 && <FirstPart />}
+							{state.page === 1 && <SecondPart />}
+							{state.page === 2 && <ThirdPart />}
+						</div>
+					</FormContainer>
+				)}
 			</PopUpContainer>
 		</AddCompanyContext.Provider>
 	);

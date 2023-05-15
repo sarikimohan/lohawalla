@@ -4,16 +4,18 @@ import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAn
 import AssetIndex from "@src/assets/AssetIndex";
 import React from "react";
 import { useAddCompanyContext } from "../../AddCompany";
-import ScaleOnHover from "@src/Components/interactions/ScaleOnHover/ScaleOnHover";
 import FormCardHeader from "@src/Components/forms/FormCardHeader/FormCardHeader";
 import DefaultButton from "@src/Components/common/buttons/DefaultButton/DefaultButton";
 import NextButtonStyleConfig from "@src/Components/common/buttons/configurations/NextButtonStyle.config";
 import AddMore from "@src/Components/common/buttons/AddMore/AddMore";
+import { useAuthGuardContext } from "@src/auth/AuthGuard/AuthGuard";
 
 interface Props {}
 
 export default function ThirdPart(props: Props) {
-	const { state, thirdFormActions, validate } = useAddCompanyContext();
+	const { state, thirdFormActions, validate, saveFormActions } =
+		useAddCompanyContext();
+	const { user } = useAuthGuardContext();
 
 	return (
 		<>
@@ -123,12 +125,13 @@ export default function ThirdPart(props: Props) {
 			<div className="mt-8">
 				<DefaultButton
 					onClick={function () {
-						const verdict = validate.validateAddDescriptionLabels();
+						const verdict = validate.validateDescriptionLabels();
+						console.log(verdict);
 						if (verdict) {
-							// saveFormActions.saveForm([], {
-							// 	name: "snehal",
-							// 	id: "645c049dd924bdde2e265995",
-							// });
+							saveFormActions.saveForm([], user, () => {
+								// close
+								// refresh
+							});
 						}
 					}}
 					label={"Save"}
