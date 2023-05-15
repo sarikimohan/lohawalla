@@ -70,6 +70,17 @@ function FirstPart() {
 			/>
 			<Spacer height={8 * 2} />
 
+			<p className="body fw-medium fcolor-fuschia">Weight/Unit (optional)</p>
+			<Spacer height={8} />
+			<FieldInput
+				width={"100%"}
+				type={"text"}
+				placeHolder="enter unit"
+				inputClassName={style.formInput}
+				name="unit"
+			/>
+			<Spacer height={8 * 2} />
+
 			<p className="body fw-medium fcolor-fuschia">Description</p>
 			<Spacer height={8} />
 			<FieldTextArea
