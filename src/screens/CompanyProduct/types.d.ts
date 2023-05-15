@@ -13,9 +13,7 @@ namespace CompanyProducts {
 	interface State {
 		products: CompanyProduct[];
 		filter: Filter;
-		loading: {
-			fetch: AsyncState;
-		};
+		loading:{[key:string]:AsyncState}
 	}
 
 	interface Actions {
