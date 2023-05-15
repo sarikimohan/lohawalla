@@ -1,7 +1,10 @@
 import StateUtils from "@src/modules/StateManagement/Core/StateUtils";
 
 export default class FirstFormActions extends StateUtils<AddProduct.State> {
-	fetchCompanies() {}
+	fetchCompanies() {
+		this.state.firstForm
+		this.state['firstForm']
+	}
 	fetchCategoies() {}
 	fetchItems() {}
 
