@@ -26,7 +26,13 @@ export default class FirstFormActions extends ServerStateUtils<AddProduct.State>
 	async fetchItems(id: string) {
 		const items = await this.handleAsync("fetchItems", () =>
 			getAllItemNamesOfCategory(id)
-		);
+		)
+
+		if (items) {
+			this.mutateState(p =>
+				p.firstForm.itemList = items.data
+			)
+		}
 	}
 
 	setSelectedCompany(entity: AddProduct.Entity) {
