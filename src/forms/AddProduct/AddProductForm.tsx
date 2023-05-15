@@ -80,7 +80,10 @@ function AddProductForm() {
 				<FormContainer>
 					<div className="mb-4">
 						<FormHeader
-							navBack={() => {}}
+							navBack={() => {
+								if (state.page > 0)
+									addProductActions.mutateState((p) => p.page--);
+							}}
 							heading={"Product"}
 							preHeading={"ADD"}
 							close={function (): void {

@@ -44,6 +44,7 @@ function FormPart1(p: FormPart1Props) {
 						loading={state.loading.fetchCompanies.status === "initialized"}
 						clearOnEscape
 						isOptionEqualToValue={(o, v) => o._id === v._id}
+						value={state.firstForm.selectedCompany.value}
 					/>
 				</div>
 				<div className="basis-1/2 p-3">
@@ -74,6 +75,7 @@ function FormPart1(p: FormPart1Props) {
 						loading={state.loading.fetchCategories.status === "initialized"}
 						clearOnEscape
 						isOptionEqualToValue={(o, v) => o._id === v._id}
+						value={state.firstForm.selectedCategory.value}
 					/>
 				</div>
 				<div className="basis-1/2 p-3">
@@ -103,6 +105,7 @@ function FormPart1(p: FormPart1Props) {
 						loading={state.loading.fetchItems.status === "initialized"}
 						clearOnEscape
 						isOptionEqualToValue={(o, v) => o._id === v._id}
+						value={state.firstForm.selectedItem.value}
 					/>
 				</div>
 			</div>
@@ -112,7 +115,10 @@ function FormPart1(p: FormPart1Props) {
 			<div>
 				<DefaultButton
 					onClick={function (): void {
-						validate.validateFirstForm();
+						const verdict = validate.validateFirstForm();
+						if (verdict) {
+							addProductActions.mutateState((p) => p.page++);
+						}
 					}}
 					label={"Next"}
 					styles={NextButtonStyleConfig}
