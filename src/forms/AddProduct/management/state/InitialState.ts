@@ -8,9 +8,9 @@ const InitialState: AddProduct.State = {
 		categoryList: [],
 		itemList: [],
 		imageList: null,
-		selectedCompany: null,
-		selectedCategory: null,
-		selectedItem: null,
+		selectedCompany: {value: null},
+		selectedCategory: {value: null},
+		selectedItem: {value: null},
 	},
 	secondForm: {
 		priceStructure: [],

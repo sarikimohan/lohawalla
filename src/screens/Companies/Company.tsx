@@ -12,6 +12,9 @@ import BannerContainer from "@src/Components/common/BannerContainer/BannerContai
 import RowContainer from "@src/Components/common/Grid/RowContainer.default";
 import { InitialState } from "./management/state/initialState";
 import CompanyActions from "./management/actions/CompanyActions";
+import Header from "@src/Components/Grid/Header/Header";
+import RowStat from "@src/Components/Grid/RowStat/RowStat";
+import TableRow from "./components/TableRow/TableRow";
 
 function Company() {
 	const widthService = useWidth();
@@ -29,7 +32,7 @@ function Company() {
 				<TitleNavBar title={"Company"} />
 			</div>
 			<div className={style.pageContainer}>
-				<Card className="p-4">
+				<Card sx={{ padding: 4 }} variant="outlined">
 					<div ref={widthService.ref}>
 						<div className="crow sb mb-3">
 							<div>
@@ -44,7 +47,7 @@ function Company() {
 								/> */}
 							</div>
 						</div>
-						<div className="crow sb mb-3">
+						<div className="crow sb mb-6">
 							<div className="vc">
 								<div className="pr-2">
 									<SearchBar
@@ -62,17 +65,25 @@ function Company() {
 							</div>
 						</div>
 
-						<Grid<Companies.CompanyListRow>
-							data={companyActions.filterCompanylistRow()}
-							config={columnConfig}
-							BannerContainer={(children) => (
-								<BannerContainer>{children}</BannerContainer>
-							)}
-							RowContainer={RowContainer<Companies.CompanyListRow>}
-							width={widthService.width}
-							paddingLeft={32}
-							paddingRight={32}
-						/>
+						<table className="w-full table-fixed">
+							<Header
+								columns={[
+									{ name: "sr no", width: 100 },
+									"company name",
+									"price",
+									"entry time",
+									"number of products",
+									{ name: "", width: 80 },
+								]}
+							/>
+							<tbody>
+								<RowStat colSpan={6}>
+									{state.companyList.map((v, i) => (
+										<TableRow data={v} key={i} />
+									))}
+								</RowStat>
+							</tbody>
+						</table>
 					</div>
 				</Card>
 			</div>

@@ -69,7 +69,10 @@ export default class AddProductValidators extends ServerStateUtils<AddProduct.St
 		if (gst.type === "numeric") {
 			gst.value.error = FieldDataService.registerValidator(
 				gst.value.value,
-				verdict
+				verdict,
+				Validators.validateNull,
+				Validators.validateFloat,
+				(d) => Validators.min(d, 0)
 			);
 		}
 	}
