@@ -1,6 +1,6 @@
 import { ServerStateUtils } from "@src/modules/StateManagement/Core/StateUtils";
 import getEditItemFormData from "../fetch/services/getEditItemFormData";
-import {nanoid} from "nanoid";
+import { nanoid } from "nanoid";
 
 export default class EditItemActions extends ServerStateUtils<EditItem.State> {
 	async fetch(id: string) {
@@ -17,16 +17,13 @@ export default class EditItemActions extends ServerStateUtils<EditItem.State> {
 				p.margin.cash.value = data.margin.cash.toString();
 				p.margin.online.value = data.margin.online.toString();
 				p.descriptionLabels = data.descriptionLabels.map((v) => ({
-					id: nanoid(),
 					key: v.key,
-					value: { value: v.value },
+					value: v.value,
 					position: v.position,
 				}));
 			});
 		}
 	}
 
-	addDescription() {
-		
-	}
+	addDescription() {}
 }

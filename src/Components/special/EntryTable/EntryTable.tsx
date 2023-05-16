@@ -48,28 +48,39 @@ export default function EntryTable(props: Props) {
 	const setActions = new StateUtils<State>(state, setState);
 	const metaActions = new StateUtils<typeof meta>(meta, setMeta);
 
-	// useEffect(() => {
-	// props.list.map((v, i) => ({
-	// 	key: v.key,
-	// 	value: { value: v.value },
-	// 	id: nanoid(),
-	// }));
-	// }, []);
+	useEffect(() => {
+		setState((p) => {
+			const o = { ...p };
+			if (o.data.length === props.list.length) {
+				for (let i = 0; i < p.data.length; ++i) {
+					o.data[i].key = props.list[i].key;
+					o.data[i].value.value = props.list[i].value;
+				}
+			} else {
+				return {
+					data: props.list.map((v, i) => ({
+						key: v.key,
+						value: { value: v.value },
+						id: nanoid(),
+					})),
+				};
+			}
+			return o;
+		});
+	}, [props.list]);
 
 	useEffect(() => {
 		let verdict = true;
-		if (props.validate) {
-			setActions.mutateState((p) => {
-				p.data.forEach((v, i) => {
-					v.value.error = props.validateFieldValue(v.value.value);
-					if (v.value.error) {
-						verdict = false;
-					}
-					p.data[i].value = v.value;
-				});
+		setActions.mutateState((p) => {
+			p.data.forEach((v, i) => {
+				v.value.error = props.validateFieldValue(v.value.value);
+				if (v.value.error) {
+					verdict = false;
+				}
+				p.data[i].value = v.value;
 			});
-			props.onValidated(verdict);
-		}
+		});
+		props.onValidated(verdict);
 	}, [props.validate]);
 
 	return (
@@ -176,6 +187,8 @@ export default function EntryTable(props: Props) {
 
 							if (p.key.isValid && p.value.isValid) {
 								props.onAddField(p.key.value, p.value.value);
+								p.key.value = "";
+								p.value.value = "";
 							}
 						});
 					}}

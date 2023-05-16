@@ -13,13 +13,14 @@ namespace EditItem {
       online: FieldData;
     };
 		descriptionLabels: {
-			id:string;
 			key: string;
-			value: FieldData;
+			value: string;
 			position: number;
 		}[];
 
 		loading: Record<string, AsyncState>;
+		validation: Record<string, boolean>;
+		triggerSubmit: boolean;
 	}
 }
 

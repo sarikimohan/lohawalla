@@ -35,6 +35,11 @@ export default function EditItem(props: Props) {
 		loading: {
 			fetch: AsyncStateFactory(),
 		},
+		validation: {
+			descriptionLabels: true,
+			form: true,
+		},
+		triggerSubmit: false,
 	});
 
 	const editItemFormActions = new EditItemActions(state, setState);

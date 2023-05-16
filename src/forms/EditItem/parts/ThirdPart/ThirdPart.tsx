@@ -5,13 +5,22 @@ import FieldInput from "@src/Components/forms/FieldInput/FieldInput";
 import FormCardHeader from "@src/Components/forms/FormCardHeader/FormCardHeader";
 import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAndScale";
 import AssetIndex from "@src/assets/AssetIndex";
-import React from "react";
+import React, { useState } from "react";
 import { useEditItemContext } from "../../EditItem";
+import EntryTable from "@src/Components/special/EntryTable/EntryTable";
+import { FieldDataService, Validators } from "@src/modules/FieldData/FieldData";
 
 interface Props {}
 
 export default function ThirdPart(props: Props) {
 	const { state, editItemFormActions: _ } = useEditItemContext();
+	console.log(
+		state.descriptionLabels.map((v) => ({
+			key: v.key,
+			value: v.value,
+		}))
+	);
+
 	return (
 		<>
 			<Card variant="outlined" sx={{ padding: 3 }}>
@@ -19,97 +28,77 @@ export default function ThirdPart(props: Props) {
 					<FormCardHeader heading="Global Fields" subheading="Enter" />
 				</div>
 				<Card sx={{ padding: 3 }} variant="outlined">
-					<table className="w-full">
-						<thead
-							className="bg-slate-100 h-10 border-b border-slate-400"
-							style={{ boxSizing: "border-box" }}
-						>
-							<tr className="px-4 py-2">
-								<th>
-									<p className="text-md font-semibold text-slate-500">
-										Description
-									</p>
-								</th>
-								<th>
-									<p className="text-md font-semibold text-slate-500 ">Value</p>
-								</th>
-								<th className="w-fit"></th>
-							</tr>
-						</thead>
-
-						<tbody>
-							{state.descriptionLabels
-								.sort((a, b) => a.position - b.position)
-								.map((v, i) => (
-									<tr className="mb-2 border-b" key={i}>
-										<td align="center">
-											<p className="text-md font-bold text-slate-700 py-5">
-												{v.key}
-											</p>
-										</td>
-										<td align="center" className="w-2/5">
-											<FieldInput
-												{...v.value}
-												onChange={(d) => {
-													_.mutateState((p) => {
-														p.descriptionLabels[i].value.value = d.target.value;
-													});
-												}}
-												type={"text"}
-												placeHolder={"enter value"}
-											/>
-										</td>
-										<td align="center" className="w-fit">
-											<div
-												onClick={() => {
-													_.mutateState((p) => {
-														p.descriptionLabels.filter((v, k) => {
-															return k !== i;
-														});
-													});
-												}}
-											>
-												<RotateAndScale>
-													<AssetIndex.MinusCircleIcon />
-												</RotateAndScale>
-											</div>
-										</td>
-									</tr>
-								))}
-							<tr
-								className="mb-2 border-b"
-								style={{ borderTop: "5px solid transparent" }}
-							>
-								<td align="center" className="p-1">
-									<FieldInput
-										type={"text"}
-										placeHolder={"enter key"}
-										isValid={undefined}
-										data={""}
-									/>
-								</td>
-								<td align="center" className="p-1">
-									<FieldInput
-										type={"text"}
-										placeHolder={"enter value"}
-										isValid={undefined}
-										data={""}
-									/>
-								</td>
-								<td align="center" className="p-1">
-									<div onClick={() => {}}>
-										<RotateAndScale config={{ scale: 1.05, rotate: 0 }}>
-											<button className="px-4 py-2 rounded-md bg-indigo-600 text-white">
-												Add
-											</button>
-										</RotateAndScale>
-									</div>
-								</td>
-							</tr>
-						</tbody>
-					</table>
+					<EntryTable
+						list={state.descriptionLabels.map((v) => ({
+							key: v.key,
+							value: v.value,
+						}))}
+						validate={state.triggerSubmit}
+						onValidated={function (isValid: boolean): void {
+							_.mutateState((p) => {
+								p.validation.descriptionLabels = isValid;
+							});
+						}}
+						onChangeFieldValue={function (value: string, index: number): void {
+							_.mutateState((p) => {
+								p.descriptionLabels[index].value = value;
+							});
+						}}
+						validateFieldValue={function (value: string): string | undefined {
+							return FieldDataService.registerValidator(
+								value,
+								{ isValid: true },
+								Validators.validateNull
+							);
+						}}
+						validateAddKey={function (value: string): string | undefined {
+							return FieldDataService.registerValidator(
+								value,
+								{ isValid: true },
+								Validators.validateNull,
+								(d) => {
+									for (let i of state.descriptionLabels) {
+										if (d === i.key) {
+											return d + " is already present";
+										}
+									}
+								}
+							);
+						}}
+						validateAddValue={function (value: string): string | undefined {
+							return FieldDataService.registerValidator(
+								value,
+								{ isValid: true },
+								Validators.validateNull
+							);
+						}}
+						deleteField={function (i: number): void {
+							_.mutateState((p) => {
+								p.descriptionLabels = p.descriptionLabels.filter(
+									(v, k) => i !== k
+								);
+							});
+						}}
+						onAddField={function (key: string, value: string): void {
+							_.mutateState((p) => {
+								p.descriptionLabels.push({
+									key,
+									value,
+									position: p.descriptionLabels.length,
+								});
+							});
+						}}
+					/>
 				</Card>
 			</Card>
+			<DefaultButton
+				onClick={function (): void {
+					_.mutateState((p) => {
+						p.triggerSubmit = !p.triggerSubmit;
+					});
+				}}
+				label={"SAVE"}
+			/>
 		</>
 	);
 }
