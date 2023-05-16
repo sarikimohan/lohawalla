@@ -13,6 +13,7 @@ import AuthGuard from "./auth/AuthGuard/AuthGuard";
 import CategoryNumberOfItems from "./screens/CategoryNumberOfItems/CategoryNumberOfItems";
 import CategoryViewMargin from "./screens/CategoryViewMargin/CategoryViewMargin";
 import Profile from "./screens/Profile/Profile";
+import BrowseProducts from "./screens/BrowseProducts/BrowseProducts";
 
 //* screen imports
 const LazyDashboard = React.lazy(() => import("./screens/Dashboard/Dashboard"));
@@ -79,7 +80,7 @@ function App() {
 								<Route path=":id" element={<CompanySpecification />} />
 							</Route>
 
-							<Route path="/browseProducts"  />
+							<Route path="/browseProducts" element={<BrowseProducts />} />
 
 							<Route path="/basePrice" element={<AddBasePrice />} />
 							<Route path="/profile" element={<Profile />} />
