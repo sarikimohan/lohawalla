@@ -3,11 +3,35 @@ import { FieldDataService, Validators } from "@src/modules/FieldData/FieldData";
 import StateUtils from "@src/modules/StateManagement/Core/StateUtils";
 import isPrefix from "@src/modules/Utils/isPrefix";
 
+interface PostData {
+	list: {
+		priceFieldId: string;
+		value: number;
+	}[];
+	by: NameIdPair;
+}
+
 export default class SetBasePriceAction
 	extends StateUtils<SetBasePrice.State>
 	implements SetBasePrice.Actions
 {
+	// TODO fetch the values
 	fetch() {}
+
+	// TODO save the values
+	save(by: NameIdPair) {
+		const d: PostData = {
+			list: this.state.setList
+				.filter((v) => v.cost.hasChanged)
+				.map((v, i) => ({
+					priceFieldId: v.priceFieldId,
+					value: parseFloat(v.cost.value),
+				})),
+			by,
+		};
+		
+	}
+
 	setQuery(query: string) {
 		this.mutateState((p) => {
 			p.filter.query = query;
@@ -34,7 +58,7 @@ export default class SetBasePriceAction
 				);
 			});
 		});
-		
+
 		return verdict.isValid;
 	}
 }

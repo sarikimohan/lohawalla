@@ -7,7 +7,7 @@ namespace SetBasePrice {
 		};
 		companyId: string /*to nav to company*/;
 		priceFieldId: string /*to save in price field*/;
-		cost: /*basic rate (value log)*/ FieldData;
+		cost: /*basic rate (value log)*/ FieldData & {hasChanged: boolean};
 		entryTime: /* (value log) */ string;
 	}
 

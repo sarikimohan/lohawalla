@@ -21,7 +21,7 @@ function AddBasePrice() {
 				},
 				companyId: "asldkfa",
 				priceFieldId: "asl;dfjasd",
-				cost: { value: "12342" },
+				cost: { value: "12342", hasChanged: false },
 				entryTime: "today",
 			},
 		],
@@ -90,6 +90,7 @@ function AddBasePrice() {
 										setValue={(d) => {
 											setBasePriceActions.mutateState((p) => {
 												p.setList[i].cost.value = d;
+												p.setList[i].cost.hasChanged = true;
 											});
 										}}
 									/>
