@@ -10,8 +10,6 @@ export default class Validation extends StateUtils<EditCategory.State> {
 			data.value,
 			verdict,
 			Validators.validateNull, 
-      Validators.validateFloat,
-      (d) => Validators.min(d, 0)
 		);
     data.isValid = !data.error;
 

@@ -26,7 +26,7 @@ import { useNavigate } from "react-router-dom";
 function Categories() {
 	const heightService = useHeight();
 	const [state, setState] = useState<Categories.State>(InitialState);
-	const categoryAction = new CategoryActions(state, (s) => setState(s));
+	const categoryAction = new CategoryActions(state, setState);
 
 	useEffect(() => {
 		categoryAction.fetchCategoryGridData();

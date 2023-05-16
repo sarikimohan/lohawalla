@@ -15,8 +15,7 @@ namespace EditCategory {
 		categoryCode: FieldData;
 		description: FieldData;
 		images: string[];
-		addedImages: string[];
-		imageFiles: File[];
+		imageFiles: File[]|null;
 		credit: {
 			days: number;
 			value: FieldData;

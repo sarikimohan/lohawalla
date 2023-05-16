@@ -6,10 +6,12 @@ import FormCardHeader from "@src/Components/forms/FormCardHeader/FormCardHeader"
 import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAndScale";
 import AssetIndex from "@src/assets/AssetIndex";
 import React from "react";
+import { useEditItemContext } from "../../EditItem";
 
 interface Props {}
 
 export default function ThirdPart(props: Props) {
+	const { state, editItemFormActions: _ } = useEditItemContext();
 	return (
 		<>
 			<Card variant="outlined" sx={{ padding: 3 }}>
@@ -36,29 +38,44 @@ export default function ThirdPart(props: Props) {
 						</thead>
 
 						<tbody>
-							{[].map((v, i) => (
-								<tr className="mb-2 border-b">
-									<td align="center">
-										<p className="text-md font-bold text-slate-700 py-5"></p>
-									</td>
-									<td align="center" className="w-2/5">
-										<FieldInput
-											onChange={(d) => {}}
-											type={"text"}
-											placeHolder={"enter value"}
-											isValid={undefined}
-											data={""}
-										/>
-									</td>
-									<td align="center" className="w-fit">
-										<div onClick={() => {}}>
-											<RotateAndScale>
-												<AssetIndex.MinusCircleIcon />
-											</RotateAndScale>
-										</div>
-									</td>
-								</tr>
-							))}
+							{state.descriptionLabels
+								.sort((a, b) => a.position - b.position)
+								.map((v, i) => (
+									<tr className="mb-2 border-b" key={i}>
+										<td align="center">
+											<p className="text-md font-bold text-slate-700 py-5">
+												{v.key}
+											</p>
+										</td>
+										<td align="center" className="w-2/5">
+											<FieldInput
+												{...v.value}
+												onChange={(d) => {
+													_.mutateState((p) => {
+														p.descriptionLabels[i].value.value = d.target.value;
+													});
+												}}
+												type={"text"}
+												placeHolder={"enter value"}
+											/>
+										</td>
+										<td align="center" className="w-fit">
+											<div
+												onClick={() => {
+													_.mutateState((p) => {
+														p.descriptionLabels.filter((v, k) => {
+															return k !== i;
+														});
+													});
+												}}
+											>
+												<RotateAndScale>
+													<AssetIndex.MinusCircleIcon />
+												</RotateAndScale>
+											</div>
+										</td>
+									</tr>
+								))}
 							<tr
 								className="mb-2 border-b"
 								style={{ borderTop: "5px solid transparent" }}

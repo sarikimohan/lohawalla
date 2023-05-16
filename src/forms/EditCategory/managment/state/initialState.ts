@@ -7,7 +7,6 @@ const InitialState: EditCategory.State = {
 	categoryCode: FieldDataService.getDefaultField(),
 	description: FieldDataService.getDefaultField(),
 	images: [],
-	addedImages: [],
 	imageFiles: [],
 	credit: [],
 	creditInput: {

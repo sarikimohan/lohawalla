@@ -7,10 +7,12 @@ import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAn
 import AssetIndex from "@src/assets/AssetIndex";
 import React from "react";
 import Tip from "@src/Components/feedback/Tooltip/Tip";
+import { useEditItemContext } from "../../EditItem";
 
 interface Props {}
 
 export default function SecondPart(props: Props) {
+	const { state, editItemFormActions: _ } = useEditItemContext();
 	return (
 		<>
 			<Card variant="outlined" sx={{ padding: 3 }}>
@@ -53,8 +55,12 @@ export default function SecondPart(props: Props) {
 										width={"80%"}
 										type={"number"}
 										placeHolder={"enter value"}
-										isValid={undefined}
-										data={""}
+										{...state.margin.online}
+										onChange={(d) => {
+											_.mutateState((p) => {
+												p.margin.online.value = d.target.value;
+											});
+										}}
 									/>
 								</td>
 							</tr>
@@ -71,8 +77,12 @@ export default function SecondPart(props: Props) {
 										width={"80%"}
 										type={"number"}
 										placeHolder={"enter value"}
-										isValid={undefined}
-										data={""}
+										{...state.margin.cash}
+										onChange={(d) => {
+											_.mutateState((p) => {
+												p.margin.cash.value = d.target.value;
+											});
+										}}
 									/>
 								</td>
 							</tr>
@@ -80,7 +90,6 @@ export default function SecondPart(props: Props) {
 					</table>
 				</Card>
 			</Card>
-
 		</>
 	);
 }

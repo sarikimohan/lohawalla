@@ -32,9 +32,9 @@ function Dashboard() {
 					{/* <AddItem /> */}
 					{/* <AddCategoryForm /> */}
 					{/* <ErrorCard messages={[]} /> */}
-					<EditCategory/>
+					{/* <EditCategory/> */}
 					{/* <EditCompany/> */}
-					{/* <EditItem /> */}
+					<EditItem />
 					{/* <SetActiveCompany/> */}
 				</div>
 			</div>
