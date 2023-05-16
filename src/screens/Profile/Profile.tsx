@@ -13,7 +13,7 @@ function Profile() {
 			</div>
 			<div
 				className={style.pageContainer + ' pt-10'}
-				// style={{ height: `calc(100vh - ${height}px)` }}
+			// style={{ height: `calc(100vh - ${height}px)` }}
 			>
 				<Card variant="outlined" className="p-8">
 					<div className="crow mb-4">
@@ -52,9 +52,9 @@ function Profile() {
 					<div className="mb-2">
 						<Divider />
 					</div>
-          <div className="crow">
-            <Button variant="outlined">Logout</Button>
-          </div>
+					<div className="crow">
+						<Button variant="outlined">Logout</Button>
+					</div>
 				</Card>
 			</div>
 		</div>
