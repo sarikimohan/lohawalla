@@ -1,0 +1,14 @@
+.container {
+  width: fit-content;
+  display: flex;
+  align-items: center;
+}
+
+.iconBox {
+  height: 56px;
+  width: 56px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

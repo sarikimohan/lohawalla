@@ -1,0 +1,10 @@
+.navContainer {
+  width: 100%;
+}
+
+.pageContainer {
+  width: 100%;
+  overflow-y: auto;
+  padding: 0 50px;
+  padding-top: 32px;
+}

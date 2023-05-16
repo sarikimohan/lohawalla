@@ -10,6 +10,7 @@ import AddProductForm from "@src/forms/AddProduct/AddProductForm";
 import EditCategory from "@src/forms/EditCategory/EditCategory";
 import EditCompany from "@src/forms/EditCompany/EditCompany";
 import EditItem from "@src/forms/EditItem/EditItem";
+import SetActiveCompany from "@src/forms/SetActiveCompany/SetActiveCompany";
 import React from "react";
 
 function Dashboard() {
@@ -34,6 +35,7 @@ function Dashboard() {
 					{/* <EditCategory/> */}
 					{/* <EditCompany/> */}
 					{/* <EditItem /> */}
+					<SetActiveCompany/>
 				</div>
 			</div>
 		</>

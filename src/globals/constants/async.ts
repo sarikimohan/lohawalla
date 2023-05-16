@@ -6,7 +6,7 @@ import { MODE } from "./modes.constants";
 
 const baseURLS = {
 	dev: "http://localhost:8080/",
-	prod: "https://54.234.87.11/",
+	prod: "www.lohawalla.com/",
 };
 
 type modes = keyof typeof baseURLS;
@@ -16,7 +16,7 @@ type ObjectLiteral<T> = {
 };
 
 const API = axios.create({
-	baseURL: baseURLS[MODE],
+	baseURL: baseURLS["prod"],
 });
 
 console.log(baseURLS[MODE]);
@@ -471,7 +471,7 @@ interface ItemSpecification {
 	categoryName: string;
 	itemName: string;
 	description: string;
-	descriptionLables: { key: string; value: string, position: number }[];
+	descriptionLables: { key: string; value: string; position: number }[];
 	margin: { cash: number; online: number };
 	images: string[];
 }
@@ -514,7 +514,7 @@ export async function getCompanyGridData() {
 interface CompanySpecificationData {
 	companyName: string;
 	description: string;
-	descriptionLabels: { key: string; value: string, position: number }[];
+	descriptionLabels: { key: string; value: string; position: number }[];
 	priceStructure: {
 		name: string;
 		type: "numeric" | "percentage";

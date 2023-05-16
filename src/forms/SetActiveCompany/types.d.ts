@@ -1,12 +1,12 @@
 namespace SetActiveCompany {
+	interface Entity {
+		name: string;
+		_id: string;
+	}
 	interface State {
-		activeCompany: {
-			name: string;
-			_id: string;
-		};
-		inActiveCompanies: {
-			_id: string;
-			name: string;
-		}[];
+		query: string;
+		activeCompany: Entity | null;
+		inActiveCompanies: Entity[];
+		loading: Record<string, AsyncState>;
 	}
 }

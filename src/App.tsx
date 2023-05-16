@@ -10,6 +10,9 @@ import Company from "./screens/Companies/Company";
 import CompanySpecification from "./screens/CompanySpecification/CompanySpecification";
 import AddBasePrice from "./screens/SetBasePrice/AddBasePrice";
 import AuthGuard from "./auth/AuthGuard/AuthGuard";
+import CategoryNumberOfItems from "./screens/CategoryNumberOfItems/CategoryNumberOfItems";
+import CategoryViewMargin from "./screens/CategoryViewMargin/CategoryViewMargin";
+import Profile from "./screens/Profile/Profile";
 
 //* screen imports
 const LazyDashboard = React.lazy(() => import("./screens/Dashboard/Dashboard"));
@@ -64,6 +67,11 @@ function App() {
 								/>
 								<Route path="item/:pid" element={<ItemSpecification />} />
 								<Route path="product/:id" element={<ProductSpecification />} />
+								<Route
+									path="setActiveCompany/:id"
+									element={<CategoryNumberOfItems />}
+								/>
+								<Route path="viewMargin" element={<CategoryViewMargin />} />
 							</Route>
 
 							<Route path="/company">
@@ -71,7 +79,10 @@ function App() {
 								<Route path=":id" element={<CompanySpecification />} />
 							</Route>
 
+							<Route path="/browseProducts"  />
+
 							<Route path="/basePrice" element={<AddBasePrice />} />
+							<Route path="/profile" element={<Profile />} />
 						</Routes>
 					</div>
 				</div>

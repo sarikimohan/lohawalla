@@ -5,7 +5,13 @@ namespace CategoryViewMargin {
 			name: string;
 			imageURL: string;
 		};
-		cashMargin: number;
-		onlineMaring: number;
+		itemId: string;
+		marginId: string;
+		cashMargin: FieldData & { hasChanged: boolean };
+		onlineMargin: FieldData & { hasChanged: boolean };
+	}
+	interface State {
+		data: ItemMarginGridData[];
+		loading: Record<string, AsyncState>
 	}
 }

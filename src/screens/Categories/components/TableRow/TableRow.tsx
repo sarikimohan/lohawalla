@@ -52,18 +52,20 @@ export default function TableRow(props: Props) {
 				<Text>{data.entryTime}</Text>
 			</td>
 			<td align="center" className="py-3 border-b">
-				<RotateAndScale config={{ rotate: 0, scale: 1.1 }}>
-					<BorderOnHover
-						borderConfig={{
-							borderWidth: 1,
-							borderColor: "#0000ff",
-						}}
-					>
-						<Text className="text-blue-500 underline select-none">
-							{data.noOfItems}
-						</Text>
-					</BorderOnHover>
-				</RotateAndScale>
+				<Link to={"/categories/setActiveCompany/" + data._id}>
+					<RotateAndScale config={{ rotate: 0, scale: 1.1 }}>
+						<BorderOnHover
+							borderConfig={{
+								borderWidth: 1,
+								borderColor: "#0000ff",
+							}}
+						>
+							<Text className="text-blue-500 underline select-none">
+								{data.noOfItems}
+							</Text>
+						</BorderOnHover>
+					</RotateAndScale>
+				</Link>
 			</td>
 			<td align="center" className="py-3 border-b" style={{ width: 80 }}>
 				<Text>pin</Text>
