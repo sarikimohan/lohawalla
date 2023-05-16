@@ -26,7 +26,7 @@ function Dashboard() {
 						}}
 						refresh={() => {}}
 					/> */}
-					<AddProductForm />
+					{/* <AddProductForm /> */}
 					{/* <AddCompany /> */}
 					{/* <AddItem /> */}
 					{/* <AddCategoryForm /> */}

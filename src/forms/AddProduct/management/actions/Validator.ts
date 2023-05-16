@@ -43,28 +43,30 @@ export default class AddProductValidators extends ServerStateUtils<AddProduct.St
 
 		this.mutateState((p) => {
 			p.secondForm.priceStructure.map((v, i) => {
-				const data = v.value;
-				if (v.type === "percentage") {
-					data.error = FieldDataService.registerValidator(
-						data.value,
-						verdict,
-						Validators.validateNull,
-						Validators.validateFloat,
-						(d) => Validators.min(d, 0),
-						(d) => Validators.max(d, 100)
-					);
-				} else {
-					data.error = FieldDataService.registerValidator(
-						data.value,
-						verdict,
-						Validators.validateNull,
-						Validators.validateFloat,
-						(d) => Validators.min(d, 1)
-					);
-				}
-				data.isValid = !data.error;
+				if (v.isFixed === false) {
+					const data = v.value;
+					if (v.type === "percentage") {
+						data.error = FieldDataService.registerValidator(
+							data.value,
+							verdict,
+							Validators.validateNull,
+							Validators.validateFloat,
+							(d) => Validators.min(d, 0),
+							(d) => Validators.max(d, 100)
+						);
+					} else {
+						data.error = FieldDataService.registerValidator(
+							data.value,
+							verdict,
+							Validators.validateNull,
+							Validators.validateFloat,
+							(d) => Validators.min(d, 1)
+						);
+					}
+					data.isValid = !data.error;
 
-				p.secondForm.priceStructure[i].value = data;
+					p.secondForm.priceStructure[i].value = data;
+				}
 			});
 		});
 
@@ -88,8 +90,8 @@ export default class AddProductValidators extends ServerStateUtils<AddProduct.St
 				verdict,
 				Validators.validateNull,
 				Validators.validateFloat,
-				(d) => Validators.max(d, 0),
-				(d) => Validators.max(d, 100)
+				(d) => Validators.max(d, 100),
+				(d) => Validators.min(d, 0)
 			);
 		}
 
@@ -99,7 +101,7 @@ export default class AddProductValidators extends ServerStateUtils<AddProduct.St
 			p.secondForm.gst = gst;
 		});
 
-		return verdict;
+		return verdict.isValid;
 	}
 	validateSecondForm() {
 		return this.validatePriceStructure() && this.validateGSTValue();
@@ -122,7 +124,7 @@ export default class AddProductValidators extends ServerStateUtils<AddProduct.St
 			p.thirdForm.description = data;
 		});
 
-		return verdict;
+		return verdict.isValid;
 	}
 	validateDescriptionLabels() {
 		// ex

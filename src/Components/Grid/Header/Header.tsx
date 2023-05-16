@@ -1,7 +1,7 @@
 import React from "react";
 import style from "./Header.module.css";
 
-interface HeaderConfig {
+export interface HeaderConfig {
 	name: string;
 	width?: number;
 }

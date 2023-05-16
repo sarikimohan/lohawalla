@@ -46,7 +46,7 @@ export default class SaveFormActions extends ServerStateUtils<AddCompany.State> 
 			})),
 			pricefields: this.state.priceStructure.map((v, i) => ({
 				name: v.name,
-				value: parseFloat(v.value.value),
+				value: v.value.value === "" ? -1 : parseFloat(v.value.value),
 				meta: {
 					operation: v.operation,
 					type: v.type,
@@ -56,7 +56,9 @@ export default class SaveFormActions extends ServerStateUtils<AddCompany.State> 
 			})),
 		};
 
-		this.handleAsync(
+		console.log(d);
+
+		await this.handleAsync(
 			"save",
 			() => {
 				return server.post(apis.createCompany, d);

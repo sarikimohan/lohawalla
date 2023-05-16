@@ -1,4 +1,5 @@
 import { getAllCompaniesWithBaseRate } from "@src/globals/constants/async";
+import { FieldDataService, Validators } from "@src/modules/FieldData/FieldData";
 import StateUtils from "@src/modules/StateManagement/Core/StateUtils";
 import isPrefix from "@src/modules/Utils/isPrefix";
 
@@ -6,26 +7,7 @@ export default class SetBasePriceAction
 	extends StateUtils<SetBasePrice.State>
 	implements SetBasePrice.Actions
 {
-	fetch() {
-		this.mutateState((p) => (p.loading.fetch.status = "initialized"));
-		try {
-			(async () => {
-				const list = await getAllCompaniesWithBaseRate();
-				this.mutateState((p) => {
-					p.setList = list;
-					p.loading.fetch.status = "success";
-				});
-			})();
-		} catch (err) {
-			this.mutateState(
-				(p) =>
-					(p.loading.fetch = {
-						status: "failed",
-						message: "some error occured",
-					})
-			);
-		}
-	}
+	fetch() {}
 	setQuery(query: string) {
 		this.mutateState((p) => {
 			p.filter.query = query;
@@ -36,5 +18,23 @@ export default class SetBasePriceAction
 		return this.state.setList.filter((v) =>
 			isPrefix(v.companyName.name, query)
 		);
+	}
+
+	validateSubmit() {
+		const verdict = { isValid: true };
+		this.mutateState((p) => {
+			p.setList.forEach((v, i) => {
+				const data = v.cost;
+				data.error = FieldDataService.registerValidator(
+					data.value,
+					verdict,
+					Validators.validateNull,
+					Validators.validateFloat,
+					(d) => Validators.min(d, 1)
+				);
+			});
+		});
+		
+		return verdict.isValid;
 	}
 }

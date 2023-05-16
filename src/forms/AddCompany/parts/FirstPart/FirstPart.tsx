@@ -16,9 +16,7 @@ function FirstPart() {
 					Company Name
 				</p>
 				<FieldInput
-					isValid={state.firstForm.companyName.isValid}
-					error={state.firstForm.companyName.error}
-					data={state.firstForm.companyName.value}
+					{...state.firstForm.companyName}
 					onChange={(d) => {
 						firstFormActions.setCompany(d.target.value);
 					}}

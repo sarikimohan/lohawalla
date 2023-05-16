@@ -5,6 +5,7 @@ import getAllCompanyNames from "../../fetch/services/getAllCompanyNames";
 import getAllCategoryNames from "../../fetch/services/getAllCategoryNames";
 import getAllItemNamesOfCategory from "../../fetch/services/getAllItemNamesOfCategory";
 import getSecondFormData from "../../fetch/services/getSecondFormData";
+import saveProduct from "../../fetch/services/saveProduct";
 
 export default class FirstFormActions extends ServerStateUtils<AddProduct.State> {
 	async fetchCompanies() {
@@ -64,7 +65,40 @@ export default class FirstFormActions extends ServerStateUtils<AddProduct.State>
 	}
 }
 
-class SecondFormActions extends ServerStateUtils<AddProduct.State> {
+export class SecondFormActions extends ServerStateUtils<AddProduct.State> {
+	async saveData(by: NameIdPair, images: string[]) {
+		const categoryId = this.state.firstForm.selectedCategory.value?._id;
+		const itemId = this.state.firstForm.selectedItem.value?._id;
+		const companyId = this.state.firstForm.selectedCompany.value?._id;
+
+		if (categoryId && itemId && companyId) {
+			const res = this.handleAsync("save", () =>
+				saveProduct({
+					companyId,
+					categoryId,
+					itemId,
+					priceStructure: this.state.secondForm.priceStructure.map((v, i) => ({
+						_id: v._id,
+						value: parseFloat(v.value.value),
+					})),
+					by,
+					gst: {
+						type: this.state.secondForm.gst.type,
+						value: parseFloat(this.state.secondForm.gst.value.value),
+					},
+					description: this.state.thirdForm.description.value,
+					descriptionLabels: this.state.thirdForm.descriptionLabels.map(
+						(v, i) => ({
+							key: v.key,
+							value: v.value.value,
+							position: i,
+						})
+					),
+					images,
+				})
+			);
+		}
+	}
 	async fetchSecondFormData() {
 		const categoryId = this.state.firstForm.selectedCategory.value?._id;
 		const itemId = this.state.firstForm.selectedItem.value?._id;
@@ -81,19 +115,22 @@ class SecondFormActions extends ServerStateUtils<AddProduct.State> {
 
 			if (res) {
 				const data = res.data;
+				console.log(data.priceStructure);
 				this.mutateState((p) => {
 					p.secondForm.credits = data.credits;
 					p.secondForm.negotiation = data.negotiation;
 					p.secondForm.margin = data.margin;
-					p.secondForm.priceStructure = data.priceStructure.map((v, i) => ({
-						_id: v._id,
-						name: v.name,
-						value: { value: v.value.toString() },
-						isFixed: v.isFixed,
-						position: v.position,
-						type: v.type,
-						operation: v.operation,
-					}));
+					p.secondForm.priceStructure = data.priceStructure
+						.sort((a, b) => a.position - b.position)
+						.map((v, i) => ({
+							_id: v._id,
+							name: v.name,
+							value: { value: v.value === -1 ? "" : v.value.toString() },
+							isFixed: v.isFixed,
+							position: v.position,
+							type: v.type,
+							operation: v.operation,
+						}));
 				});
 			}
 		}
@@ -104,21 +141,14 @@ class SecondFormActions extends ServerStateUtils<AddProduct.State> {
 			p.secondForm.priceStructure[i].value.value = v;
 		});
 	}
-	setGstValue() {
-		const gstValue = this.state.secondForm.gst;
+	setGstValue(data: string) {
 		this.mutateState((p) => {
-			p.secondForm.gst = gstValue;
+			p.secondForm.gst.value.value = data;
+		});
+	}
+	setGstType(type: PercNum) {
+		this.mutateState((p) => {
+			p.secondForm.gst.type = type;
 		});
 	}
 }
-
-class ThirdFormActions extends StateUtils<AddProduct.State> {
-	setDescription() {
-		const description = this.state.thirdForm.description;
-		this.mutateState((p) => {
-			p.thirdForm.description = description;
-		});
-	}
-}
-
-class SubmitFormActions extends StateUtils<AddProduct.State> {}

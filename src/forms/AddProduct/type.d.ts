@@ -18,6 +18,7 @@ namespace AddProduct {
 		};
 
 		secondForm: {
+			hasVisited: boolean;
 			priceStructure: {
 				_id: string;
 				name: string;

@@ -13,11 +13,23 @@ import Tip from "@src/Components/feedback/Tooltip/Tip";
 import FieldInput from "@src/Components/forms/FieldInput/FieldInput";
 import FormCardHeader from "@src/Components/forms/FormCardHeader/FormCardHeader";
 import DefaultFormLabel from "@src/Components/forms/FormLabel/DefaultFormLabel";
-import React from "react";
+import React, { useEffect } from "react";
+import { useAddProductContext } from "../../AddProductForm";
 
 interface Props {}
 
 export default function FormPart2(props: Props) {
+	const { state, validate, secondFormActions } = useAddProductContext();
+
+	useEffect(() => {
+		if (state.secondForm.hasVisited === false) {
+			secondFormActions.fetchSecondFormData();
+			secondFormActions.mutateState((p) => {
+				p.secondForm.hasVisited = true;
+			});
+		}
+	}, []);
+
 	return (
 		<>
 			<Card variant="outlined" sx={{ padding: 3 }}>
@@ -49,23 +61,36 @@ export default function FormPart2(props: Props) {
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>
-									<div className="ml-2 border pl-6 py-3">
-										<p className="text-md font-bold text-slate-900">
-											Basic Rate
-										</p>
-									</div>
-								</td>
-								<td align="center">
-									<Checkbox />
-								</td>
-								<td>
-									<div className="p-2 pl-6">
-										<FieldInput type={"number"} placeHolder={"value"} />
-									</div>
-								</td>
-							</tr>
+							{state.secondForm.priceStructure.map((v, i) => (
+								<tr key={i}>
+									<td>
+										<div className="ml-2 border pl-6 py-3">
+											<p className="text-md font-bold text-slate-900">
+												{v.name}
+											</p>
+										</div>
+									</td>
+									<td align="center">
+										<Checkbox checked={v.isFixed} disabled />
+									</td>
+									<td>
+										<div className="p-2 pl-6">
+											<FieldInput
+												{...v.value}
+												onChange={(d) => {
+													secondFormActions.setPriceFieldValue(
+														i,
+														d.target.value
+													);
+												}}
+												disabled={v.isFixed}
+												type={"number"}
+												placeHolder={"value"}
+											/>
+										</div>
+									</td>
+								</tr>
+							))}
 						</tbody>
 					</table>
 				</div>
@@ -107,6 +132,8 @@ export default function FormPart2(props: Props) {
 										</td>
 										<td align="center" className="">
 											<FieldInput
+												disabled
+												value={state.secondForm.margin.online + ""}
 												width={"80%"}
 												type={"number"}
 												placeHolder={"enter value"}
@@ -123,6 +150,8 @@ export default function FormPart2(props: Props) {
 										</td>
 										<td align="center">
 											<FieldInput
+												disabled
+												value={state.secondForm.margin.cash + ""}
 												width={"80%"}
 												type={"number"}
 												placeHolder={"enter value"}
@@ -163,22 +192,27 @@ export default function FormPart2(props: Props) {
 								</thead>
 
 								<tbody>
-									<tr className="mb-2 border-b">
-										<td align="center">
-											<p className="text-md font-bold text-slate-700 py-5">
-												5 days
-											</p>
-										</td>
-										<td align="center" className="w-2/5">
-											<div className="p-2">
-												<FieldInput
-													onChange={(d) => {}}
-													type={"text"}
-													placeHolder={"enter value"}
-												/>
-											</div>
-										</td>
-									</tr>
+									{state.secondForm.credits.map((v, i) => (
+										<tr className="mb-2 border-b" key={i}>
+											<td align="center">
+												<p className="text-md font-bold text-slate-700 py-5">
+													{v.day} days
+												</p>
+											</td>
+											<td align="center" className="w-2/5">
+												<div className="p-2">
+													<FieldInput
+														disabled
+														value={v.value + ""}
+														rightIcon={v.isNumeric ? "rs" : "%"}
+														onChange={(d) => {}}
+														type={"text"}
+														placeHolder={"enter value"}
+													/>
+												</div>
+											</td>
+										</tr>
+									))}
 								</tbody>
 							</table>
 						</div>
@@ -189,7 +223,13 @@ export default function FormPart2(props: Props) {
 				</div>
 				<div>
 					<DefaultFormLabel className="mb-2">Negotiation</DefaultFormLabel>
-					<FieldInput type={"number"} placeHolder={""} />
+					<FieldInput
+						disabled
+						value={state.secondForm.negotiation + ""}
+						type={"number"}
+						placeHolder={""}
+						rightIcon={"%"}
+					/>
 				</div>
 			</Card>
 			<div className="my-5">
@@ -211,8 +251,10 @@ export default function FormPart2(props: Props) {
 									labelId="demo-simple-select-label"
 									id="demo-simple-select"
 									label="GST"
-									value={undefined}
-									onChange={(e) => {}}
+									value={state.secondForm.gst.type}
+									onChange={(e) => {
+										secondFormActions.setGstType(e.target.value as PercNum);
+									}}
 								>
 									<MenuItem value={"numeric"}>GST Numeric</MenuItem>
 									<MenuItem value={"percentage"}>GST Percentage</MenuItem>
@@ -220,7 +262,14 @@ export default function FormPart2(props: Props) {
 							</FormControl>
 						</div>
 						<div className="basis-2/5">
-							<FieldInput type={"number"} placeHolder={"enter value"} />
+							<FieldInput
+								{...state.secondForm.gst.value}
+								onChange={(e) => {
+									secondFormActions.setGstValue(e.target.value);
+								}}
+								type={"number"}
+								placeHolder={"enter value"}
+							/>
 						</div>
 					</div>
 				</Card>
@@ -228,7 +277,10 @@ export default function FormPart2(props: Props) {
 			<div className="flex justify-end mt-5">
 				<DefaultButton
 					onClick={function (): void {
-						throw new Error("Function not implemented.");
+						const verdict = validate.validateSecondForm();
+						if (verdict) {
+							secondFormActions.mutateState((p) => p.page++);
+						}
 					}}
 					label={"Next"}
 					styles={NextButtonStyleConfig}

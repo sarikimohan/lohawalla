@@ -47,9 +47,7 @@ export default function AddCard(props: Props) {
 						<td>
 							<div className="p-3">
 								<FieldInput
-									isValid={data.name.isValid}
-									error={data.name.error}
-									data={data.name.value}
+									{...data.name}
 									onChange={(e) => props.onChange(e.target.value)}
 									type={"text"}
 									placeHolder={"name of price field"}

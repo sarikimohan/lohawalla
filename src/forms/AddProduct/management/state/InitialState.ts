@@ -1,7 +1,7 @@
 import { FieldDataService } from "@src/modules/FieldData/FieldData";
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 
-const InitialState: AddProduct.State = {
+const InitialState = {
 	page: 1,
 	firstForm: {
 		companiesList: [],
@@ -13,6 +13,7 @@ const InitialState: AddProduct.State = {
 		selectedItem: {value: null},
 	},
 	secondForm: {
+		hasVisited: false,
 		priceStructure: [],
 		margin: {
 			online: 0,

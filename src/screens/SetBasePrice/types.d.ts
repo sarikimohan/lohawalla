@@ -1,13 +1,14 @@
 namespace SetBasePrice {
 	interface SetCompanyBasePrice {
-		srNo: string;
+		srNo: number;
 		companyName: {
-			_id: string;
 			name: string;
 			imageURL: string;
 		};
-		cost: string;
-		entryTime: string;
+		companyId: string /*to nav to company*/;
+		priceFieldId: string /*to save in price field*/;
+		cost: /*basic rate (value log)*/ FieldData;
+		entryTime: /* (value log) */ string;
 	}
 
 	interface State {

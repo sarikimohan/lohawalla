@@ -80,9 +80,7 @@ export default function SecondPart(props: Props) {
 									</td>
 									<td align="center" className="w-2/5 py-3">
 										<FieldInput
-											isValid={v.value.isValid}
-											error={v.value.error}
-											data={v.value.value}
+											{...v.value}
 											onChange={(d) => {
 												secondFormActions.editField(d.target.value, i);
 											}}

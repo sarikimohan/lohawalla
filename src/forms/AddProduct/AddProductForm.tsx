@@ -9,8 +9,11 @@ import ProgressBar from "@src/Components/common/ProgressBar/ProgressBar";
 import InitialState from "./management/state/InitialState";
 import { FieldDataService } from "@src/modules/FieldData/FieldData";
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
-import FormActions from "./management/actions/FormActions";
+import FormActions, {
+	SecondFormActions,
+} from "./management/actions/FormActions";
 import AddProductValidators from "./management/actions/Validator";
+import DescriptionActions from "./management/actions/DescriptionActions";
 
 interface AddProductFormInterface {
 	company?: { _id: string; companyName: string };
@@ -22,6 +25,8 @@ interface ContextProps {
 	state: AddProduct.State;
 	addProductActions: FormActions;
 	validate: AddProductValidators;
+	secondFormActions: SecondFormActions;
+	descriptionActions: DescriptionActions;
 }
 
 const AddProductContext = React.createContext({} as ContextProps);
@@ -40,6 +45,7 @@ function AddProductForm() {
 			selectedItem: { value: null },
 		},
 		secondForm: {
+			hasVisited: false,
 			priceStructure: [],
 			margin: {
 				online: 0,
@@ -71,11 +77,21 @@ function AddProductForm() {
 
 	const addProductActions = new FormActions(state, setState);
 	const validate = new AddProductValidators(state, setState);
+	const secondFormActions = new SecondFormActions(state, setState);
+	const descriptionActions = new DescriptionActions(state, setState);
 
 	console.log(state.firstForm.selectedCompany);
 
 	return (
-		<AddProductContext.Provider value={{ state, addProductActions, validate }}>
+		<AddProductContext.Provider
+			value={{
+				state,
+				addProductActions,
+				validate,
+				secondFormActions,
+				descriptionActions,
+			}}
+		>
 			<PopUpContainer>
 				<FormContainer>
 					<div className="mb-4">
