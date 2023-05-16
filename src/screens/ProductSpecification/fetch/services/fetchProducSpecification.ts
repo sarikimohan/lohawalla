@@ -18,5 +18,5 @@ export interface ProductSpecification {
 }
 
 export default async function fetchProductSpecification() {
-    return await ProductSpecificationInstance.get<ProductSpecification[]>(apiIndex.getProductSpecification);
+    return await ProductSpecificationInstance.get<ProductSpecification>(apiIndex.getProductSpecification);
 }
