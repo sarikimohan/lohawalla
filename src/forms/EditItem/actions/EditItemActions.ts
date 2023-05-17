@@ -4,14 +4,11 @@ import { nanoid } from "nanoid";
 import React from "react";
 
 export default class EditItemActions extends ServerStateUtils<EditItem.State> {
-	ref: React.MutableRefObject<number>;
 	constructor(
 		state: EditItem.State,
-		setState: React.Dispatch<React.SetStateAction<EditItem.State>>,
-		ref: React.MutableRefObject<number>
+		setState: React.Dispatch<React.SetStateAction<EditItem.State>>
 	) {
 		super(state, setState);
-		this.ref = ref;
 	}
 	async fetch(id: string) {
 		const res = await this.handleAsync("fetch", () => getEditItemFormData(id));
@@ -37,7 +34,6 @@ export default class EditItemActions extends ServerStateUtils<EditItem.State> {
 
 	setValidation(i: number) {
 		return (d: boolean) => {
-			this.ref.current++;
 			this.mutateState((p) => {
 				p.validation = p.validation && d;
 				p.validationCount++;

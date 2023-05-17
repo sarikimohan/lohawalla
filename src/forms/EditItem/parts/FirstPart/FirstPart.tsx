@@ -11,11 +11,11 @@ import { FieldDataService, Validators } from "@src/modules/FieldData/FieldData";
 interface Props {}
 
 export default function FirstPart(props: Props) {
-	const { state, editItemFormActions: _ } = useEditItemContext();
-
-	const handle = useRef<
-		Record<string, { isValid: boolean; validate: () => void }>
-	>({});
+	const {
+		state,
+		editItemFormActions: _,
+		setHandle,
+	} = useEditItemContext();
 
 	return (
 		<div>
@@ -28,7 +28,6 @@ export default function FirstPart(props: Props) {
 						});
 					}}
 					value={state.itemName}
-					triggerValidation={state.triggerSubmit}
 					validateFunction={(d) => {
 						return FieldDataService.registerValidator(
 							d,
@@ -37,10 +36,7 @@ export default function FirstPart(props: Props) {
 						);
 					}}
 					placeholder="enter item name"
-					onValidation={_.setValidation(0)}
-					setHandle={(i, v) => {
-						handle.current["v1"] = { isValid: i, validate: v };
-					}}
+					setHandle={setHandle("v1")}
 				/>
 			</div>
 			<div className="mb-4">
@@ -54,7 +50,6 @@ export default function FirstPart(props: Props) {
 						});
 					}}
 					value={state.itemHSNCode}
-					triggerValidation={state.triggerSubmit}
 					validateFunction={(d) => {
 						return FieldDataService.registerValidator(
 							d,
@@ -64,10 +59,7 @@ export default function FirstPart(props: Props) {
 						);
 					}}
 					placeholder="enter item HSN Code"
-					onValidation={_.setValidation(1)}
-					setHandle={(i, v) => {
-						handle.current["v2"] = { isValid: i, validate: v };
-					}}
+					setHandle={setHandle("v2")}
 				/>
 			</div>
 			<div className="mb-4">
@@ -79,7 +71,6 @@ export default function FirstPart(props: Props) {
 						});
 					}}
 					value={state.itemCode}
-					triggerValidation={state.triggerSubmit}
 					validateFunction={(d) => {
 						return FieldDataService.registerValidator(
 							d,
@@ -88,10 +79,7 @@ export default function FirstPart(props: Props) {
 						);
 					}}
 					placeholder="enter item name"
-					onValidation={_.setValidation(2)}
-					setHandle={(i, v) => {
-						handle.current["v3"] = { isValid: i, validate: v };
-					}}
+					setHandle={setHandle("v3")}
 				/>
 			</div>
 			<div className="mb-4">
@@ -103,7 +91,6 @@ export default function FirstPart(props: Props) {
 						});
 					}}
 					value={state.description}
-					triggerValidation={state.triggerSubmit}
 					validateFunction={(d) => {
 						return FieldDataService.registerValidator(
 							d,
@@ -112,29 +99,8 @@ export default function FirstPart(props: Props) {
 						);
 					}}
 					placeholder="enter item name"
-					onValidation={_.setValidation(3)}
-					setHandle={(i, v) => {
-						handle.current["v4"] = { isValid: i, validate: v };
-					}}
+					setHandle={setHandle("v4")}
 				/>
-			</div>
-			<div>
-				<button
-					onClick={() => {
-						Object.values(handle.current).forEach((v) => {
-							v.validate();
-						});
-						console.log(
-							"just after validation",
-							Object.values(handle.current).reduce(
-								(a, c) => a && c.isValid,
-								true
-							)
-						);
-					}}
-				>
-					validate
-				</button>
 			</div>
 			<div className="mb-5">
 				<FormFileUpload />

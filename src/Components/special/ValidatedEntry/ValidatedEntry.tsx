@@ -1,12 +1,5 @@
-import React, {
-	useState,
-	useEffect,
-	useRef,
-	forwardRef,
-	useImperativeHandle,
-} from "react";
+import React, { useState, useEffect, forwardRef } from "react";
 import FieldInput from "../../forms/FieldInput/FieldInput";
-import { nanoid } from "nanoid";
 
 interface Props {
 	type?: React.HTMLInputTypeAttribute;
@@ -15,7 +8,6 @@ interface Props {
 	value: string;
 	validateFunction?: (d: string) => string | undefined;
 	onValidation?: (isValid: boolean) => void;
-	triggerValidation?: boolean;
 	setHandle?: (isValid: boolean, validate: () => void) => void;
 }
 
@@ -40,21 +32,6 @@ const ValidatedEntry = forwardRef<
 		setState({ value: props.value });
 	}, [props.value]);
 
-	// useEffect(() => {
-	// 	if (!firstRenderRef.current) {
-	// 		validate();
-	// 	}
-	// 	firstRenderRef.current = false;
-	// }, [props.triggerValidation]);
-
-	useImperativeHandle(ref, () => {
-		return {
-			[nanoid()]: {
-				isValid: !state.error,
-				validate: validate,
-			},
-		};
-	});
 	useEffect(() => {
 		props.setHandle && props.setHandle(!state.error, validate);
 	}, []);

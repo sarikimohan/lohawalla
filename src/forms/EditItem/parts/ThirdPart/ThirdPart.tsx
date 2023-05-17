@@ -10,7 +10,12 @@ import EditItemActions from "../../actions/EditItemActions";
 interface Props {}
 
 export default function ThirdPart(props: Props) {
-	const { state, editItemFormActions: _ } = useEditItemContext();
+	const {
+		state,
+		editItemFormActions: _,
+		handle,
+		setHandle,
+	} = useEditItemContext();
 
 	return (
 		<>
@@ -77,14 +82,19 @@ export default function ThirdPart(props: Props) {
 								});
 							});
 						}}
+						setHandle={setHandle("descLABELs")}
 					/>
 				</Card>
 			</Card>
 			<DefaultButton
 				onClick={function (): void {
-					_.mutateState((p) => {
-						p.triggerSubmit = !p.triggerSubmit;
+					Object.values(handle.current).map((v, i) => {
+						v.validate();
 					});
+					console.log(
+						// Object.values(handle.current).reduce((a, c) => a && c.isValid, true)
+						handle.current
+					);
 				}}
 				label={"SAVE"}
 			/>

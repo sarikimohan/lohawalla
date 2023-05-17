@@ -8,7 +8,7 @@ import { FieldDataService, Validators } from "@src/modules/FieldData/FieldData";
 interface Props {}
 
 export default function SecondPart(props: Props) {
-	const { state, editItemFormActions: _ } = useEditItemContext();
+	const { state, editItemFormActions: _, setHandle } = useEditItemContext();
 	return (
 		<>
 			<Card variant="outlined" sx={{ padding: 3 }}>
@@ -54,7 +54,6 @@ export default function SecondPart(props: Props) {
 											});
 										}}
 										value={state.margin.online}
-										triggerValidation={state.triggerSubmit}
 										validateFunction={(d) => {
 											return FieldDataService.registerValidator(
 												d,
@@ -66,7 +65,7 @@ export default function SecondPart(props: Props) {
 											);
 										}}
 										placeholder="enter online"
-										onValidation={_.setValidation(4)}
+										setHandle={setHandle("marginONline")}
 									/>
 								</td>
 							</tr>
@@ -86,7 +85,6 @@ export default function SecondPart(props: Props) {
 											});
 										}}
 										value={state.margin.cash}
-										triggerValidation={state.triggerSubmit}
 										validateFunction={(d) => {
 											return FieldDataService.registerValidator(
 												d,
@@ -98,7 +96,7 @@ export default function SecondPart(props: Props) {
 											);
 										}}
 										placeholder="enter cash"
-										onValidation={_.setValidation(5)}
+										setHandle={setHandle("marginCash")}
 									/>
 								</td>
 							</tr>

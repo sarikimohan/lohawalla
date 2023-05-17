@@ -21,6 +21,8 @@ interface Props {
 
 	deleteField: (i: number) => void;
 	onAddField: (key: string, value: string) => void;
+
+	setHandle?: (isValid: boolean, validate: () => void) => void;
 }
 
 type State = {
@@ -67,26 +69,41 @@ export default function EntryTable(props: Props) {
 			}
 			return o;
 		});
+		props.setHandle &&
+			props.setHandle(
+				state.data.reduce((a, c) => a && !c.value.error, true),
+				validate
+			);
 	}, [props.list]);
 
-	useEffect(() => {
+	const getState = () => state;
+
+	const validate = () => {
 		let verdict = true;
 		let errors: (string | undefined)[] = [];
 
-		state.data.forEach((v, i) => {
+		getState().data.forEach((v, i) => {
 			v.value.error = props.validateFieldValue(v.value.value);
 			if (v.value.error) {
 				verdict = false;
 			}
 			errors.push(v.value.error);
 		});
+
+		props.onValidated(verdict);
+
+		props.setHandle && props.setHandle(verdict, validate);
+
 		setActions.mutateState((p) => {
 			p.data.forEach((v, i) => {
 				v.value.error = errors[i];
 			});
 		});
-		props.onValidated(verdict);
-	}, [props.validate]);
+	};
+
+	useEffect(() => {
+		// props.setHandle && props.setHandle(true, validate);
+	}, []);
 
 	return (
 		<>

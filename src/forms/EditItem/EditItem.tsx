@@ -5,8 +5,6 @@ import React, { useState, useEffect, useContext, useRef } from "react";
 import FirstPart from "./parts/FirstPart/FirstPart";
 import SecondPart from "./parts/SecondPart/SecondPart";
 import ThirdPart from "./parts/ThirdPart/ThirdPart";
-import { FieldDataService } from "@src/modules/FieldData/FieldData";
-import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 import EditItemActions from "./actions/EditItemActions";
 
 interface Props {}
@@ -14,6 +12,16 @@ interface Props {}
 interface ContextProps {
 	state: EditItem.State;
 	editItemFormActions: EditItemActions;
+	handle: React.MutableRefObject<
+		Record<
+			string,
+			{
+				isValid: boolean;
+				validate: () => void;
+			}
+		>
+	>;
+	setHandle: (name: string) => (i: boolean, v: () => void) => void;
 }
 
 const EditItemContext = React.createContext({} as ContextProps);
@@ -38,30 +46,24 @@ export default function EditItem(props: Props) {
 		validationCount: 0,
 	});
 
-	const ref = useRef(0);
-	const iniRef = useRef(0);
-	const editItemFormActions = new EditItemActions(state, setState, ref);
+	const editItemFormActions = new EditItemActions(state, setState);
+	const handle = useRef<
+		Record<string, { isValid: boolean; validate: () => void }>
+	>({});
+	const setHandle = (name: string) => {
+		return (i: boolean, v: () => void) => {
+			handle.current[name] = { isValid: i, validate: v };
+		};
+	};
 
 	useEffect(() => {
-		editItemFormActions.fetch("64630eec98b7520d1b4abdc3");
-		iniRef.current++;
+		// editItemFormActions.fetch("64630eec98b7520d1b4abdc3");
 	}, []);
 
-	useEffect(() => {
-		if (state.validationCount >= 6) {
-			if (state.validation) {
-				console.log("all good");
-			} else {
-				console.log("error");
-			}
-			editItemFormActions.mutateState((p) => {
-				p.validationCount = 0;
-			});
-		}
-	}, [state.validationCount]);
-
 	return (
-		<EditItemContext.Provider value={{ state, editItemFormActions }}>
+		<EditItemContext.Provider
+			value={{ state, editItemFormActions, handle, setHandle }}
+		>
 			<PopUpContainer>
 				<FormContainer>
 					<div className="mb-5">
