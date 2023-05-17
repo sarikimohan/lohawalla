@@ -1,4 +1,4 @@
 type NameIdPair = {
   name: string;
-  id: string;
+  userId: string;
 }

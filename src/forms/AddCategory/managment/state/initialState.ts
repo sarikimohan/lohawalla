@@ -1,7 +1,7 @@
 import { FieldDataService } from "@src/modules/FieldData/FieldData";
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 
-export const InitialState: AddCategory.State = {
+export const InitialState = {
 	page: 0,
 	loading: {
 		save: AsyncStateFactory(),

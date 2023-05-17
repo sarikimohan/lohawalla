@@ -1,11 +1,5 @@
 import { Card, Tooltip } from "@mui/material";
-import DefaultButton from "@src/Components/common/buttons/DefaultButton/DefaultButton";
-import NextButtonStyleConfig from "@src/Components/common/buttons/configurations/NextButtonStyle.config";
-import FieldInput from "@src/Components/forms/FieldInput/FieldInput";
 import FormCardHeader from "@src/Components/forms/FormCardHeader/FormCardHeader";
-import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAndScale";
-import AssetIndex from "@src/assets/AssetIndex";
-import React from "react";
 import Tip from "@src/Components/feedback/Tooltip/Tip";
 import { useEditItemContext } from "../../EditItem";
 import ValidatedEntry from "@src/Components/special/ValidatedEntry/ValidatedEntry";

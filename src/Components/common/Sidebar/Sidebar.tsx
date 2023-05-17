@@ -56,6 +56,24 @@ function Sidebar() {
 					currentActive={current}
 					onClick={() => navigate("/company/")}
 				/>
+				<SidebarButton
+					activeIcon={<></>}
+					inActiveIcon={<></>}
+					id={5}
+					setActive={setCurrent}
+					label={"Units"}
+					currentActive={current}
+					onClick={() => navigate("/units")}
+				/>
+				<SidebarButton
+					activeIcon={<></>}
+					inActiveIcon={<></>}
+					id={4}
+					setActive={setCurrent}
+					label={"Switch to Sales"}
+					currentActive={current}
+					onClick={() => navigate("/")}
+				/>
 				<Spacer height={40} />
 			</div>
 		</div>

@@ -26,12 +26,6 @@ export default class AddCategoryActions extends ServerStateUtils<AddCategory.Sta
 			Validators.validateNull
 		);
 
-		err.unit = FieldDataService.registerValidator(
-			this.state.firstForm.unit.value,
-			verdict,
-			Validators.validateNull
-		);
-
 		err.description = FieldDataService.registerValidator(
 			this.state.firstForm.description.value,
 			verdict,
@@ -42,11 +36,9 @@ export default class AddCategoryActions extends ServerStateUtils<AddCategory.Sta
 			p.firstForm.categoryCode.error = err.code;
 			p.firstForm.categoryCode.error = err.name;
 			p.firstForm.description.error = err.description;
-			p.firstForm.unit.error = err.unit;
 			p.firstForm.categoryCode.isValid = !err.code;
 			p.firstForm.categoryCode.isValid = !err.name;
 			p.firstForm.description.isValid = !err.description;
-			p.firstForm.unit.isValid = !err.unit;
 		});
 
 		return verdict.isValid;
@@ -104,7 +96,6 @@ export default class AddCategoryActions extends ServerStateUtils<AddCategory.Sta
 				if (res === false) {
 					data.isValid = false;
 					data.error = `category name ${data.value} already exists`;
-					
 				}
 
 				this.mutateState((p) => {

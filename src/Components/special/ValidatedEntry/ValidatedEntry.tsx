@@ -1,5 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, {
+	useState,
+	useEffect,
+	useRef,
+	forwardRef,
+	useImperativeHandle,
+} from "react";
 import FieldInput from "../../forms/FieldInput/FieldInput";
+import { nanoid } from "nanoid";
 
 interface Props {
 	type?: React.HTMLInputTypeAttribute;
@@ -9,11 +16,14 @@ interface Props {
 	validateFunction?: (d: string) => string | undefined;
 	onValidation?: (isValid: boolean) => void;
 	triggerValidation?: boolean;
+	setHandle?: (isValid: boolean, validate: () => void) => void;
 }
 
-export default function ValidatedEntry(props: Props) {
+const ValidatedEntry = forwardRef<
+	Record<string, { isValid: boolean; validate: () => void }>,
+	Props
+>((props, ref) => {
 	const [state, setState] = useState<FieldData>({ value: props.value });
-	const firstRenderRef = useRef(true);
 
 	const validate = () => {
 		let err = undefined;
@@ -22,6 +32,7 @@ export default function ValidatedEntry(props: Props) {
 			props.onValidation && props.onValidation(err === undefined);
 		}
 
+		props.setHandle && props.setHandle(!err, validate);
 		setState({ value: state.value, isValid: !err, error: err });
 	};
 
@@ -29,12 +40,24 @@ export default function ValidatedEntry(props: Props) {
 		setState({ value: props.value });
 	}, [props.value]);
 
+	// useEffect(() => {
+	// 	if (!firstRenderRef.current) {
+	// 		validate();
+	// 	}
+	// 	firstRenderRef.current = false;
+	// }, [props.triggerValidation]);
+
+	useImperativeHandle(ref, () => {
+		return {
+			[nanoid()]: {
+				isValid: !state.error,
+				validate: validate,
+			},
+		};
+	});
 	useEffect(() => {
-		if (!firstRenderRef.current) {
-			validate();
-		}
-		firstRenderRef.current = false;
-	}, [props.triggerValidation]);
+		props.setHandle && props.setHandle(!state.error, validate);
+	}, []);
 
 	return (
 		<FieldInput
@@ -45,8 +68,10 @@ export default function ValidatedEntry(props: Props) {
 				props.onChange && props.onChange(d.target.value);
 			}}
 			onBlur={() => {
-				// validate();
+				validate();
 			}}
 		/>
 	);
-}
+});
+
+export default ValidatedEntry;

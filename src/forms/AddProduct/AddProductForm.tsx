@@ -34,7 +34,7 @@ export const useAddProductContext = () => useContext(AddProductContext);
 
 function AddProductForm() {
 	const [state, setState] = useState<AddProduct.State>({
-		page: 0,
+		page:0,
 		firstForm: {
 			companiesList: [],
 			categoryList: [],

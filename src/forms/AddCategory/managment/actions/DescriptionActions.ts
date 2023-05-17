@@ -2,6 +2,7 @@ import StateUtils from "@src/modules/StateManagement/Core/StateUtils";
 import { nanoid } from "nanoid";
 
 export default class DescriptionActions extends StateUtils<AddCategory.State> {
+
 	addField() {
 		this.mutateState((p) => {
 			p.descriptionLabels.push({

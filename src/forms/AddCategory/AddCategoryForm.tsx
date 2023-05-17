@@ -16,6 +16,7 @@ import ErrorCard from "@src/Components/feedback/ErrorCard/ErrorCard";
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 import ValidateAddCategory from "./managment/actions/Validate";
 import SelectUnitActions from "./managment/actions/SelectUnitActions";
+import { FieldDataService } from "@src/modules/FieldData/FieldData";
 
 interface Props {
 	onClose: () => void;
@@ -60,7 +61,59 @@ function isError(state: { [key: string]: AsyncState }) {
 }
 
 function AddCategoryForm(props: Props) {
-	const [state, setState] = useState(InitialState);
+	const [state, setState] = useState<AddCategory.State>({
+		page: 0,
+		loading: {
+			save: AsyncStateFactory(),
+			checkName: AsyncStateFactory(),
+			checkCode: AsyncStateFactory(),
+		},
+		firstForm: {
+			categoryName: FieldDataService.getDefaultField(),
+			categoryCode: FieldDataService.getDefaultField(),
+			description: FieldDataService.getDefaultField(),
+			unit: {
+				name: "",
+				weight: "",
+			},
+			unitSelect: {
+				showDropDown: false,
+				list: [
+					{
+						name: "ton",
+						weight: 1000,
+					},
+					{
+						name: "kg",
+						weight: 1,
+					},
+					{
+						name: "bundle",
+						weight: -1,
+					},
+					{
+						name: "custom",
+						weight: -1,
+					},
+				],
+				selected: null,
+				showWeightInput: false,
+				showUnitNameInput: false,
+			},
+		},
+		images: [],
+		credit: [],
+		creditInput: {
+			key: FieldDataService.getDefaultField(),
+			value: FieldDataService.getDefaultField(),
+		},
+		descriptionLabels: [],
+		descriptionEntry: {
+			key: FieldDataService.getDefaultField(),
+			value: FieldDataService.getDefaultField(),
+		},
+		negotiation: FieldDataService.getDefaultField(),
+	});
 
 	const addCategoryActions = new AddCategoryActions(state, setState);
 	const setStateActions = new SetStateActions(state, setState);

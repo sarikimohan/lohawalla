@@ -86,22 +86,6 @@ export default class ValidateAddCategory extends ServerStateUtils<AddCategory.St
 		return verdict.isValid;
 	}
 
-	validateUnit() {
-		const verdict = { isValid: true };
-		const data = this.state.firstForm.unit;
-
-		data.error = FieldDataService.registerValidator(
-			data.value,
-			verdict,
-			Validators.validateNull
-		);
-
-		data.isValid = !data.error;
-
-		this.mutateState((p) => (p.firstForm.unit = data));
-
-		return verdict.isValid;
-	}
 
 	//* first form validtion;
 	async validateFirstForm(onSuccess: () => void) {
@@ -109,7 +93,6 @@ export default class ValidateAddCategory extends ServerStateUtils<AddCategory.St
 			await this.validateCategoryName(),
 			await this.validateCategoryCode(),
 			this.validateDescirption(),
-			this.validateUnit(),
 		];
 		const verdict = v.reduce((a, c) => {
 			return a && c;

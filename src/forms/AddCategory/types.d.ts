@@ -43,7 +43,10 @@ namespace AddCategory {
 		categoryName: FieldData;
 		categoryCode: FieldData;
 		description: FieldData;
-		unit: FieldData;
+		unit: {
+			name: string;
+			weight: string;
+		};
 		unitSelect: {
 			showDropDown: boolean;
 			list: Unit[];
@@ -90,7 +93,10 @@ namespace AddCategoryAsync {
 		name: string;
 		code: string;
 		description: string;
-		unit: string;
+		unit: {
+			name: string;
+			weight: number;
+		};
 		credit: CreditData[];
 		negotiation: number;
 		descriptionLabels: DescriptionData[];

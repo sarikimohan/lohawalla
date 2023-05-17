@@ -11,8 +11,11 @@ export default class SaveCategoryActions extends ServerStateUtils<AddCategory.St
 		const d: AddCategoryAsync.FormData = {
 			name: firstForm.categoryName.value,
 			code: firstForm.categoryCode.value,
+			unit: {
+				name: firstForm.unit.name,
+				weight: parseInt(firstForm.unit.weight),
+			},
 			description: firstForm.description.value,
-			unit: firstForm.unit.value,
 			credit: credits.map((v, i) => ({
 				days: v.days,
 				type: v.type,

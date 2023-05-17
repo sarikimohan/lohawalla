@@ -10,7 +10,7 @@ interface UserDetails {
 }
 
 interface AuthProps {
-	user: UserDetails & NameIdPair;
+	user: NameIdPair;
 	action: {
 		logOut: () => void;
 	};
@@ -21,7 +21,7 @@ export const useAuthGuardContext = () => useContext(AuthGuardContext);
 
 export default function AuthGuard(props: Props) {
 	const [userDetails, setUserDetails] = useState<UserDetails & NameIdPair>({
-		id: "",
+		userId: "",
 		name: "",
 	});
 
@@ -32,7 +32,7 @@ export default function AuthGuard(props: Props) {
 		const token = localStorage.getItem("token");
 		if (true) {
 			setUserDetails({
-				id: "645de63b96eeeca238a93975",
+				userId: "645de63b96eeeca238a93975",
 				name: "snehal",
 			});
 		}

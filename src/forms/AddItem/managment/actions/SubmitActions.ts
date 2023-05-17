@@ -42,10 +42,7 @@ export default class SubmitActions extends ServerStateUtils<AddItem.State> {
 				online: parseInt(this.state.margin.online.value),
 				cash: parseInt(this.state.margin.cash.value),
 			},
-			by: {
-				name: by.name,
-				id: by.id,
-			},
+			by,
 			description: this.state.description.value,
 			images: images,
 			descriptionLables: this.state.descriptionLabels.map((v, i) => ({

@@ -2,7 +2,7 @@ import DefaultButton from "@src/Components/common/buttons/DefaultButton/DefaultB
 import NextButtonStyleConfig from "@src/Components/common/buttons/configurations/NextButtonStyle.config";
 import FieldInput from "@src/Components/forms/FieldInput/FieldInput";
 import FieldTextArea from "@src/Components/forms/FieldInput/FieldTextArea";
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import FormFileUpload from "@src/Components/forms/FormFileUpload/FormFileUpload";
 import { useEditItemContext } from "../../EditItem";
 import ValidatedEntry from "@src/Components/special/ValidatedEntry/ValidatedEntry";
@@ -12,6 +12,11 @@ interface Props {}
 
 export default function FirstPart(props: Props) {
 	const { state, editItemFormActions: _ } = useEditItemContext();
+
+	const handle = useRef<
+		Record<string, { isValid: boolean; validate: () => void }>
+	>({});
+
 	return (
 		<div>
 			<div className="mb-4">
@@ -33,6 +38,9 @@ export default function FirstPart(props: Props) {
 					}}
 					placeholder="enter item name"
 					onValidation={_.setValidation(0)}
+					setHandle={(i, v) => {
+						handle.current["v1"] = { isValid: i, validate: v };
+					}}
 				/>
 			</div>
 			<div className="mb-4">
@@ -57,6 +65,9 @@ export default function FirstPart(props: Props) {
 					}}
 					placeholder="enter item HSN Code"
 					onValidation={_.setValidation(1)}
+					setHandle={(i, v) => {
+						handle.current["v2"] = { isValid: i, validate: v };
+					}}
 				/>
 			</div>
 			<div className="mb-4">
@@ -78,6 +89,9 @@ export default function FirstPart(props: Props) {
 					}}
 					placeholder="enter item name"
 					onValidation={_.setValidation(2)}
+					setHandle={(i, v) => {
+						handle.current["v3"] = { isValid: i, validate: v };
+					}}
 				/>
 			</div>
 			<div className="mb-4">
@@ -99,7 +113,28 @@ export default function FirstPart(props: Props) {
 					}}
 					placeholder="enter item name"
 					onValidation={_.setValidation(3)}
+					setHandle={(i, v) => {
+						handle.current["v4"] = { isValid: i, validate: v };
+					}}
 				/>
+			</div>
+			<div>
+				<button
+					onClick={() => {
+						Object.values(handle.current).forEach((v) => {
+							v.validate();
+						});
+						console.log(
+							"just after validation",
+							Object.values(handle.current).reduce(
+								(a, c) => a && c.isValid,
+								true
+							)
+						);
+					}}
+				>
+					validate
+				</button>
 			</div>
 			<div className="mb-5">
 				<FormFileUpload />
