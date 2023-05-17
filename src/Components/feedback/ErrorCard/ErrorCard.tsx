@@ -3,7 +3,7 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { motion } from "framer-motion";
 
-interface Props {
+export interface ErrorCardProps {
 	messages: (string|undefined)[];
 	handleCut?: () => void;
 	primaryAction: {
@@ -16,7 +16,7 @@ interface Props {
 	};
 }
 
-export default function ErrorCard(props: Props) {
+export default function ErrorCard(props: ErrorCardProps) {
 	const { secondaryAction } = props;
 	return (
 		<div

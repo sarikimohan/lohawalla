@@ -1,6 +1,12 @@
 import React, { useState, useEffect, forwardRef } from "react";
 import FieldInput from "../../forms/FieldInput/FieldInput";
 
+export type SetHandle = (
+	isValid: boolean,
+	validate: () => Promise<void>
+) => void;
+export type SetHandleProps = { isValid: boolean; validate: () => Promise<void> };
+
 interface Props {
 	type?: React.HTMLInputTypeAttribute;
 	placeholder?: string;
@@ -8,7 +14,8 @@ interface Props {
 	value: string;
 	validateFunction?: (d: string) => string | undefined;
 	onValidation?: (isValid: boolean) => void;
-	setHandle?: (isValid: boolean, validate: () => void) => void;
+	setHandle?: (isValid: boolean, validate: () => Promise<void>) => void;
+	asyncValidator?: (d: string) => Promise<string | undefined>;
 }
 
 const ValidatedEntry = forwardRef<
@@ -16,16 +23,37 @@ const ValidatedEntry = forwardRef<
 	Props
 >((props, ref) => {
 	const [state, setState] = useState<FieldData>({ value: props.value });
+	const [loading, setLoading] = useState<AsyncState>({
+		status: "dormant",
+		message: "",
+	});
 
-	const validate = () => {
+	const validate = async () => {
 		let err = undefined;
 		if (props.validateFunction) {
 			err = props.validateFunction(state.value);
 			props.onValidation && props.onValidation(err === undefined);
 		}
 
-		props.setHandle && props.setHandle(!err, validate);
-		setState({ value: state.value, isValid: !err, error: err });
+		const { asyncValidator } = props;
+		if (!err && asyncValidator) {
+			setLoading((p) => ({ ...p, status: "initialized" }));
+			try {
+				const res = await asyncValidator(state.value);
+				err = res;
+				setLoading((p) => ({ ...p, status: "success" }));
+			} catch (err) {
+				err = "server error, failed to validate";
+				setLoading((p) => ({ ...p, status: "failed" }));
+			} finally {
+				props.setHandle && props.setHandle(!err, validate);
+				setState({ value: state.value, isValid: !err, error: err });
+				setLoading((p) => ({ ...p, status: "dormant" }));
+			}
+		} else {
+			props.setHandle && props.setHandle(!err, validate);
+			setState({ value: state.value, isValid: !err, error: err });
+		}
 	};
 
 	useEffect(() => {
@@ -47,6 +75,7 @@ const ValidatedEntry = forwardRef<
 			onBlur={() => {
 				validate();
 			}}
+			isLoading={loading.status === "initialized"}
 		/>
 	);
 });

@@ -26,8 +26,8 @@ function LoadingBoundary({
 						<Alert severity="error">{asyncState.message}</Alert>
 					</div>
 				)}
-				{asyncState.status === "dormant" ||
-					(asyncState.status === "success" && children)}
+				{(asyncState.status === "dormant" || asyncState.status === "success") &&
+					children}
 			</>
 		);
 	} else {
