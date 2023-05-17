@@ -1,25 +1,16 @@
 import { Card } from "@mui/material";
 import DefaultButton from "@src/Components/common/buttons/DefaultButton/DefaultButton";
-import NextButtonStyleConfig from "@src/Components/common/buttons/configurations/NextButtonStyle.config";
-import FieldInput from "@src/Components/forms/FieldInput/FieldInput";
 import FormCardHeader from "@src/Components/forms/FormCardHeader/FormCardHeader";
-import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAndScale";
-import AssetIndex from "@src/assets/AssetIndex";
 import React, { useState } from "react";
 import { useEditItemContext } from "../../EditItem";
 import EntryTable from "@src/Components/special/EntryTable/EntryTable";
 import { FieldDataService, Validators } from "@src/modules/FieldData/FieldData";
+import EditItemActions from "../../actions/EditItemActions";
 
 interface Props {}
 
 export default function ThirdPart(props: Props) {
 	const { state, editItemFormActions: _ } = useEditItemContext();
-	console.log(
-		state.descriptionLabels.map((v) => ({
-			key: v.key,
-			value: v.value,
-		}))
-	);
 
 	return (
 		<>
@@ -34,10 +25,8 @@ export default function ThirdPart(props: Props) {
 							value: v.value,
 						}))}
 						validate={state.triggerSubmit}
-						onValidated={function (isValid: boolean): void {
-							_.mutateState((p) => {
-								p.validation.descriptionLabels = isValid;
-							});
+						onValidated={(d) => {
+							_.setValidation(0)(d);
 						}}
 						onChangeFieldValue={function (value: string, index: number): void {
 							_.mutateState((p) => {

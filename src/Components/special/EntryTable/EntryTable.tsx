@@ -71,13 +71,18 @@ export default function EntryTable(props: Props) {
 
 	useEffect(() => {
 		let verdict = true;
+		let errors: (string | undefined)[] = [];
+
+		state.data.forEach((v, i) => {
+			v.value.error = props.validateFieldValue(v.value.value);
+			if (v.value.error) {
+				verdict = false;
+			}
+			errors.push(v.value.error);
+		});
 		setActions.mutateState((p) => {
 			p.data.forEach((v, i) => {
-				v.value.error = props.validateFieldValue(v.value.value);
-				if (v.value.error) {
-					verdict = false;
-				}
-				p.data[i].value = v.value;
+				v.value.error = errors[i];
 			});
 		});
 		props.onValidated(verdict);

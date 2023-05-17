@@ -1,16 +1,16 @@
 namespace EditItem {
 	interface State {
-		itemName: FieldData;
-		itemCode: FieldData;
-		itemHSNCode: FieldData;
-		description: FieldData;
+		itemName: string;
+		itemCode: string;
+		itemHSNCode: string;
+		description: string;
 
 		images: string[];
 		imageFiles: File[];
 
 		margin: {
-      cash: FieldData,
-      online: FieldData;
+      cash: string,
+      online: string;
     };
 		descriptionLabels: {
 			key: string;
@@ -19,8 +19,9 @@ namespace EditItem {
 		}[];
 
 		loading: Record<string, AsyncState>;
-		validation: Record<string, boolean>;
+		validation: boolean;
 		triggerSubmit: boolean;
+		validationCount: number;
 	}
 }
 

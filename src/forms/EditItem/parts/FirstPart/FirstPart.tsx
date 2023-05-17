@@ -5,6 +5,8 @@ import FieldTextArea from "@src/Components/forms/FieldInput/FieldTextArea";
 import React from "react";
 import FormFileUpload from "@src/Components/forms/FormFileUpload/FormFileUpload";
 import { useEditItemContext } from "../../EditItem";
+import ValidatedEntry from "@src/Components/special/ValidatedEntry/ValidatedEntry";
+import { FieldDataService, Validators } from "@src/modules/FieldData/FieldData";
 
 interface Props {}
 
@@ -14,56 +16,89 @@ export default function FirstPart(props: Props) {
 		<div>
 			<div className="mb-4">
 				<p className="text-md font-semibold text-slate-900 mb-1">Item Name</p>
-				<FieldInput
-					{...state.itemName}
+				<ValidatedEntry
 					onChange={(d) => {
 						_.mutateState((p) => {
-							p.itemName.value = d.target.value;
+							p.itemName = d;
 						});
 					}}
-					type={"text"}
-					placeHolder={"enter item name"}
+					value={state.itemName}
+					triggerValidation={state.triggerSubmit}
+					validateFunction={(d) => {
+						return FieldDataService.registerValidator(
+							d,
+							{ isValid: true },
+							Validators.validateNull
+						);
+					}}
+					placeholder="enter item name"
+					onValidation={_.setValidation(0)}
 				/>
 			</div>
 			<div className="mb-4">
 				<p className="text-md font-semibold text-slate-900 mb-1">
 					Item HSN Code
 				</p>
-				<FieldInput
-					{...state.itemHSNCode}
+				<ValidatedEntry
 					onChange={(d) => {
 						_.mutateState((p) => {
-							p.itemHSNCode.value = d.target.value;
+							p.itemHSNCode = d;
 						});
 					}}
-					type={"number"}
-					placeHolder={"enter item HSN Code"}
+					value={state.itemHSNCode}
+					triggerValidation={state.triggerSubmit}
+					validateFunction={(d) => {
+						return FieldDataService.registerValidator(
+							d,
+							{ isValid: true },
+							Validators.validateNull,
+							Validators.validateInt
+						);
+					}}
+					placeholder="enter item HSN Code"
+					onValidation={_.setValidation(1)}
 				/>
 			</div>
 			<div className="mb-4">
 				<p className="text-md font-semibold text-slate-900 mb-1">Item Code</p>
-				<FieldInput
-					{...state.itemCode}
+				<ValidatedEntry
 					onChange={(d) => {
 						_.mutateState((p) => {
-							p.itemCode.value = d.target.value;
+							p.itemCode = d;
 						});
 					}}
-					type={"text"}
-					placeHolder={"enter item Code"}
+					value={state.itemCode}
+					triggerValidation={state.triggerSubmit}
+					validateFunction={(d) => {
+						return FieldDataService.registerValidator(
+							d,
+							{ isValid: true },
+							Validators.validateNull
+						);
+					}}
+					placeholder="enter item name"
+					onValidation={_.setValidation(2)}
 				/>
 			</div>
 			<div className="mb-4">
 				<p className="text-md font-semibold text-slate-900 mb-1">Description</p>
-				<FieldTextArea
-					{...state.description}
+				<ValidatedEntry
 					onChange={(d) => {
 						_.mutateState((p) => {
-							p.description.value = d.target.value;
+							p.description = d;
 						});
 					}}
-					height={100}
-					placeHolder={"enter company name"}
+					value={state.description}
+					triggerValidation={state.triggerSubmit}
+					validateFunction={(d) => {
+						return FieldDataService.registerValidator(
+							d,
+							{ isValid: true },
+							Validators.validateNull
+						);
+					}}
+					placeholder="enter item name"
+					onValidation={_.setValidation(3)}
 				/>
 			</div>
 			<div className="mb-5">

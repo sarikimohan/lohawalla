@@ -8,6 +8,8 @@ import AssetIndex from "@src/assets/AssetIndex";
 import React from "react";
 import Tip from "@src/Components/feedback/Tooltip/Tip";
 import { useEditItemContext } from "../../EditItem";
+import ValidatedEntry from "@src/Components/special/ValidatedEntry/ValidatedEntry";
+import { FieldDataService, Validators } from "@src/modules/FieldData/FieldData";
 
 interface Props {}
 
@@ -51,16 +53,26 @@ export default function SecondPart(props: Props) {
 									</Tip>
 								</td>
 								<td align="center" className="">
-									<FieldInput
-										width={"80%"}
-										type={"number"}
-										placeHolder={"enter value"}
-										{...state.margin.online}
+									<ValidatedEntry
 										onChange={(d) => {
 											_.mutateState((p) => {
-												p.margin.online.value = d.target.value;
+												p.margin.online = d;
 											});
 										}}
+										value={state.margin.online}
+										triggerValidation={state.triggerSubmit}
+										validateFunction={(d) => {
+											return FieldDataService.registerValidator(
+												d,
+												{ isValid: true },
+												Validators.validateNull,
+												Validators.validateFloat,
+												(d) => Validators.max(d, 100),
+												(d) => Validators.min(d, 0)
+											);
+										}}
+										placeholder="enter online"
+										onValidation={_.setValidation(4)}
 									/>
 								</td>
 							</tr>
@@ -73,16 +85,26 @@ export default function SecondPart(props: Props) {
 									</Tip>
 								</td>
 								<td align="center">
-									<FieldInput
-										width={"80%"}
-										type={"number"}
-										placeHolder={"enter value"}
-										{...state.margin.cash}
+									<ValidatedEntry
 										onChange={(d) => {
 											_.mutateState((p) => {
-												p.margin.cash.value = d.target.value;
+												p.margin.cash = d;
 											});
 										}}
+										value={state.margin.cash}
+										triggerValidation={state.triggerSubmit}
+										validateFunction={(d) => {
+											return FieldDataService.registerValidator(
+												d,
+												{ isValid: true },
+												Validators.validateNull,
+												Validators.validateFloat,
+												(d) => Validators.max(d, 100),
+												(d) => Validators.min(d, 0)
+											);
+										}}
+										placeholder="enter cash"
+										onValidation={_.setValidation(5)}
 									/>
 								</td>
 							</tr>
