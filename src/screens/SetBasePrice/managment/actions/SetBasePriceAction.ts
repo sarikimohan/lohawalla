@@ -1,7 +1,10 @@
 import { getAllCompaniesWithBaseRate } from "@src/globals/constants/async";
 import { FieldDataService, Validators } from "@src/modules/FieldData/FieldData";
-import StateUtils from "@src/modules/StateManagement/Core/StateUtils";
+import StateUtils, {
+	ServerStateUtils,
+} from "@src/modules/StateManagement/Core/StateUtils";
 import isPrefix from "@src/modules/Utils/isPrefix";
+import getBasePriceList from "../fetch/services/getBasePriceList";
 
 interface PostData {
 	list: {
@@ -12,11 +15,21 @@ interface PostData {
 }
 
 export default class SetBasePriceAction
-	extends StateUtils<SetBasePrice.State>
+	extends ServerStateUtils<SetBasePrice.State>
 	implements SetBasePrice.Actions
 {
 	// TODO fetch the values
-	fetch() {}
+	async fetch() {
+		const res = await this.handleAsync("fetchList", () => getBasePriceList());
+		if (res) {
+			this.mutateState((p) => {
+				p.setList = res.data.map((v) => ({
+					...v,
+					cost: { value: v.cost.toFixed(1), hasChanged: false },
+				}));
+			});
+		}
+	}
 
 	// TODO save the values
 	save(by: NameIdPair) {
@@ -29,7 +42,6 @@ export default class SetBasePriceAction
 				})),
 			by,
 		};
-		
 	}
 
 	setQuery(query: string) {

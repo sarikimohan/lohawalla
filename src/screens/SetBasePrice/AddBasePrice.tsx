@@ -13,17 +13,17 @@ import TableRow from "./component/TableRow/TableRow";
 function AddBasePrice() {
 	const [state, setState] = useState<SetBasePrice.State>({
 		setList: [
-			{
-				srNo: 1,
-				companyName: {
-					imageURL: "",
-					name: "lohawalla",
-				},
-				companyId: "asldkfa",
-				priceFieldId: "asl;dfjasd",
-				cost: { value: "12342", hasChanged: false },
-				entryTime: "today",
-			},
+			// {
+			// 	srNo: 1,
+			// 	companyName: {
+			// 		imageURL: "",
+			// 		name: "lohawalla",
+			// 	},
+			// 	companyId: "asldkfa",
+			// 	priceFieldId: "asl;dfjasd",
+			// 	cost: { value: "12342", hasChanged: false },
+			// 	entryTime: "today",
+			// },
 		],
 		filter: {
 			query: "",
