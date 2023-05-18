@@ -65,6 +65,7 @@ export default class SaveFormActions extends ServerStateUtils<AddCompany.State> 
 			},
 			{
 				errMessage: "failed to save company!",
+				onSuccess,
 			}
 		);
 	}

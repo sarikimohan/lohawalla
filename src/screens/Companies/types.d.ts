@@ -16,6 +16,8 @@ namespace Companies {
 		companyList: CompanyListRow[];
 		filter: Filter;
 		loading: { [key: string]: AsyncState };
+		showAddCompanyForm: boolean;
+		refresh: boolean;
 	}
 
 	interface Actions {

@@ -16,7 +16,10 @@ import { nanoid } from "nanoid";
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 import ErrorCard from "@src/Components/feedback/ErrorCard/ErrorCard";
 
-interface Props {}
+interface Props {
+	close: FTN;
+	refresh: FTN;
+}
 interface ContextProps {
 	state: AddCompany.State;
 	addCompanyActions: AddCompanyActions;
@@ -25,6 +28,8 @@ interface ContextProps {
 	thirdFormActions: ThirdFormActions;
 	saveFormActions: SaveFormActions;
 	validate: ValidateAddCompany;
+	refresh: FTN;
+	close: FTN;
 }
 
 const AddCompanyContext = React.createContext({} as ContextProps);
@@ -84,6 +89,8 @@ export default function AddCompany(props: Props) {
 				thirdFormActions,
 				saveFormActions,
 				validate,
+				refresh: props.refresh,
+				close: props.close,
 			}}
 		>
 			<PopUpContainer>
@@ -91,7 +98,7 @@ export default function AddCompany(props: Props) {
 					<ErrorCard
 						messages={[state.loading.save.message]}
 						primaryAction={{
-							onClick: () => {},
+							onClick: props.close,
 							label: "Close",
 						}}
 					/>
@@ -100,9 +107,9 @@ export default function AddCompany(props: Props) {
 						<div className="mb-4">
 							<FormHeader
 								navBack={function (): void {
-									addCompanyActions.navBack();
+									addCompanyActions.navBack(props.close);
 								}}
-								close={function (): void {}}
+								close={props.close}
 								heading={"Company"}
 								preHeading={"Add"}
 							/>

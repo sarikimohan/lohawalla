@@ -13,7 +13,7 @@ import { useAuthGuardContext } from "@src/auth/AuthGuard/AuthGuard";
 interface Props {}
 
 export default function ThirdPart(props: Props) {
-	const { state, thirdFormActions, validate, saveFormActions } =
+	const { state, thirdFormActions, validate, saveFormActions, close, refresh } =
 		useAddCompanyContext();
 	const { user } = useAuthGuardContext();
 
@@ -129,8 +129,8 @@ export default function ThirdPart(props: Props) {
 						console.log(verdict);
 						if (verdict) {
 							saveFormActions.saveForm([], user, () => {
-								// close
-								// refresh
+								close();
+								refresh();
 							});
 						}
 					}}

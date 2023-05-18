@@ -10,4 +10,6 @@ export const InitialState: Companies.State = {
 		fetchCompanyList: AsyncStateFactory(),
 		get: AsyncStateFactory(),
 	},
+	showAddCompanyForm: false,
+	refresh: false
 };

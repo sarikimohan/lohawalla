@@ -11,8 +11,8 @@ export default class AddCompanyActions extends StateUtils<AddCompany.State> {
 			p.page++;
 		});
 	}
-	navBack() {
-		if (this.state.page === 0) return;
+	navBack(close: FTN) {
+		if (this.state.page === 0) close();
 		this.mutateState((p) => {
 			p.page--;
 		});

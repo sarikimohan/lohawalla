@@ -11,6 +11,7 @@ import CompanyActions from "./management/actions/CompanyActions";
 import Header from "@src/Components/Grid/Header/Header";
 import RowStat from "@src/Components/Grid/RowStat/RowStat";
 import TableRow from "./components/TableRow/TableRow";
+import AddCompany from "@src/forms/AddCompany/AddCompany";
 
 function Company() {
 	const widthService = useWidth();
@@ -20,7 +21,7 @@ function Company() {
 
 	useEffect(() => {
 		companyActions.fetchCompanyGridData();
-	}, []);
+	}, [state.refresh]);
 
 	return (
 		<>
@@ -57,7 +58,12 @@ function Company() {
 								</div>
 							</div>
 							<div>
-								<DefaultButton onClick={() => {}} label={"+ add company"} />
+								<DefaultButton
+									onClick={() => {
+										companyActions.setFormVisibility(true);
+									}}
+									label={"+ add company"}
+								/>
 							</div>
 						</div>
 
@@ -82,6 +88,18 @@ function Company() {
 						</table>
 					</div>
 				</Card>
+				<div>
+					{state.showAddCompanyForm && (
+						<AddCompany
+							close={function (): void {
+								companyActions.setFormVisibility(false);
+							}}
+							refresh={function (): void {
+								companyActions.refresh();
+							}}
+						/>
+					)}
+				</div>
 			</div>
 		</>
 	);

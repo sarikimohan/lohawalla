@@ -33,4 +33,14 @@ export default class CompanyActions
 			p.filter.query = query;
 		});
 	}
+	setFormVisibility(v: boolean) {
+		this.mutateState((p) => {
+			p.showAddCompanyForm = v;
+		});
+	}
+	refresh() {
+		this.mutateState((p) => {
+			p.refresh = !p.refresh;
+		});
+	}
 }
