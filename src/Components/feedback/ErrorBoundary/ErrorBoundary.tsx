@@ -1,9 +1,13 @@
 import React from "react";
 import ErrorCard, { ErrorCardProps } from "../ErrorCard/ErrorCard";
 
-interface Props extends ErrorCardProps {
+interface Props {
 	asyncStates: AsyncState[];
 	children?: React.ReactNode;
+	primaryAction: {
+		onClick?: () => void;
+		label?: string;
+	};
 }
 
 export default function ErrorBoundary({
@@ -20,10 +24,13 @@ export default function ErrorBoundary({
 		asyncStates.filter((v) => v.status === "success").map((v) => v.message),
 	];
 
-	props.messages = failedMessages;
-
 	if (hasFailed) {
-		return <ErrorCard {...props} />;
+		return (
+			<ErrorCard
+				messages={failedMessages}
+				{...props}
+			/>
+		);
 	} else {
 		return <>{children}</>;
 	}

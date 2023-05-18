@@ -16,6 +16,7 @@ namespace AddProduct {
 			selectedCategory: FieldData<Entity | null>;
 			selectedItem: FieldData<Entity | null>;
 
+			disableUnitSelection: boolean;
 			unitList: {
 				id: string;
 				name: string;
@@ -25,7 +26,9 @@ namespace AddProduct {
 				id: string;
 				name: string;
 				weight: number;
-			}|null;
+			} | null;
+			unitWeightInputField: FieldData;
+			unitValidationVerdict: boolean;
 		};
 
 		secondForm: {

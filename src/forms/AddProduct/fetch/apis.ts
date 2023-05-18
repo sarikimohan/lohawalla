@@ -9,6 +9,8 @@ const apiIndex = {
 	}) =>
 		`getSecondFormData?companyId=${data.companyId}&categoryId=${data.categoryId}&itemId=${data.itemId}`,
 	createCompanyProduct: "createCompanyProduct",
+	getAllUnits: 'getAllUnit',
+	getCategoryUnit: (id: string) => `/getCategoryUnit/${id}`
 };
 
 export default apiIndex;

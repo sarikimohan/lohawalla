@@ -6,6 +6,8 @@ import getAllCategoryNames from "../../fetch/services/getAllCategoryNames";
 import getAllItemNamesOfCategory from "../../fetch/services/getAllItemNamesOfCategory";
 import getSecondFormData from "../../fetch/services/getSecondFormData";
 import saveProduct from "../../fetch/services/saveProduct";
+import getAllUnits from "../../fetch/services/getAllUnits";
+import getCategoryUnit from "../../fetch/services/getCategoryUnit";
 
 export default class FirstFormActions extends ServerStateUtils<AddProduct.State> {
 	async fetchCompanies() {
@@ -42,6 +44,50 @@ export default class FirstFormActions extends ServerStateUtils<AddProduct.State>
 		}
 	}
 
+	async fetchUnitList() {
+		const res = await this.handleAsync("fetchUnits", () => getAllUnits());
+		if (res) {
+			this.mutateState((p) => {
+				p.firstForm.unitList = res.data;
+			});
+		}
+	}
+
+	async fetchCategoryUnit(id: string) {
+		const res = await this.handleAsync("fetchDefaultUnit", () =>
+			getCategoryUnit(id)
+		);
+		if (res) {
+			const found = (() => {
+				for (let i = 0; i < this.state.firstForm.unitList.length; ++i) {
+					if (this.state.firstForm.unitList[i].id === res.data.unitsId) {
+						return this.state.firstForm.unitList[i];
+					}
+				}
+			})();
+			console.log(this.state.firstForm.unitList, found, res.data);
+			this.mutateState((p) => {
+				if (found) {
+					this.state.firstForm.unit = found;
+					if (found.weight === -1) {
+						p.firstForm.unitWeightInputField.value = res.data.weight.toFixed(1);
+					}
+				}
+			});
+		}
+	}
+
+	setSelectedUnit(unit: { id: string; name: string; weight: number } | null) {
+		this.mutateState((p) => {
+			p.firstForm.unit = unit;
+		});
+	}
+
+	valiadteUnitWeightInput() {
+		const unitSelection = this.state.firstForm.unit;
+		
+	}
+
 	setSelectedCompany(entity: AddProduct.Entity | null) {
 		this.mutateState((p) => {
 			p.firstForm.selectedCompany.value = entity;
@@ -50,6 +96,9 @@ export default class FirstFormActions extends ServerStateUtils<AddProduct.State>
 	setSelectedCategory(entity: AddProduct.Entity | null) {
 		this.mutateState((p) => {
 			p.firstForm.selectedCategory.value = entity;
+			if (entity) {
+				this.fetchCategoryUnit(entity._id);
+			}
 		});
 	}
 	setSelectedItem(entity: AddProduct.Entity | null) {

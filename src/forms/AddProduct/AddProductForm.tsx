@@ -14,6 +14,7 @@ import FormActions, {
 } from "./management/actions/FormActions";
 import AddProductValidators from "./management/actions/Validator";
 import DescriptionActions from "./management/actions/DescriptionActions";
+import ErrorBoundary from "@src/Components/feedback/ErrorBoundary/ErrorBoundary";
 
 interface AddProductFormInterface {
 	company?: { _id: string; companyName: string };
@@ -45,6 +46,9 @@ function AddProductForm() {
 			selectedItem: { value: null },
 			unit: null,
 			unitList: [],
+			disableUnitSelection: true,
+			unitWeightInputField: { value: "" },
+			unitValidationVerdict: true,
 		},
 		secondForm: {
 			hasVisited: false,
@@ -73,8 +77,11 @@ function AddProductForm() {
 			fetchCompanies: AsyncStateFactory(),
 			fetchCategories: AsyncStateFactory(),
 			fetchItems: AsyncStateFactory(),
+			fetchUnits: AsyncStateFactory(),
+			fetchDefaultUnit: AsyncStateFactory(),
 		},
 	});
+
 	const { page } = state;
 
 	const addProductActions = new FormActions(state, setState);
@@ -93,29 +100,42 @@ function AddProductForm() {
 			}}
 		>
 			<PopUpContainer>
-				<FormContainer>
-					<div className="mb-4">
-						<FormHeader
-							navBack={() => {
-								if (state.page > 0)
-									addProductActions.mutateState((p) => p.page--);
-							}}
-							heading={"Product"}
-							preHeading={"ADD"}
-							close={function (): void {
-								throw new Error("Function not implemented.");
-							}}
-						/>
-					</div>
-					<div className="mb-5">
-						<ProgressBar currentStep={page + 1} steps={3} />
-					</div>
-					<div>
-						{page === 0 && <FormPart1 />}
-						{page === 1 && <FormPart2 />}
-						{page === 2 && <FormPart3 />}
-					</div>
-				</FormContainer>
+				<ErrorBoundary
+					asyncStates={[
+						state.loading.fetchCompanies,
+						state.loading.fetchCategories,
+						state.loading.fetchItems,
+						state.loading.fetchUnits,
+					]}
+					primaryAction={{
+						onClick: () => {},
+						label: "Close",
+					}}
+				>
+					<FormContainer>
+						<div className="mb-4">
+							<FormHeader
+								navBack={() => {
+									if (state.page > 0)
+										addProductActions.mutateState((p) => p.page--);
+								}}
+								heading={"Product"}
+								preHeading={"ADD"}
+								close={function (): void {
+									throw new Error("Function not implemented.");
+								}}
+							/>
+						</div>
+						<div className="mb-5">
+							<ProgressBar currentStep={page + 1} steps={3} />
+						</div>
+						<div>
+							{page === 0 && <FormPart1 />}
+							{page === 1 && <FormPart2 />}
+							{page === 2 && <FormPart3 />}
+						</div>
+					</FormContainer>
+				</ErrorBoundary>
 			</PopUpContainer>
 		</AddProductContext.Provider>
 	);
