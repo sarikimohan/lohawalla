@@ -29,7 +29,7 @@ export default class AddProductValidators extends ServerStateUtils<AddProduct.St
 		return !data.error;
 	}
 	validateUnit() {
-		const verdict = { isValid: false };
+		const verdict = { isValid: true };
 		console.log(this.state.firstForm.unitValidationVerdict);
 		const selectedUnit = this.state.firstForm.unit;
 		if (selectedUnit === null) {
@@ -68,6 +68,7 @@ export default class AddProductValidators extends ServerStateUtils<AddProduct.St
 			this.validateItem(),
 			this.validateUnit(),
 		];
+		console.log(v);
 		return v.reduce((a, c) => a && c, true);
 	}
 

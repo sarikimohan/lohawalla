@@ -5,7 +5,7 @@ import getAllCompanyNames from "../../fetch/services/getAllCompanyNames";
 import getAllCategoryNames from "../../fetch/services/getAllCategoryNames";
 import getAllItemNamesOfCategory from "../../fetch/services/getAllItemNamesOfCategory";
 import getSecondFormData from "../../fetch/services/getSecondFormData";
-import saveProduct from "../../fetch/services/saveProduct";
+import saveProduct, { UnitData } from "../../fetch/services/saveProduct";
 import getAllUnits from "../../fetch/services/getAllUnits";
 import getCategoryUnit from "../../fetch/services/getCategoryUnit";
 
@@ -85,7 +85,6 @@ export default class FirstFormActions extends ServerStateUtils<AddProduct.State>
 
 	valiadteUnitWeightInput() {
 		const unitSelection = this.state.firstForm.unit;
-		
 	}
 
 	setSelectedCompany(entity: AddProduct.Entity | null) {
@@ -121,31 +120,46 @@ export class SecondFormActions extends ServerStateUtils<AddProduct.State> {
 		const companyId = this.state.firstForm.selectedCompany.value?._id;
 
 		if (categoryId && itemId && companyId) {
-			const res = this.handleAsync("save", () =>
-				saveProduct({
-					companyId,
-					categoryId,
-					itemId,
-					priceStructure: this.state.secondForm.priceStructure.map((v, i) => ({
-						_id: v._id,
-						value: parseFloat(v.value.value),
-					})),
-					by,
-					gst: {
-						type: this.state.secondForm.gst.type,
-						value: parseFloat(this.state.secondForm.gst.value.value),
-					},
-					description: this.state.thirdForm.description.value,
-					descriptionLabels: this.state.thirdForm.descriptionLabels.map(
-						(v, i) => ({
-							key: v.key,
-							value: v.value.value,
-							position: i,
-						})
-					),
-					images,
-				})
-			);
+			const unitData: UnitData = {
+				unitsId: "",
+				weight: -1,
+			};
+			const selectedUnit = this.state.firstForm.unit;
+			console.log(selectedUnit);
+			if (selectedUnit) {
+				unitData.unitsId = selectedUnit.id;
+				unitData.weight =
+					selectedUnit.weight === -1
+						? parseFloat(this.state.firstForm.unitWeightInputField.value)
+						: selectedUnit.weight;
+			}
+
+			const d = {
+				companyId,
+				categoryId,
+				itemId,
+				priceStructure: this.state.secondForm.priceStructure.map((v, i) => ({
+					_id: v._id,
+					value: parseFloat(v.value.value),
+				})),
+				by,
+				gst: {
+					type: this.state.secondForm.gst.type,
+					value: parseFloat(this.state.secondForm.gst.value.value),
+				},
+				description: this.state.thirdForm.description.value,
+				descriptionLabels: this.state.thirdForm.descriptionLabels.map(
+					(v, i) => ({
+						key: v.key,
+						value: v.value.value,
+						position: i,
+					})
+				),
+				images,
+				unit: unitData,
+			};
+			console.log(d);
+			const res = await this.handleAsync("save", () => saveProduct(d));
 		}
 	}
 	async fetchSecondFormData() {

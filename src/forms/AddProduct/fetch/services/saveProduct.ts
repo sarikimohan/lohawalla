@@ -1,6 +1,9 @@
 import apiIndex from "../apis";
 import AddProductInstance from "../instance";
-
+export interface UnitData {
+	unitsId: string,
+	weight: number
+}
 interface FormData {
 	companyId: string;
 	categoryId: string;
@@ -20,6 +23,7 @@ interface FormData {
 		key: string;
 		value: string;
 	}[];
+	unit: UnitData;
 	images: string[];
 }
 

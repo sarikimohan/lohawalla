@@ -32,7 +32,16 @@ export default function FormPart3(props: Props) {
 			</div>
 			<div className="mb-4">
 				<DefaultFormLabel className="mb-2">Description</DefaultFormLabel>
-				<FieldTextArea height={120} placeHolder={"enter description"} />
+				<FieldTextArea
+					{...state.thirdForm.description}
+					onChange={(d) => {
+						addProductActions.mutateState((p) => {
+							p.thirdForm.description.value = d.target.value;
+						});
+					}}
+					height={120}
+					placeHolder={"enter description"}
+				/>
 			</div>
 
 			<DefaultFormLabel className="mb-2">Description Labels</DefaultFormLabel>
