@@ -27,14 +27,14 @@ function Dashboard() {
 						}}
 						refresh={() => {}}
 					/> */}
-					{/* <AddProductForm /> */}
+					<AddProductForm />
 					{/* <AddCompany /> */}
 					{/* <AddItem /> */}
 					{/* <AddCategoryForm /> */}
 					{/* <ErrorCard messages={[]} /> */}
 					{/* <EditCategory/> */}
 					{/* <EditCompany/> */}
-					<EditItem />
+					{/* <EditItem /> */}
 					{/* <SetActiveCompany/> */}
 				</div>
 			</div>

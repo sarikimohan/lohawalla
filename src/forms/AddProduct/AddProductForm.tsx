@@ -34,7 +34,7 @@ export const useAddProductContext = () => useContext(AddProductContext);
 
 function AddProductForm() {
 	const [state, setState] = useState<AddProduct.State>({
-		page:0,
+		page: 0,
 		firstForm: {
 			companiesList: [],
 			categoryList: [],
@@ -43,6 +43,8 @@ function AddProductForm() {
 			selectedCompany: { value: null },
 			selectedCategory: { value: null },
 			selectedItem: { value: null },
+			unit: null,
+			unitList: [],
 		},
 		secondForm: {
 			hasVisited: false,
@@ -79,7 +81,6 @@ function AddProductForm() {
 	const validate = new AddProductValidators(state, setState);
 	const secondFormActions = new SecondFormActions(state, setState);
 	const descriptionActions = new DescriptionActions(state, setState);
-
 
 	return (
 		<AddProductContext.Provider
