@@ -29,6 +29,7 @@ export const columnConfig: ColumnConfig<ItemSpecification.CompanyProduct>[] = [
 		index: 1,
 		width: 150,
 		growthOrder: 1,
+		isWidthFixed: false,
 		component: (data, width) => {
 			const navigate = useNavigate();
 			return (
@@ -71,10 +72,24 @@ export const columnConfig: ColumnConfig<ItemSpecification.CompanyProduct>[] = [
 		growthOrder: 1,
 		component: (data, width) => (
 			<p className="small fcolor-text-body fw-medium" style={{ width }}>
-				{data.companyProductName}
+				{data.productName}
 			</p>
 		),
 		bannerComponent: BannerCell,
+		isWidthFixed: false,
+	},
+	{
+		name: "entry time",
+		index: 2,
+		width: 210,
+		growthOrder: 1,
+		component: (data, width) => (
+			<p className="small fcolor-text-body fw-medium" style={{ width }}>
+				{data.entryTime}
+			</p>
+		),
+		bannerComponent: BannerCell,
+		isWidthFixed: false,
 	},
 	{
 		name: "",

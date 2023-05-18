@@ -52,6 +52,7 @@ function ItemSpecification() {
 
 	useEffect(() => {
 		itemSpecActions.fetch(pid as string);
+		itemSpecActions.fetchGrid(pid as string);
 	}, []);
 
 	return (

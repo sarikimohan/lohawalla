@@ -6,7 +6,8 @@ namespace ItemSpecification {
 			name: string;
 			imageURL: string;
 		};
-		companyProductName: string;
+		productName: string;
+		entryTime: string;
 	}
 
 	interface State {
@@ -46,5 +47,16 @@ namespace ItemSpecAsync {
 			cash: number;
 		};
 		images: string[];
+	}
+
+	interface ItemProductGridData {
+		_id: string;
+		srNo: number;
+		company: {
+			name: string;
+			imageURL: string;
+		};
+		productName: string;
+		entryTime: string;
 	}
 }

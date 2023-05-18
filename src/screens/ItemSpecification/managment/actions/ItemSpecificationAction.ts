@@ -2,12 +2,15 @@ import {
 	getCompanyProductGridData,
 	getItemData,
 } from "@src/globals/constants/async";
-import StateUtils from "@src/modules/StateManagement/Core/StateUtils";
+import StateUtils, {
+	ServerStateUtils,
+} from "@src/modules/StateManagement/Core/StateUtils";
 import isPrefix from "@src/modules/Utils/isPrefix";
 import getItemSpec from "../../fetch/service/getItemSpec";
+import getItemGridData from "../../fetch/service/getItemGridData";
 
 export default class ItemSpecificationAction
-	extends StateUtils<ItemSpecification.State>
+	extends ServerStateUtils<ItemSpecification.State>
 	implements ItemSpecification.Actions
 {
 	setQuery(query: string): void {
@@ -17,7 +20,7 @@ export default class ItemSpecificationAction
 	}
 	getFilteredList(): ItemSpecification.CompanyProduct[] {
 		return this.state.companyProductList.filter((v) => {
-			return isPrefix(v.companyProductName, this.state.filter.query);
+			return isPrefix(v.productName, this.state.filter.query);
 		});
 	}
 	fetch(id: string): void {
@@ -26,7 +29,7 @@ export default class ItemSpecificationAction
 				this.mutateState((p) => {
 					p.loading.fetch.status = "initialized";
 				});
-				
+
 				const itemSpec = await getItemSpec(id);
 				this.mutateState((p) => {
 					const data = itemSpec.data;
@@ -47,5 +50,13 @@ export default class ItemSpecificationAction
 				});
 			}
 		})();
+	}
+	async fetchGrid(id: string) {
+		const res = await this.handleAsync("fetchGrid", () => getItemGridData(id));
+		if (res) {
+			this.mutateState(p => {
+				p.companyProductList = res.data;
+			})
+		}
 	}
 }

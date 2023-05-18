@@ -1,3 +1,3 @@
 export const apiIndex = {
-    getProductSpecification: 'getProductSpecification'
-}
+	getProductSpecification: (id: string) => "getProductSpecificationData/" + id,
+};

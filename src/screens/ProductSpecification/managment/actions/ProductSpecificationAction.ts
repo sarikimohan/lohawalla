@@ -1,36 +1,19 @@
 import { getProductSpecification } from "@src/globals/constants/async";
-import StateUtils from "@src/modules/StateManagement/Core/StateUtils";
+import StateUtils, {
+	ServerStateUtils,
+} from "@src/modules/StateManagement/Core/StateUtils";
+import fetchProductSpecification from "../../fetch/services/fetchProducSpecification";
 
 export default class ProdSpecActions
-	extends StateUtils<ProductSpecification.State>
+	extends ServerStateUtils<ProductSpecification.State>
 	implements ProductSpecification.Actions
 {
-	fetch(id: string) {
-		this.mutateState((p) => (p.loading.fetch.status = "initialized"));
-		try {
-			(async () => {
-				const specData = await getProductSpecification({ id });
-				this.mutateState((p) => {
-					p.companyName = specData.companyName;
-					p.description = specData.description;
-					p.descriptionLabels = specData.descriptionLabels;
-					p.gst = specData.gstDetails;
-					p.images = specData.images;
-					p.margin = specData.marginStructure;
-					p.priceStructure = specData.priceStructure;
-					p.productName = specData.productName;
-
-					p.loading.fetch.status = "success";
-				});
-			})();
-		} catch (err) {
-			this.mutateState(
-				(p) =>
-					(p.loading.fetch = {
-						status: "failed",
-						message: "some error occured",
-					})
-			);
+	async fetch(id: string) {
+		const res = await this.handleAsync("fetchSpecData", () =>
+			fetchProductSpecification(id)
+		);
+		if (res) {
+			this.setState((p) => ({ ...p, ...res.data }));
 		}
 	}
 }

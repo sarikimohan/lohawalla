@@ -4,15 +4,32 @@ namespace ProductSpecification {
 		companyName: string;
 		itemName: string;
 		description: string;
-		descriptionLabels: DescriptionLabels[];
-		priceStructure: PriceField[];
-		margin: Margin;
-		gst: {key: string, value: string|number};
+		category: {
+			name: string;
+			_id: string;
+		};
+		descriptionLabels: {
+			key: string;
+			value: string;
+			position: number;
+		}[];
+		priceStructure:  {
+			name: string;
+			type: 'numeric'|'percentage';
+			operation: 'subtract'|'add';
+			value: number;
+			fixed: boolean;
+		}[];
+		margin: {
+			online: number;
+			cash: number;
+		};
+		gst: { key: string; value: string };
 		images: string[];
 
 		loading: {
-			fetch: AsyncState
-		}
+			fetch: AsyncState;
+		};
 	}
 
 	interface Actions {

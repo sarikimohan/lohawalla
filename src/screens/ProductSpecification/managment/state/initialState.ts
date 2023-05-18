@@ -13,4 +13,8 @@ export const InitialState: ProductSpecification.State = {
 	loading: {
 		fetch: AsyncStateFactory(),
 	},
+	category: {
+		name: "",
+		_id: ""
+	}
 };

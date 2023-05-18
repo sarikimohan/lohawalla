@@ -1,22 +1,36 @@
 import { apiIndex } from "../ApiIndex";
 import ProductSpecificationInstance from "../instance";
 
-export interface ProductSpecification {
-    productName: string;
-    companyName: string;
-    itemName: string;
-    description: string;
-    descriptionLabels: DescriptionLabels[];
-    priceStructure: PriceField[];
-    margin: Margin;
-    gst: { key: string, value: string | number };
-    images: string[];
-
-    loading: {
-        fetch: AsyncState
-    }
+interface ProductSpecificationData {
+	productName: string;
+		companyName: string;
+		itemName: string;
+		description: string;
+		category: {
+			name: string;
+			_id: string;
+		};
+		descriptionLabels: {
+			key: string;
+			value: string;
+			position: number;
+		}[];
+		priceStructure:  {
+			name: string;
+			type: 'numeric'|'percentage';
+			operation: 'subtract'|'add';
+			value: number;
+			fixed: boolean;
+		}[];
+		margin: {
+			online: number;
+			cash: number;
+		};
+		gst: { key: string; value: string };
+		images: string[];
 }
-
-export default async function fetchProductSpecification() {
-    return await ProductSpecificationInstance.get<ProductSpecification>(apiIndex.getProductSpecification);
+export default async function fetchProductSpecification(id: string) {
+	return await ProductSpecificationInstance.get<ProductSpecificationData>(
+		apiIndex.getProductSpecification(id)
+	);
 }
