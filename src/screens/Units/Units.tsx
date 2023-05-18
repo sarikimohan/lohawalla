@@ -3,36 +3,43 @@ import TitleNavBar from "@src/Components/common/NavBar/TitleNavBar";
 import SearchBar from "@src/Components/common/SearchBar/SearchBar";
 import SearchFilters from "@src/Components/common/SearchFilters/SearchFilters";
 import DefaultButton from "@src/Components/common/buttons/DefaultButton/DefaultButton";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card } from "@mui/material";
 import AddUnit from "@src/forms/AddUnit/AddUnit";
 import StateUtils from "@src/modules/StateManagement/Core/StateUtils";
 import UnitActions from "./actions/UnitActions";
+import RowStat from "@src/Components/Grid/RowStat/RowStat";
+import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
+import TableRow from "./components/TableRow/TableRow";
 
 interface Props {}
 
 export default function Units(props: Props) {
 	const [state, setState] = useState<Unit.State>({
 		query: "",
-		showAddUnitForm: "",
+		showAddUnitForm: false,
 		unitList: [],
-		loading: {},
+		loading: {
+			fetch: AsyncStateFactory(),
+		},
+		refresh: false,
 	});
-
-	// using the setState functoin
-	// each time we have to create a new state
-	// we have to write all the logic in the component
-	const setQuery = (d: string) => {
-		setState((p) => {
-			const newState = { ...p };
-			newState.query = d;
-			return newState;
-		});
-	};
 
 	const unitActions = new UnitActions(state, setState);
 
-	console.log(state.query);
+	const refresh = () => {
+		unitActions.mutateState((p) => void (p.refresh = !p.refresh));
+	};
+	const close = () => {
+		unitActions.toggleFormVisibility();
+	};
+	const setQuery = (d: string) => {
+		unitActions.setQuery(d);
+	};
+
+	useEffect(() => {
+		unitActions.fetchData();
+	}, []);
 
 	return (
 		<div className="mx-6">
@@ -49,7 +56,7 @@ export default function Units(props: Props) {
 							<div className="d-flex vc">
 								<SearchBar
 									onChange={(d) => {
-										unitActions.setQuery(d);
+										setQuery(d);
 									}}
 								/>
 							</div>
@@ -62,8 +69,10 @@ export default function Units(props: Props) {
 								</div>
 								<div>
 									<DefaultButton
-										onClick={function (): void {}}
-										label={"add unit"}
+										onClick={() => {
+											unitActions.toggleFormVisibility();
+										}}
+										label={"+ add unit"}
 									/>
 								</div>
 							</div>
@@ -77,17 +86,28 @@ export default function Units(props: Props) {
 									},
 									"unit name",
 									"weight",
-									"entry time",
 									"category count",
 									"product count",
-									{ name: "", width: 50 },
+									"delete",
 								]}
-							></DefaultGrid>
+							>
+								<RowStat
+									isEmpty={state.unitList.length === 0}
+									asyncState={state.loading.fetch}
+									colSpan={6}
+								>
+									{state.unitList.map((v, i) => (
+										<TableRow data={v} key={i} />
+									))}
+								</RowStat>
+							</DefaultGrid>
 						</div>
 					</div>
 				</Card>
 			</div>
-			<div><AddUnit /></div>
+			<div>
+				{state.showAddUnitForm && <AddUnit refresh={refresh} close={close} />}
+			</div>
 		</div>
 	);
 }

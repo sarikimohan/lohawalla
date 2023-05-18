@@ -12,10 +12,10 @@ interface Props {
 }
 
 export default function SelectUnit(props: Props) {
-	const { state, selectUnitActions } = useAddCategoryContext();
+	const { state } = useAddCategoryContext();
 	return (
 		<>
-			<p className="body fw-medium fcolor-fuschia mb-2">Unit</p>
+			{/* <p className="body fw-medium fcolor-fuschia mb-2">Unit</p>
 			<div
 				className="border border-slate-300 rounded-md p-3"
 				style={{ height: 48, position: "relative" }}
@@ -93,7 +93,7 @@ export default function SelectUnit(props: Props) {
 					/>
 					<Spacer height={8 * 2} />
 				</>
-			)}
+			)} */}
 		</>
 	);
 }

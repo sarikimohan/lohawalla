@@ -12,8 +12,8 @@ export default class SaveCategoryActions extends ServerStateUtils<AddCategory.St
 			name: firstForm.categoryName.value,
 			code: firstForm.categoryCode.value,
 			unit: {
-				name: firstForm.unit.name,
-				weight: parseInt(firstForm.unit.weight),
+				name: "",
+				weight: -1,
 			},
 			description: firstForm.description.value,
 			credit: credits.map((v, i) => ({

@@ -15,7 +15,7 @@ import SaveCategoryActions from "./managment/actions/SaveCategoryActions";
 import ErrorCard from "@src/Components/feedback/ErrorCard/ErrorCard";
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 import ValidateAddCategory from "./managment/actions/Validate";
-import SelectUnitActions from "./managment/actions/SelectUnitActions";
+// import SelectUnitActions from "./managment/actions/SelectUnitActions";
 import { FieldDataService } from "@src/modules/FieldData/FieldData";
 
 interface Props {
@@ -31,7 +31,7 @@ interface ContextInterface {
 	creditActions: CreditActions;
 	saveActions: SaveCategoryActions;
 	validate: ValidateAddCategory;
-	selectUnitActions: SelectUnitActions;
+	// selectUnitActions: SelectUnitActions;
 	refresh: () => void;
 	onClose: () => void;
 }
@@ -67,39 +67,16 @@ function AddCategoryForm(props: Props) {
 			save: AsyncStateFactory(),
 			checkName: AsyncStateFactory(),
 			checkCode: AsyncStateFactory(),
+			fetchUnits: AsyncStateFactory(),
 		},
 		firstForm: {
 			categoryName: FieldDataService.getDefaultField(),
 			categoryCode: FieldDataService.getDefaultField(),
 			description: FieldDataService.getDefaultField(),
-			unit: {
-				name: "",
-				weight: "",
-			},
-			unitSelect: {
-				showDropDown: false,
-				list: [
-					{
-						name: "ton",
-						weight: 1000,
-					},
-					{
-						name: "kg",
-						weight: 1,
-					},
-					{
-						name: "bundle",
-						weight: -1,
-					},
-					{
-						name: "custom",
-						weight: -1,
-					},
-				],
-				selected: null,
-				showWeightInput: false,
-				showUnitNameInput: false,
-			},
+			unitList: [],
+			unit: null,
+			showUnitWeightInput: false,
+			unitWeightInputField: FieldDataService.getDefaultField(),
 		},
 		images: [],
 		credit: [],
@@ -121,7 +98,7 @@ function AddCategoryForm(props: Props) {
 	const creditActions = new CreditActions(state, setState);
 	const saveActions = new SaveCategoryActions(state, setState);
 	const validate = new ValidateAddCategory(state, setState);
-	const selectUnitActions = new SelectUnitActions(state, setState);
+	// const selectUnitActions = new SelectUnitActions(state, setState);
 
 	return (
 		<Context.Provider
@@ -133,7 +110,7 @@ function AddCategoryForm(props: Props) {
 				creditActions,
 				saveActions,
 				validate,
-				selectUnitActions,
+				// selectUnitActions,
 				refresh: props.refresh,
 				onClose: props.onClose,
 			}}

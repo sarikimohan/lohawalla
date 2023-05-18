@@ -14,7 +14,10 @@ import AddUnitActions from "./actions/AddUnitActions";
 import checkNameUnique from "./fetch/services/checkNameUnique";
 import LoadingBoundary from "@src/Components/common/LoadingBoundary/LoadingBoundary";
 
-interface Props {}
+interface Props {
+	refresh: () => void;
+	close: () => void;
+}
 
 export default function AddUnit(props: Props) {
 	const [state, setState] = useState<StateWithLoading<AddUnit.State>>({
@@ -57,10 +60,10 @@ export default function AddUnit(props: Props) {
 					<div className="mb-8">
 						<FormHeader
 							navBack={function (): void {
-								throw new Error("Function not implemented.");
+								props.close();
 							}}
 							close={function (): void {
-								throw new Error("Function not implemented.");
+								props.close();
 							}}
 							heading={"Unit"}
 							preHeading={"Add"}

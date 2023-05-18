@@ -1,15 +1,16 @@
 namespace Unit {
+	interface UnitListItem {
+		srNo: number;
+		name: string;
+		weight: number;
+		categoryCount: number;
+		productCount: number;
+	}
 	interface State {
 		query: string;
-		showAddUnitForm: string;
-		unitList: {
-			srNo: number;
-			name: string;
-			weight: number;
-			entryTime: string;
-			categoryCount: number;
-			productCount: number;
-		}[];
+		showAddUnitForm: boolean;
+		refresh: boolean;
+		unitList: UnitListItem[];
 		loading: { [key: string]: AsyncState };
 	}
 

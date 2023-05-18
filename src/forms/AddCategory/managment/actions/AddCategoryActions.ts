@@ -5,6 +5,7 @@ import StateUtils, {
 import axios from "axios";
 import checkIsNameUnique from "../../fetch/services/checkIsNameUnique";
 import checkIsCodeUnique from "../../fetch/services/checkIsCodeUnique";
+import fetchUnits from "../../fetch/services/fetchUnits";
 
 export default class AddCategoryActions extends ServerStateUtils<AddCategory.State> {
 	validateFirstForm() {
@@ -171,5 +172,53 @@ export default class AddCategoryActions extends ServerStateUtils<AddCategory.Sta
 		});
 
 		return verdict.isValid;
+	}
+
+	async fetchUnits() {
+		if (this.state.firstForm.unitList.length === 0) {
+			const res = await this.handleAsync("fetchUnits", () => fetchUnits());
+			if (res) {
+				this.mutateState((p) => {
+					p.firstForm.unitList = res.data;
+				});
+			}
+		}
+	}
+
+	setSelectedUnit(unit: { id: string; name: string; weight: number } | null) {
+		this.mutateState((p) => {
+			p.firstForm.unit = unit;
+		});
+	}
+
+	toggleUnitWeightInput() {
+		this.mutateState((p) => {
+			p.firstForm.showUnitWeightInput = !p.firstForm.showUnitWeightInput;
+		});
+	}
+
+	setUnitWeightInput(d: string) {
+		this.mutateState((p) => {
+			p.firstForm.unitWeightInputField.value = d;
+		});
+	}
+
+	validateUnitWeightInput() {
+		const verdict = { isValid: true };
+		if (this.state.firstForm.unit && this.state.firstForm.unit.weight === -1) {
+			const data = this.state.firstForm.unitWeightInputField;
+			data.error = FieldDataService.registerValidator(
+				data.value,
+				verdict,
+				Validators.validateNull,
+				Validators.validateFloat,
+				(d) => Validators.min(d, 0)
+			);
+			this.mutateState((p) => {
+				p.firstForm.unitWeightInputField = data;
+			});
+			return verdict.isValid;
+		}
+		return true;
 	}
 }

@@ -43,17 +43,18 @@ namespace AddCategory {
 		categoryName: FieldData;
 		categoryCode: FieldData;
 		description: FieldData;
-		unit: {
+		unitList: {
+			id: string;
 			name: string;
-			weight: string;
-		};
-		unitSelect: {
-			showDropDown: boolean;
-			list: Unit[];
-			selected: Unit | null;
-			showWeightInput: boolean;
-			showUnitNameInput: boolean;
-		};
+			weight: number;
+		}[];
+		unit: {
+			id: string;
+			name: string;
+			weight: number;
+		}|null;
+		showUnitWeightInput: boolean;
+		unitWeightInputField: FieldData;
 	}
 	interface ThirdFormState {
 		descriptionLabels: DescriptionLabels[];

@@ -80,7 +80,6 @@ function AddProductForm() {
 	const secondFormActions = new SecondFormActions(state, setState);
 	const descriptionActions = new DescriptionActions(state, setState);
 
-	console.log(state.firstForm.selectedCompany);
 
 	return (
 		<AddProductContext.Provider
