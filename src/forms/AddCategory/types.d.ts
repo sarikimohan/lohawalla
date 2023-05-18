@@ -94,8 +94,8 @@ namespace AddCategoryAsync {
 		name: string;
 		code: string;
 		description: string;
-		unit: {
-			name: string;
+		unit?: {
+			unitId: string;
 			weight: number;
 		};
 		credit: CreditData[];

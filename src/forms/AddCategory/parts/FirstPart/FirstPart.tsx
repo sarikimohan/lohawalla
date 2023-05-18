@@ -1,4 +1,3 @@
-import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
 import React from "react";
 import style from "./FirstPart.module.css";
 import Spacer from "@src/Components/common/Spacer/Spacer";
@@ -9,9 +8,6 @@ import AssetIndex from "@src/assets/AssetIndex";
 import { useAddCategoryContext } from "../../AddCategoryForm";
 import FieldInput from "@src/Components/forms/FieldInput/FieldInput";
 import FieldTextArea from "@src/Components/forms/FieldInput/FieldTextArea";
-import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAndScale";
-import { AnimatePresence, motion } from "framer-motion";
-import SelectUnit from "../../components/SelectUnit/SelectUnit";
 import {
 	Autocomplete,
 	AutocompleteRenderInputParams,

@@ -12,7 +12,7 @@ export default class SaveCategoryActions extends ServerStateUtils<AddCategory.St
 			name: firstForm.categoryName.value,
 			code: firstForm.categoryCode.value,
 			unit: {
-				name: "",
+				unitId: "",
 				weight: -1,
 			},
 			description: firstForm.description.value,
@@ -30,6 +30,22 @@ export default class SaveCategoryActions extends ServerStateUtils<AddCategory.St
 			by,
 			images,
 		};
+
+		if (this.state.firstForm.unit) {
+			const selectedUnit = this.state.firstForm.unit;
+			const unit = {
+				unitId: "",
+				weight: -1,
+			};
+			unit.unitId = selectedUnit.id;
+			unit.weight =
+				selectedUnit.weight === -1
+					? parseFloat(this.state.firstForm.unitWeightInputField.value)
+					: selectedUnit.weight;
+			d.unit = unit;
+		} else {
+			d.unit = undefined;
+		}
 
 		const res = await this.handleAsync(
 			"save",
