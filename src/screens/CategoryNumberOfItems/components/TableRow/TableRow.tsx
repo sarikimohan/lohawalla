@@ -6,6 +6,7 @@ import TableData from "@src/Components/Grid/TableData/TableData";
 
 interface Props {
 	data: CategoryNumberOfItems.GridData;
+	onClick: FTN;
 }
 
 const d = (
@@ -63,6 +64,7 @@ export default function TableRow(props: Props) {
 			</TableData>
 			<TableData>
 				<div
+					onClick={props.onClick}
 					className={`px-4 py-3 rounded-md ${
 						data.activeCompany.name === "" ? "bg-red-100" : "bg-green-100"
 					} hover:shadow-md cursor-pointer`}

@@ -10,6 +10,7 @@ import TableRow from "./components/TableRow/TableRow";
 import ServerActions from "./actions/ServerActions";
 import { useParams } from "react-router-dom";
 import LoadingBoundary from "@src/Components/common/LoadingBoundary/LoadingBoundary";
+import SetActiveCompany from "@src/forms/SetActiveCompany/SetActiveCompany";
 
 interface Props {}
 
@@ -21,6 +22,11 @@ export default function CategoryNumberOfItems(props: Props) {
 		loading: {
 			fetch: AsyncStateFactory(),
 		},
+		showForm: {
+			status: false,
+			id: "",
+		},
+		refresh: false,
 	});
 
 	const { id } = useParams();
@@ -83,7 +89,12 @@ export default function CategoryNumberOfItems(props: Props) {
 									]}
 								>
 									{state.grid.map((v, i) => (
-										<TableRow data={v} />
+										<TableRow
+											data={v}
+											onClick={() => {
+												categoryNumberOfItemsActions.showForm(v._id);
+											}}
+										/>
 									))}
 								</DefaultGrid>
 							</div>
@@ -99,6 +110,17 @@ export default function CategoryNumberOfItems(props: Props) {
 							/>
 						</div>
 					</Card>
+					{state.showForm.status && (
+						<SetActiveCompany
+							id={state.showForm.id}
+							close={function (): void {
+								categoryNumberOfItemsActions.closeForm();
+							}}
+							refresh={function (): void {
+								categoryNumberOfItemsActions.refresh();
+							}}
+						/>
+					)}
 				</LoadingBoundary>
 			</div>
 		</div>

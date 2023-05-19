@@ -10,7 +10,11 @@ import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStat
 import React, { useState } from "react";
 import SetActions from "./actions/SetActions";
 
-interface Props {}
+interface Props {
+	id: string;
+	close: FTN;
+	refresh: FTN;
+}
 
 export default function SetActiveCompany(props: Props) {
 	const [state, setState] = useState<SetActiveCompany.State>({
@@ -36,10 +40,10 @@ export default function SetActiveCompany(props: Props) {
 			<FormContainer width={800}>
 				<div className="mb-6">
 					<FormHeader
-						navBack={() => {}}
+						navBack={props.close}
 						preHeading={"Active"}
 						close={function (): void {
-							throw new Error("Function not implemented.");
+							props.close();
 						}}
 						heading={"Company (8mm TMT)"}
 					/>
