@@ -11,6 +11,7 @@ import ServerActions from "./actions/ServerActions";
 import { useParams, Link } from "react-router-dom";
 import LoadingBoundary from "@src/Components/common/LoadingBoundary/LoadingBoundary";
 import SetActiveCompany from "@src/forms/SetActiveCompany/SetActiveCompany";
+import BackNavBar from "@src/Components/common/NavBar/BackNavBar";
 
 interface Props {}
 
@@ -41,7 +42,7 @@ export default function CategoryNumberOfItems(props: Props) {
 	return (
 		<div className="mx-6">
 			<div className="w-full">
-				<TitleNavBar title={"Category / Number of Item"} />
+				<BackNavBar title={"Category / Number of Item"} />
 			</div>
 			<div className={"p-7"}>
 				<LoadingBoundary asyncState={state.loading.fetch}>

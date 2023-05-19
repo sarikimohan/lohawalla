@@ -4,99 +4,119 @@ import TitleNavBar from "@src/Components/common/NavBar/TitleNavBar";
 import SearchBar from "@src/Components/common/SearchBar/SearchBar";
 import SearchFilters from "@src/Components/common/SearchFilters/SearchFilters";
 import DefaultButton from "@src/Components/common/buttons/DefaultButton/DefaultButton";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TableRow from "./components/TableRow/TableRow";
 import StateUtils from "@src/modules/StateManagement/Core/StateUtils";
+import BackNavBar from "@src/Components/common/NavBar/BackNavBar";
+import { ServerActions } from "./actions/ServerActions";
+import { useParams } from "react-router-dom";
+import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
+import ErrorBoundary from "@src/Components/feedback/ErrorBoundary/ErrorBoundary";
+import LoadingBoundary from "@src/Components/common/LoadingBoundary/LoadingBoundary";
+import { useAuthGuardContext } from "@src/auth/AuthGuard/AuthGuard";
 
 interface Props {}
 
 export default function CategoryViewMargin(props: Props) {
 	const [state, setState] = useState<CategoryViewMargin.State>({
-		data: [
-			{
-				_id: "as;dfkjasdf",
-				srNo: 1,
-				itemName: {
-					name: "8mm tmt bar",
-					imageURL: "",
-				},
-				itemId: "",
-				marginId: "",
-				cashMargin: { value: "234", hasChanged: false },
-				onlineMargin: { value: "525", hasChanged: false },
-			},
-		],
-		loading: {},
+		data: [],
+		loading: {
+			fetch: AsyncStateFactory(),
+			save: AsyncStateFactory(),
+		},
 	});
 
 	const stateUtils = new StateUtils<CategoryViewMargin.State>(state, setState);
+	const serverActions = new ServerActions(state, setState);
+	const { id } = useParams();
+	const { user } = useAuthGuardContext();
 
-	console.log(state);
+	useEffect(() => {
+		if (id) serverActions.fetch(id);
+	}, []);
 
 	return (
 		<div className="mx-6">
 			<div className="w-full">
-				<TitleNavBar title={"Category / Number of Item/ View Margin"} />
+				<BackNavBar title={"Category / Number of Item/ View Margin"} />
 			</div>
-			<div className={"p-7"}>
-				<Card variant="outlined" sx={{ padding: 5 }}>
-					<div>
-						<div className="crow mb-6">
-							<p className="subtitle fcolor-onyx">Total Items ()</p>
-						</div>
-						<div className="crow mb-6 sb">
-							<div className="d-flex vc">
-								<div className="mr-4">
-									<SearchBar onChange={(e) => {}} />
+			<LoadingBoundary asyncState={state.loading.fetch}>
+				<ErrorBoundary
+					asyncStates={[state.loading.fetch, state.loading.save]}
+					primaryAction={{
+						onClick: () => {
+							window.location.reload();
+						},
+						label: "Reload",
+					}}
+				>
+					<div className={"p-7"}>
+						<Card variant="outlined" sx={{ padding: 5 }}>
+							<div>
+								<div className="crow mb-6">
+									<p className="subtitle fcolor-onyx">Total Items ()</p>
+								</div>
+								<div className="crow mb-6 sb">
+									<div className="d-flex vc">
+										<div className="mr-4">
+											<SearchBar onChange={(e) => {}} />
+										</div>
+										<div>
+											<SearchFilters options={[]} onItemClick={() => {}} />
+										</div>
+									</div>
+									<div>
+										<DefaultButton
+											onClick={function (): void {
+												const verdict = serverActions.validateSave();
+												if (verdict) {
+													serverActions.save(user);
+												}
+											}}
+											label={"save changes"}
+											loading={state.loading.save.status === "initialized"}
+										/>
+									</div>
 								</div>
 								<div>
-									<SearchFilters options={[]} onItemClick={() => {}} />
+									<DefaultGrid
+										columns={[
+											{
+												name: "sr no",
+												width: 100,
+											},
+											"item name",
+											"cash margin",
+											"online margin",
+										]}
+									>
+										{state.data.map((v, i) => (
+											<TableRow
+												data={v}
+												key={i}
+												setCashValue={function (d: string): void {
+													stateUtils.mutateState((p) => {
+														p.data[i].cashMargin.value = d;
+														if (p.data[i].cashMargin.hasChanged === false)
+															p.data[i].cashMargin.hasChanged = true;
+													});
+												}}
+												setOnlineValue={function (d: string): void {
+													stateUtils.mutateState((p) => {
+														p.data[i].onlineMargin.value = d;
+														if (p.data[i].cashMargin.hasChanged === false)
+															p.data[i].onlineMargin.hasChanged = true;
+													});
+												}}
+											/>
+										))}
+									</DefaultGrid>
 								</div>
 							</div>
-							<div>
-								<DefaultButton
-									onClick={function (): void {}}
-									label={"save changes"}
-								/>
-							</div>
-						</div>
-						<div>
-							<DefaultGrid
-								columns={[
-									{
-										name: "sr no",
-										width: 100,
-									},
-									"item name",
-									"cash margin",
-									"online margin",
-								]}
-							>
-								{state.data.map((v, i) => (
-									<TableRow
-										data={v}
-										key={i}
-										setCashValue={function (d: string): void {
-											stateUtils.mutateState((p) => {
-												p.data[i].cashMargin.value = d;
-												if (p.data[i].cashMargin.hasChanged === false)
-													p.data[i].cashMargin.hasChanged = true;
-											});
-										}}
-										setOnlineValue={function (d: string): void {
-											stateUtils.mutateState((p) => {
-												p.data[i].onlineMargin.value = d;
-												if (p.data[i].cashMargin.hasChanged === false)
-													p.data[i].onlineMargin.hasChanged = true;
-											});
-										}}
-									/>
-								))}
-							</DefaultGrid>
-						</div>
+						</Card>
 					</div>
-				</Card>
-			</div>
+				</ErrorBoundary>
+			</LoadingBoundary>
 		</div>
 	);
 }

@@ -1,6 +1,5 @@
 namespace CategoryViewMargin {
 	interface ItemMarginGridData {
-		_id: string;
 		srNo: number;
 		itemName: {
 			name: string;
