@@ -29,6 +29,7 @@ function CompanySpecification() {
 
 	useEffect(() => {
 		companySpecActions.fetch(id as string);
+		companySpecActions.fetchAllCompanyItem(id as string);
 	}, []);
 
 	return (
@@ -61,21 +62,23 @@ function CompanySpecification() {
 								</div>
 							</div>
 							<div className={style.descriptionBody}>
-								{state.priceStructure.map((val, index) => (
-									<div className="crow sb" key={index}>
-										<div className={style.descriptionCell}>
-											<p className="fw-bold fcolor-text-subtitle body">
-												{val.operation === "add" ? "+" : "-"} {val.name}
-												{val.type === "percentage" && "%"}
-											</p>
+								{state.priceStructure
+									.sort((a, b) => a.position - b.position)
+									.map((val, index) => (
+										<div className="crow sb" key={index}>
+											<div className={style.descriptionCell}>
+												<p className="fw-bold fcolor-text-subtitle body">
+													{val.operation === "add" ? "+" : "-"} {val.name}
+													{val.type === "percentage" && "%"}
+												</p>
+											</div>
+											<div className={style.descriptionCell}>
+												<p className="fw-medium fcolor-onyx body">
+													{val.value === -1 ? "custom" : val.value}
+												</p>
+											</div>
 										</div>
-										<div className={style.descriptionCell}>
-											<p className="fw-medium fcolor-onyx body">
-												{val.value === -1 ? "custom" : val.value}
-											</p>
-										</div>
-									</div>
-								))}
+									))}
 							</div>
 						</div>
 					</div>

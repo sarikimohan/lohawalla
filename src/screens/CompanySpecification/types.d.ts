@@ -13,7 +13,14 @@ namespace CompanySpecification {
 		companyName: string;
 		description: string;
 		descriptionLabels: DescriptionLabels[];
-		priceStructure: PriceField[];
+		priceStructure: {
+			name: string;
+			value: number;
+			type: PercNum;
+			operation: OpType;
+			position: number;
+			fixed: boolean;
+		}[];
 		companyList: CompanyProduct[];
 		filter: Filter;
 		images: string[];
