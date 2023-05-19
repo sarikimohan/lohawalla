@@ -4,11 +4,35 @@ import TitleNavBar from "@src/Components/common/NavBar/TitleNavBar";
 import SearchBar from "@src/Components/common/SearchBar/SearchBar";
 import SearchFilters from "@src/Components/common/SearchFilters/SearchFilters";
 import DefaultButton from "@src/Components/common/buttons/DefaultButton/DefaultButton";
-import React from "react";
+import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
+import React, { useState, useEffect } from "react";
+import TableRow from "./components/TableRow/TableRow";
+import ServerActions from "./actions/ServerActions";
+import { useParams } from "react-router-dom";
 
 interface Props {}
 
 export default function CategoryNumberOfItems(props: Props) {
+	const [state, setState] = useState<
+		StateWithLoading<CategoryNumberOfItems.State>
+	>({
+		grid: [],
+		loading: {
+			fetch: AsyncStateFactory(),
+		},
+	});
+
+	const { id } = useParams();
+	const categoryNumberOfItemsActions = new ServerActions(state, setState);
+
+	useEffect(() => {
+		if (id) {
+			categoryNumberOfItemsActions.fetch(id);
+		}
+	}, []);
+
+	console.log(state.grid);
+
 	return (
 		<div className="mx-6">
 			<div className="w-full">
@@ -57,7 +81,11 @@ export default function CategoryNumberOfItems(props: Props) {
 									"active company",
 									"inactive company",
 								]}
-							></DefaultGrid>
+							>
+								{state.grid.map((v, i) => (
+									<TableRow data={v} />
+								))}
+							</DefaultGrid>
 						</div>
 					</div>
 					<div className="mt-5 flex justify-end">

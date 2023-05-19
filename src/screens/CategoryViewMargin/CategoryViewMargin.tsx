@@ -14,6 +14,7 @@ export default function CategoryViewMargin(props: Props) {
 	const [state, setState] = useState<CategoryViewMargin.State>({
 		data: [
 			{
+				_id: "as;dfkjasdf",
 				srNo: 1,
 				itemName: {
 					name: "8mm tmt bar",

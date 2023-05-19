@@ -20,7 +20,9 @@ function ProductSpecification() {
 	useEffect(() => {
 		prodSpecActions.fetch(id as string);
 	}, []);
-	
+
+	console.log(state.descriptionLabels);
+
 	return (
 		<ProductSpecificationContext.Provider value={{}}>
 			<div className={style.navContainer} ref={ref}>

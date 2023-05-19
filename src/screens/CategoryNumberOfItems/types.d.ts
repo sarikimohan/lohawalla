@@ -15,5 +15,8 @@ namespace CategoryNumberOfItems {
 		inactiveCompany: string[]; // delete the active company name from it
 	}
 
-  
+  interface State {
+		grid: GridData[];
+	}
+
 }

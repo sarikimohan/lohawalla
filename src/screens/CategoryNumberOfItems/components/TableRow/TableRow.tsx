@@ -1,8 +1,12 @@
 import FieldInput from "@src/Components/forms/FieldInput/FieldInput";
 import React from "react";
 import Text from "@src/Components/Grid/Text/Text";
+import { ImageIndex } from "@src/assets/AssetIndex";
+import TableData from "@src/Components/Grid/TableData/TableData";
 
-interface Props {}
+interface Props {
+	data: CategoryNumberOfItems.GridData;
+}
 
 const d = (
 	<div
@@ -19,16 +23,21 @@ const d = (
 );
 
 export default function TableRow(props: Props) {
+	const { data } = props;
 	return (
 		<tr>
-			<td align="center" className="py-3 border-b">
-				<Text>{}</Text>
-			</td>
-			<td align="center" className="py-3 border-b">
+			<TableData>
+				<Text>{data.srNo}</Text>
+			</TableData>
+			<TableData>
 				<div className="flex items-center w-fit">
 					<div>
 						<img
-							src={""}
+							src={
+								data.itemName.images === ""
+									? ImageIndex.CategoryImage
+									: data.itemName.images
+							}
 							className="mr-3"
 							alt=""
 							style={{
@@ -40,30 +49,32 @@ export default function TableRow(props: Props) {
 						/>
 					</div>
 					<div>
-						<Text>{}</Text>
+						<Text>{data.itemName.name}</Text>
 					</div>
 				</div>
-			</td>
-			<td align="center" className="py-3 border-b">
-				<div style={{ width: "50%" }}>
-					<FieldInput
-						onChange={(d) => {}}
-						type={"number"}
-						placeHolder={"enter value"}
-						rightIcon="₹"
-					/>
+			</TableData>
+			<TableData>
+				<Text>{data.price}</Text>
+			</TableData>
+			<TableData>
+				<Text className="underline text-indigo-400">
+					{data.numberOfCompanies}
+				</Text>
+			</TableData>
+			<TableData>
+				<div
+					className={`px-4 py-3 rounded-md ${
+						data.activeCompany.name === "" ? "bg-red-100" : "bg-green-100"
+					}`}
+				>
+					<Text>
+						{data.activeCompany.name === "" ? "none" : data.activeCompany.name}
+					</Text>
 				</div>
-			</td>
-			<td align="center" className="py-3 border-b">
-				<div style={{ width: "50%" }}>
-					<FieldInput
-						onChange={(d) => {}}
-						type={"number"}
-						placeHolder={"enter value"}
-						rightIcon="₹"
-					/>
-				</div>
-			</td>
+			</TableData>
+			<TableData>
+				<Text>{data.inactiveCompany.join(" ").slice(0, 10)}</Text>
+			</TableData>
 		</tr>
 	);
 }

@@ -78,4 +78,6 @@ export default class SetBasePriceAction
 
 		return verdict.isValid;
 	}
+
+	
 }
