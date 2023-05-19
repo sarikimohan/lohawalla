@@ -8,7 +8,7 @@ import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStat
 import React, { useState, useEffect } from "react";
 import TableRow from "./components/TableRow/TableRow";
 import ServerActions from "./actions/ServerActions";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import LoadingBoundary from "@src/Components/common/LoadingBoundary/LoadingBoundary";
 import SetActiveCompany from "@src/forms/SetActiveCompany/SetActiveCompany";
 
@@ -62,10 +62,12 @@ export default function CategoryNumberOfItems(props: Props) {
 								<div>
 									<div className="flex">
 										<div className="mr-2">
-											<DefaultButton
-												onClick={function (): void {}}
-												label={"view margin"}
-											/>
+											<Link to={"/categories/viewMargin/" + id}>
+												<DefaultButton
+													onClick={function (): void {}}
+													label={"view margin"}
+												/>
+											</Link>
 										</div>
 										<DefaultButton
 											onClick={function (): void {}}

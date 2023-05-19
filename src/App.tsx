@@ -73,7 +73,7 @@ function App() {
 									path="setActiveCompany/:id"
 									element={<CategoryNumberOfItems />}
 								/>
-								<Route path="viewMargin" element={<CategoryViewMargin />} />
+								<Route path="viewMargin/:id" element={<CategoryViewMargin />} />
 							</Route>
 
 							<Route path="/company">
