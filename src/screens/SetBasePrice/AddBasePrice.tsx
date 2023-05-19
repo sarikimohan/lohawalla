@@ -9,6 +9,8 @@ import SetBasePriceAction from "./managment/actions/SetBasePriceAction";
 import DefaultGrid from "@src/Components/Grid/Grid/DefaultGrid/DefaultGrid";
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 import TableRow from "./component/TableRow/TableRow";
+import { useAuthGuardContext } from "@src/auth/AuthGuard/AuthGuard";
+import Snackbar from "@mui/material/Snackbar";
 
 function AddBasePrice() {
 	const [state, setState] = useState<SetBasePrice.State>({
@@ -31,9 +33,11 @@ function AddBasePrice() {
 		},
 		loading: {
 			fetch: AsyncStateFactory(),
+			save: AsyncStateFactory(),
 		},
 	});
 	const setBasePriceActions = new SetBasePriceAction(state, setState);
+	const { user } = useAuthGuardContext();
 
 	useEffect(() => {
 		setBasePriceActions.fetch();
@@ -66,9 +70,13 @@ function AddBasePrice() {
 							<div>
 								<DefaultButton
 									onClick={function (): void {
-										setBasePriceActions.validateSubmit();
+										const verdict = setBasePriceActions.validateSubmit();
+										if (verdict) {
+											setBasePriceActions.save(user);
+										}
 									}}
 									label={"save changes"}
+									loading={state.loading.save.status === "initialized"}
 								/>
 							</div>
 						</div>
@@ -100,6 +108,11 @@ function AddBasePrice() {
 					</div>
 				</Card>
 			</div>
+			<Snackbar
+				open={state.loading.save.status === "initialized"}
+				autoHideDuration={6000}
+				message={state.loading.save.message}
+			/>
 		</div>
 	);
 }

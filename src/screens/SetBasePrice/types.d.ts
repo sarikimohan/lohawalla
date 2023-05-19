@@ -7,16 +7,14 @@ namespace SetBasePrice {
 		};
 		companyId: string /*to nav to company*/;
 		priceFieldId: string /*to save in price field*/;
-		cost: /*basic rate (value log)*/ FieldData & {hasChanged: boolean};
+		cost: /*basic rate (value log)*/ FieldData & { hasChanged: boolean };
 		entryTime: /* (value log) */ string;
 	}
 
 	interface State {
 		setList: SetCompanyBasePrice[];
 		filter: Filter;
-		loading: {
-			fetch: AsyncState;
-		};
+		loading: Record<string, AsyncState>;
 	}
 
 	interface Actions {

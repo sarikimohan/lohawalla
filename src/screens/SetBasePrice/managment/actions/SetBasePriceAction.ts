@@ -5,6 +5,7 @@ import StateUtils, {
 } from "@src/modules/StateManagement/Core/StateUtils";
 import isPrefix from "@src/modules/Utils/isPrefix";
 import getBasePriceList from "../fetch/services/getBasePriceList";
+import saveBasePriceList from "../fetch/services/saveBasePriceList";
 
 interface PostData {
 	list: {
@@ -32,7 +33,7 @@ export default class SetBasePriceAction
 	}
 
 	// TODO save the values
-	save(by: NameIdPair) {
+	async save(by: NameIdPair) {
 		const d: PostData = {
 			list: this.state.setList
 				.filter((v) => v.cost.hasChanged)
@@ -42,6 +43,10 @@ export default class SetBasePriceAction
 				})),
 			by,
 		};
+		const res = await this.handleAsync("save", () => saveBasePriceList(d), {
+			initializedMessage: "saving...",
+			successMessage: "saved successfully",
+		});
 	}
 
 	setQuery(query: string) {

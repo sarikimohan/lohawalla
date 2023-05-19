@@ -1,5 +1,6 @@
 const apiIndex = {
-	getBasicPrice: 'getBasicPrice'
+	getBasicPrice: 'getBasicPrice',
+	saveBasicPrice: 'saveBasicPrice'
 };
 
 export default apiIndex;
