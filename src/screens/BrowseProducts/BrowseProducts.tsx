@@ -5,7 +5,7 @@ import SearchBar from "@src/Components/common/SearchBar/SearchBar";
 import SearchFilters from "@src/Components/common/SearchFilters/SearchFilters";
 import DefaultButton from "@src/Components/common/buttons/DefaultButton/DefaultButton";
 import DefaultFormLabel from "@src/Components/forms/FormLabel/DefaultFormLabel";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import BrowseActions from "./actions/BrowseActions";
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 
@@ -24,9 +24,20 @@ export default function BrowseProducts(props: Props) {
 			fetchCategory: AsyncStateFactory(),
 			fetchItems: AsyncStateFactory(),
 		},
+		gridData: [],
+		gridHeader: [],
 	});
 
 	const browseActions = new BrowseActions(state, setState);
+
+	useEffect(() => {
+		console.log("fetching");
+		browseActions.fetchProducts();
+	}, [
+		state.selectedCategory.value,
+		state.selectedCompany.value,
+		state.selectedItem.value,
+	]);
 
 	return (
 		<div className="mx-6">
@@ -123,7 +134,7 @@ export default function BrowseProducts(props: Props) {
 												browseActions.setSelectedItem(null);
 											}
 										}}
-										loading={state.loading.fetchItems.status === 'initialized'}
+										loading={state.loading.fetchItems.status === "initialized"}
 										clearOnEscape
 										isOptionEqualToValue={(o, v) => o._id === v._id}
 										value={state.selectedItem.value}
@@ -146,6 +157,7 @@ export default function BrowseProducts(props: Props) {
 										width: 100,
 									},
 									"product name",
+									...state.gridHeader,
 								]}
 							></DefaultGrid>
 						</div>

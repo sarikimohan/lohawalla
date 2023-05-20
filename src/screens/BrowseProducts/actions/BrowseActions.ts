@@ -2,6 +2,7 @@ import getAllCategoryNames from "@src/forms/AddProduct/fetch/services/getAllCate
 import getAllCompanyNames from "@src/forms/AddProduct/fetch/services/getAllCompanyNames";
 import getAllItemNamesOfCategory from "@src/forms/AddProduct/fetch/services/getAllItemNamesOfCategory";
 import { ServerStateUtils } from "@src/modules/StateManagement/Core/StateUtils";
+import fetchProductList from "../fetch/services/fetchProductList";
 
 export default class BrowseActions extends ServerStateUtils<
 	StateWithLoading<BrowseProducts.State>
@@ -58,5 +59,32 @@ export default class BrowseActions extends ServerStateUtils<
 		this.mutateState((p) => {
 			p.selectedItem.value = data;
 		});
+	}
+
+	//* ////////////// FETCHING PRODUCTS //////////////////
+	async fetchProducts(companyId?: string) {
+		if (!companyId && !this.state.selectedCompany.value) return;
+		const cId = this.state.selectedCompany.value
+			? this.state.selectedCompany.value._id
+			: companyId;
+		const categoryId = this.state.selectedCategory.value
+			? this.state.selectedCategory.value._id
+			: undefined;
+		const itemId = this.state.selectedItem.value
+			? this.state.selectedItem.value._id
+			: undefined;
+
+		const res = await this.handleAsync("fetchProducts", () =>
+			fetchProductList(cId as string, categoryId, itemId)
+		);
+
+		console.log(res);
+
+		if (res) {
+			this.mutateState((p) => {
+				p.gridHeader = res.data.gridHeader;
+				p.gridData = res.data.gridData;
+			});
+		}
 	}
 }
