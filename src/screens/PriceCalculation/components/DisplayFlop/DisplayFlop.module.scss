@@ -1,0 +1,26 @@
+.container {
+	width: 100%;
+	div {
+		width: 100%;
+	}
+	.buttonContainer {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 10px 0;
+		cursor: pointer;
+		> p {
+			font-size: 1rem;
+			font-family: var(--font-inter);
+			font-weight: 500;
+		}
+	}
+	.labelContainer {
+		display: flex;
+		justify-content: center;
+		padding: 10px;
+		border: 1px solid var(--text-subtitle);
+		border-radius: 0 0 9px 9px;
+    opacity: 0;
+	}
+}

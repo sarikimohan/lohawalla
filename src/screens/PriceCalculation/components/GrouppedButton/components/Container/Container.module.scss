@@ -1,0 +1,38 @@
+.container {
+	// width: 100%;
+	height: fit-content;
+	overflow-x: auto;
+	overflow-y: hidden;
+}
+
+.wrapper {
+	width: max-content;
+	display: flex;
+	height: fit-content;
+	overflow: hidden;
+	border-radius: 8px;
+	> div {
+		flex: 1 0 auto;
+	}
+}
+
+.container::-webkit-scrollbar {
+  padding-top: 8px;
+	width: 10px;
+  height: 3px;
+}
+
+/* Track */
+.container::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+
+/* Handle */
+.container::-webkit-scrollbar-thumb {
+	background: #dddddd;
+}
+
+/* Handle on hover */
+.container::-webkit-scrollbar-thumb:hover {
+	background: #b0b0b0;
+}

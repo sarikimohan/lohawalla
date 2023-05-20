@@ -1,0 +1,11 @@
+.container {
+	height: 40px;
+	padding: 0 24px;
+	display: flex;
+	align-items: center;
+	border: 1px solid #9797aa6a;
+	cursor: pointer;
+	p {
+		user-select: none;
+	}
+}

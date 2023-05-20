@@ -6,6 +6,8 @@ import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStat
 import PriceCalculationAction from "./actions/PriceCalculationAction";
 import LoadingBoundary from "@src/Components/common/LoadingBoundary/LoadingBoundary";
 import getRoundedVal from "@src/modules/Utils/getRoundedVal";
+import PriceCalculationInstance from "./fetch/instance";
+import PriceCalculator from "./calculators/PriceCalculator/PriceCalculator";
 
 interface Props {}
 
@@ -83,12 +85,15 @@ export default function PriceCalculation(props: Props) {
 				<div className="my-6">
 					<Divider />
 				</div>
-				<div className="flex">
-					<div className="w-[640px] mr-[35px]">
+				<div className="flex justify-between">
+					<div className="basis-7/12 mr-[35px]">
 						<PriceListing
 							priceList={state.renderPriceList}
 							total={getRoundedVal(priceCalcActions.getTotal())}
 						/>
+					</div>
+					<div className="grow">
+						<PriceCalculator />
 					</div>
 				</div>
 			</div>
