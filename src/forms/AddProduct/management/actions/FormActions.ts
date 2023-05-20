@@ -42,7 +42,9 @@ export default class FirstFormActions extends ServerStateUtils<AddProduct.State>
 		);
 
 		if (items) {
-			this.mutateState((p) => (p.firstForm.itemList = items.data));
+			this.mutateState((p) => {
+				p.firstForm.itemList = items.data;
+			});
 		}
 	}
 
@@ -97,6 +99,8 @@ export default class FirstFormActions extends ServerStateUtils<AddProduct.State>
 	setSelectedCategory(entity: AddProduct.Entity | null) {
 		this.mutateState((p) => {
 			p.firstForm.selectedCategory.value = entity;
+			p.firstForm.itemList = [];
+			p.firstForm.selectedItem.value = null;
 			if (entity) {
 				this.fetchCategoryUnit(entity._id);
 			}

@@ -36,6 +36,8 @@ export default class BrowseActions extends ServerStateUtils<
 	setSelectedCategory(data: BrowseProducts.Entity | null) {
 		this.mutateState((p) => {
 			p.selectedCategory.value = data;
+			p.itemList = [];
+			p.selectedItem.value = null;
 		});
 	}
 
