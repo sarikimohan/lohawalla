@@ -11,8 +11,9 @@ import EditCategory from "@src/forms/EditCategory/EditCategory";
 import EditCompany from "@src/forms/EditCompany/EditCompany";
 import EditItem from "@src/forms/EditItem/EditItem";
 import SetActiveCompany from "@src/forms/SetActiveCompany/SetActiveCompany";
-import React from "react";
+import React, { useRef } from "react";
 import PriceCalculation from "../PriceCalculation/PriceCalculation";
+import useHeight from "@src/modules/hooks/useHeight";
 
 <div style={{ padding: 50 }}>
 	{/* <AddCategoryForm
@@ -33,17 +34,21 @@ import PriceCalculation from "../PriceCalculation/PriceCalculation";
 </div>;
 
 function Dashboard() {
+	const heightHandle = useHeight();
 	return (
-		<>
-			<div>
-				<SpacingDiv marginBottom={56}>
-					<TitleNavBar title={"Dashboard"} />
-					<div>
-						<PriceCalculation />
-					</div>
-				</SpacingDiv>
+		<div>
+			<div ref={heightHandle.ref}>
+				<TitleNavBar title={"Dashboard"} />
 			</div>
-		</>
+			<div
+				style={{
+					height: `calc(100vh - ${heightHandle.height}px)`,
+					overflow: "auto",
+				}}
+			>
+				<PriceCalculation />
+			</div>
+		</div>
 	);
 }
 
