@@ -80,7 +80,13 @@ function mapper(state: InputInteractions, props: InputProps): ComStyles {
 		: styles;
 	if (props.isValid === true) return _styles.valid;
 	if (props.error) return _styles.error;
-
+	if (props.disabled === true) {
+		return {
+			container: {
+				border: "1px solid lightgray",
+			},
+		};
+	}
 	switch (state) {
 		case InputInteractions.ACTIVE:
 			return _styles.active;

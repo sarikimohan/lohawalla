@@ -8,6 +8,7 @@ import DefaultFormLabel from "@src/Components/forms/FormLabel/DefaultFormLabel";
 import React, { useState, useEffect } from "react";
 import BrowseActions from "./actions/BrowseActions";
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
+import TableRow from "./components/TableRow/TableRow";
 
 interface Props {}
 
@@ -23,6 +24,7 @@ export default function BrowseProducts(props: Props) {
 			fetchCompanies: AsyncStateFactory(),
 			fetchCategory: AsyncStateFactory(),
 			fetchItems: AsyncStateFactory(),
+			fetchProducts: AsyncStateFactory(),
 		},
 		gridData: [],
 		gridHeader: [],
@@ -151,6 +153,7 @@ export default function BrowseProducts(props: Props) {
 						</div>
 						<div>
 							<DefaultGrid
+								tableAsyncState={state.loading.fetchProducts}
 								columns={[
 									{
 										name: "sr no",
@@ -159,7 +162,11 @@ export default function BrowseProducts(props: Props) {
 									"product name",
 									...state.gridHeader,
 								]}
-							></DefaultGrid>
+							>
+								{state.gridData.map((v, i) => (
+									<TableRow data={v} key={i} />
+								))}
+							</DefaultGrid>
 						</div>
 					</div>
 				</Card>

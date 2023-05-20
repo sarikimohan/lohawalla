@@ -4,7 +4,9 @@ const apiIndex = {
 		categoryId?: string,
 		itemId?: string
 	) =>
-		`getBrowseItemData?companyId=${companyId}&categoryId=${categoryId}&itemId=${itemId}`,
+		`getBrowseItemData?companyId=${companyId}` +
+		(categoryId ? `&categoryId=${categoryId}` : "") +
+		(itemId ? `&itemId=${itemId}` : ""),
 	saveBrowseProduct: "saveBrowseProduct",
 };
 
