@@ -61,7 +61,7 @@ export default class CashCalculator extends StateUtils<
 						? taxableValue * (p.calculationData.GST.value / 100)
 						: -1;
 				const netTotal =
-					taxableValue + gst === -1 ? p.calculationData.GST.value : gst;
+					taxableValue + (gst === -1 ? p.calculationData.GST.value : gst);
 
 				// setting the states
 				p.cashCalculator.currentValue = current;
@@ -75,19 +75,19 @@ export default class CashCalculator extends StateUtils<
 			// set the input
 			const cashCal = p.cashCalculator;
 			cashCal.currentValue = d;
-			
+
 			// change the taxable value
 			const netSum = p.netSum;
 			const taxableValue = netSum + d;
 			cashCal.taxableValue = getRoundedVal(netSum + d);
-			
+
 			// change the net total
 			const gst =
 				p.calculationData.GST.type === "percentage"
 					? taxableValue * (p.calculationData.GST.value / 100)
 					: -1;
 			const netTotal =
-				taxableValue + gst === -1 ? p.calculationData.GST.value : gst;
+				taxableValue + (gst === -1 ? p.calculationData.GST.value : gst);
 			cashCal.netTotal = netTotal;
 		});
 	}
