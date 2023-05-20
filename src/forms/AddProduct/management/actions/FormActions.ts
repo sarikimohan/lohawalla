@@ -29,6 +29,8 @@ export default class FirstFormActions extends ServerStateUtils<AddProduct.State>
 		if (categories) {
 			this.mutateState((p) => {
 				p.firstForm.categoryList = categories.data;
+				p.firstForm.itemList = [];
+				p.firstForm.selectedItem.value = null;
 			});
 		}
 	}

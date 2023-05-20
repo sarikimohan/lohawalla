@@ -19,30 +19,30 @@ export default function TableRow(props: Props) {
 			</td>
 			<td align="center" className="py-3 border-b">
 				<Link to={`/company/${data._id}`}>
-				<RotateAndScale config={{ rotate: 0, scale: 1.01 }}>
-					<div className="flex items-center w-fit cursor-pointer group select-none">
-						<img
-							src={
-								data.companyName.imageURL === "" ||
-								data.companyName.imageURL === null
-									? ImageIndex.CategoryImage
-									: data.companyName.imageURL
-							}
-							alt="item image"
-							style={{
-								objectFit: "cover",
-								objectPosition: "center",
-								width: 32,
-								height: 32,
-								borderRadius: 200,
-							}}
-							className="mr-3"
-						/>
-						<Text className="group-hover:font-bold transition-all	">
-							{data.companyName.name}
-						</Text>
-					</div>
-				</RotateAndScale>
+					<RotateAndScale config={{ rotate: 0, scale: 1.01 }}>
+						<div className="flex items-center w-fit cursor-pointer group select-none">
+							<img
+								src={
+									data.companyName.imageURL === "" ||
+									data.companyName.imageURL === null
+										? ImageIndex.CategoryImage
+										: data.companyName.imageURL
+								}
+								alt="item image"
+								style={{
+									objectFit: "cover",
+									objectPosition: "center",
+									width: 32,
+									height: 32,
+									borderRadius: 200,
+								}}
+								className="mr-3"
+							/>
+							<Text className="group-hover:font-bold transition-all	">
+								{data.companyName.name}
+							</Text>
+						</div>
+					</RotateAndScale>
 				</Link>
 			</td>
 			<td align="center" className="py-3 border-b">
@@ -52,18 +52,20 @@ export default function TableRow(props: Props) {
 				<Text>{data.entryTime}</Text>
 			</td>
 			<td align="center" className="py-3 border-b">
-				<RotateAndScale config={{ rotate: 0, scale: 1.1 }}>
-					<BorderOnHover
-						borderConfig={{
-							borderWidth: 1,
-							borderColor: "#0000ff",
-						}}
-					>
-						<Text className="text-blue-500 underline select-none">
-							{data.noOfProducts}
-						</Text>
-					</BorderOnHover>
-				</RotateAndScale>
+				<Link to={"/browseProducts"}>
+					<RotateAndScale config={{ rotate: 0, scale: 1.1 }}>
+						<BorderOnHover
+							borderConfig={{
+								borderWidth: 1,
+								borderColor: "#0000ff",
+							}}
+						>
+							<Text className="text-blue-500 underline select-none">
+								{data.noOfProducts}
+							</Text>
+						</BorderOnHover>
+					</RotateAndScale>
+				</Link>
 			</td>
 			<td align="center" className="py-3 border-b" style={{ width: 80 }}>
 				<Text>pin</Text>
