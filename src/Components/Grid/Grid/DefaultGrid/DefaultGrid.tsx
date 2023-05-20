@@ -16,7 +16,11 @@ interface Props {
 export default function DefaultGrid(props: Props) {
 	return (
 		<LoadingBoundary asyncState={props.tableAsyncState}>
-			<table className={`table-${props.type ? props.type : "fixed"} w-full`}>
+			<table
+				className={`table-${
+					props.type ? props.type : "fixed"
+				} w-full overflow-auto`}
+			>
 				<Header columns={props.columns} />
 				<tbody>
 					<RowStat
@@ -30,4 +34,4 @@ export default function DefaultGrid(props: Props) {
 			</table>
 		</LoadingBoundary>
 	);
-} 
+}

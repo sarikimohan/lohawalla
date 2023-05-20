@@ -33,9 +33,9 @@ export default function BrowseProducts(props: Props) {
 	const browseActions = new BrowseActions(state, setState);
 
 	useEffect(() => {
-		console.log("fetching");
 		browseActions.fetchProducts();
 	}, [
+		// add dependency for initiate fetch
 		state.selectedCategory.value,
 		state.selectedCompany.value,
 		state.selectedItem.value,

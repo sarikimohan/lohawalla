@@ -41,12 +41,12 @@ export default function TableRow(props: Props) {
 			</TableData>
 			{data.priceStructure.map((v, i) => (
 				<TableData>
-					<div style={{ width: "80%" }}>
+					<div style={{ width: "80%", minWidth: 80 }}>
 						<FieldInput
 							type={"number"}
 							placeHolder={""}
 							value={v.value.toFixed(1)}
-              disabled={v.isFixed}
+							disabled={v.isFixed}
 						/>
 					</div>
 				</TableData>
