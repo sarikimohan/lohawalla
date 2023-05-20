@@ -29,6 +29,7 @@ import { ReactComponent as MailIcon } from "./icons/MailIcon.svg";
 import { ReactComponent as FileLock } from "./icons/FileLock.svg";
 import { ReactComponent as FaceId } from "./icons/FaceId.svg";
 import { ReactComponent as PasscodeLock } from "./icons/PasscodeLock.svg";
+import { ReactComponent as PriceTag } from "./icons/PriceTag.svg";
 import CategoryImage from "./image/CategoryImage.png";
 import PipesImage from "./image/PipesImage.png";
 import Lohawalla from "./image/Lohawalla.png";
@@ -67,6 +68,7 @@ const AssetIndex = {
 	FileLock,
 	FaceId,
 	PasscodeLock,
+	PriceTag
 };
 
 export const ImageIndex = {

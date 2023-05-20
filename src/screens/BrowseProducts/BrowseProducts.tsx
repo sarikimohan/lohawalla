@@ -10,6 +10,7 @@ import BrowseActions from "./actions/BrowseActions";
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 import TableRow from "./components/TableRow/TableRow";
 import NextButtonStyleConfig from "@src/Components/common/buttons/configurations/NextButtonStyle.config";
+import { useAuthGuardContext } from "@src/auth/AuthGuard/AuthGuard";
 
 interface Props {}
 
@@ -26,12 +27,14 @@ export default function BrowseProducts(props: Props) {
 			fetchCategory: AsyncStateFactory(),
 			fetchItems: AsyncStateFactory(),
 			fetchProducts: AsyncStateFactory(),
+			saveProducts: AsyncStateFactory(),
 		},
 		gridData: [],
 		gridHeader: [],
 	});
 
 	const browseActions = new BrowseActions(state, setState);
+	const { user } = useAuthGuardContext();
 
 	useEffect(() => {
 		browseActions.fetchProducts();
@@ -51,7 +54,9 @@ export default function BrowseProducts(props: Props) {
 				<Card variant="outlined" sx={{ padding: 5 }}>
 					<div>
 						<div className="crow mb-6">
-							<p className="subtitle fcolor-onyx">Product Price ({})</p>
+							<p className="subtitle fcolor-onyx">
+								Product Price ({state.gridData.length})
+							</p>
 						</div>
 						<div className="crow sb">
 							<div className="flex flex-wrap mb-4">
@@ -173,6 +178,9 @@ export default function BrowseProducts(props: Props) {
 											browseActions.mutateState((p) => {
 												p.gridData[i].priceStructure[position].value.value =
 													data;
+												p.gridData[i].priceStructure[
+													position
+												].value.hasChanged = true;
 											});
 										}}
 									/>
@@ -182,8 +190,14 @@ export default function BrowseProducts(props: Props) {
 						<div className="crow jfe">
 							<DefaultButton
 								onClick={function (): void {
-									browseActions.validateEntry();
+									if (
+										browseActions.validateEntry() &&
+										state.gridHeader.length !== 0
+									) {
+										browseActions.save(user);
+									}
 								}}
+								loading={state.loading.saveProducts.status === "initialized"}
 								label={"Save"}
 							/>
 						</div>

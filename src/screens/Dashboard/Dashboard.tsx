@@ -12,6 +12,25 @@ import EditCompany from "@src/forms/EditCompany/EditCompany";
 import EditItem from "@src/forms/EditItem/EditItem";
 import SetActiveCompany from "@src/forms/SetActiveCompany/SetActiveCompany";
 import React from "react";
+import PriceCalculation from "../PriceCalculation/PriceCalculation";
+
+<div style={{ padding: 50 }}>
+	{/* <AddCategoryForm
+						onClose={function (): void {
+							throw new Error("Function not implemented.");
+						}}
+						refresh={() => {}}
+					/> */}
+	{/* <AddProductForm /> */}
+	{/* <AddCompany /> */}
+	{/* <AddItem /> */}
+	{/* <AddCategoryForm /> */}
+	{/* <ErrorCard messages={[]} /> */}
+	{/* <EditCategory/> */}
+	{/* <EditCompany/> */}
+	{/* <EditItem /> */}
+	{/* <SetActiveCompany/> */}
+</div>;
 
 function Dashboard() {
 	return (
@@ -19,24 +38,10 @@ function Dashboard() {
 			<div>
 				<SpacingDiv marginBottom={56}>
 					<TitleNavBar title={"Dashboard"} />
+					<div>
+						<PriceCalculation />
+					</div>
 				</SpacingDiv>
-				<div>
-					{/* <AddCategoryForm
-						onClose={function (): void {
-							throw new Error("Function not implemented.");
-						}}
-						refresh={() => {}}
-					/> */}
-					<AddProductForm />
-					{/* <AddCompany /> */}
-					{/* <AddItem /> */}
-					{/* <AddCategoryForm /> */}
-					{/* <ErrorCard messages={[]} /> */}
-					{/* <EditCategory/> */}
-					{/* <EditCompany/> */}
-					{/* <EditItem /> */}
-					{/* <SetActiveCompany/> */}
-				</div>
 			</div>
 		</>
 	);

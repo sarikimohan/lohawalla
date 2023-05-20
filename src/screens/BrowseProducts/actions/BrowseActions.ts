@@ -4,6 +4,7 @@ import getAllItemNamesOfCategory from "@src/forms/AddProduct/fetch/services/getA
 import { ServerStateUtils } from "@src/modules/StateManagement/Core/StateUtils";
 import fetchProductList from "../fetch/services/fetchProductList";
 import { FieldDataService, Validators } from "@src/modules/FieldData/FieldData";
+import saveProductList from "../fetch/services/saveProductList";
 
 export default class BrowseActions extends ServerStateUtils<
 	StateWithLoading<BrowseProducts.State>
@@ -88,7 +89,7 @@ export default class BrowseActions extends ServerStateUtils<
 					...v,
 					priceStructure: v.priceStructure.map((v) => ({
 						...v,
-						value: { value: v.value.toFixed(1) },
+						value: { value: v.value.toFixed(1), hasChanged: false },
 					})),
 				}));
 			});
@@ -121,5 +122,32 @@ export default class BrowseActions extends ServerStateUtils<
 			});
 		});
 		return verdict;
+	}
+
+	async save(by: NameIdPair) {
+		interface saveData {
+			list: {
+				cpfid: string;
+				value: number;
+			}[];
+			by: NameIdPair;
+		}
+		const d: saveData = {
+			list: [],
+			by,
+		};
+		for (let i of this.state.gridData) {
+			for (let j of i.priceStructure) {
+				if (j.value.hasChanged) {
+					d.list.push({ cpfid: j._id, value: parseFloat(j.value.value) });
+				}
+			}
+		}
+
+		console.log(d);
+
+		const res = await this.handleAsync("saveProducts", () =>
+			saveProductList(d)
+		);
 	}
 }

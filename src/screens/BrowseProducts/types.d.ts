@@ -13,7 +13,7 @@ namespace BrowseProducts {
 		priceStructure: {
 			_id: string /*company product price  field*/;
 			name: string /*referenced cpfid*/;
-			value: FieldData /*cppfid valuelog last value*/;
+			value: FieldData & {hasChanged: boolean} /*cppfid valuelog last value*/;
 			isFixed: boolean /*cpfid*/;
 			position: number /*cpfid*/;
 			type: PercNum /*cpfid*/;
