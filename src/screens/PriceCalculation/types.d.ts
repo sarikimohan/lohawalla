@@ -36,14 +36,16 @@ namespace PriceCalculation {
 			startValue: number;
 			endValue: number;
 			currentValue: number;
+			
 			netMarginInput: FieldData;
-			taxableValue: number;
+
+			taxableValue: string;
 			netTotal: number;
 		};
 		creditCalculator: {
-			selectedDays: number;
 			startValue: number;
 			endValue: number;
+			selectedDays: number;
 			currentValue: number;
 			netMarginInput: FieldData;
 			taxableValue: number;

@@ -7,6 +7,7 @@ function getValForOperation(a: number, operation: OpType) {
 	return a;
 }
 
+//* TODO set the initial state in server inflation of state
 export default class PriceCalculationAction extends ServerStateUtils<
 	StateWithLoading<PriceCalculation.State>
 > {
@@ -35,20 +36,6 @@ export default class PriceCalculationAction extends ServerStateUtils<
 
 		return res;
 	}
-	async fetch(id: string) {
-		// fetch
-		const res = await this.handleAsync("fetchData", () => getPriceData(id));
-		if (res) {
-			const list = this.getPriceList(res.data.priceField);
-			console.log(res.data);
-			this.mutateState((p) => {
-				p.calculationData = res.data;
-				p.renderPriceList = list;
-			});
-		}
-		// sort and set in the list
-	}
-
 	getNumTotal() {
 		let total = 0;
 		this.state.calculationData.priceField.forEach((v, i) => {
@@ -71,5 +58,66 @@ export default class PriceCalculationAction extends ServerStateUtils<
 		const numTotal = this.getNumTotal();
 		const percTotal = this.getPercTotal(numTotal);
 		return numTotal + percTotal;
+	}
+
+	private _getNumTotal(data: PriceCalculation.PriceFields[]) {
+		let total = 0;
+		data.forEach((v, i) => {
+			if (v.type === "numeric") {
+				total += v.value;
+			}
+		});
+		return total;
+	}
+	private _getPercTotal(
+		numTotal: number,
+		data: PriceCalculation.PriceFields[]
+	) {
+		let total = 0;
+		data.forEach((v, i) => {
+			if (v.type === "percentage") {
+				total += getValForOperation((v.value / 100) * numTotal, v.operation);
+			}
+		});
+		return total;
+	}
+
+	async fetch(id: string) {
+		const res = await this.handleAsync("fetchData", () => getPriceData(id), {
+			errMessage:
+				"there might be some problem with the server, please check your internet connection or try again",
+		});
+		if (res) {
+			const data = res.data;
+			const list = this.getPriceList(data.priceField);
+			this.mutateState((p) => {
+				p.calculationData = res.data;
+				p.renderPriceList = list;
+
+				// setting the first value;
+				const numTotal = this._getNumTotal(res.data.priceField);
+				const percTotal = this._getPercTotal(numTotal, res.data.priceField);
+				const total = numTotal + percTotal;
+				p.netSum = total;
+				const marginValue = total * (data.margin.cash / 100);
+				
+				const negotiationShare = (marginValue * data.negotiation)/100;
+
+				p.cashCalculator.startValue = marginValue - negotiationShare;
+				p.cashCalculator.endValue = marginValue + negotiationShare;
+				p.cashCalculator.currentValue = marginValue;
+				p.cashCalculator.netMarginInput.value = marginValue.toFixed(2);
+				const taxableValue = total + marginValue;
+				p.cashCalculator.taxableValue = taxableValue.toFixed(2);
+
+				if (data.GST.type === "percentage") {
+					p.cashCalculator.netTotal =
+						taxableValue + (taxableValue * data.GST.value) / 100;
+				} else {
+					p.cashCalculator.netTotal = taxableValue + data.GST.value;
+				}
+
+			});
+		}
 	}
 }

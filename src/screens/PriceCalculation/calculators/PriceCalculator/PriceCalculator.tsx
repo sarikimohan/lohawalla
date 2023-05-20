@@ -72,8 +72,8 @@ function PriceCalculator() {
 					marginTop={2}
 					marginBottom={2}
 				/>
-				{false && <CashMarginCalculator />}
-				{true && <CreditMarginCalculator />}
+				{true && <CashMarginCalculator />}
+				{false && <CreditMarginCalculator />}
 				{false && <OnlineMarginCalculator />}
 			</Card>
 		</Card>
