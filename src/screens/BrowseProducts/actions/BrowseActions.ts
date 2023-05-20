@@ -3,6 +3,7 @@ import getAllCompanyNames from "@src/forms/AddProduct/fetch/services/getAllCompa
 import getAllItemNamesOfCategory from "@src/forms/AddProduct/fetch/services/getAllItemNamesOfCategory";
 import { ServerStateUtils } from "@src/modules/StateManagement/Core/StateUtils";
 import fetchProductList from "../fetch/services/fetchProductList";
+import { FieldDataService, Validators } from "@src/modules/FieldData/FieldData";
 
 export default class BrowseActions extends ServerStateUtils<
 	StateWithLoading<BrowseProducts.State>
@@ -83,8 +84,42 @@ export default class BrowseActions extends ServerStateUtils<
 		if (res) {
 			this.mutateState((p) => {
 				p.gridHeader = res.data.gridHeader;
-				p.gridData = res.data.gridData;
+				p.gridData = res.data.gridData.map((v) => ({
+					...v,
+					priceStructure: v.priceStructure.map((v) => ({
+						...v,
+						value: { value: v.value.toFixed(1) },
+					})),
+				}));
 			});
 		}
+	}
+
+	//* validating
+	validateEntry() {
+		const verdict = { isValid: true };
+		this.mutateState((p) => {
+			p.gridData.map((v, i) => {
+				v.priceStructure.map((k, l) => {
+					const data = k.value;
+					data.error = FieldDataService.registerValidator(
+						data.value,
+						verdict,
+						Validators.validateNull,
+						Validators.validateFloat,
+						(d) => Validators.min(d, 0)
+					);
+					if (k.type === "percentage" && !data.error) {
+						data.error = FieldDataService.registerValidator(
+							data.value,
+							verdict,
+							(d) => Validators.max(d, 100)
+						);
+					}
+					p.gridData[i].priceStructure[l].value = data;
+				});
+			});
+		});
+		return verdict;
 	}
 }

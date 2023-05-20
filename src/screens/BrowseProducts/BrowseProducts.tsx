@@ -9,6 +9,7 @@ import React, { useState, useEffect } from "react";
 import BrowseActions from "./actions/BrowseActions";
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 import TableRow from "./components/TableRow/TableRow";
+import NextButtonStyleConfig from "@src/Components/common/buttons/configurations/NextButtonStyle.config";
 
 interface Props {}
 
@@ -164,9 +165,27 @@ export default function BrowseProducts(props: Props) {
 								]}
 							>
 								{state.gridData.map((v, i) => (
-									<TableRow data={v} key={i} />
+									<TableRow
+										index={i}
+										data={v}
+										key={i}
+										onChange={function (position: number, data: string): void {
+											browseActions.mutateState((p) => {
+												p.gridData[i].priceStructure[position].value.value =
+													data;
+											});
+										}}
+									/>
 								))}
 							</DefaultGrid>
+						</div>
+						<div className="crow jfe">
+							<DefaultButton
+								onClick={function (): void {
+									browseActions.validateEntry();
+								}}
+								label={"Save"}
+							/>
 						</div>
 					</div>
 				</Card>

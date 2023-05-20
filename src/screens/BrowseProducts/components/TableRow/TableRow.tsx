@@ -6,6 +6,8 @@ import React from "react";
 
 interface Props {
 	data: BrowseProducts.GridDataFormat;
+	index: number;
+	onChange: (position: number, data: string) => void;
 }
 
 export default function TableRow(props: Props) {
@@ -44,9 +46,12 @@ export default function TableRow(props: Props) {
 					<div style={{ width: "80%", minWidth: 80 }}>
 						<FieldInput
 							type={"number"}
-							placeHolder={""}
-							value={v.value.toFixed(1)}
+							placeHolder={"value"}
+							{...v.value}
 							disabled={v.isFixed}
+							onChange={(d) => {
+								props.onChange(i, d.target.value);
+							}}
 						/>
 					</div>
 				</TableData>
