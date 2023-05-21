@@ -58,6 +58,9 @@ function CreditMarginCalculator() {
 						min={Math.round(state.creditCalculator.startValue)}
 						max={state.creditCalculator.endValue}
 						value={state.creditCalculator.currentValue}
+						onChange={(e, v) => {
+							creditCalcActions.setCurrentValue(v as number);
+						}}
 					/>
 				</Box>
 				<Grid container justifyContent={"space-between"} marginBottom={2}>
@@ -65,7 +68,12 @@ function CreditMarginCalculator() {
 						<p className="body fcolor-onyx">Net Margin</p>
 					</Grid>
 					<Grid item xs={6} padding={"10px"}>
-						<Input value={state.creditCalculator.netMarginInput.value} />
+						<Input
+							value={state.creditCalculator.netMarginInput.value}
+							onChange={(d) => {
+								creditCalcActions.setInputValue(d.target.value);
+							}}
+						/>
 						{state.creditCalculator.netMarginInput.error && (
 							<p
 								style={{
@@ -96,8 +104,7 @@ function CreditMarginCalculator() {
 					</Grid>
 					<Grid item xs={6} padding={"10px"}>
 						<p className="body fcolor-onyx">
-							{state.calculationData.GST.value}
-							{state.calculationData.GST.type === "percentage" ? "%" : "rs"}
+							{creditCalcActions.getGSTValue()}
 						</p>
 					</Grid>
 				</Grid>
