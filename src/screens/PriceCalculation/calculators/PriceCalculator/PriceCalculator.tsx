@@ -5,6 +5,7 @@ import CreditMarginCalculator from "./components/CreditMarginCalculator/CreditMa
 import OnlineMarginCalculator from "./components/OnlineMarginCalculator/OnlineMarginCalculator";
 import DisplayFlop from "../../components/DisplayFlop/DisplayFlop";
 import { useCalculationContext } from "../../PriceCalculation";
+import AssetIndex from "@src/assets/AssetIndex";
 
 function PriceCalculator() {
 	const { state, priceCalcActions } = useCalculationContext();
@@ -17,7 +18,7 @@ function PriceCalculator() {
 			sx={{ borderRadius: "12px", width: "100%" }}
 			className="p-6"
 		>
-			<Box padding={2} display="flex">
+			<Box padding={2} display="flex" alignItems={"center"}>
 				<p
 					style={{
 						fontFamily: "var(--font-inter)",
@@ -29,7 +30,7 @@ function PriceCalculator() {
 				>
 					Margin
 				</p>
-				<img src="/icons/Recipt.svg" />
+				<AssetIndex.Recipt />
 			</Box>
 			<Box
 				width={"100%"}
