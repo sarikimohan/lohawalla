@@ -65,6 +65,7 @@ export default function PriceCalculation(props: Props) {
 			marginValue: 0,
 			taxableValue: 0,
 			netTotal: 0,
+			gst: ''
 		},
 		loading: {
 			fetchData: AsyncStateFactory(),

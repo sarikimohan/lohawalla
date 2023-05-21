@@ -96,17 +96,13 @@ export default class CreditCalculator extends StateUtils<
 			);
 			if (verdict.isValid) {
 				const value = getRoundedNumber(parseFloat(d));
-				// change the current
 				_.currentValue = getRoundedNumber(value);
-				//change the taxable value
 				_.taxableValue = (p.netSum + value);
-				// change the net total
 				const GST = p.calculationData.GST;
 				let gstShare =
 					GST.type === "percentage"
 						? (GST.value / 100) * _.taxableValue
 						: GST.value + _.taxableValue;
-
 				_.netTotal = getRoundedNumber(gstShare + _.taxableValue);
 			}
 		});

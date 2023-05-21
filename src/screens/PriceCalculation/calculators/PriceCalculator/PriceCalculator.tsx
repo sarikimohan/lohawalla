@@ -47,7 +47,6 @@ function PriceCalculator() {
 				<Grid item xs={4}>
 					<DisplayFlop
 						buttonText="Credit"
-						isActive
 						labelText={
 							selectedEntry?.type === "numeric"
 								? selectedEntry?.value + "rs"
@@ -56,7 +55,7 @@ function PriceCalculator() {
 					/>
 				</Grid>
 				<Grid item xs={4}>
-					<DisplayFlop buttonText="Online" />
+					<DisplayFlop buttonText="Online" isActive />
 				</Grid>
 			</Grid>
 			<Card variant="outlined" sx={{ borderRadius: "12px" }} className="p-6">
@@ -89,8 +88,8 @@ function PriceCalculator() {
 					marginBottom={2}
 				/>
 				{false && <CashMarginCalculator />}
-				{true && <CreditMarginCalculator />}
-				{false && <OnlineMarginCalculator />}
+				{false && <CreditMarginCalculator />}
+				{true && <OnlineMarginCalculator />}
 			</Card>
 		</Card>
 	);

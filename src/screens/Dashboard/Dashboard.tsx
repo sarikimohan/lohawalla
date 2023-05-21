@@ -47,6 +47,7 @@ function Dashboard() {
 				}}
 			>
 				<PriceCalculation />
+				{/* <AddProductForm /> */}
 			</div>
 		</div>
 	);

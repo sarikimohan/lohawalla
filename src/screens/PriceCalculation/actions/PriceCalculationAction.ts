@@ -143,6 +143,28 @@ export default class PriceCalculationAction extends ServerStateUtils<
 						_.taxableValue + (data.GST.value / 100) * _.taxableValue
 					);
 				}
+
+				// setting the third value
+				const online = p.onlineCalculator;
+				online.marginValue = getRoundedNumber(
+					p.netSum * (p.calculationData.margin.online / 100)
+				);
+				online.taxableValue = p.netSum + online.marginValue;
+				if (data.GST.type === "numeric") {
+					online.netTotal = getRoundedNumber(
+						data.GST.value + online.taxableValue
+					);
+					online.gst = data.GST.value + "₹";
+				} else {
+					online.netTotal = getRoundedNumber(
+						online.taxableValue + (data.GST.value / 100) * online.taxableValue
+					);
+					online.gst =
+						data.GST.value +
+						"% (" +
+						getRoundedVal((data.GST.value / 100) * online.taxableValue) +
+						")";
+				}
 			});
 		}
 	}

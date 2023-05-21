@@ -56,6 +56,7 @@ namespace PriceCalculation {
 			marginValue: number;
 			taxableValue: number;
 			netTotal: number;
+			gst: string;
 		};
 	}
 }
