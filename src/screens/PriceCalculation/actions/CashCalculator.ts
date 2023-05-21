@@ -72,10 +72,11 @@ export default class CashCalculator extends StateUtils<
 	}
 	setCurrentSliderValue(d: number) {
 		this.mutateState((p) => {
-			// set the input
 			const cashCal = p.cashCalculator;
 			cashCal.currentValue = d;
 
+			// set the input
+			cashCal.netMarginInput.value = d.toFixed(2);
 			// change the taxable value
 			const netSum = p.netSum;
 			const taxableValue = netSum + d;

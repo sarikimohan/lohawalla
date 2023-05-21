@@ -1,10 +1,16 @@
 import { Box, Card, Grid, Input, Slider } from "@mui/material";
+import getRoundedVal, {
+	getRoundedNumber,
+} from "@src/modules/Utils/getRoundedVal";
 import useWidth from "@src/modules/hooks/useWidth";
+import { useCalculationContext } from "@src/screens/PriceCalculation/PriceCalculation";
 import GrouppedButton from "@src/screens/PriceCalculation/components/GrouppedButton/GrouppedButton";
 import React from "react";
 
 function CreditMarginCalculator() {
 	const widthHandle = useWidth();
+	const { state, creditCalcActions } = useCalculationContext();
+
 	return (
 		<div>
 			<Box>
@@ -12,29 +18,46 @@ function CreditMarginCalculator() {
 					<Box paddingBottom={"13px"} marginBottom={2}>
 						<div style={{ width: widthHandle.width, overflow: "auto" }}>
 							<GrouppedButton
-								labels={["2 days", "5 days", "7 days", "9 days", "12 days"]}
-								currentSelected={0}
-								setCurrentSelected={function (index: number): void {}}
+								labels={state.calculationData.creditMargin.map(
+									(v) => v.days + " days"
+								)}
+								currentSelected={state.creditCalculator.selectedDays}
+								setCurrentSelected={function (index: number): void {
+									creditCalcActions.setSelectedDate(index);
+								}}
 							/>
 						</div>
 					</Box>
 				</div>
 				<Box display={"flex"} justifyContent="space-between">
 					<Box>
-						<p className="small fcolor-body">0</p>
+						<p className="small fcolor-body">
+							{state.creditCalculator.startValue}
+						</p>
 					</Box>
 					<Box>
-						<p className="small fcolor-body">100</p>
+						<p className="small fcolor-body">
+							{state.creditCalculator.endValue}
+						</p>
 					</Box>
 				</Box>
 				<Box marginBottom={2}>
 					<Slider
 						aria-label="Temperature"
 						valueLabelDisplay="auto"
-						step={10}
+						step={
+							(state.creditCalculator.endValue -
+								state.creditCalculator.startValue) /
+							10
+								? (state.creditCalculator.endValue -
+										state.creditCalculator.startValue) /
+								  10
+								: 10
+						}
 						marks
-						min={0}
-						max={100}
+						min={Math.round(state.creditCalculator.startValue)}
+						max={state.creditCalculator.endValue}
+						value={state.creditCalculator.currentValue}
 					/>
 				</Box>
 				<Grid container justifyContent={"space-between"} marginBottom={2}>
@@ -42,8 +65,8 @@ function CreditMarginCalculator() {
 						<p className="body fcolor-onyx">Net Margin</p>
 					</Grid>
 					<Grid item xs={6} padding={"10px"}>
-						<Input />
-						{false && (
+						<Input value={state.creditCalculator.netMarginInput.value} />
+						{state.creditCalculator.netMarginInput.error && (
 							<p
 								style={{
 									fontSize: 10,
@@ -52,7 +75,7 @@ function CreditMarginCalculator() {
 									fontFamily: "var(--font-inter)",
 								}}
 							>
-								{/* {creditCalculator.getNetMarginInput().err.errorMessage} */}
+								{state.creditCalculator.netMarginInput.error}
 							</p>
 						)}
 					</Grid>
@@ -62,7 +85,9 @@ function CreditMarginCalculator() {
 						<p className="body fw-bold fcolor-text-subtitle">Taxable Value</p>
 					</Grid>
 					<Grid item xs={6} padding={"10px"}>
-						<p className="body fcolor-onyx">1223</p>
+						<p className="body fcolor-onyx">
+							{getRoundedNumber(state.creditCalculator.taxableValue)}
+						</p>
 					</Grid>
 				</Grid>
 				<Grid container justifyContent={"space-between"} marginBottom={2}>
@@ -70,7 +95,10 @@ function CreditMarginCalculator() {
 						<p className="body fw-bold fcolor-text-subtitle">GST</p>
 					</Grid>
 					<Grid item xs={6} padding={"10px"}>
-						<p className="body fcolor-onyx">18%</p>
+						<p className="body fcolor-onyx">
+							{state.calculationData.GST.value}
+							{state.calculationData.GST.type === "percentage" ? "%" : "rs"}
+						</p>
 					</Grid>
 				</Grid>
 				<Box
@@ -84,7 +112,9 @@ function CreditMarginCalculator() {
 						<p className="body fw-bold fcolor-text-body">NET TOTAL</p>
 					</Grid>
 					<Grid item xs={6} padding={"10px"}>
-						<p className="body fw-bold fcolor-onyx">1123</p>
+						<p className="body fw-bold fcolor-onyx">
+							{state.creditCalculator.netTotal}
+						</p>
 					</Grid>
 				</Grid>
 			</Box>

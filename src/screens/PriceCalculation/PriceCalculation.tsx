@@ -9,10 +9,13 @@ import getRoundedVal from "@src/modules/Utils/getRoundedVal";
 import PriceCalculationInstance from "./fetch/instance";
 import PriceCalculator from "./calculators/PriceCalculator/PriceCalculator";
 import CashCalculator from "./actions/CashCalculator";
+import CreditCalculator from "./actions/CreditCalculator";
 
 interface Props {}
 interface ContextProps {
 	cashCalcActions: CashCalculator;
+	state: StateWithLoading<PriceCalculation.State>,
+	creditCalcActions: CreditCalculator
 }
 
 const CalculationContext = React.createContext<ContextProps>(
@@ -70,6 +73,7 @@ export default function PriceCalculation(props: Props) {
 
 	const priceCalcActions = new PriceCalculationAction(state, setState);
 	const cashCalcActions = new CashCalculator(state, setState);
+	const creditCalcActions = new CreditCalculator(state, setState);
 
 	useEffect(() => {
 		priceCalcActions.fetch("6468672de4f0808edfcebc26");
@@ -78,7 +82,7 @@ export default function PriceCalculation(props: Props) {
 	console.log(state.loading.fetchData);
 
 	return (
-		<CalculationContext.Provider value={{ cashCalcActions }}>
+		<CalculationContext.Provider value={{ cashCalcActions, state, creditCalcActions }}>
 			<LoadingBoundary asyncState={state.loading.fetchData}>
 				<div
 					style={{

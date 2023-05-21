@@ -1,6 +1,8 @@
 import { ServerStateUtils } from "@src/modules/StateManagement/Core/StateUtils";
 import getPriceData from "../fetch/services/getPriceData";
-import getRoundedVal from "@src/modules/Utils/getRoundedVal";
+import getRoundedVal, {
+	getRoundedNumber,
+} from "@src/modules/Utils/getRoundedVal";
 
 function getValForOperation(a: number, operation: OpType) {
 	if (operation === "subtract") return -a;
@@ -100,9 +102,7 @@ export default class PriceCalculationAction extends ServerStateUtils<
 				const total = numTotal + percTotal;
 				p.netSum = total;
 				const marginValue = total * (data.margin.cash / 100);
-				
-				const negotiationShare = (marginValue * data.negotiation)/100;
-
+				const negotiationShare = (marginValue * data.negotiation) / 100;
 				p.cashCalculator.startValue = marginValue - negotiationShare;
 				p.cashCalculator.endValue = marginValue + negotiationShare;
 				p.cashCalculator.currentValue = marginValue;
@@ -117,6 +117,32 @@ export default class PriceCalculationAction extends ServerStateUtils<
 					p.cashCalculator.netTotal = taxableValue + data.GST.value;
 				}
 
+				// setting the second value
+				const _ = p.creditCalculator;
+				_.selectedDays = 0;
+
+				let marginShare = total * (data.margin.cash / 100);
+				const selectedMargin = data.creditMargin[0];
+				if (selectedMargin.type === "percentage") {
+					marginShare += (total * selectedMargin.value) / 100;
+				} else marginShare += selectedMargin.value;
+				const negoShare = marginShare * (data.negotiation / 100);
+
+				_.currentValue = getRoundedNumber(marginShare);
+				_.startValue = getRoundedNumber(marginShare - negoShare);
+				_.endValue = getRoundedNumber(marginShare + negoShare);
+
+				_.netMarginInput.value = marginShare.toFixed(2);
+
+				_.taxableValue = marginShare + total;
+
+				if (data.GST.type === "numeric") {
+					_.netTotal = getRoundedNumber(data.GST.value + _.taxableValue);
+				} else {
+					_.netTotal = getRoundedNumber(
+						_.taxableValue + (data.GST.value / 100) * _.taxableValue
+					);
+				}
 			});
 		}
 	}

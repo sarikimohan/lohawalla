@@ -12,6 +12,7 @@ export interface PriceFields {
 export interface Credits {
 	days: number;
 	value: number;
+	type: PercNum;
 }
 export interface calculationData {
 	productName: string;
