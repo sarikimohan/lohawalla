@@ -15,7 +15,8 @@ interface Props {}
 interface ContextProps {
 	cashCalcActions: CashCalculator;
 	state: StateWithLoading<PriceCalculation.State>,
-	creditCalcActions: CreditCalculator
+	creditCalcActions: CreditCalculator,
+	priceCalcActions: PriceCalculationAction
 }
 
 const CalculationContext = React.createContext<ContextProps>(
@@ -70,6 +71,7 @@ export default function PriceCalculation(props: Props) {
 		loading: {
 			fetchData: AsyncStateFactory(),
 		},
+		selectedCalculator: 0
 	});
 
 	const priceCalcActions = new PriceCalculationAction(state, setState);
@@ -83,7 +85,7 @@ export default function PriceCalculation(props: Props) {
 	console.log(state.loading.fetchData);
 
 	return (
-		<CalculationContext.Provider value={{ cashCalcActions, state, creditCalcActions }}>
+		<CalculationContext.Provider value={{ cashCalcActions, state, creditCalcActions, priceCalcActions }}>
 			<LoadingBoundary asyncState={state.loading.fetchData}>
 				<div
 					style={{

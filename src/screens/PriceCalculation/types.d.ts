@@ -58,5 +58,6 @@ namespace PriceCalculation {
 			netTotal: number;
 			gst: string;
 		};
+		selectedCalculator: number;
 	}
 }

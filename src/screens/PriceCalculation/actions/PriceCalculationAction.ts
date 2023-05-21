@@ -84,6 +84,12 @@ export default class PriceCalculationAction extends ServerStateUtils<
 		return total;
 	}
 
+	setCalculator(id: number) {
+		this.mutateState((p) => {
+			p.selectedCalculator = id;
+		});
+	}
+
 	async fetch(id: string) {
 		const res = await this.handleAsync("fetchData", () => getPriceData(id), {
 			errMessage:

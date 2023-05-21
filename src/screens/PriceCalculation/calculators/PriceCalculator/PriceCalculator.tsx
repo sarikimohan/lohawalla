@@ -7,7 +7,7 @@ import DisplayFlop from "../../components/DisplayFlop/DisplayFlop";
 import { useCalculationContext } from "../../PriceCalculation";
 
 function PriceCalculator() {
-	const { state } = useCalculationContext();
+	const { state, priceCalcActions } = useCalculationContext();
 	const selectedEntry =
 		state.calculationData.creditMargin[state.creditCalculator.selectedDays];
 
@@ -42,6 +42,10 @@ function PriceCalculator() {
 					<DisplayFlop
 						buttonText="Cash"
 						labelText={state.calculationData.margin.cash + "%"}
+						onClick={() => {
+							priceCalcActions.setCalculator(0);
+						}}
+						isActive={state.selectedCalculator === 0}
 					/>
 				</Grid>
 				<Grid item xs={4}>
@@ -52,10 +56,21 @@ function PriceCalculator() {
 								? selectedEntry?.value + "rs"
 								: selectedEntry?.value + "%"
 						}
+						onClick={() => {
+							priceCalcActions.setCalculator(1);
+						}}
+						isActive={state.selectedCalculator === 1}
 					/>
 				</Grid>
 				<Grid item xs={4}>
-					<DisplayFlop buttonText="Online" isActive />
+					<DisplayFlop
+						buttonText="Online"
+						isActive={state.selectedCalculator === 2}
+						labelText={state.calculationData.margin.online + "%"}
+						onClick={() => {
+							priceCalcActions.setCalculator(2);
+						}}
+					/>
 				</Grid>
 			</Grid>
 			<Card variant="outlined" sx={{ borderRadius: "12px" }} className="p-6">
@@ -87,9 +102,9 @@ function PriceCalculator() {
 					marginTop={2}
 					marginBottom={2}
 				/>
-				{false && <CashMarginCalculator />}
-				{false && <CreditMarginCalculator />}
-				{true && <OnlineMarginCalculator />}
+				{state.selectedCalculator === 0 && <CashMarginCalculator />}
+				{state.selectedCalculator === 1 && <CreditMarginCalculator />}
+				{state.selectedCalculator === 2 && <OnlineMarginCalculator />}
 			</Card>
 		</Card>
 	);
