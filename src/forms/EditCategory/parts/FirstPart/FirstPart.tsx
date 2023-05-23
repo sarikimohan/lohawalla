@@ -1,13 +1,16 @@
-import FieldInput from "@src/Components/forms/FieldInput/FieldInput";
-import FieldTextArea from "@src/Components/forms/FieldInput/FieldTextArea";
 import FormFileUpload from "@src/Components/forms/FormFileUpload/FormFileUpload";
 import React from "react";
 import { useEditCategoryContext } from "../../EditCategory";
+import ValidatedEntry from "@src/Components/special/ValidatedEntry/ValidatedEntry";
+import FieldTextArea from "@src/Components/forms/FieldInput/FieldTextArea";
+import UnitInput, { PIUnitInput } from "./components/UnitInput/UnitInput";
+import { FieldDataService, Validators } from "@src/modules/FieldData/FieldData";
 
 interface Props {}
 
 export default function FirstPart(props: Props) {
-	const { editCategoryActions, state } = useEditCategoryContext();
+	const { editCategoryActions, state, setInputHandle, setUnitHandle } =
+		useEditCategoryContext();
 
 	return (
 		<div>
@@ -15,61 +18,48 @@ export default function FirstPart(props: Props) {
 				<p className="text-md font-semibold text-slate-900 mb-1">
 					Category Name
 				</p>
-				<FieldInput
-					isValid={state.categoryName.isValid}
-					error={state.categoryName.error}
-					data={state.categoryName.value}
-					onChange={(d) => {
-						editCategoryActions.setName(d.target.value);
-					}}
+				<ValidatedEntry
 					type={"text"}
-					placeHolder={"enter item name"}
+					placeHolder={"enter category name"}
+					setHandle={setInputHandle("categoryName")}
+					validateFunction={FieldDataService.clubValidators(
+						Validators.validateNull,
+						Validators.validateFloat,
+						(d) => Validators.min(d, 0)
+					)}
 				/>
 			</div>
 			<div className="mb-4">
 				<p className="text-md font-semibold text-slate-900 mb-1">
 					Category Code
 				</p>
-				<FieldInput
-					isValid={state.categoryCode.isValid}
-					error={state.categoryCode.error}
-					data={state.categoryCode.value}
-					onChange={d=>editCategoryActions.setCode(d.target.value)}
+				<ValidatedEntry
 					type={"text"}
-					placeHolder={"enter item name"}
-				/>
-			</div>
-			<div className="mb-4">
-				<p className="text-md font-semibold text-slate-900 mb-1">Negotiation</p>
-				<FieldInput
-					isValid={state.negotiation.isValid}
-					error={state.negotiation.error}
-					data={state.negotiation.value}
-					onChange={d=>editCategoryActions.setNegotiation(d.target.value)}
-					type={"text"}
-					placeHolder={"enter negotiation value"}
+					placeHolder={"enter category code"}
+					setHandle={setInputHandle("categoryCode")}
+					validateFunction={FieldDataService.clubValidators(
+						Validators.validateNull,
+						Validators.validateInt,
+						(d) => Validators.min(d, 0)
+					)}
 				/>
 			</div>
 			<div className="mb-4">
 				<p className="text-md font-semibold text-slate-900 mb-1">Unit</p>
-				<FieldInput
-					isValid={state.unit.isValid}
-					error={state.unit.error}
-					data={state.unit.value}
-					onChange={d=>editCategoryActions.setUnit(d.target.value)}
-					type={"text"}
-					placeHolder={"enter unit name"}
+				<UnitInput
+					unitList={[
+						{ id: "", name: "unit1", weight: -1 },
+						{ id: "2", name: "unit2", weight: 1000 },
+					]}
+					value={null}
+					setHandle={setUnitHandle}
 				/>
 			</div>
 			<div className="mb-4">
 				<p className="text-md font-semibold text-slate-900 mb-1">Description</p>
-				<FieldTextArea
-					isValid={state.description.isValid}
-					error={state.description.error}
-					data={state.description.value}
-					onChange={d=>editCategoryActions.setDescription(d.target.value)}
-					height={100}
-					placeHolder={"enter company name"}
+				<ValidatedEntry
+					placeHolder={"description"}
+					setHandle={setInputHandle("categoryDescription")}
 				/>
 			</div>
 			<div>

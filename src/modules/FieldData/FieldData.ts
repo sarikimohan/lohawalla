@@ -21,6 +21,16 @@ export class FieldDataService {
 			}
 		}
 	}
+
+	static clubValidators(...validators: ((d: string) => string | undefined)[]) {
+		return (d: string) => {
+			for (let validator of validators) {
+				const verdict = validator(d);
+				if (verdict) return verdict;
+			}
+			return;
+		};
+	}
 }
 
 export class Validators {

@@ -31,11 +31,8 @@ export default function AddUnit(props: Props) {
 	const addUnitActions = new AddUnitActions(state, setState);
 	const handle = useRef<Record<string, SetHandleProps>>({});
 	const setHandle = (name: string) => {
-		const fn: SetHandle = (i, v) => {
-			handle.current[name] = {
-				isValid: i,
-				validate: v,
-			};
+		const fn: SetHandle = (d) => {
+			handle.current[name] = d
 		};
 		return fn;
 	};
@@ -79,7 +76,7 @@ export default function AddUnit(props: Props) {
 									addUnitActions.setName(e);
 								}}
 								value={state.unitName}
-								placeholder="unit name"
+								placeHolder="unit name"
 								validateFunction={(d) =>
 									FieldDataService.registerValidator(
 										d,
@@ -103,7 +100,7 @@ export default function AddUnit(props: Props) {
 									addUnitActions.setWeight(e);
 								}}
 								value={state.unitWeight}
-								placeholder="unit weight"
+								placeHolder="unit weight"
 								type="number"
 								setHandle={setHandle("weight")}
 							/>

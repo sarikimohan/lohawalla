@@ -88,8 +88,7 @@ function App() {
 							<Route path="/profile" element={<Profile />} />
 							<Route path="/units" element={<Units />} />
 							<Route path="/" element={<></>} />
-							{/* <Route path="price" element={<PriceC} */}
-							<Route path="/priceCalculation" element={<PriceCalculation/>}/>
+							<Route path="/priceCalculation" element={<PriceCalculation />} />
 						</Routes>
 					</div>
 				</div>

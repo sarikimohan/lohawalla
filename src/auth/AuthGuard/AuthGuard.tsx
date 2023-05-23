@@ -13,7 +13,7 @@ interface AuthProps {
 	action: {
 		logOut: () => void;
 	};
-	loginData: LoginData
+	loginData: LoginData;
 }
 interface LoginData {
 	success: boolean;
@@ -38,23 +38,28 @@ export default function AuthGuard(props: Props) {
 
 	const [state, setState] = useState<LoginData>({} as LoginData);
 
-	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const [isLoggedIn, setIsLoggedIn] = useState(true);
 
 	useEffect(() => {
 		// TODO validate the token from the server
 		const token = localStorage.getItem("userData");
-		if (token) {
-			const tokenObj = JSON.parse(token) as LoginData;
+		// if (token) {
+		// 	const tokenObj = JSON.parse(token) as LoginData;
 
-			setState(tokenObj);
+		// 	setState(tokenObj);
 
-			setIsLoggedIn(true);
+		// 	setIsLoggedIn(true);
 
-			setUserDetails({
-				userId: tokenObj.userId,
-				name: tokenObj.name,
-			});
-		}
+		// 	setUserDetails({
+		// 		userId: tokenObj.userId,
+		// 		name: tokenObj.name,
+		// 	});
+		// }
+
+		setUserDetails({
+			userId: "646cee6bcd9d75a02a8172f6",
+			name: "snehal",
+		});
 	}, []);
 
 	if (isLoggedIn) {

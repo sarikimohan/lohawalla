@@ -1,20 +1,21 @@
 import React, { useState, useEffect, forwardRef } from "react";
 import FieldInput from "../../forms/FieldInput/FieldInput";
 
-export type SetHandle = (
-	isValid: boolean,
-	validate: () => Promise<void>
-) => void;
-export type SetHandleProps = { isValid: boolean; validate: () => Promise<void> };
+export type SetHandle = (config: SetHandleProps) => void;
+export type SetHandleProps = {
+	isValid: boolean;
+	validate: () => Promise<void>;
+	value: string;
+};
 
 interface Props {
 	type?: React.HTMLInputTypeAttribute;
-	placeholder?: string;
-	onChange: (e: string) => void;
-	value: string;
+	placeHolder?: string;
+	onChange?: (e: string) => void;
+	value?: string;
 	validateFunction?: (d: string) => string | undefined;
 	onValidation?: (isValid: boolean) => void;
-	setHandle?: (isValid: boolean, validate: () => Promise<void>) => void;
+	setHandle?: SetHandle;
 	asyncValidator?: (d: string) => Promise<string | undefined>;
 }
 
@@ -22,7 +23,9 @@ const ValidatedEntry = forwardRef<
 	Record<string, { isValid: boolean; validate: () => void }>,
 	Props
 >((props, ref) => {
-	const [state, setState] = useState<FieldData>({ value: props.value });
+	const [state, setState] = useState<FieldData>({
+		value: props.value ? props.value : "",
+	});
 	const [loading, setLoading] = useState<AsyncState>({
 		status: "dormant",
 		message: "",
@@ -46,31 +49,47 @@ const ValidatedEntry = forwardRef<
 				err = "server error, failed to validate";
 				setLoading((p) => ({ ...p, status: "failed" }));
 			} finally {
-				props.setHandle && props.setHandle(!err, validate);
+				props.setHandle &&
+					props.setHandle({
+						isValid: !err,
+						validate,
+						value: state.value,
+					});
 				setState({ value: state.value, isValid: !err, error: err });
 				setLoading((p) => ({ ...p, status: "dormant" }));
 			}
 		} else {
-			props.setHandle && props.setHandle(!err, validate);
+			props.setHandle &&
+				props.setHandle({
+					isValid: !err,
+					validate,
+					value: state.value,
+				});
 			setState({ value: state.value, isValid: !err, error: err });
 		}
 	};
 
 	useEffect(() => {
-		setState({ value: props.value });
+		setState({ value: props.value ? props.value : "" });
 	}, [props.value]);
 
 	useEffect(() => {
-		props.setHandle && props.setHandle(!state.error, validate);
+		props.setHandle &&
+			props.setHandle({
+				isValid: !state.error,
+				validate,
+				value: state.value,
+			});
 	}, []);
 
 	return (
 		<FieldInput
 			type={props.type ? props.type : "text"}
-			placeHolder={props.placeholder ? props.placeholder : ""}
+			placeHolder={props.placeHolder ? props.placeHolder : ""}
 			{...state}
 			onChange={(d) => {
 				props.onChange && props.onChange(d.target.value);
+				setState((p) => ({ ...p, value: d.target.value }));
 			}}
 			onBlur={() => {
 				validate();

@@ -35,7 +35,7 @@ export default function FirstPart(props: Props) {
 							Validators.validateNull
 						);
 					}}
-					placeholder="enter item name"
+					placeHolder="enter item name"
 					setHandle={setHandle("v1")}
 				/>
 			</div>
@@ -58,7 +58,7 @@ export default function FirstPart(props: Props) {
 							Validators.validateInt
 						);
 					}}
-					placeholder="enter item HSN Code"
+					placeHolder="enter item HSN Code"
 					setHandle={setHandle("v2")}
 				/>
 			</div>
@@ -78,7 +78,7 @@ export default function FirstPart(props: Props) {
 							Validators.validateNull
 						);
 					}}
-					placeholder="enter item name"
+					placeHolder="enter item name"
 					setHandle={setHandle("v3")}
 				/>
 			</div>
@@ -98,7 +98,7 @@ export default function FirstPart(props: Props) {
 							Validators.validateNull
 						);
 					}}
-					placeholder="enter item name"
+					placeHolder="enter item name"
 					setHandle={setHandle("v4")}
 				/>
 			</div>

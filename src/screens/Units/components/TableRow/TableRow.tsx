@@ -29,7 +29,7 @@ export default function TableRow(props: Props) {
 							throw new Error("Function not implemented.");
 						}}
 						value={""}
-						placeholder="enter value"
+						placeHolder="enter value"
 					/>
 				)}
 			</TableData>

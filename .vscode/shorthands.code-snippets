@@ -19,9 +19,11 @@
 		"prefix": "comf",
 		"body": [
 			"import React from 'react';\n",
-			"interface Props {",
+			"export interface RI$TM_FILENAME_BASE {",
 			"}\n",
-			"export default function $TM_FILENAME_BASE(props: Props) {",
+			"export namespace PI$TM_FILENAME_BASE {",
+			"}\n",
+			"export default function $TM_FILENAME_BASE(props: RI$TM_FILENAME_BASE) {",
 			"\t$0",
 			"}"
 		]

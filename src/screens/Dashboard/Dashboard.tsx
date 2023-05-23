@@ -46,8 +46,9 @@ function Dashboard() {
 					overflow: "auto",
 				}}
 			>
-				<PriceCalculation />
+				{/* <PriceCalculation /> */}
 				{/* <AddProductForm /> */}
+				<EditCategory />
 			</div>
 		</div>
 	);

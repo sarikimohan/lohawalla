@@ -64,7 +64,7 @@ export default function SecondPart(props: Props) {
 												(d) => Validators.min(d, 0)
 											);
 										}}
-										placeholder="enter online"
+										placeHolder="enter online"
 										setHandle={setHandle("marginONline")}
 									/>
 								</td>
@@ -95,7 +95,7 @@ export default function SecondPart(props: Props) {
 												(d) => Validators.min(d, 0)
 											);
 										}}
-										placeholder="enter cash"
+										placeHolder="enter cash"
 										setHandle={setHandle("marginCash")}
 									/>
 								</td>

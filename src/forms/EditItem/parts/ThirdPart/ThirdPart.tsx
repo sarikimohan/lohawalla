@@ -82,7 +82,7 @@ export default function ThirdPart(props: Props) {
 								});
 							});
 						}}
-						setHandle={setHandle("descLABELs")}
+						// setHandle={setHandle("descLABELs")}
 					/>
 				</Card>
 			</Card>

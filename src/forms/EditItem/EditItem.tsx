@@ -6,6 +6,7 @@ import FirstPart from "./parts/FirstPart/FirstPart";
 import SecondPart from "./parts/SecondPart/SecondPart";
 import ThirdPart from "./parts/ThirdPart/ThirdPart";
 import EditItemActions from "./actions/EditItemActions";
+import { SetHandle, SetHandleProps } from "@src/Components/special/ValidatedEntry/ValidatedEntry";
 
 interface Props {}
 
@@ -21,7 +22,7 @@ interface ContextProps {
 			}
 		>
 	>;
-	setHandle: (name: string) => (i: boolean, v: () => void) => void;
+	setHandle: (name: string) => SetHandle;
 }
 
 const EditItemContext = React.createContext({} as ContextProps);
@@ -48,11 +49,11 @@ export default function EditItem(props: Props) {
 
 	const editItemFormActions = new EditItemActions(state, setState);
 	const handle = useRef<
-		Record<string, { isValid: boolean; validate: () => void }>
+		Record<string, SetHandleProps>
 	>({});
-	const setHandle = (name: string) => {
-		return (i: boolean, v: () => void) => {
-			handle.current[name] = { isValid: i, validate: v };
+	const setHandle = (name: string): SetHandle => {
+		return (data: SetHandleProps) => {
+			handle.current[name] = data;
 		};
 	};
 
