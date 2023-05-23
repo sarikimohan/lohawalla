@@ -29,7 +29,11 @@ export default function UnAuthPage(props: Props) {
 									scale: 1.05,
 								}}
 							>
-								<button className="px-12 py-4 bg-indigo-600 text-white rounded-full">
+								<button className="px-12 py-4 bg-indigo-600 text-white rounded-full"
+									onClick={() => {
+										window.location.replace('https://www.lohawalla.com/')
+									}}
+								>
 									Login
 								</button>
 							</RotateAndScale>

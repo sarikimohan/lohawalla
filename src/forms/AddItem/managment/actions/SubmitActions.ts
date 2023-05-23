@@ -1,10 +1,11 @@
 import StateUtils, {
 	ServerStateUtils,
 } from "@src/modules/StateManagement/Core/StateUtils";
-import server from "@src/modules/axios/instances";
+// import server from "@src/modules/axios/instances";
 import { NameIdPair } from "@src/modules/backendTypes/change/NameIdPair";
 import { S } from "@storybook/react/dist/types-0a347bb9";
 import { apis } from "../../fetch/apis";
+import AddItemInstance from "../../fetch/instance";
 
 interface DescriptionData {
 	key: string;
@@ -52,7 +53,7 @@ export default class SubmitActions extends ServerStateUtils<AddItem.State> {
 			})),
 		};
 
-		await this.handleAsync("save", () => server.post(apis.createItem, data), {
+		await this.handleAsync("save", () => AddItemInstance.post(apis.createItem, data), {
 			errMessage: "failed to save item!",
 			onSuccess: onSuccessAction,
 		});

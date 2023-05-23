@@ -14,4 +14,6 @@ export const PROD = axios.create({
 
 const server = mode === "dev" ? DEV : PROD;
 
-export default server;
+export {};
+
+// export default server;

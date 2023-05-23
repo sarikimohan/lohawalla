@@ -1,4 +1,4 @@
 export const apis = {
-	createCompany: "purchaser/forms/companyForm/createCompany",
+	createCompany: "createCompany",
 	checkIsNameUnique: (name: string) => `isNameUnique/${name}`,
 };

@@ -1,6 +1,7 @@
 import { ServerStateUtils } from "@src/modules/StateManagement/Core/StateUtils";
-import server from "@src/modules/axios/instances";
+// import server from "@src/modules/axios/instances";
 import { apiIndex } from "../../fetch/apis";
+import AddCategoryInstance from "../../fetch/instance";
 
 export default class SaveCategoryActions extends ServerStateUtils<AddCategory.State> {
 	async save(images: string[], by: NameIdPair) {
@@ -50,7 +51,7 @@ export default class SaveCategoryActions extends ServerStateUtils<AddCategory.St
 		const res = await this.handleAsync(
 			"save",
 			() => {
-				return server.post<string>(apiIndex.createCategory, d);
+				return AddCategoryInstance.post<string>(apiIndex.createCategory, d);
 			},
 			{
 				errMessage:

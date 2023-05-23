@@ -2,10 +2,10 @@ import AssetIndex from '@src/assets/AssetIndex';
 import React from 'react';
 import NavBar from './NavBar';
 import { useNavigate } from 'react-router-dom';
+import { useAuthGuardContext } from '@src/auth/AuthGuard/AuthGuard';
 
 function BackNavBar(p: { title: string }) {
   const navigate = useNavigate();
-
   return (
     <NavBar
       leftCom={

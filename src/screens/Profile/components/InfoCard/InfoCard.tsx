@@ -17,7 +17,7 @@ function InfoCard(props: InfoCardProps) {
 	} = props;
 	return (
 		<div className={style.container}>
-			<div className={style.iconBox + " mr-2"} style={{ backgroundColor: color }}>
+			<div className={style.iconBox + " mr-2"} style={{ background: color }}>
 				{icon}
 			</div>
 			<div>

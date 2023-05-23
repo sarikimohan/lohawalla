@@ -1,5 +1,5 @@
 export const apis = {
-	createItem: "purchaser/forms/itemForm/createItem",
+	createItem: "createItem",
 	checkIsNameUnique: (name: string) => `isNameUnique/${name}`,
 	checkIsCodeUnique: (code: string) => `isCodeUnique/${code}`,
 };

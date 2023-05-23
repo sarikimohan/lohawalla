@@ -1,9 +1,10 @@
 import StateUtils, {
 	ServerStateUtils,
 } from "@src/modules/StateManagement/Core/StateUtils";
-import server from "@src/modules/axios/instances";
+// import server from "@src/modules/axios/instances";
 import { NameIdPair } from "@src/modules/backendTypes/change/NameIdPair";
 import { apis } from "../../fetch/api";
+import AddCompanyInstance from "../../fetch/instance";
 
 interface DescriptionData {
 	key: string;
@@ -61,7 +62,7 @@ export default class SaveFormActions extends ServerStateUtils<AddCompany.State> 
 		await this.handleAsync(
 			"save",
 			() => {
-				return server.post(apis.createCompany, d);
+				return AddCompanyInstance.post(apis.createCompany, d);
 			},
 			{
 				errMessage: "failed to save company!",

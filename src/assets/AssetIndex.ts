@@ -36,6 +36,7 @@ import PipesImage from "./image/PipesImage.png";
 import Lohawalla from "./image/Lohawalla.png";
 import HelloHandShake from "./image/HelloHandShake.png";
 import UnAuthImage from "./image/unauth.jpg";
+import DefaultUser from './image/defaultUser.png';
 
 const AssetIndex = {
 	DashboardInactive,
@@ -71,6 +72,7 @@ const AssetIndex = {
 	PasscodeLock,
 	PriceTag,
 	Recipt,
+	DefaultUser
 };
 
 export const ImageIndex = {
@@ -79,6 +81,7 @@ export const ImageIndex = {
 	Lohawalla,
 	HelloHandShake,
 	UnAuthImage,
+	DefaultUser
 };
 
 export default AssetIndex;

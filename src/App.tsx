@@ -15,6 +15,7 @@ import CategoryViewMargin from "./screens/CategoryViewMargin/CategoryViewMargin"
 import Profile from "./screens/Profile/Profile";
 import BrowseProducts from "./screens/BrowseProducts/BrowseProducts";
 import Units from "./screens/Units/Units";
+import PriceCalculation from "./screens/PriceCalculation/PriceCalculation";
 
 //* screen imports
 const LazyDashboard = React.lazy(() => import("./screens/Dashboard/Dashboard"));
@@ -88,6 +89,7 @@ function App() {
 							<Route path="/units" element={<Units />} />
 							<Route path="/" element={<></>} />
 							{/* <Route path="price" element={<PriceC} */}
+							<Route path="/priceCalculation" element={<PriceCalculation/>}/>
 						</Routes>
 					</div>
 				</div>

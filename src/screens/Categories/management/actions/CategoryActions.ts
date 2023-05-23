@@ -4,7 +4,7 @@ import StateUtils, {
 	ServerStateUtils,
 } from "@src/modules/StateManagement/Core/StateUtils";
 import isPrefix from "@src/modules/Utils/isPrefix";
-import server from "@src/modules/axios/instances";
+// import server from "@src/modules/axios/instances";
 import fetchCategoryGrid from "../../fetch/services/fetchCategoryGrid";
 
 export default class CategoryActions
