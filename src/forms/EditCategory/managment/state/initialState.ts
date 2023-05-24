@@ -3,27 +3,26 @@ import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStat
 
 const InitialState: EditCategory.State = {
 	page: 0,
-	categoryName: FieldDataService.getDefaultField(),
-	categoryCode: FieldDataService.getDefaultField(),
-	description: FieldDataService.getDefaultField(),
+	categoryName: "",
+	categoryCode: "",
+	description: "",
 	images: [],
 	imageFiles: [],
 	credit: [],
 	creditInput: {
-		key: FieldDataService.getDefaultField(),
-		value: FieldDataService.getDefaultField(),
+		key: "",
+		value: "",
 	},
 	descriptionLabels: [],
 	descriptionEntry: {
-		key: FieldDataService.getDefaultField(),
-		value: FieldDataService.getDefaultField(),
+		key: "",
+		value: "",
 	},
 	loading: {
 		saveImages: AsyncStateFactory(),
 		saveData: AsyncStateFactory(),
 	},
-	negotiation: FieldDataService.getDefaultField(),
-	unit: FieldDataService.getDefaultField(),
+	negotiation: "",
 };
 
 export default InitialState;

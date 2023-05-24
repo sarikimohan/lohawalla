@@ -6,11 +6,20 @@ import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAn
 import AssetIndex from "@src/assets/AssetIndex";
 import React from "react";
 import { useEditCategoryContext } from "../../EditCategory";
+import ValidatedEntry from "@src/Components/special/ValidatedEntry/ValidatedEntry";
+import { FieldDataService, Validators } from "@src/modules/FieldData/FieldData";
 
 interface Props {}
 
 export default function SecondPart(props: Props) {
-	const { state, creditActions } = useEditCategoryContext();
+	const {
+		state,
+		creditActions,
+		setCreditHandle,
+		editCategoryActions,
+		validateAdd,
+		setDescHandle
+	} = useEditCategoryContext();
 
 	return (
 		<Card variant="outlined" sx={{ padding: 3 }}>
@@ -50,28 +59,36 @@ export default function SecondPart(props: Props) {
 									</td>
 									<td align="center">
 										<Checkbox
+											checked={v.type === "numeric"}
 											onChange={(e) => {
-												creditActions.modityCreditType(e.target.checked, i);
+												editCategoryActions.mutateState((p) => {
+													p.credit[i].type = e.target.checked
+														? "numeric"
+														: "percentage";
+												});
 											}}
 										/>
 									</td>
 									<td align="center" className="w-2/5 py-3">
-										<FieldInput
-											isValid={v.value.isValid}
-											error={v.value.error}
-											value={v.value.value}
+										<ValidatedEntry
 											onChange={(d) => {
-												creditActions.modifyCreditValue(d.target.value, i);
+												editCategoryActions.mutateState((p) => {
+													p.credit[i].value = d;
+												});
 											}}
 											type={"text"}
 											placeHolder={"enter number"}
 											rightIcon={v.type === "numeric" ? "₹" : "%"}
+											value={v.value}
+											setHandle={setCreditHandle("credit-input-" + i)}
 										/>
 									</td>
 									<td align="center" className="w-fit">
 										<div
 											onClick={() => {
-												creditActions.deleteCredit(i);
+												editCategoryActions.mutateState((p) => {
+													p.credit = p.credit.filter((d) => d.id !== v.id);
+												});
 											}}
 										>
 											<RotateAndScale>
@@ -88,29 +105,48 @@ export default function SecondPart(props: Props) {
 								<td colSpan={4}>
 									<div className="flex w-full justify-between">
 										<div className="p-2 flex justify-center">
-											<FieldInput
-												{...state.creditInput.key}
+											<ValidatedEntry
+												value={state.creditInput.key}
 												onChange={(d) =>
 													creditActions.mutateState((p) => {
-														p.creditInput.key.value = d.target.value;
+														p.creditInput.key = d;
 													})
 												}
 												width={"85%"}
 												type={"text"}
 												placeHolder={"enter key"}
+												setHandle={setCreditHandle("credit-key")}
+												validateFunction={FieldDataService.clubValidators(
+													Validators.validateNull,
+													Validators.validateInt,
+													(d) => Validators.min(d, 0),
+													(v) => {
+														for (let d of state.credit) {
+															if (v === d.days.toString()) {
+																return v + " already present";
+															}
+														}
+													}
+												)}
 											/>
 										</div>
 										<div className="p-2 flex justify-center">
-											<FieldInput
-												{...state.creditInput.value}
+											<ValidatedEntry
+												value={state.creditInput.value}
 												onChange={(d) =>
 													creditActions.mutateState((p) => {
-														p.creditInput.value.value = d.target.value;
+														p.creditInput.value = d;
 													})
 												}
 												width={"85%"}
 												type={"text"}
 												placeHolder={"enter value"}
+												setHandle={setCreditHandle("credit-value")}
+												validateFunction={FieldDataService.clubValidators(
+													Validators.validateNull,
+													Validators.validateFloat,
+													(d) => Validators.min(d, 0)
+												)}
 											/>
 										</div>
 									</div>
@@ -122,9 +158,7 @@ export default function SecondPart(props: Props) {
 				<div className="flex justify-end mt-5">
 					<AddMore
 						handleAdd={() => {
-							const verdict = creditActions.validateAdd();
-							console.log("verdict", verdict);
-							if (verdict) creditActions.addCredit();
+							validateAdd();
 						}}
 					/>
 				</div>

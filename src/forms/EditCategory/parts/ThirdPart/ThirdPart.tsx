@@ -6,11 +6,19 @@ import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAn
 import AssetIndex from "@src/assets/AssetIndex";
 import React from "react";
 import { useEditCategoryContext } from "../../EditCategory";
+import ValidatedEntry from "@src/Components/special/ValidatedEntry/ValidatedEntry";
+import { FieldDataService, Validators } from "@src/modules/FieldData/FieldData";
 
 interface Props {}
 
 export default function ThirdPart(props: Props) {
-	const { descriptionActions, state } = useEditCategoryContext();
+	const {
+		descriptionActions,
+		state,
+		setDescHandle,
+		editCategoryActions,
+		validateAddDesc,
+	} = useEditCategoryContext();
 	return (
 		<Card variant="outlined" sx={{ padding: 3 }}>
 			<div className="mb-4">
@@ -43,19 +51,29 @@ export default function ThirdPart(props: Props) {
 										</p>
 									</td>
 									<td align="center" className="py-3">
-										<FieldInput
-											{...v.value}
+										<ValidatedEntry
+											value={v.value}
 											onChange={(d) =>
-												descriptionActions.updateField(d.target.value, i)
+												editCategoryActions.mutateState((p) => {
+													p.descriptionLabels[i].value = d;
+												})
 											}
+											validateFunction={FieldDataService.clubValidators(
+												Validators.validateNull
+											)}
 											type={"text"}
 											placeHolder={"enter number"}
+											setHandle={setDescHandle("desc-input-" + i)}
 										/>
 									</td>
 									<td align="center" className="w-fit">
 										<div
 											onClick={() => {
-												descriptionActions.deleteField(i);
+												editCategoryActions.mutateState((p) => {
+													p.descriptionLabels = p.descriptionLabels.filter(
+														(d) => d.id !== v.id
+													);
+												});
 											}}
 										>
 											<RotateAndScale>
@@ -72,25 +90,40 @@ export default function ThirdPart(props: Props) {
 								<td colSpan={3}>
 									<div className="flex w-full justify-between">
 										<div className="p-2 flex justify-center">
-											<FieldInput
-												{...state.descriptionEntry.key}
+											<ValidatedEntry
+												value={state.descriptionEntry.key}
 												width={"85%"}
 												type={"text"}
 												placeHolder={"enter key"}
 												onChange={(d) =>
-													descriptionActions.setAddKey(d.target.value)
+													editCategoryActions.mutateState((p) => {
+														p.descriptionEntry.key = d;
+													})
 												}
+												validateFunction={FieldDataService.clubValidators(
+													Validators.validateNull,
+													(d) => {
+														for (let i of state.descriptionLabels) {
+															if (d === i.key) return d + " is already present";
+														}
+													}
+												)}
+												setHandle={setDescHandle("desc-input-key")}
 											/>
 										</div>
 										<div className="p-2 flex justify-center">
-											<FieldInput
-												{...state.descriptionEntry.value}
-												onChange={(d) =>
-													descriptionActions.setAddValue(d.target.value)
-												}
+											<ValidatedEntry
+												value={state.descriptionEntry.value}
+												onChange={(d) => editCategoryActions.mutateState(p => {
+													p.descriptionEntry.value = d;
+												})}
 												width={"85%"}
 												type={"text"}
 												placeHolder={"enter value"}
+												validateFunction={FieldDataService.clubValidators(
+													Validators.validateNull
+												)}
+												setHandle={setDescHandle("desc-input-value")}
 											/>
 										</div>
 									</div>
@@ -102,10 +135,7 @@ export default function ThirdPart(props: Props) {
 				<div className="flex justify-end mt-5">
 					<AddMore
 						handleAdd={() => {
-							const verdict = descriptionActions.validateAdd();
-							if (verdict) {
-								descriptionActions.addField();
-							}
+							validateAddDesc();
 						}}
 					/>
 				</div>

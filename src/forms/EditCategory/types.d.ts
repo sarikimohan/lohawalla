@@ -4,33 +4,37 @@ namespace EditCategory {
 	interface DescriptionLabels {
 		id: string;
 		key: string;
-		value: FieldData;
+		value: string;
 	}
 
 	interface State {
 		page: number;
-		negotiation: FieldData;
-		unit: FieldData;
-		categoryName: FieldData;
-		categoryCode: FieldData;
-		description: FieldData;
+		negotiation: string;
+		// TODO -- add support for units 
+		
+		categoryName: string;
+		categoryCode: string;
+		description: string;
 		images: string[];
+		
 		imageFiles: File[]|null;
+
 		credit: {
 			days: number;
-			value: FieldData;
+			value: string;
 			type: PercNum;
+			id: string;
 		}[];
 		creditInput: {
-			key: FieldData;
-			value: FieldData;
+			key: string;
+			value: string;
 		};
 
 		descriptionLabels: DescriptionLabels[];
 
 		descriptionEntry: {
-			key: FieldData;
-			value: FieldData;
+			key: string;
+			value: string;
 		};
 
 		loading: {

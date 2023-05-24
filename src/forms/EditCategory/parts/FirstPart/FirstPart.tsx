@@ -27,6 +27,10 @@ export default function FirstPart(props: Props) {
 						Validators.validateFloat,
 						(d) => Validators.min(d, 0)
 					)}
+					onChange={(d) => {
+						editCategoryActions.mutateState((p) => (p.categoryName = d));
+					}}
+					value={state.categoryName}
 				/>
 			</div>
 			<div className="mb-4">
@@ -42,6 +46,12 @@ export default function FirstPart(props: Props) {
 						Validators.validateInt,
 						(d) => Validators.min(d, 0)
 					)}
+					onChange={(d) => {
+						editCategoryActions.mutateState((p) => {
+							p.categoryName = d;
+						});
+					}}
+					value={state.categoryCode}
 				/>
 			</div>
 			<div className="mb-4">
@@ -60,6 +70,15 @@ export default function FirstPart(props: Props) {
 				<ValidatedEntry
 					placeHolder={"description"}
 					setHandle={setInputHandle("categoryDescription")}
+					validateFunction={FieldDataService.clubValidators(
+						Validators.validateNull
+					)}
+					value={state.description}
+					onChange={(d) => {
+						editCategoryActions.mutateState((p) => {
+							p.description = d;
+						});
+					}}
 				/>
 			</div>
 			<div>

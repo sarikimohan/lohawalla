@@ -14,6 +14,8 @@ export interface RIUnitInput {
 	unitList: Unit[];
 	value: Unit | null;
 	setHandle: PIUnitInput.SetHandle;
+	onOpen?: () => void;
+	onChange?: (unit: Unit) => void;
 }
 
 export namespace PIUnitInput {
@@ -52,22 +54,25 @@ export default function UnitInput(props: RIUnitInput) {
 			isValid: true,
 			validate,
 		});
-	}, []);
+	}, [selectedUnit, inputValue]);
 
 	const validate = () => {
 		// validate the value
 		const verdict = { isValid: true };
 		if (selectedUnit && selectedUnit.weight === -1) {
-			inputValue.error = FieldDataService.registerValidator(
+			const data = { ...inputValue };
+			data.error = FieldDataService.registerValidator(
 				inputValue.value,
 				verdict,
 				Validators.validateNull,
 				Validators.validateFloat,
 				(d) => Validators.min(d, 0)
 			);
-			inputValue.isValid = !inputValue.error;
+			data.isValid = !data.error;
 
-			setInputValue({ ...inputValue });
+			console.log(data);
+
+			setInputValue(data);
 		}
 		props.setHandle({
 			value: selectedUnit,
@@ -85,9 +90,12 @@ export default function UnitInput(props: RIUnitInput) {
 					<TextField error={undefined} {...params} label="Unit" />
 				)}
 				options={props.unitList}
-				onOpen={() => {}}
+				onOpen={() => {
+					props.onOpen;
+				}}
 				onChange={(e, val) => {
 					setSelectedUnit(val);
+					val && props.onChange && props.onChange(val);
 				}}
 				onInputChange={(e, v, r) => {
 					if (r === "clear") {
@@ -106,8 +114,14 @@ export default function UnitInput(props: RIUnitInput) {
 						{"Enter " + selectedUnit.name + " weight"}
 					</p>
 					<FieldInput
+						{...inputValue}
 						type="number"
-						onChange={(d) => {}}
+						onChange={(d) => {
+							setInputValue((p) => ({ ...p, value: d.target.value }));
+							const newVal = { ...selectedUnit };
+							newVal.weight = parseFloat(d.target.value);
+							props.onChange && props.onChange(newVal);
+						}}
 						width={"100%"}
 						placeHolder={`${selectedUnit.name} weight in kg`}
 						name="description"
