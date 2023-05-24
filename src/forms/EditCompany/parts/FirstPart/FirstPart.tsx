@@ -32,13 +32,7 @@ function FirstPart() {
 			<div className="mb-5">
 				<FormFileUpload />
 			</div>
-			<div>
-				<DefaultButton
-					onClick={() => {}}
-					label={"Next"}
-					styles={NextButtonStyleConfig}
-				/>
-			</div>
+
 		</div>
 	);
 }

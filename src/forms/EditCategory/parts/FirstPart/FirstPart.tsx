@@ -23,9 +23,7 @@ export default function FirstPart(props: Props) {
 					placeHolder={"enter category name"}
 					setHandle={setInputHandle("categoryName")}
 					validateFunction={FieldDataService.clubValidators(
-						Validators.validateNull,
-						Validators.validateFloat,
-						(d) => Validators.min(d, 0)
+						Validators.validateNull
 					)}
 					onChange={(d) => {
 						editCategoryActions.mutateState((p) => (p.categoryName = d));
@@ -48,7 +46,7 @@ export default function FirstPart(props: Props) {
 					)}
 					onChange={(d) => {
 						editCategoryActions.mutateState((p) => {
-							p.categoryName = d;
+							p.categoryCode = d;
 						});
 					}}
 					value={state.categoryCode}

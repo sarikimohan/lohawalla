@@ -13,7 +13,7 @@ interface Props {}
 
 export default function ThirdPart(props: Props) {
 	const {
-		descriptionActions,
+		setDescInputHandle,
 		state,
 		setDescHandle,
 		editCategoryActions,
@@ -63,7 +63,7 @@ export default function ThirdPart(props: Props) {
 											)}
 											type={"text"}
 											placeHolder={"enter number"}
-											setHandle={setDescHandle("desc-input-" + i)}
+											setHandle={setDescHandle("desc-input-" + v.id)}
 										/>
 									</td>
 									<td align="center" className="w-fit">
@@ -104,26 +104,29 @@ export default function ThirdPart(props: Props) {
 													Validators.validateNull,
 													(d) => {
 														for (let i of state.descriptionLabels) {
-															if (d === i.key) return d + " is already present";
+															if (d.trim() === i.key)
+																return d + " is already present";
 														}
 													}
 												)}
-												setHandle={setDescHandle("desc-input-key")}
+												setHandle={setDescInputHandle("desc-input-key")}
 											/>
 										</div>
 										<div className="p-2 flex justify-center">
 											<ValidatedEntry
 												value={state.descriptionEntry.value}
-												onChange={(d) => editCategoryActions.mutateState(p => {
-													p.descriptionEntry.value = d;
-												})}
+												onChange={(d) =>
+													editCategoryActions.mutateState((p) => {
+														p.descriptionEntry.value = d;
+													})
+												}
 												width={"85%"}
 												type={"text"}
 												placeHolder={"enter value"}
 												validateFunction={FieldDataService.clubValidators(
 													Validators.validateNull
 												)}
-												setHandle={setDescHandle("desc-input-value")}
+												setHandle={setDescInputHandle("desc-input-value")}
 											/>
 										</div>
 									</div>

@@ -28,6 +28,8 @@ interface ContextProps {
 	setInputHandle: (name: string) => SetHandle;
 	setCreditHandle: (name: string) => SetHandle;
 	setDescHandle: (name: string) => SetHandle;
+	setCredInputHandle: (name: string) => SetHandle;
+	setDescInputHandle: (name: string) => SetHandle;
 	setUnitHandle: PIUnitInput.SetHandle;
 	validateAdd: () => Promise<void>;
 	validateAddDesc: () => Promise<void>;
@@ -70,11 +72,15 @@ export default function EditCategory(props: Props) {
 		credit: Record<string, SetHandleProps>;
 		unitInput: PIUnitInput.SetHandleProps;
 		descRef: Record<string, SetHandleProps>;
+		descInput: Record<string, SetHandleProps>;
+		creditInput: Record<string, SetHandleProps>;
 	}>({
 		plainFields: {},
 		credit: {},
 		unitInput: {} as PIUnitInput.SetHandleProps,
 		descRef: {},
+		creditInput: {},
+		descInput: {},
 	});
 
 	const setInputHandle = (name: string) => (d: SetHandleProps) => {
@@ -89,9 +95,16 @@ export default function EditCategory(props: Props) {
 	const setDescHandle = (name: string) => (d: SetHandleProps) => {
 		inputRef.current.descRef[name] = d;
 	};
+	const setDescInputHandle = (name: string) => (d: SetHandleProps) => {
+		inputRef.current.descInput[name] = d;
+	};
+	const setCredInputHandle = (name: string) => (d: SetHandleProps) => {
+		inputRef.current.creditInput[name] = d;
+	};
 	const validate = async () => {
 		// triggering the form validation
 		const current = inputRef.current;
+		console.log(current);
 		let verdict = true;
 
 		for (let i of Object.values(current.plainFields)) {
@@ -101,6 +114,9 @@ export default function EditCategory(props: Props) {
 			await i.validate();
 		}
 		current.unitInput.validate();
+		for (let i of Object.values(current.descRef)) {
+			await i.validate();
+		}
 
 		// returning the validation verdict
 		verdict &&= Object.values(current.plainFields).reduce(
@@ -112,13 +128,17 @@ export default function EditCategory(props: Props) {
 			true
 		);
 		verdict &&= current.unitInput.isValid;
+		verdict &&= Object.values(current.descRef).reduce(
+			(a, c) => a && c.isValid,
+			true
+		);
 
 		return verdict;
 	};
 
 	const validateAdd = async () => {
-		const handleKey = inputRef.current.credit["credit-key"];
-		const handleValue = inputRef.current.credit["credit-value"];
+		const handleKey = inputRef.current.creditInput["credit-key"];
+		const handleValue = inputRef.current.creditInput["credit-value"];
 
 		await handleKey.validate();
 		await handleValue.validate();
@@ -132,8 +152,8 @@ export default function EditCategory(props: Props) {
 
 				p.credit.push({
 					id: nanoid(),
-					days: parseInt(key),
-					value: value,
+					days: parseInt(key.trim()),
+					value: value.trim(),
 					type: "percentage",
 				});
 				p.creditInput.key = "";
@@ -142,8 +162,8 @@ export default function EditCategory(props: Props) {
 	};
 
 	const validateAddDesc = async () => {
-		const handleKey = inputRef.current.descRef["desc-input-key"];
-		const handleValue = inputRef.current.descRef["desc-input-value"];
+		const handleKey = inputRef.current.descInput["desc-input-key"];
+		const handleValue = inputRef.current.descInput["desc-input-value"];
 
 		await handleKey.validate();
 		await handleValue.validate();
@@ -154,8 +174,8 @@ export default function EditCategory(props: Props) {
 			editCategoryActions.mutateState((p) => {
 				p.descriptionLabels.push({
 					id: nanoid(),
-					key: p.descriptionEntry.key,
-					value: p.descriptionEntry.value,
+					key: p.descriptionEntry.key.trim(),
+					value: p.descriptionEntry.value.trim(),
 				});
 				p.descriptionEntry.key = "";
 				p.descriptionEntry.value = "";
@@ -176,6 +196,8 @@ export default function EditCategory(props: Props) {
 				validateAdd,
 				setDescHandle,
 				validateAddDesc,
+				setDescInputHandle,
+				setCredInputHandle,
 			}}
 		>
 			<PopUpContainer>
@@ -206,10 +228,6 @@ export default function EditCategory(props: Props) {
 					<div className="my-5">
 						<DefaultButton
 							onClick={function () {
-								// const verdict = editCategoryActions.validateForm();
-								// if (verdict) {
-								// 	console.log("okay");
-								// }
 								validate().then((d) => {
 									console.log(d);
 								});

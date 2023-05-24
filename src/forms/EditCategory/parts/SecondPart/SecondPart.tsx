@@ -15,10 +15,10 @@ export default function SecondPart(props: Props) {
 	const {
 		state,
 		creditActions,
-		setCreditHandle,
 		editCategoryActions,
 		validateAdd,
-		setDescHandle
+		setCredInputHandle,
+		setCreditHandle,
 	} = useEditCategoryContext();
 
 	return (
@@ -80,7 +80,17 @@ export default function SecondPart(props: Props) {
 											placeHolder={"enter number"}
 											rightIcon={v.type === "numeric" ? "₹" : "%"}
 											value={v.value}
-											setHandle={setCreditHandle("credit-input-" + i)}
+											setHandle={setCreditHandle("credit-input-" + v.id)}
+											validateFunction={FieldDataService.clubValidators(
+												Validators.validateNull,
+												Validators.validateFloat,
+												(d) => Validators.min(d, 0),
+												(d) => {
+													if (v.type === "percentage") {
+														return Validators.max(d, 100);
+													}
+												}
+											)}
 										/>
 									</td>
 									<td align="center" className="w-fit">
@@ -115,14 +125,14 @@ export default function SecondPart(props: Props) {
 												width={"85%"}
 												type={"text"}
 												placeHolder={"enter key"}
-												setHandle={setCreditHandle("credit-key")}
+												setHandle={setCredInputHandle("credit-key")}
 												validateFunction={FieldDataService.clubValidators(
 													Validators.validateNull,
 													Validators.validateInt,
 													(d) => Validators.min(d, 0),
 													(v) => {
 														for (let d of state.credit) {
-															if (v === d.days.toString()) {
+															if (v.trim() === d.days.toString()) {
 																return v + " already present";
 															}
 														}
@@ -141,11 +151,12 @@ export default function SecondPart(props: Props) {
 												width={"85%"}
 												type={"text"}
 												placeHolder={"enter value"}
-												setHandle={setCreditHandle("credit-value")}
+												setHandle={setCredInputHandle("credit-value")}
 												validateFunction={FieldDataService.clubValidators(
 													Validators.validateNull,
 													Validators.validateFloat,
-													(d) => Validators.min(d, 0)
+													(d) => Validators.min(d, 0),
+													(d) => Validators.max(d, 100)
 												)}
 											/>
 										</div>

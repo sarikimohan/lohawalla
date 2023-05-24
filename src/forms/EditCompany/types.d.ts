@@ -1,10 +1,10 @@
 namespace EditCompany {
 	interface State {
-		companyName: FieldData;
-		description: FieldData;
+		companyName: string;
+		description: string;
 
 		images: string[];
-		addedImages: string[];
+		
 		imageFiles: File[];
 
 		priceStructure: (PriceField & {

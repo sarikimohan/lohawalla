@@ -92,13 +92,6 @@ export default function SecondPart(props: Props) {
 						<p className="button fcolor-iris">ADD MORE</p>
 					</Button>
 				</div>
-				<div>
-					<DefaultButton
-						onClick={function (): void {}}
-						label={"Next"}
-						styles={NextButtonStyleConfig}
-					/>
-				</div>
 			</Card>
 			{showAddForm && (
 				<AddPriceField
