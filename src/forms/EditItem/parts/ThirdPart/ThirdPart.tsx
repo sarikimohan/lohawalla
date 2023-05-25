@@ -1,7 +1,7 @@
 import { Card } from "@mui/material";
 import DefaultButton from "@src/Components/common/buttons/DefaultButton/DefaultButton";
 import FormCardHeader from "@src/Components/forms/FormCardHeader/FormCardHeader";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useEditItemContext } from "../../EditItem";
 import EntryTable from "@src/Components/special/EntryTable/EntryTable";
 import { FieldDataService, Validators } from "@src/modules/FieldData/FieldData";
@@ -16,6 +16,11 @@ export default function ThirdPart(props: Props) {
 		handle,
 		setHandle,
 	} = useEditItemContext();
+
+	const ref = useRef<{ isVaid: boolean; validate: () => void }>({
+		isVaid: true,
+		validate: () => {},
+	});
 
 	return (
 		<>
@@ -82,7 +87,12 @@ export default function ThirdPart(props: Props) {
 								});
 							});
 						}}
-						// setHandle={setHandle("descLABELs")}
+						setHandle={(i, v) => {
+							ref.current = {
+								isVaid: i,
+								validate: v,
+							};
+						}}
 					/>
 				</Card>
 			</Card>
@@ -91,10 +101,18 @@ export default function ThirdPart(props: Props) {
 					Object.values(handle.current).map((v, i) => {
 						v.validate();
 					});
-					console.log(
-						// Object.values(handle.current).reduce((a, c) => a && c.isValid, true)
-						handle.current
-					);
+					ref.current.validate();
+
+					// final validation
+					const verdict =
+						Object.values(handle.current).reduce(
+							(a, c) => a && c.isValid,
+							true
+						) && ref.current.isVaid;
+
+					if (verdict) {
+						console.log("validate");
+					}
 				}}
 				label={"SAVE"}
 			/>

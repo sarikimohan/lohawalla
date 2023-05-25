@@ -18,7 +18,7 @@ interface ContextProps {
 			string,
 			{
 				isValid: boolean;
-				validate: () => void;
+				validate: () => Promise<void>;
 			}
 		>
 	>;

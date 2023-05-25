@@ -65,7 +65,7 @@ export default function SecondPart(props: Props) {
 											);
 										}}
 										placeHolder="enter online"
-										setHandle={setHandle("marginONline")}
+										setHandle={setHandle("marginOnline")}
 									/>
 								</td>
 							</tr>
