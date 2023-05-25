@@ -3,16 +3,17 @@ import FieldInput from "@src/Components/forms/FieldInput/FieldInput";
 import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAndScale";
 import AssetIndex from "@src/assets/AssetIndex";
 import React from "react";
-import ScaleOnHover from "@src/Components/interactions/ScaleOnHover/ScaleOnHover";
 import FormCardHeader from "@src/Components/forms/FormCardHeader/FormCardHeader";
-import DefaultButton from "@src/Components/common/buttons/DefaultButton/DefaultButton";
-import NextButtonStyleConfig from "@src/Components/common/buttons/configurations/NextButtonStyle.config";
 import AddMore from "@src/Components/common/buttons/AddMore/AddMore";
+import { Groups, useEditCompanyContext } from "../../EditCompany";
+import ValidatedEntry from "@src/Components/special/ValidatedEntry/ValidatedEntry";
+import { FieldDataService, Validators } from "@src/modules/FieldData/FieldData";
 
 interface Props {}
 
 export default function ThirdPart(props: Props) {
-	// const { state, thirdFormActions } = useAddCompanyContext();
+	const { state, setHandle, deleteHandle, stateUtils, addDesc } =
+		useEditCompanyContext();
 
 	return (
 		<Card variant="outlined" sx={{ padding: 3 }}>
@@ -40,21 +41,43 @@ export default function ThirdPart(props: Props) {
 						</thead>
 
 						<tbody>
-							{[].map((v, i) => (
+							{state.descriptionLabels.map((v, i) => (
 								<tr className="mb-2 border-b">
 									<td align="center">
-										<p className="text-md font-bold text-slate-700 py-5">''</p>
+										<p className="text-md font-bold text-slate-700 py-5">
+											{v.key}
+										</p>
 									</td>
 									<td align="center" className="w-2/5">
-										<FieldInput
+										<ValidatedEntry
 											type={"text"}
+											value={v.value}
+											validateFunction={FieldDataService.clubValidators(
+												Validators.validateNull
+											)}
+											onChange={(d) => {
+												stateUtils.mutateState((p) => {
+													p.descriptionLabels[i].value = d;
+												});
+											}}
 											placeHolder={"enter value"}
-											isValid={undefined}
-											data={""}
+											setHandle={setHandle(
+												Groups.descEntry,
+												"desc-entry-" + v.id
+											)}
 										/>
 									</td>
 									<td align="center" className="w-fit">
-										<div onClick={() => {}}>
+										<div
+											onClick={() => {
+												deleteHandle(Groups.descEntry, "desc-entry-" + v.id);
+												stateUtils.mutateState((p) => {
+													p.descriptionLabels = p.descriptionLabels.filter(
+														(d) => v.id !== d.id
+													);
+												});
+											}}
+										>
 											<RotateAndScale>
 												<AssetIndex.MinusCircleIcon />
 											</RotateAndScale>
@@ -68,23 +91,45 @@ export default function ThirdPart(props: Props) {
 							>
 								<td align="center" className="p-1">
 									<div className="p-2">
-										<FieldInput
+										<ValidatedEntry
 											width={"85%"}
 											type={"text"}
 											placeHolder={"enter key"}
-											isValid={undefined}
-											data={""}
+											value={state.descriptionEntry.key}
+											onChange={(d) => {
+												stateUtils.mutateState((p) => {
+													p.descriptionEntry.key = d;
+												});
+											}}
+											validateFunction={FieldDataService.clubValidators(
+												Validators.validateNull,
+												(d) => {
+													for (let i of state.descriptionLabels) {
+														if (d.trim() === i.key)
+															return d + " is already present";
+													}
+												}
+											)}
+											setHandle={setHandle(Groups.descEntry, "key")}
 										/>
 									</div>
 								</td>
 								<td align="center" className="p-1" colSpan={2}>
 									<div className="p-2">
-										<FieldInput
+										<ValidatedEntry
 											width={"85%"}
 											type={"text"}
 											placeHolder={"enter value"}
-											isValid={undefined}
-											data={""}
+											value={state.descriptionEntry.value}
+											onChange={(d) => {
+												stateUtils.mutateState((p) => {
+													p.descriptionEntry.value = d;
+												});
+											}}
+											validateFunction={FieldDataService.clubValidators(
+												Validators.validateNull
+											)}
+											setHandle={setHandle(Groups.descEntry, "value")}
 										/>
 									</div>
 								</td>
@@ -93,7 +138,11 @@ export default function ThirdPart(props: Props) {
 					</table>
 				</div>
 				<div className="crow jfe mt-5">
-					<AddMore handleAdd={() => {}} />
+					<AddMore
+						handleAdd={() => {
+							addDesc();
+						}}
+					/>
 				</div>
 			</Card>
 		</Card>

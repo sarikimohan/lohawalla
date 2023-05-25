@@ -9,11 +9,14 @@ import DefaultButton from "@src/Components/common/buttons/DefaultButton/DefaultB
 import NextButtonStyleConfig from "@src/Components/common/buttons/configurations/NextButtonStyle.config";
 import Attention from "@src/Components/feedback/Alerts/Attention";
 import Tip from "@src/Components/feedback/Tooltip/Tip";
+import ValidatedEntry from "@src/Components/special/ValidatedEntry/ValidatedEntry";
+import { Groups, useEditCompanyContext } from "../../EditCompany";
+import { FieldDataService, Validators } from "@src/modules/FieldData/FieldData";
 
 interface Props {}
 
 export default function SecondPart(props: Props) {
-	// const { state, secondFormActions } = useAddCompanyContext();
+	const { setHandle, state, stateUtils } = useEditCompanyContext();
 	const [showAddForm, setShowAddForm] = useState(false);
 
 	return (
@@ -45,52 +48,56 @@ export default function SecondPart(props: Props) {
 										Amount
 									</p>
 								</th>
-								<th className="w-fit"></th>
 							</tr>
 						</thead>
 
 						<tbody>
-							{[].map((v, i) => (
+							{state.priceStructure.map((v, i) => (
 								<tr className="mb-2 border-b">
 									<td align="center">
 										<p className="text-md font-bold text-slate-700 py-3">
 											<span
-												className={false ? "text-green-500" : "text-red-500"}
-											></span>
+												className={
+													v.operation === "add"
+														? "text-green-500"
+														: "text-red-500"
+												}
+											>
+												{v.operation === "add" ? "+" : "-"}
+												{v.name} {v.type === "numeric" ? "₹" : "%"}
+											</span>
 										</p>
 									</td>
 									<td align="center">
-										{false ? <></> : <Checkbox onChange={(e) => {}} />}
+										<Checkbox checked={v.isFixed} disabled />
 									</td>
 									<td align="center" className="w-2/5 py-3">
-										<FieldInput
-											isValid={undefined}
-											data={""}
+										<ValidatedEntry
 											type={"number"}
-											placeHolder={""}
+											placeHolder={"enter value"}
+											value={v.value}
+											onChange={(d) => {
+												stateUtils.mutateState((p) => {
+													p.priceStructure[i].value = d;
+												});
+											}}
+											validateFunction={FieldDataService.clubValidators(
+												Validators.validateNull,
+												Validators.validateFloat,
+												(d) => {
+													if (v.type === "percentage") {
+														return Validators.max(d, 100);
+													}
+												},
+												(d) => Validators.min(d, 0)
+											)}
+											setHandle={setHandle(Groups.priceField, "pf" + v._id)}
 										/>
-									</td>
-									<td align="center" className="w-fit">
-										<div onClick={() => {}}>
-											<RotateAndScale>
-												<AssetIndex.MinusCircleIcon />
-											</RotateAndScale>
-										</div>
 									</td>
 								</tr>
 							))}
 						</tbody>
 					</table>
-				</div>
-				<div className="mt-8 mb-6 flex justify-end">
-					<Button
-						onClick={() => {}}
-						variant="outlined"
-						sx={{ borderColor: "var(--iris)", minWidth: "max-content" }}
-						startIcon={<AssetIndex.PlusIconBlue />}
-					>
-						<p className="button fcolor-iris">ADD MORE</p>
-					</Button>
 				</div>
 			</Card>
 			{showAddForm && (

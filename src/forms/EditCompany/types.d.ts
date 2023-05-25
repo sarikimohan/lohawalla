@@ -2,23 +2,24 @@ namespace EditCompany {
 	interface State {
 		companyName: string;
 		description: string;
-
-		images: string[];
-		
-		imageFiles: File[];
-
-		priceStructure: (PriceField & {
-			modifyStatus: ModifyStatus;
+		priceStructure: {
 			_id: string;
-		})[];
-
-		tempPriceStructure: PriceField[];
-
-		descriptionLabels: (DescriptionLabels & { _id: string })[];
-
-		loading: {
-			saveImage: AsyncState;
-			saveData: AsyncState;
-		};
+			name: string;
+			value: string;
+			position: number;
+			isFixed: boolean;
+			type: PercNum;
+			operation: OpType;
+		}[];
+		descriptionLabels: {
+			id: string;
+			key: string;
+			value: string;
+			position: number;
+		}[];
+		descriptionEntry: {
+			key: string;
+			value: string;
+		}
 	}
 }
