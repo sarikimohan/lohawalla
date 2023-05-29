@@ -5,7 +5,6 @@ import React, { useRef, useState } from "react";
 import { useEditItemContext } from "../../EditItem";
 import EntryTable from "@src/Components/special/EntryTable/EntryTable";
 import { FieldDataService, Validators } from "@src/modules/FieldData/FieldData";
-import EditItemActions from "../../actions/EditItemActions";
 
 interface Props {}
 
