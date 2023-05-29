@@ -1,7 +1,7 @@
 export class FieldDataService {
-	static getDefaultField() {
+	static getDefaultField(initial: string = '') {
 		const d: FieldData = {
-			value: "",
+			value: initial,
 			isValid: undefined,
 			error: undefined,
 		};
@@ -59,7 +59,7 @@ export class Validators {
 		}
 	}
 	static validateNull(data: string) {
-		if (data.length === 0) return "required";
+		if (data.trim().length === 0) return "required";
 	}
 
 	static min(data: string, value: number) {

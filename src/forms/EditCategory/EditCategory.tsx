@@ -1,12 +1,11 @@
 import FormContainer from "@src/Components/common/FormContainer/FormContainer";
 import PopUpContainer from "@src/Components/common/Layout/PopUpContainer/PopUpContainer";
 import FormHeader from "@src/Components/forms/FormHeader/FormHeader";
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import FirstPart from "./parts/FirstPart/FirstPart";
 import { Divider } from "@mui/material";
 import SecondPart from "./parts/SecondPart/SecondPart";
 import ThirdPart from "./parts/ThirdPart/ThirdPart";
-import InitialState from "./managment/state/initialState";
 import EditCategoryActions from "./managment/actions/EditCategoryActions";
 import DescriptionActions from "./managment/actions/DescriptionActions";
 import CreditActions from "./managment/actions/CreditActions";
@@ -18,6 +17,8 @@ import { SetHandleProps } from "@src/Components/special/ValidatedEntry/Validated
 import { PIUnitInput } from "./parts/FirstPart/components/UnitInput/UnitInput";
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 import { nanoid } from "nanoid";
+import ServerActions from "./managment/actions/ServerActions";
+import { useAuthGuardContext } from "@src/auth/AuthGuard/AuthGuard";
 
 interface Props {}
 interface ContextProps {
@@ -33,6 +34,15 @@ interface ContextProps {
 	setUnitHandle: PIUnitInput.SetHandle;
 	validateAdd: () => Promise<void>;
 	validateAddDesc: () => Promise<void>;
+}
+
+export interface Handle {
+	plainFields: Record<string, SetHandleProps>;
+	credit: Record<string, SetHandleProps>;
+	unitInput: PIUnitInput.SetHandleProps;
+	descRef: Record<string, SetHandleProps>;
+	descInput: Record<string, SetHandleProps>;
+	creditInput: Record<string, SetHandleProps>;
 }
 
 const EditCategoryContext = React.createContext({} as ContextProps);
@@ -59,22 +69,16 @@ export default function EditCategory(props: Props) {
 		loading: {
 			saveImages: AsyncStateFactory(),
 			saveData: AsyncStateFactory(),
+			fetchForm: AsyncStateFactory(),
 		},
 		negotiation: "",
+		unitList: [],
+		unit: null,
 	});
 
-	const editCategoryActions = new EditCategoryActions(state, setState);
-	const descriptionActions = new DescriptionActions(state, setState);
-	const creditActions = new CreditActions(state, setState);
+	const id = "6474edf6fa5927ec92432348";
 
-	const inputRef = useRef<{
-		plainFields: Record<string, SetHandleProps>;
-		credit: Record<string, SetHandleProps>;
-		unitInput: PIUnitInput.SetHandleProps;
-		descRef: Record<string, SetHandleProps>;
-		descInput: Record<string, SetHandleProps>;
-		creditInput: Record<string, SetHandleProps>;
-	}>({
+	const inputRef = useRef<Handle>({
 		plainFields: {},
 		credit: {},
 		unitInput: {} as PIUnitInput.SetHandleProps,
@@ -82,6 +86,17 @@ export default function EditCategory(props: Props) {
 		creditInput: {},
 		descInput: {},
 	});
+
+	const editCategoryActions = new EditCategoryActions(state, setState);
+	const descriptionActions = new DescriptionActions(state, setState);
+	const creditActions = new CreditActions(state, setState);
+	const serverActions = new ServerActions(state, setState, inputRef);
+
+	const { user } = useAuthGuardContext();
+
+	useEffect(() => {
+		serverActions.inflate(id);
+	}, []);
 
 	const setInputHandle = (name: string) => (d: SetHandleProps) => {
 		inputRef.current.plainFields[name] = d;
@@ -104,7 +119,7 @@ export default function EditCategory(props: Props) {
 	const validate = async () => {
 		// triggering the form validation
 		const current = inputRef.current;
-		console.log(current);
+
 		let verdict = true;
 
 		for (let i of Object.values(current.plainFields)) {
@@ -229,10 +244,12 @@ export default function EditCategory(props: Props) {
 						<DefaultButton
 							onClick={function () {
 								validate().then((d) => {
-									console.log(d);
+									serverActions.save(id, user);
 								});
 							}}
 							label={"Save"}
+							loading={state.loading.saveData.status === "initialized"}
+							loadingColor={"white"}
 						/>
 					</div>
 				</FormContainer>

@@ -19,8 +19,6 @@ function FirstPart() {
 	const { state, setStateActions, addCategoryActions, validate } =
 		useAddCategoryContext();
 
-	console.log(state.firstForm.unit && state.firstForm.unit.weight === -1);
-
 	return (
 		<div className={style.inputBox}>
 			<p className="body fw-medium fcolor-fuschia">Category Name</p>
@@ -83,7 +81,7 @@ function FirstPart() {
 				value={state.firstForm.unit}
 			/>
 			<Spacer height={20} />
-			{state.firstForm.unit && state.firstForm.unit.weight === -1 && (
+			{state.firstForm.unit && !state.firstForm.unit.weight && (
 				<>
 					<p className="body fw-medium fcolor-fuschia">
 						{"Enter " + state.firstForm.unit.name + " weight"}
@@ -101,7 +99,7 @@ function FirstPart() {
 					/>
 				</>
 			)}
-			{state.firstForm.unit && state.firstForm.unit.weight !== -1 && (
+			{state.firstForm.unit && state.firstForm.unit.weight && (
 				<>
 					<p className="body fw-medium fcolor-fuschia">Unit weight is</p>
 					<FieldInput

@@ -185,7 +185,9 @@ export default class AddCategoryActions extends ServerStateUtils<AddCategory.Sta
 		}
 	}
 
-	setSelectedUnit(unit: { id: string; name: string; weight: number } | null) {
+	setSelectedUnit(
+		unit: { id: string; name: string; weight: number | null } | null
+	) {
 		this.mutateState((p) => {
 			p.firstForm.unit = unit;
 		});

@@ -34,18 +34,20 @@ export default class SaveCategoryActions extends ServerStateUtils<AddCategory.St
 
 		if (this.state.firstForm.unit) {
 			const selectedUnit = this.state.firstForm.unit;
-			const unit = {
+			const unit: {
+				unitsId: string;
+				weight: number | null;
+			} = {
 				unitsId: "",
 				weight: -1,
 			};
 			unit.unitsId = selectedUnit.id;
-			unit.weight =
-				selectedUnit.weight === -1
-					? parseFloat(this.state.firstForm.unitWeightInputField.value)
-					: selectedUnit.weight;
+			unit.weight = !selectedUnit.weight
+				? parseFloat(this.state.firstForm.unitWeightInputField.value)
+				: null;
 			d.unit = unit;
 		} else {
-			d.unit = undefined;
+			d.unit = null;
 		}
 
 		const res = await this.handleAsync(

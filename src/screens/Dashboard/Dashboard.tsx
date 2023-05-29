@@ -48,9 +48,10 @@ function Dashboard() {
 			>
 				{/* <PriceCalculation /> */}
 				{/* <AddProductForm /> */}
-				{/* <EditCategory /> */}
+				<EditCategory />
 				{/* <EditCompany /> */}
-				<EditItem />
+				{/* <EditItem /> */}
+				
 			</div>
 		</div>
 	);

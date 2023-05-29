@@ -5,12 +5,17 @@ import ValidatedEntry from "@src/Components/special/ValidatedEntry/ValidatedEntr
 import FieldTextArea from "@src/Components/forms/FieldInput/FieldTextArea";
 import UnitInput, { PIUnitInput } from "./components/UnitInput/UnitInput";
 import { FieldDataService, Validators } from "@src/modules/FieldData/FieldData";
+import checkNameIsCode from "../../fetch/services/checkCodeIsUnique";
+import checkNameIsUnique from "../../fetch/services/checkNameIsUnique";
+import checkCodeIsUnique from "../../fetch/services/checkCodeIsUnique";
 
 interface Props {}
 
 export default function FirstPart(props: Props) {
 	const { editCategoryActions, state, setInputHandle, setUnitHandle } =
 		useEditCategoryContext();
+
+	console.log(state.unit);
 
 	return (
 		<div>
@@ -29,6 +34,7 @@ export default function FirstPart(props: Props) {
 						editCategoryActions.mutateState((p) => (p.categoryName = d));
 					}}
 					value={state.categoryName}
+					asyncValidator={(d) => checkNameIsUnique(d, state.categoryName)}
 				/>
 			</div>
 			<div className="mb-4">
@@ -44,6 +50,7 @@ export default function FirstPart(props: Props) {
 						Validators.validateInt,
 						(d) => Validators.min(d, 0)
 					)}
+					asyncValidator={(d) => checkCodeIsUnique(d, state.categoryCode)}
 					onChange={(d) => {
 						editCategoryActions.mutateState((p) => {
 							p.categoryCode = d;
@@ -55,11 +62,8 @@ export default function FirstPart(props: Props) {
 			<div className="mb-4">
 				<p className="text-md font-semibold text-slate-900 mb-1">Unit</p>
 				<UnitInput
-					unitList={[
-						{ id: "", name: "unit1", weight: -1 },
-						{ id: "2", name: "unit2", weight: 1000 },
-					]}
-					value={null}
+					unitList={state.unitList}
+					value={state.unit}
 					setHandle={setUnitHandle}
 				/>
 			</div>
@@ -75,6 +79,25 @@ export default function FirstPart(props: Props) {
 					onChange={(d) => {
 						editCategoryActions.mutateState((p) => {
 							p.description = d;
+						});
+					}}
+				/>
+			</div>
+			<div className="mb-4">
+				<p className="text-md font-semibold text-slate-900 mb-1">Negotiation</p>
+				<ValidatedEntry
+					placeHolder={"negotiation"}
+					setHandle={setInputHandle("categoryNegotiation")}
+					validateFunction={FieldDataService.clubValidators(
+						Validators.validateNull,
+						Validators.validateFloat,
+						(d) => Validators.min(d, 0),
+						(d) => Validators.max(d, 100)
+					)}
+					value={state.negotiation}
+					onChange={(d) => {
+						editCategoryActions.mutateState((p) => {
+							p.negotiation = d;
 						});
 					}}
 				/>

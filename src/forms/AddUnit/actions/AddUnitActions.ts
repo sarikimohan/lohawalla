@@ -21,7 +21,7 @@ export default class AddUnitActions extends ServerStateUtils<
 				name: this.state.unitName,
 				weight:
 					this.state.unitWeight === ""
-						? undefined
+						? null
 						: parseFloat(this.state.unitWeight),
 			})
 		);

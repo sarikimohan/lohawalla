@@ -3,7 +3,7 @@ import UnitInstance from "../instance";
 
 export interface CreateUnitBody {
 	name: string;
-	weight?: number;
+	weight: number | null;
 }
 
 export default async function createUnit(data: CreateUnitBody) {

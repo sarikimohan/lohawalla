@@ -10,14 +10,12 @@ namespace EditCategory {
 	interface State {
 		page: number;
 		negotiation: string;
-		// TODO -- add support for units 
-		
 		categoryName: string;
 		categoryCode: string;
 		description: string;
 		images: string[];
-		
-		imageFiles: File[]|null;
+
+		imageFiles: File[] | null;
 
 		credit: {
 			days: number;
@@ -36,10 +34,18 @@ namespace EditCategory {
 			key: string;
 			value: string;
 		};
-
-		loading: {
-			saveImages: AsyncState;
-			saveData: AsyncState;
-		};
+		unitList: {
+			_id: string;
+			name: string;
+			weight: number | null;
+			value: string | null;
+		}[];
+		unit: {
+			_id: string;
+			name: string;
+			weight: number | null;
+			value: string | null;
+		} | null;
+		loading: Record<string, AsyncState>;
 	}
 }

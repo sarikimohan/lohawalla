@@ -1,0 +1,6 @@
+.circleMinus {
+	transition: color 0.3s;
+}
+.circleMinus:hover > path {
+	stroke: red;
+}

@@ -34,7 +34,7 @@ const ValidatedEntry = forwardRef<
 	});
 
 	const validate = async () => {
-		let err = undefined;
+		let err: string | undefined = undefined;
 		if (props.validateFunction) {
 			err = props.validateFunction(state.value);
 			props.onValidation && props.onValidation(err === undefined);
@@ -45,9 +45,11 @@ const ValidatedEntry = forwardRef<
 			setLoading((p) => ({ ...p, status: "initialized" }));
 			try {
 				const res = await asyncValidator(state.value);
+				console.log("res was", res);
 				err = res;
 				setLoading((p) => ({ ...p, status: "success" }));
-			} catch (err) {
+			} catch (error) {
+				console.log("async failed");
 				err = "server error, failed to validate";
 				setLoading((p) => ({ ...p, status: "failed" }));
 			} finally {
@@ -57,7 +59,7 @@ const ValidatedEntry = forwardRef<
 						validate,
 						value: state.value,
 					});
-				setState({ value: state.value, isValid: !err, error: err });
+				setState((p) => ({ ...p, isValid: !err, error: err }));
 				setLoading((p) => ({ ...p, status: "dormant" }));
 			}
 		} else {
@@ -72,7 +74,7 @@ const ValidatedEntry = forwardRef<
 	};
 
 	useEffect(() => {
-		setState({ value: props.value ? props.value : "" });
+		setState((p) => ({ ...p, value: props.value ? props.value : "" }));
 	}, [props.value]);
 
 	useEffect(() => {
@@ -82,7 +84,7 @@ const ValidatedEntry = forwardRef<
 				validate,
 				value: state.value,
 			});
-	}, []);
+	});
 
 	return (
 		<FieldInput

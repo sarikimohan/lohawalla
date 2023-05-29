@@ -46,13 +46,13 @@ namespace AddCategory {
 		unitList: {
 			id: string;
 			name: string;
-			weight: number;
+			weight: number | null;
 		}[];
 		unit: {
 			id: string;
 			name: string;
-			weight: number;
-		}|null;
+			weight: number | null;
+		} | null;
 		showUnitWeightInput: boolean;
 		unitWeightInputField: FieldData;
 	}
@@ -94,10 +94,10 @@ namespace AddCategoryAsync {
 		name: string;
 		code: string;
 		description: string;
-		unit?: {
+		unit: {
 			unitsId: string;
-			weight: number;
-		};
+			weight: number | null;
+		} | null;
 		credit: CreditData[];
 		negotiation: number;
 		descriptionLabels: DescriptionData[];

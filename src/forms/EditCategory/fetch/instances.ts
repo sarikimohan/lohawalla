@@ -1,5 +1,7 @@
 import AxiosFactory from "@src/modules/axios/AxiosFactory";
 
 const EditCategoryInstance = AxiosFactory.createInstance({
-	baseURL: "",
+	baseURL: "purchaser/forms/editCategoryForm/",
 });
+
+export default EditCategoryInstance;
