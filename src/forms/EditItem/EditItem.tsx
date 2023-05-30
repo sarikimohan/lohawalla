@@ -11,6 +11,7 @@ import {
 	SetHandleProps,
 } from "@src/Components/special/ValidatedEntry/ValidatedEntry";
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
+import ValueChange from "@src/modules/ValueChange/ValueChangeImpl";
 
 interface Props {}
 
@@ -35,8 +36,8 @@ export const useEditItemContext = () => useContext(EditItemContext);
 
 export default function EditItem(props: Props) {
 	const [state, setState] = useState<EditItem.State>({
-		itemName: "",
-		itemCode: "",
+		itemName: new ValueChange(""),
+		itemCode: new ValueChange(""),
 		itemHSNCode: "",
 		description: "",
 		images: [],
@@ -47,7 +48,7 @@ export default function EditItem(props: Props) {
 		},
 		descriptionLabels: [],
 		loading: {
-			saveData: AsyncStateFactory()
+			saveData: AsyncStateFactory(),
 		},
 		validation: true,
 		triggerSubmit: false,

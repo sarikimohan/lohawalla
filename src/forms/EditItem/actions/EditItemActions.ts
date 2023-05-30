@@ -17,8 +17,8 @@ export default class EditItemActions extends ServerStateUtils<EditItem.State> {
 			this.mutateState((p) => {
 				const data = res.data;
 
-				p.itemName = data.itemName;
-				p.itemCode = data.itemCode;
+				p.itemName.setValue(data.itemName);
+				p.itemCode.setValue(data.itemCode);
 				p.itemHSNCode = data.itemHSNCode.toString();
 				p.description = data.description;
 				p.images = data.images;
@@ -42,11 +42,11 @@ export default class EditItemActions extends ServerStateUtils<EditItem.State> {
 		};
 	}
 
-	async save(id: string, by:NameIdPair) {
+	async save(id: string, by: NameIdPair) {
 		const d: EditItemData = {
 			id,
-			name: this.state.itemName,
-			code: this.state.itemCode,
+			name: this.state.itemName.getValue(),
+			code: this.state.itemCode.getValue(),
 			HSNCode: parseInt(this.state.itemHSNCode),
 			description: this.state.description,
 			images: this.state.images,
@@ -60,7 +60,7 @@ export default class EditItemActions extends ServerStateUtils<EditItem.State> {
 			})),
 			by,
 		};
-		
-		await this.handleAsync('saveData', () => editItem(d));
+
+		await this.handleAsync("saveData", () => editItem(d));
 	}
 }

@@ -7,15 +7,13 @@ import FormFileUpload from "@src/Components/forms/FormFileUpload/FormFileUpload"
 import { useEditItemContext } from "../../EditItem";
 import ValidatedEntry from "@src/Components/special/ValidatedEntry/ValidatedEntry";
 import { FieldDataService, Validators } from "@src/modules/FieldData/FieldData";
+import checkNameIsUnique from "../../fetch/services/checkNameIsUnique";
+import checkCodeIsUnique from "../../fetch/services/checkCodeIsUnique";
 
 interface Props {}
 
 export default function FirstPart(props: Props) {
-	const {
-		state,
-		editItemFormActions: _,
-		setHandle,
-	} = useEditItemContext();
+	const { state, editItemFormActions: _, setHandle } = useEditItemContext();
 
 	return (
 		<div>
@@ -24,10 +22,11 @@ export default function FirstPart(props: Props) {
 				<ValidatedEntry
 					onChange={(d) => {
 						_.mutateState((p) => {
-							p.itemName = d;
+							p.itemName.setValue(d);
+							p.itemName.setModified();
 						});
 					}}
-					value={state.itemName}
+					value={state.itemName.getValue()}
 					validateFunction={(d) => {
 						return FieldDataService.registerValidator(
 							d,
@@ -37,6 +36,9 @@ export default function FirstPart(props: Props) {
 					}}
 					placeHolder="enter item name"
 					setHandle={setHandle("v1")}
+					asyncValidator={(d) =>
+						checkNameIsUnique(d, state.itemName.hasChanged())
+					}
 				/>
 			</div>
 			<div className="mb-4">
@@ -67,10 +69,11 @@ export default function FirstPart(props: Props) {
 				<ValidatedEntry
 					onChange={(d) => {
 						_.mutateState((p) => {
-							p.itemCode = d;
+							p.itemCode.setValue(d);
+							p.itemCode.setModified();
 						});
 					}}
-					value={state.itemCode}
+					value={state.itemCode.getValue()}
 					validateFunction={(d) => {
 						return FieldDataService.registerValidator(
 							d,
@@ -80,6 +83,9 @@ export default function FirstPart(props: Props) {
 					}}
 					placeHolder="enter item name"
 					setHandle={setHandle("v3")}
+					asyncValidator={(d) =>
+						checkCodeIsUnique(d, state.itemCode.hasChanged())
+					}
 				/>
 			</div>
 			<div className="mb-4">
