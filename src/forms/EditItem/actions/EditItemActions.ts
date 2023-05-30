@@ -2,6 +2,7 @@ import { ServerStateUtils } from "@src/modules/StateManagement/Core/StateUtils";
 import getEditItemFormData from "../fetch/services/getEditItemFormData";
 import { nanoid } from "nanoid";
 import React from "react";
+import editItem, { EditItemData } from "../fetch/services/editItem";
 
 export default class EditItemActions extends ServerStateUtils<EditItem.State> {
 	constructor(
@@ -39,5 +40,27 @@ export default class EditItemActions extends ServerStateUtils<EditItem.State> {
 				p.validationCount++;
 			});
 		};
+	}
+
+	async save(id: string, by:NameIdPair) {
+		const d: EditItemData = {
+			id,
+			name: this.state.itemName,
+			code: this.state.itemCode,
+			HSNCode: parseInt(this.state.itemHSNCode),
+			description: this.state.description,
+			images: this.state.images,
+			margin: {
+				online: parseInt(this.state.margin.online),
+				cash: parseInt(this.state.margin.cash),
+			},
+			descriptionLabels: this.state.descriptionLabels.map((v, i) => ({
+				...v,
+				position: i,
+			})),
+			by,
+		};
+		
+		await this.handleAsync('saveData', () => editItem(d));
 	}
 }

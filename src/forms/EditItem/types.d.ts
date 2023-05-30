@@ -12,6 +12,7 @@ namespace EditItem {
       cash: string,
       online: string;
     };
+
 		descriptionLabels: {
 			key: string;
 			value: string;

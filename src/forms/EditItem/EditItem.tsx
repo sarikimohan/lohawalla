@@ -6,11 +6,16 @@ import FirstPart from "./parts/FirstPart/FirstPart";
 import SecondPart from "./parts/SecondPart/SecondPart";
 import ThirdPart from "./parts/ThirdPart/ThirdPart";
 import EditItemActions from "./actions/EditItemActions";
-import { SetHandle, SetHandleProps } from "@src/Components/special/ValidatedEntry/ValidatedEntry";
+import {
+	SetHandle,
+	SetHandleProps,
+} from "@src/Components/special/ValidatedEntry/ValidatedEntry";
+import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 
 interface Props {}
 
 interface ContextProps {
+	id: string;
 	state: EditItem.State;
 	editItemFormActions: EditItemActions;
 	handle: React.MutableRefObject<
@@ -41,16 +46,18 @@ export default function EditItem(props: Props) {
 			online: "",
 		},
 		descriptionLabels: [],
-		loading: {},
+		loading: {
+			saveData: AsyncStateFactory()
+		},
 		validation: true,
 		triggerSubmit: false,
 		validationCount: 0,
 	});
 
+	const id = "64759c847396139cf4094561";
+
 	const editItemFormActions = new EditItemActions(state, setState);
-	const handle = useRef<
-		Record<string, SetHandleProps>
-	>({});
+	const handle = useRef<Record<string, SetHandleProps>>({});
 	const setHandle = (name: string): SetHandle => {
 		return (data: SetHandleProps) => {
 			handle.current[name] = data;
@@ -58,12 +65,12 @@ export default function EditItem(props: Props) {
 	};
 
 	useEffect(() => {
-		// editItemFormActions.fetch("64630eec98b7520d1b4abdc3");
+		editItemFormActions.fetch(id);
 	}, []);
 
 	return (
 		<EditItemContext.Provider
-			value={{ state, editItemFormActions, handle, setHandle }}
+			value={{ state, editItemFormActions, handle, setHandle, id }}
 		>
 			<PopUpContainer>
 				<FormContainer>

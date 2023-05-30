@@ -5,21 +5,19 @@ import React, { useRef, useState } from "react";
 import { useEditItemContext } from "../../EditItem";
 import EntryTable from "@src/Components/special/EntryTable/EntryTable";
 import { FieldDataService, Validators } from "@src/modules/FieldData/FieldData";
+import { useAuthGuardContext } from "@src/auth/AuthGuard/AuthGuard";
 
 interface Props {}
 
 export default function ThirdPart(props: Props) {
-	const {
-		state,
-		editItemFormActions: _,
-		handle,
-		setHandle,
-	} = useEditItemContext();
+	const { state, editItemFormActions: _, handle, id } = useEditItemContext();
 
 	const ref = useRef<{ isVaid: boolean; validate: () => void }>({
 		isVaid: true,
 		validate: () => {},
 	});
+
+	const { user } = useAuthGuardContext();
 
 	return (
 		<>
@@ -29,10 +27,12 @@ export default function ThirdPart(props: Props) {
 				</div>
 				<Card sx={{ padding: 3 }} variant="outlined">
 					<EntryTable
-						list={state.descriptionLabels.map((v) => ({
-							key: v.key,
-							value: v.value,
-						}))}
+						list={state.descriptionLabels
+							.sort((a, b) => a.position - b.position)
+							.map((v) => ({
+								key: v.key,
+								value: v.value,
+							}))}
 						validate={state.triggerSubmit}
 						onValidated={(d) => {
 							_.setValidation(0)(d);
@@ -42,13 +42,7 @@ export default function ThirdPart(props: Props) {
 								p.descriptionLabels[index].value = value;
 							});
 						}}
-						validateFieldValue={function (value: string): string | undefined {
-							return FieldDataService.registerValidator(
-								value,
-								{ isValid: true },
-								Validators.validateNull
-							);
-						}}
+						validateFieldValue={Validators.validateNull}
 						validateAddKey={function (value: string): string | undefined {
 							return FieldDataService.registerValidator(
 								value,
@@ -110,10 +104,12 @@ export default function ThirdPart(props: Props) {
 						) && ref.current.isVaid;
 
 					if (verdict) {
-						console.log("validate");
+						_.save(id, user);
 					}
 				}}
+				loading={state.loading.saveData.status === "initialized"}
 				label={"SAVE"}
+				loadingColor={"white"}
 			/>
 		</>
 	);

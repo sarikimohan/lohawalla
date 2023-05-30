@@ -41,50 +41,52 @@ export default function ThirdPart(props: Props) {
 						</thead>
 
 						<tbody>
-							{state.descriptionLabels.map((v, i) => (
-								<tr className="mb-2 border-b">
-									<td align="center">
-										<p className="text-md font-bold text-slate-700 py-5">
-											{v.key}
-										</p>
-									</td>
-									<td align="center" className="w-2/5">
-										<ValidatedEntry
-											type={"text"}
-											value={v.value}
-											validateFunction={FieldDataService.clubValidators(
-												Validators.validateNull
-											)}
-											onChange={(d) => {
-												stateUtils.mutateState((p) => {
-													p.descriptionLabels[i].value = d;
-												});
-											}}
-											placeHolder={"enter value"}
-											setHandle={setHandle(
-												Groups.descEntry,
-												"desc-entry-" + v.id
-											)}
-										/>
-									</td>
-									<td align="center" className="w-fit">
-										<div
-											onClick={() => {
-												deleteHandle(Groups.descEntry, "desc-entry-" + v.id);
-												stateUtils.mutateState((p) => {
-													p.descriptionLabels = p.descriptionLabels.filter(
-														(d) => v.id !== d.id
-													);
-												});
-											}}
-										>
-											<RotateAndScale>
-												<AssetIndex.MinusCircleIcon />
-											</RotateAndScale>
-										</div>
-									</td>
-								</tr>
-							))}
+							{state.descriptionLabels
+								.sort((a, b) => a.position - b.position)
+								.map((v, i) => (
+									<tr className="mb-2 border-b" key={v.id}>
+										<td align="center">
+											<p className="text-md font-bold text-slate-700 py-5">
+												{v.key}
+											</p>
+										</td>
+										<td align="center" className="w-2/5">
+											<ValidatedEntry
+												type={"text"}
+												value={v.value}
+												validateFunction={FieldDataService.clubValidators(
+													Validators.validateNull
+												)}
+												onChange={(d) => {
+													stateUtils.mutateState((p) => {
+														p.descriptionLabels[i].value = d;
+													});
+												}}
+												placeHolder={"enter value"}
+												setHandle={setHandle(
+													Groups.descEntry,
+													"desc-entry-" + v.id
+												)}
+											/>
+										</td>
+										<td align="center" className="w-fit">
+											<div
+												onClick={() => {
+													deleteHandle(Groups.descEntry, "desc-entry-" + v.id);
+													stateUtils.mutateState((p) => {
+														p.descriptionLabels = p.descriptionLabels.filter(
+															(d) => v.id !== d.id
+														);
+													});
+												}}
+											>
+												<RotateAndScale>
+													<AssetIndex.MinusCircleIcon />
+												</RotateAndScale>
+											</div>
+										</td>
+									</tr>
+								))}
 							<tr
 								className="mb-2 border-b"
 								style={{ borderTop: "5px solid transparent" }}
