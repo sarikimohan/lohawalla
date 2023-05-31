@@ -2,16 +2,13 @@ import FormFileUpload from "@src/Components/forms/FormFileUpload/FormFileUpload"
 import React from "react";
 import { useEditCategoryContext } from "../../EditCategory";
 import ValidatedEntry from "@src/Components/special/ValidatedEntry/ValidatedEntry";
-import FieldTextArea from "@src/Components/forms/FieldInput/FieldTextArea";
-import UnitInput, { PIUnitInput } from "./components/UnitInput/UnitInput";
 import { FieldDataService, Validators } from "@src/modules/FieldData/FieldData";
-import checkNameIsCode from "../../fetch/services/checkCodeIsUnique";
 import checkNameIsUnique from "../../fetch/services/checkNameIsUnique";
 import checkCodeIsUnique from "../../fetch/services/checkCodeIsUnique";
-import { FormLabel } from "@mui/material";
 import DefaultFormLabel from "@src/Components/forms/FormLabel/DefaultFormLabel";
 import ImageSmall from "@src/Components/common/ImageSmall/ImageSmall";
-import ImageSmallWithDelete from "@src/Components/common/ImageSmall/ImageSmallWithDelete";
+import { motion } from "framer-motion";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 interface Props {}
 
@@ -95,7 +92,58 @@ export default function FirstPart(props: Props) {
 			<DefaultFormLabel className="mb-2">Images</DefaultFormLabel>
 			<div className="border p-4 rounded-md">
 				<div className="crow">
-					<ImageSmallWithDelete src={""} />
+					{state.images.map((v, i) => (
+						<div
+							className="ml-3"
+							onClick={() => {
+								editCategoryActions.mutateState((p) => {
+									p.images[i].deleted = true;
+								});
+							}}
+							style={{ display: v.deleted ? "none" : "block" }}
+						>
+							<div
+								style={{
+									position: "relative",
+								}}
+							>
+								<ImageSmall
+									index={0}
+									src={v.link}
+									key={v.link}
+									currentSelected={0}
+									setSelected={function (): void {
+										editCategoryActions.mutateState((p) => {
+											p.images[i].deleted = true;
+										});
+									}}
+								/>
+								<motion.div
+									className="flex justify-center items-center cursor-pointer"
+									animate={{ color: "red" }}
+									transition={{ duration: 0.1 }}
+									style={{
+										position: "absolute",
+										width: "100%",
+										height: "100%",
+										background: "white",
+										opacity: 0,
+										zIndex: 200,
+										top: 0,
+										left: 0,
+									}}
+									whileHover={{
+										opacity: 0.8,
+										scale: 1.05,
+										border: "1px solid lightgrey",
+										borderRadius: 6,
+									}}
+								>
+									<DeleteIcon />
+								</motion.div>
+							</div>
+						</div>
+					))}
 				</div>
 			</div>
 			<div>

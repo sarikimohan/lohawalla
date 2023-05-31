@@ -13,7 +13,7 @@ namespace EditCategory {
 		categoryName: string;
 		categoryCode: string;
 		description: string;
-		images: string[];
+		images: {link: string, deleted: boolean}[];
 
 		imageFiles: File[] | null;
 

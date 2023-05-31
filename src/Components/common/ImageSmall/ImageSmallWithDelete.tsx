@@ -10,15 +10,17 @@ import ErrorIcon from "@mui/icons-material/Error";
 import StateUtils, {
 	ServerStateUtils,
 } from "@src/modules/StateManagement/Core/StateUtils";
+import DeleteImage from "@src/modules/ImageServerUtils/services/DeleteImage";
 
 export default function ImageSmallWithDelete(props: {
 	src: string;
-	asyncDelete?: () => Promise<void>;
 	sideLength?: number;
+	onClick?: () => void;
 }) {
 	const [deleteAsync, setDeleteAsync] = useState<AsyncState>(
 		AsyncStateFactory()
 	);
+	const [hide, setHide] = useState(false);
 	const asyncStateUtils = new StateUtils<AsyncState>(
 		deleteAsync,
 		setDeleteAsync
@@ -26,15 +28,16 @@ export default function ImageSmallWithDelete(props: {
 	const heightHandle = useHeight();
 
 	const handleDelete = async () => {
-		if (props.asyncDelete === undefined) return;
 		asyncStateUtils.mutateState((p) => {
 			p.status = "initialized";
 		});
 		try {
-			props.asyncDelete && (await props.asyncDelete());
+			await DeleteImage(props.src);
 			asyncStateUtils.mutateState((p) => {
 				p.status = "success";
 			});
+			setHide(true);
+			props.onClick && props.onClick();
 		} catch (err) {
 			asyncStateUtils.mutateState((p) => {
 				p.status = "failed";
@@ -50,6 +53,8 @@ export default function ImageSmallWithDelete(props: {
 		}
 	};
 
+	if (hide) return <></>;
+
 	return (
 		<div
 			className="p-2"
@@ -59,7 +64,9 @@ export default function ImageSmallWithDelete(props: {
 				width: "fit-content",
 			}}
 			ref={heightHandle.ref}
-			onClick={handleDelete}
+			onClick={() => {
+				handleDelete();
+			}}
 		>
 			{deleteAsync.status !== "dormant" && (
 				<div
@@ -78,7 +85,7 @@ export default function ImageSmallWithDelete(props: {
 			)}
 			<ImageSmall
 				index={0}
-				src={ImageIndex.CategoryImage}
+				src={props.src}
 				currentSelected={0}
 				setSelected={function (): void {}}
 				sideLength={66}

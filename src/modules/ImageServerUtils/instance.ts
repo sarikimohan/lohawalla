@@ -1,7 +1,7 @@
 import AxiosFactory from "../axios/AxiosFactory";
 
-const SaveImageInstance = AxiosFactory.createInstance({
+const ImageInstance = AxiosFactory.createInstance({
 	baseURL: "images/",
 });
 
-export default SaveImageInstance;
+export default ImageInstance;

@@ -78,15 +78,17 @@ function FormFileUpload(props: FormFileUploadProps) {
 								}}
 								key={i}
 							>
-								<ImageSmall
-									index={i}
-									src={URL.createObjectURL(v.file)}
-									currentSelected={i}
-									setSelected={function (): void {
-										removeImage(v.file);
-									}}
-									sideLength={66}
-								/>
+								<div className="mr-[16px]">
+									<ImageSmall
+										index={i}
+										src={URL.createObjectURL(v.file)}
+										currentSelected={i}
+										setSelected={function (): void {
+											removeImage(v.file);
+										}}
+										sideLength={66}
+									/>
+								</div>
 								<div
 									style={{
 										position: "absolute",

@@ -27,7 +27,7 @@ export default class ServerActions extends ServerStateUtils<EditCategory.State> 
 				p.categoryName = d.categoryName;
 				p.categoryCode = d.categoryCode;
 				p.description = d.description;
-				p.images = d.images;
+				p.images = d.images.map((v) => ({ link: v, deleted: false }));
 				p.credit = d.credit.map((v) => ({
 					...v,
 					id: nanoid(),
@@ -44,14 +44,16 @@ export default class ServerActions extends ServerStateUtils<EditCategory.State> 
 	}
 
 	async save(id: string, by: NameIdPair) {
-
 		const d: EditData = {
 			id,
 			name: this.state.categoryName,
 			code: this.state.categoryCode,
 			discription: this.state.description,
 			negotiation: parseFloat(this.state.negotiation),
-			image: this.state.images,
+			image: this.state.images.filter((v) => !v.deleted).map((v) => v.link),
+			deletedImages: this.state.images
+				.filter((v) => v.deleted)
+				.map((v) => v.link),
 			credit: this.state.credit.map((v) => {
 				return {
 					days: v.days,
