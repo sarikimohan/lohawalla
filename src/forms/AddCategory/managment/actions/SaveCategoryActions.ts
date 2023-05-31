@@ -2,7 +2,7 @@ import { ServerStateUtils } from "@src/modules/StateManagement/Core/StateUtils";
 // import server from "@src/modules/axios/instances";
 import { apiIndex } from "../../fetch/apis";
 import AddCategoryInstance from "../../fetch/instance";
-import SaveImage from "@src/modules/SaveImage/SaveImage";
+import SaveImage from "@src/modules/ImageServerUtils/services/SaveImage";
 
 export default class SaveCategoryActions extends ServerStateUtils<AddCategory.State> {
 	async save(by: NameIdPair) {

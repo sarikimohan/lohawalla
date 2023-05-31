@@ -1,8 +1,4 @@
-import AxiosFactory from "../axios/AxiosFactory";
-
-const SaveImageInstance = AxiosFactory.createInstance({
-	baseURL: "images/",
-});
+import SaveImageInstance from "../instance";
 
 export default async function SaveImage(files: File[] | null) {
 	const formData = new FormData();
