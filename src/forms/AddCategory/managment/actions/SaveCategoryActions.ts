@@ -29,11 +29,15 @@ export default class SaveCategoryActions extends ServerStateUtils<AddCategory.St
 			images: [],
 		};
 
-		await this.handleAsync("saveImages", () => SaveImage(this.state.images), {
+		const res = await this.handleAsync("saveImages", () => SaveImage(this.state.images), {
 			initializedMessage: "saving images...",
 			errMessage: "cannot save images, proceeding to save data...",
 		});
 
+		if(res) {
+			d.images = res.data;
+		}
+		
 		await this.handleAsync(
 			"save",
 			() => {

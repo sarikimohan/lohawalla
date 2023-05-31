@@ -10,16 +10,10 @@ export default async function SaveImage(files: File[] | null) {
 		for (let i = 0; i < Math.min(files.length, 10); ++i) {
 			formData.append("image", files[i]);
 		}
-		try {
-			await SaveImageInstance.post("upload", formData, {
-				headers: {
-					"Content-Type": "multipart/form-data",
-				},
-			});
-			return true;
-		} catch (err) {
-			return false;
-		}
+		return await SaveImageInstance.post<string[]>("upload", formData, {
+			headers: {
+				"Content-Type": "multipart/form-data",
+			},
+		});
 	}
-	return true;
 }
