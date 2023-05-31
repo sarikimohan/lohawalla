@@ -23,6 +23,7 @@ namespace EditCategory {
 			type: PercNum;
 			id: string;
 		}[];
+	
 		creditInput: {
 			key: string;
 			value: string;
@@ -34,18 +35,6 @@ namespace EditCategory {
 			key: string;
 			value: string;
 		};
-		unitList: {
-			_id: string;
-			name: string;
-			weight: number | null;
-			value: string | null;
-		}[];
-		unit: {
-			_id: string;
-			name: string;
-			weight: number | null;
-			value: string | null;
-		} | null;
 		loading: Record<string, AsyncState>;
 	}
 }

@@ -8,6 +8,10 @@ import { FieldDataService, Validators } from "@src/modules/FieldData/FieldData";
 import checkNameIsCode from "../../fetch/services/checkCodeIsUnique";
 import checkNameIsUnique from "../../fetch/services/checkNameIsUnique";
 import checkCodeIsUnique from "../../fetch/services/checkCodeIsUnique";
+import { FormLabel } from "@mui/material";
+import DefaultFormLabel from "@src/Components/forms/FormLabel/DefaultFormLabel";
+import ImageSmall from "@src/Components/common/ImageSmall/ImageSmall";
+import ImageSmallWithDelete from "@src/Components/common/ImageSmall/ImageSmallWithDelete";
 
 interface Props {}
 
@@ -15,14 +19,10 @@ export default function FirstPart(props: Props) {
 	const { editCategoryActions, state, setInputHandle, setUnitHandle } =
 		useEditCategoryContext();
 
-	console.log(state.unit);
-
 	return (
 		<div>
 			<div className="mb-4">
-				<p className="text-md font-semibold text-slate-900 mb-1">
-					Category Name
-				</p>
+				<DefaultFormLabel>Category Name</DefaultFormLabel>
 				<ValidatedEntry
 					type={"text"}
 					placeHolder={"enter category name"}
@@ -38,9 +38,7 @@ export default function FirstPart(props: Props) {
 				/>
 			</div>
 			<div className="mb-4">
-				<p className="text-md font-semibold text-slate-900 mb-1">
-					Category Code
-				</p>
+				<DefaultFormLabel>Category Code</DefaultFormLabel>
 				<ValidatedEntry
 					type={"text"}
 					placeHolder={"enter category code"}
@@ -60,15 +58,7 @@ export default function FirstPart(props: Props) {
 				/>
 			</div>
 			<div className="mb-4">
-				<p className="text-md font-semibold text-slate-900 mb-1">Unit</p>
-				<UnitInput
-					unitList={state.unitList}
-					value={state.unit}
-					setHandle={setUnitHandle}
-				/>
-			</div>
-			<div className="mb-4">
-				<p className="text-md font-semibold text-slate-900 mb-1">Description</p>
+				<DefaultFormLabel>Description</DefaultFormLabel>
 				<ValidatedEntry
 					placeHolder={"description"}
 					setHandle={setInputHandle("categoryDescription")}
@@ -84,7 +74,7 @@ export default function FirstPart(props: Props) {
 				/>
 			</div>
 			<div className="mb-4">
-				<p className="text-md font-semibold text-slate-900 mb-1">Negotiation</p>
+				<DefaultFormLabel>Negotiation</DefaultFormLabel>
 				<ValidatedEntry
 					placeHolder={"negotiation"}
 					setHandle={setInputHandle("categoryNegotiation")}
@@ -101,6 +91,12 @@ export default function FirstPart(props: Props) {
 						});
 					}}
 				/>
+			</div>
+			<DefaultFormLabel className="mb-2">Images</DefaultFormLabel>
+			<div className="border p-4 rounded-md">
+				<div className="crow">
+					<ImageSmallWithDelete src={""} />
+				</div>
 			</div>
 			<div>
 				<FormFileUpload />

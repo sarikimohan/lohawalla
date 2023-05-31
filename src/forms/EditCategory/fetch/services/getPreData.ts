@@ -11,17 +11,6 @@ export interface EditCategoryFormData {
 		value: number;
 		type: PercNum;
 	}[];
-	unitList: {
-		_id: string;
-		name: string;
-		weight: number;
-	}[];
-	unit: {
-		_id: string;
-		name: string;
-		weight: number|null;
-		value: string|null;
-	} | null;
 	descriptionLabels: {
 		key: string;
 		value: string;

@@ -48,7 +48,7 @@ function Dashboard() {
 			>
 				{/* <PriceCalculation /> */}
 				{/* <AddProductForm /> */}
-				{/* <EditCategory /> */}
+				<EditCategory />
 				{/* <EditCompany /> */}
 				{/* <AddCompany
 					close={function (): void {
@@ -59,14 +59,14 @@ function Dashboard() {
 					}}
 				/> */}
 				{/* <EditItem /> */}
-				<ErrorCard
+				{/* <ErrorCard
 					turnToSuccess
 					messages={["this is a test error message"]}
 					primaryAction={{
 						onClick: undefined,
 						label: undefined,
 					}}
-				/>
+				/> */}
 			</div>
 		</div>
 	);

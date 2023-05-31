@@ -72,11 +72,9 @@ export default function EditCategory(props: Props) {
 			fetchForm: AsyncStateFactory(),
 		},
 		negotiation: "",
-		unitList: [],
-		unit: null,
 	});
 
-	const id = "6474edf6fa5927ec92432348";
+	const id = "6476efb50faae54f8abc05a5";
 
 	const inputRef = useRef<Handle>({
 		plainFields: {},

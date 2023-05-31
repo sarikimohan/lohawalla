@@ -8,10 +8,6 @@ export interface EditData {
   discription: string;
   negotiation: number;
   image: string[];
-  unit: {
-    unitsId: string;
-    weight: number | null;
-  } | null;
   credit: {
     days: number;
     value: number;

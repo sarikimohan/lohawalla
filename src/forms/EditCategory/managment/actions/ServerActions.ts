@@ -23,7 +23,6 @@ export default class ServerActions extends ServerStateUtils<EditCategory.State> 
 		const res = await this.handleAsync("fetchForm", () => getPreData(id));
 		if (res) {
 			const d = res.data;
-			console.log(res.data.unitList);
 			this.mutateState((p) => {
 				p.categoryName = d.categoryName;
 				p.categoryCode = d.categoryCode;
@@ -38,12 +37,6 @@ export default class ServerActions extends ServerStateUtils<EditCategory.State> 
 					...v,
 					id: nanoid(),
 				}));
-				p.unitList = d.unitList.map((v) => ({
-					...v,
-					value: v.weight ? null : "",
-				}));
-
-				p.unit = d.unit;
 
 				p.negotiation = d.negotiation.toString();
 			});
@@ -51,25 +44,12 @@ export default class ServerActions extends ServerStateUtils<EditCategory.State> 
 	}
 
 	async save(id: string, by: NameIdPair) {
-		let selectedUnit = this.ref.current.unitInput.value;
-		let buildUnit: {
-			unitsId: string;
-			weight: number | null;
-		} | null = null;
-
-		if (selectedUnit) {
-			buildUnit = {
-				unitsId: selectedUnit._id,
-				weight: selectedUnit.weight ? null : parseFloat(selectedUnit.value),
-			};
-		}
 
 		const d: EditData = {
 			id,
 			name: this.state.categoryName,
 			code: this.state.categoryCode,
 			discription: this.state.description,
-			unit: buildUnit,
 			negotiation: parseFloat(this.state.negotiation),
 			image: this.state.images,
 			credit: this.state.credit.map((v) => {
