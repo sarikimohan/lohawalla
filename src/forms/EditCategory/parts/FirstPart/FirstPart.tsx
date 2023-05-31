@@ -13,7 +13,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 interface Props {}
 
 export default function FirstPart(props: Props) {
-	const { editCategoryActions, state, setInputHandle, setUnitHandle } =
+	const { editCategoryActions, state, setInputHandle } =
 		useEditCategoryContext();
 
 	return (
@@ -31,7 +31,9 @@ export default function FirstPart(props: Props) {
 						editCategoryActions.mutateState((p) => (p.categoryName = d));
 					}}
 					value={state.categoryName}
-					asyncValidator={(d) => checkNameIsUnique(d, state.categoryName)}
+					asyncValidator={(d) =>
+						checkNameIsUnique(d.trim(), state.categoryName)
+					}
 				/>
 			</div>
 			<div className="mb-4">
@@ -45,7 +47,9 @@ export default function FirstPart(props: Props) {
 						Validators.validateInt,
 						(d) => Validators.min(d, 0)
 					)}
-					asyncValidator={(d) => checkCodeIsUnique(d, state.categoryCode)}
+					asyncValidator={(d) =>
+						checkCodeIsUnique(d.trim(), state.categoryCode)
+					}
 					onChange={(d) => {
 						editCategoryActions.mutateState((p) => {
 							p.categoryCode = d;
@@ -101,6 +105,7 @@ export default function FirstPart(props: Props) {
 								});
 							}}
 							style={{ display: v.deleted ? "none" : "block" }}
+							key={v.link}
 						>
 							<div
 								style={{
@@ -120,7 +125,7 @@ export default function FirstPart(props: Props) {
 								/>
 								<motion.div
 									className="flex justify-center items-center cursor-pointer"
-									animate={{ color: "red" }}
+									animate={{ color: "#ff0000" }}
 									transition={{ duration: 0.1 }}
 									style={{
 										position: "absolute",
@@ -147,7 +152,13 @@ export default function FirstPart(props: Props) {
 				</div>
 			</div>
 			<div>
-				<FormFileUpload />
+				<FormFileUpload
+					onChange={(e) => {
+						editCategoryActions.mutateState((p) => {
+							p.imageFiles = e;
+						});
+					}}
+				/>
 			</div>
 		</div>
 	);

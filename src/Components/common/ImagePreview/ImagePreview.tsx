@@ -30,20 +30,22 @@ function ImagePreview(props: ImagePreviewProps) {
 					className={style.imageLargeContainer + " mb-3"}
 					ref={widthConf.ref}
 				>
-					<img src={images[selection]} className={style.imageView}/>
+					<img src={images[selection]} className={style.imageView} />
 				</div>
 			</div>
 			<div className="crow">
 				{images.map((v, i) => (
-					<ImageSmall
-						index={i}
-						src={v}
-						currentSelected={selection}
-						setSelected={function (): void {
-							setSelection(i);
-						}}
-						key={i}
-					/>
+					<div className="mr-2">
+						<ImageSmall
+							index={i}
+							src={v}
+							currentSelected={selection}
+							setSelected={function (): void {
+								setSelection(i);
+							}}
+							key={i}
+						/>
+					</div>
 				))}
 			</div>
 		</div>

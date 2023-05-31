@@ -6,6 +6,7 @@ import saveEditCategory, {
 } from "../../fetch/services/saveEditCategory";
 import React from "react";
 import { Handle } from "../../EditCategory";
+import SaveImage from "@src/modules/ImageServerUtils/services/SaveImage";
 
 export default class ServerActions extends ServerStateUtils<EditCategory.State> {
 	private ref: React.MutableRefObject<Handle>;
@@ -44,12 +45,13 @@ export default class ServerActions extends ServerStateUtils<EditCategory.State> 
 	}
 
 	async save(id: string, by: NameIdPair) {
+		console.log(this.state.images.filter((v) => !v.deleted));
 		const d: EditData = {
 			id,
-			name: this.state.categoryName,
-			code: this.state.categoryCode,
-			discription: this.state.description,
-			negotiation: parseFloat(this.state.negotiation),
+			name: this.state.categoryName.trim(),
+			code: this.state.categoryCode.trim(),
+			discription: this.state.description.trim(),
+			negotiation: parseFloat(this.state.negotiation.trim()),
 			image: this.state.images.filter((v) => !v.deleted).map((v) => v.link),
 			deletedImages: this.state.images
 				.filter((v) => v.deleted)
@@ -62,13 +64,34 @@ export default class ServerActions extends ServerStateUtils<EditCategory.State> 
 				};
 			}),
 			descriptionLabels: this.state.descriptionLabels.map((v, i) => ({
-				key: v.key,
-				value: v.value,
+				key: v.key.trim(),
+				value: v.value.trim(),
 				position: i,
 			})),
 			by,
 		};
 
-		await this.handleAsync("saveData", () => saveEditCategory(d));
+		console.log(this.state.imageFiles);
+
+		const res = await this.handleAsync(
+			"saveImages",
+			() => SaveImage(this.state.imageFiles),
+			{
+				errMessage: "cannot save images, proceeding to save data",
+				successMessage: "successfully saved images",
+				initializedMessage: "saving images ...",
+			}
+		);
+
+		if (res) {
+			d.image = d.image.concat(res.data);
+		}
+
+		await this.handleAsync("saveData", () => saveEditCategory(d), {
+			errMessage:
+				"cannot edit category, check for internet connect or try again",
+			successMessage: "successfully saved the editing",
+			initializedMessage: "saving the changes ...",
+		});
 	}
 }

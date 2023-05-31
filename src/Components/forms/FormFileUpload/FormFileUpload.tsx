@@ -29,7 +29,8 @@ function FormFileUpload(props: FormFileUploadProps) {
 					fileList.push({ file: fileSelection[i].file, status: false });
 				}
 			}
-			props.onChange && props.onChange(fileList.map((v) => v.file));
+			props.onChange &&
+				props.onChange(fileList.filter((v) => v.status).map((v) => v.file));
 			setFileSelection(fileList);
 		}
 	};

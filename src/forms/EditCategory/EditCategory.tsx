@@ -19,6 +19,7 @@ import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStat
 import { nanoid } from "nanoid";
 import ServerActions from "./managment/actions/ServerActions";
 import { useAuthGuardContext } from "@src/auth/AuthGuard/AuthGuard";
+import AsyncProcessBoundary from "@src/Components/feedback/AsyncProcessBoundary/AsyncProcessBoundary";
 
 interface Props {}
 interface ContextProps {
@@ -126,7 +127,7 @@ export default function EditCategory(props: Props) {
 		for (let i of Object.values(current.credit)) {
 			await i.validate();
 		}
-		current.unitInput.validate();
+
 		for (let i of Object.values(current.descRef)) {
 			await i.validate();
 		}
@@ -214,43 +215,54 @@ export default function EditCategory(props: Props) {
 			}}
 		>
 			<PopUpContainer>
-				<FormContainer>
-					<div className="mb-5">
-						<FormHeader
-							navBack={function (): void {
-								if (state.page > 0)
-									editCategoryActions.mutateState((p) => p.page--);
-							}}
-							close={function (): void {
-								// throw new Error("Function not implemented.");
-							}}
-							heading={"Category"}
-							preHeading={"Edit"}
-						/>
-					</div>
+				<AsyncProcessBoundary
+					asyncStates={[state.loading.saveImages, state.loading.saveData]}
+					primaryAction={{
+						onClick: () => {},
+						label: undefined,
+					}}
+				>
+					<FormContainer>
+						<div className="mb-5">
+							<FormHeader
+								navBack={function (): void {
+									if (state.page > 0)
+										editCategoryActions.mutateState((p) => p.page--);
+								}}
+								close={function (): void {
+									// throw new Error("Function not implemented.");
+								}}
+								heading={"Category"}
+								preHeading={"Edit"}
+							/>
+						</div>
 
-					<FirstPart />
-					<div className="my-5">
-						<Divider />
-					</div>
-					<SecondPart />
-					<div className="my-5">
-						<Divider />
-					</div>
-					<ThirdPart />
-					<div className="my-5">
-						<DefaultButton
-							onClick={function () {
-								validate().then((d) => {
-									serverActions.save(id, user);
-								});
-							}}
-							label={"Save"}
-							loading={state.loading.saveData.status === "initialized"}
-							loadingColor={"white"}
-						/>
-					</div>
-				</FormContainer>
+						<FirstPart />
+						<div className="my-5">
+							<Divider />
+						</div>
+						<SecondPart />
+						<div className="my-5">
+							<Divider />
+						</div>
+						<ThirdPart />
+						<div className="my-5">
+							<DefaultButton
+								onClick={function () {
+									validate().then((d) => {
+										serverActions.save(id, user);
+									});
+								}}
+								label={"Save"}
+								loading={
+									state.loading.saveData.status === "initialized" ||
+									state.loading.saveImages.status === "initialized"
+								}
+								loadingColor={"white"}
+							/>
+						</div>
+					</FormContainer>
+				</AsyncProcessBoundary>
 			</PopUpContainer>
 		</EditCategoryContext.Provider>
 	);
