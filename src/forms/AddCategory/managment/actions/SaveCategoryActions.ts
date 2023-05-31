@@ -29,15 +29,20 @@ export default class SaveCategoryActions extends ServerStateUtils<AddCategory.St
 			images: [],
 		};
 
-		const res = await this.handleAsync("saveImages", () => SaveImage(this.state.images), {
-			initializedMessage: "saving images...",
-			errMessage: "cannot save images, proceeding to save data...",
-		});
+		const res = await this.handleAsync(
+			"saveImages",
+			() => SaveImage(this.state.images),
+			{
+				initializedMessage: "saving images...",
+				errMessage: "cannot save images, proceeding to save data...",
+				successMessage: "saved images successfully",
+			}
+		);
 
-		if(res) {
+		if (res) {
 			d.images = res.data;
 		}
-		
+
 		await this.handleAsync(
 			"save",
 			() => {
@@ -47,6 +52,7 @@ export default class SaveCategoryActions extends ServerStateUtils<AddCategory.St
 				initializedMessage: "saving data",
 				errMessage:
 					"failed to save category, check the internet connection or try again",
+				successMessage: "saved data successfully",
 			}
 		);
 	}

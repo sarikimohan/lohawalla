@@ -124,7 +124,7 @@ function AddCategoryForm(props: Props) {
 					/>
 				) : ( */}
 				<AsyncProcessBoundary
-					asyncStates={[state.loading.saveImages]}
+					asyncStates={[state.loading.saveImages, state.loading.save]}
 					primaryAction={{
 						onClick: () => {
 							props.refresh();
