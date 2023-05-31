@@ -8,6 +8,7 @@ export interface EditItemData {
 	HSNCode: number;
 	description: string;
 	images: string[];
+	deletedImages: string[];
 	margin: {
 		online: number;
 		cash: number;

@@ -5,8 +5,9 @@ namespace EditItem {
 		itemHSNCode: string;
 		description: string;
 
-		images: string[];
-		imageFiles: File[];
+		images: {link: string, deleted: boolean}[];
+
+		imageFiles: File[] | null;
 
 		margin: {
       cash: string,
@@ -23,6 +24,18 @@ namespace EditItem {
 		validation: boolean;
 		triggerSubmit: boolean;
 		validationCount: number;
+
+		unitList: {
+			id: string;
+			name: string;
+			weight: number | null;
+		}[];
+		unit: {
+			id: string;
+			name: string;
+			weight: number | null;
+			value: string | null;
+		} | null;
 	}
 }
 

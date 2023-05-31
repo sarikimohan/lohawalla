@@ -1,8 +1,8 @@
 import AssetIndex from "@src/assets/AssetIndex";
 import React, { useEffect, useState } from "react";
 import style from "./FormFileUpload.module.css";
-import ImageSmall from "../ImageSmall/ImageSmall";
-import Spacer from "../Spacer/Spacer";
+import ImageSmall from "@src/Components/common/ImageSmall/ImageSmall";
+import Spacer from "@src/Components/common/Spacer/Spacer";
 
 type UploadResponse = { Location: string }[];
 interface FormFileUploadProps {
@@ -43,7 +43,8 @@ function FormFileUpload(props: FormFileUploadProps) {
 					fileList.push({ file: fileSelection[i].file, status: false });
 				}
 			}
-			props.onChange && props.onChange(fileList.map((v) => v.file));
+			props.onChange &&
+				props.onChange(fileList.filter((v) => v.status).map((v) => v.file));
 			setFileSelection(fileList);
 		}
 	};

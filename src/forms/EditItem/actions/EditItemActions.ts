@@ -22,7 +22,7 @@ export default class EditItemActions extends ServerStateUtils<EditItem.State> {
 				p.itemCode = new ValueChange(data.itemCode);
 				p.itemHSNCode = data.itemHSNCode.toString();
 				p.description = data.description;
-				p.images = data.images;
+				p.images = data.images.map((v) => ({ link: v, deleted: false }));
 				p.margin.cash = data.margin.cash.toString();
 				p.margin.online = data.margin.online.toString();
 				p.descriptionLabels = data.descriptionLabels.map((v) => ({
@@ -50,7 +50,10 @@ export default class EditItemActions extends ServerStateUtils<EditItem.State> {
 			code: this.state.itemCode.getValue(),
 			HSNCode: parseInt(this.state.itemHSNCode),
 			description: this.state.description,
-			images: this.state.images,
+			images: this.state.images.filter((v) => !v.deleted).map((v) => v.link),
+			deletedImages: this.state.images
+				.filter((v) => v.deleted)
+				.map((v) => v.link),
 			margin: {
 				online: parseInt(this.state.margin.online),
 				cash: parseInt(this.state.margin.cash),

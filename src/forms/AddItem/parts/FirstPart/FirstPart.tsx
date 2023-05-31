@@ -57,7 +57,7 @@ export default function FirstPart(props: Props) {
 				<p className="text-md font-semibold text-slate-900 mb-1">Select Unit</p>
 				<UnitInput
 					unitList={state.unitList}
-					value={null}
+					value={state.unit}
 					onChange={(e) => {
 						firstFormActions.mutateState((p) => {
 							p.unit = e;

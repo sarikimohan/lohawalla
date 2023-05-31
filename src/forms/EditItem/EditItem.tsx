@@ -53,6 +53,8 @@ export default function EditItem(props: Props) {
 		validation: true,
 		triggerSubmit: false,
 		validationCount: 0,
+		unitList: [],
+		unit: null,
 	});
 
 	const id = "6477b5c6abe20ff51f41d37e";
