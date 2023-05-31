@@ -15,6 +15,8 @@ interface Props {}
 export default function FirstPart(props: Props) {
 	const { state, editItemFormActions: _, setHandle } = useEditItemContext();
 
+	console.log(state.itemName);
+	
 	return (
 		<div>
 			<div className="mb-4">
@@ -23,7 +25,6 @@ export default function FirstPart(props: Props) {
 					onChange={(d) => {
 						_.mutateState((p) => {
 							p.itemName.setValue(d);
-							p.itemName.setModified();
 						});
 					}}
 					value={state.itemName.getValue()}
@@ -70,7 +71,6 @@ export default function FirstPart(props: Props) {
 					onChange={(d) => {
 						_.mutateState((p) => {
 							p.itemCode.setValue(d);
-							p.itemCode.setModified();
 						});
 					}}
 					value={state.itemCode.getValue()}

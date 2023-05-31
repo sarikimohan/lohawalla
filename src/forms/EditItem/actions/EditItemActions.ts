@@ -3,6 +3,7 @@ import getEditItemFormData from "../fetch/services/getEditItemFormData";
 import { nanoid } from "nanoid";
 import React from "react";
 import editItem, { EditItemData } from "../fetch/services/editItem";
+import ValueChange from "@src/modules/ValueChange/ValueChangeImpl";
 
 export default class EditItemActions extends ServerStateUtils<EditItem.State> {
 	constructor(
@@ -17,8 +18,8 @@ export default class EditItemActions extends ServerStateUtils<EditItem.State> {
 			this.mutateState((p) => {
 				const data = res.data;
 
-				p.itemName.setValue(data.itemName);
-				p.itemCode.setValue(data.itemCode);
+				p.itemName = new ValueChange(data.itemName);
+				p.itemCode = new ValueChange(data.itemCode);
 				p.itemHSNCode = data.itemHSNCode.toString();
 				p.description = data.description;
 				p.images = data.images;

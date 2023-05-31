@@ -1,7 +1,7 @@
 namespace EditItem {
 	interface State {
-		itemName: IValueChange<string>;
-		itemCode: IValueChange<string>;
+		itemName: IStringValueChange;
+		itemCode: IStringValueChange;
 		itemHSNCode: string;
 		description: string;
 

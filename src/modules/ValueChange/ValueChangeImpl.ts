@@ -1,28 +1,27 @@
-export default class ValueChange<T> implements IValueChange<T> {
-	value: ChangeMonitor<{ data: T }>;
+export default class ValueChange implements IStringValueChange {
+	private changed: boolean = false;
+	private data: string;
+	value: string;
 
-	constructor(initial: T) {
-		this.value = { data: initial, changeStatus: "initial" };
+	constructor(data: string) {
+		this.data = data;
+		this.value = data;
 	}
-
-	setModified(): void {
-		this.value.changeStatus = "modified";
+	hasChanged(): boolean {
+		return this.changed;
 	}
-
-	setChangeStatus(status: ChangeStatus) {
-		this.value.changeStatus = status;
+	setValue(value: string) {
+		if (this.data === value) {
+			this.changed = false;
+		} else {
+			this.changed = true;
+		}
+		this.value = value;
 	}
-
-	hasChanged() {
-		return this.value.changeStatus === "modified";
-	}
-
-	setValue(data: T) {
-		this.value.data = data;
-		return this.value.data;
-	}
-
 	getValue() {
-		return this.value.data;
+		return this.value;
+	}
+	getData(): string {
+		return this.data;
 	}
 }
