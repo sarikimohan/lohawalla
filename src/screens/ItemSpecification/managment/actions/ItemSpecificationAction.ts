@@ -39,9 +39,7 @@ export default class ItemSpecificationAction
 					p.descriptionLabels = data.descriptionLabels;
 					p.margin = data.margin;
 					p.images = data.images;
-
-					console.log(p);
-
+					console.log(p.images);
 					p.loading.fetch.status = "success";
 				});
 			} catch (err) {
@@ -54,9 +52,9 @@ export default class ItemSpecificationAction
 	async fetchGrid(id: string) {
 		const res = await this.handleAsync("fetchGrid", () => getItemGridData(id));
 		if (res) {
-			this.mutateState(p => {
+			this.mutateState((p) => {
 				p.companyProductList = res.data;
-			})
+			});
 		}
 	}
 }

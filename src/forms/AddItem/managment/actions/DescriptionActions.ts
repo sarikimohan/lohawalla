@@ -6,8 +6,8 @@ export default class DescriptionActions extends StateUtils<AddItem.State> {
 		this.mutateState((p) => {
 			p.descriptionLabels.push({
 				id: nanoid(),
-				key: p.descriptionEntry.key.value,
-				value: { value: p.descriptionEntry.value.value },
+				key: p.descriptionEntry.key.value.trim(),
+				value: { value: p.descriptionEntry.value.value.trim() },
 			});
 			p.descriptionEntry.value.value = "";
 			p.descriptionEntry.key.value = "";
@@ -46,18 +46,18 @@ export default class DescriptionActions extends StateUtils<AddItem.State> {
 			value: undefined,
 		};
 
-		if (this.state.descriptionEntry.key.value === "") {
+		if (this.state.descriptionEntry.key.value.trim() === "") {
 			err.key = "required";
 			verdict = false;
 		}
 
-		if (this.state.descriptionEntry.value.value === "") {
+		if (this.state.descriptionEntry.value.value.trim() === "") {
 			err.value = "required";
 			verdict = false;
 		}
 
 		for (let d of this.state.descriptionLabels) {
-			if (d.key === this.state.descriptionEntry.key.value) {
+			if (this.state.descriptionEntry.key.value.trim() === d.key.trim()) {
 				err.key = "already present";
 				verdict = false;
 				break;
@@ -71,7 +71,7 @@ export default class DescriptionActions extends StateUtils<AddItem.State> {
 			p.descriptionEntry.value.error = err.value;
 			p.descriptionEntry.value.isValid = !err.value;
 		});
-    
+
 		return verdict;
 	}
 	validateAll() {

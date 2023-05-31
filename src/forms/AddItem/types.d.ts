@@ -9,7 +9,7 @@ namespace AddItem {
 		itemName: FieldData;
 		itemHSNCode: FieldData;
 		itemCode: FieldData;
-		images: string[];
+		images: File[] | null;
 		margin: {
 			online: FieldData;
 			cash: FieldData;
@@ -21,6 +21,18 @@ namespace AddItem {
 			key: FieldData;
 			value: FieldData;
 		};
+
+		unitList: {
+			id: string;
+			name: string;
+			weight: number | null;
+		}[];
+		unit: {
+			id: string;
+			name: string;
+			weight: number | null;
+			value: string | null;
+		} | null;
 
 		loading: { [key: string]: AsyncState };
 	}

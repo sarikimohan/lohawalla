@@ -16,17 +16,21 @@ export default class Validate extends ServerStateUtils<AddItem.State> {
 			Validators.validateNull
 		);
 		if (name.error === undefined) {
-			await this.handleAsync("checkName", () => checkIsNameUnique(name.value), {
-				onError: (err) => {
-					name.error = "server error, cannot check uniqueness of name";
-				},
-				onSuccess: (d) => {
-					const res = d.data;
-					if (res === false) {
-						name.error = name.value + " already exists";
-					}
-				},
-			});
+			await this.handleAsync(
+				"checkName",
+				() => checkIsNameUnique(name.value.trim()),
+				{
+					onError: (err) => {
+						name.error = "server error, cannot check uniqueness of name";
+					},
+					onSuccess: (d) => {
+						const res = d.data;
+						if (res === false) {
+							name.error = name.value + " already exists";
+						}
+					},
+				}
+			);
 		}
 
 		name.isValid = !name.error;
@@ -65,16 +69,20 @@ export default class Validate extends ServerStateUtils<AddItem.State> {
 			Validators.validateNull
 		);
 		if (!code.error) {
-			await this.handleAsync("checkCode", () => checkIsCodeUnique(code.value), {
-				onError: (err) => {
-					code.error = "server error, cannot check uniqueness of code";
-				},
-				onSuccess: (d) => {
-					if (d.data === false) {
-						code.error = code.value + " already exists";
-					}
-				},
-			});
+			await this.handleAsync(
+				"checkCode",
+				() => checkIsCodeUnique(code.value.trim()),
+				{
+					onError: (err) => {
+						code.error = "server error, cannot check uniqueness of code";
+					},
+					onSuccess: (d) => {
+						if (d.data === false) {
+							code.error = code.value + " already exists";
+						}
+					},
+				}
+			);
 		}
 		code.isValid = !code.error;
 
@@ -183,7 +191,7 @@ export default class Validate extends ServerStateUtils<AddItem.State> {
 			Validators.validateNull,
 			(d) => {
 				for (let dl of this.state.descriptionLabels) {
-					if (dl.key === d) {
+					if (dl.key === d.trim()) {
 						return d + " already exists";
 					}
 				}

@@ -2,14 +2,19 @@ import DefaultButton from "@src/Components/common/buttons/DefaultButton/DefaultB
 import NextButtonStyleConfig from "@src/Components/common/buttons/configurations/NextButtonStyle.config";
 import FieldInput from "@src/Components/forms/FieldInput/FieldInput";
 import FieldTextArea from "@src/Components/forms/FieldInput/FieldTextArea";
-import React from "react";
+import React, { useRef } from "react";
 import FormFileUpload from "@src/Components/forms/FormFileUpload/FormFileUpload";
 import { useAddItemContext } from "../../AddItem";
+import UnitInput, {
+	PIUnitInput,
+} from "@src/Components/special/UnitInput/UnitInput";
 
 interface Props {}
 
 export default function FirstPart(props: Props) {
 	const { state, firstFormActions, validate } = useAddItemContext();
+
+	const ref = useRef<PIUnitInput.SetHandleProps | null>(null);
 
 	return (
 		<div>
@@ -49,6 +54,21 @@ export default function FirstPart(props: Props) {
 				/>
 			</div>
 			<div className="mb-4">
+				<p className="text-md font-semibold text-slate-900 mb-1">Select Unit</p>
+				<UnitInput
+					unitList={state.unitList}
+					value={null}
+					onChange={(e) => {
+						firstFormActions.mutateState((p) => {
+							p.unit = e;
+						});
+					}}
+					setHandle={function (data: PIUnitInput.SetHandleProps): void {
+						ref.current = data;
+					}}
+				/>
+			</div>
+			<div className="mb-4">
 				<p className="text-md font-semibold text-slate-900 mb-1">Description</p>
 				<FieldTextArea
 					{...state.description}
@@ -60,13 +80,22 @@ export default function FirstPart(props: Props) {
 				/>
 			</div>
 			<div className="mb-5">
-				<FormFileUpload />
+				<FormFileUpload
+					onChange={(e) => {
+						firstFormActions.mutateState((p) => (p.images = e));
+					}}
+				/>
 			</div>
 			<div>
 				<DefaultButton
 					onClick={() => {
 						validate.validateFirstForm(() => {
-							firstFormActions.mutateState((p) => p.page++);
+							if (ref.current) {
+								console.log("running validatin");
+								ref.current.validate();
+								if (ref.current.isValid)
+									firstFormActions.mutateState((p) => p.page++);
+							}
 						});
 					}}
 					label={"Next"}

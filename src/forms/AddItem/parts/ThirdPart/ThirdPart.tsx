@@ -130,7 +130,7 @@ export default function ThirdPart(props: Props) {
 					onClick={function (): void {
 						const verdict = validate.validateDescriptionLabels();
 						if (verdict) {
-							saveFormAction.saveForm([], categoryId, user, () => {
+							saveFormAction.saveForm(categoryId, user, () => {
 								refresh();
 								onClose();
 							});

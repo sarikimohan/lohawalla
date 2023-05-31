@@ -16,6 +16,7 @@ import { stat } from "fs";
 import Validate from "./managment/actions/Validate";
 import ErrorCard from "@src/Components/feedback/ErrorCard/ErrorCard";
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
+import AsyncSnackBar from "@src/Components/feedback/AsyncSnackBar/AsyncSnackBar";
 
 interface ContextProps {
 	firstFormActions: FirstFormActions;
@@ -50,6 +51,7 @@ function AddItem(props: Props) {
 		descriptionLabels: [],
 		loading: {
 			save: AsyncStateFactory(),
+			saveImages: AsyncStateFactory(),
 			checkName: AsyncStateFactory(),
 			checkCode: AsyncStateFactory(),
 		},
@@ -57,12 +59,18 @@ function AddItem(props: Props) {
 			key: { value: "" },
 			value: { value: "" },
 		},
+		unitList: [],
+		unit: null,
 	});
 	const firstFormActions = new FirstFormActions(state, setState);
 	const secondFormActions = new SecondFormActions(state, setState);
 	const descriptionActions = new DescriptionActions(state, setState);
 	const saveFormAction = new SubmitActions(state, setState);
 	const validate = new Validate(state, setState);
+
+	useEffect(() => {
+		saveFormAction.fetchAllUnits();
+	}, []);
 
 	return (
 		<AddItemContext.Provider
@@ -111,6 +119,8 @@ function AddItem(props: Props) {
 						</div>
 					</FormContainer>
 				)}
+				<AsyncSnackBar asyncState={state.loading.saveImages} />
+				<AsyncSnackBar asyncState={state.loading.save} />
 			</PopUpContainer>
 		</AddItemContext.Provider>
 	);
