@@ -2,13 +2,12 @@ import StateUtils from "@src/modules/StateManagement/Core/StateUtils";
 import { nanoid } from "nanoid";
 
 export default class DescriptionActions extends StateUtils<AddCategory.State> {
-
 	addField() {
 		this.mutateState((p) => {
 			p.descriptionLabels.push({
 				id: nanoid(),
-				key: p.descriptionEntry.key.value,
-				value: { value: p.descriptionEntry.value.value },
+				key: p.descriptionEntry.key.value.trim(),
+				value: { value: p.descriptionEntry.value.value.trim() },
 			});
 			p.descriptionEntry.value.value = "";
 			p.descriptionEntry.key.value = "";
@@ -72,7 +71,7 @@ export default class DescriptionActions extends StateUtils<AddCategory.State> {
 			p.descriptionEntry.value.error = err.value;
 			p.descriptionEntry.value.isValid = !err.value;
 		});
-    
+
 		return verdict;
 	}
 	validateAll() {

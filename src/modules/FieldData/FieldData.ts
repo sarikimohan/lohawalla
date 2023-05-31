@@ -45,7 +45,6 @@ export class Validators {
 		let verdict = true;
 		if (data.length === 0) verdict = false;
 		const split = data.split(".");
-		console.log(split);
 		if (split.length > 2) verdict = false;
 		else if (split.length === 2) {
 			if (split[1].length === 0) verdict = false;

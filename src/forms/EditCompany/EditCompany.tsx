@@ -12,7 +12,6 @@ import {
 	SetHandle,
 	SetHandleProps,
 } from "@src/Components/special/ValidatedEntry/ValidatedEntry";
-import { string } from "prop-types";
 import StateUtils from "@src/modules/StateManagement/Core/StateUtils";
 import { nanoid } from "nanoid";
 
@@ -100,6 +99,7 @@ export default function EditCompany(props: Props) {
 	const [state, setState] = useState<EditCompany.State>({
 		companyName: "",
 		description: "",
+		images: [],
 		priceStructure: [
 			{
 				_id: "",
@@ -111,6 +111,7 @@ export default function EditCompany(props: Props) {
 				operation: "add",
 			},
 		],
+		deletedId: [],
 		descriptionLabels: [],
 		descriptionEntry: {
 			key: "",

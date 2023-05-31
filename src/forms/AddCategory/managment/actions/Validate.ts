@@ -86,34 +86,12 @@ export default class ValidateAddCategory extends ServerStateUtils<AddCategory.St
 		return verdict.isValid;
 	}
 
-	validateUnit() {
-		const unit = this.state.firstForm.unit;
-		const verdict = { isValid: true };
-		if (unit) {
-			if (unit.weight === null) {
-				const data = this.state.firstForm.unitWeightInputField;
-				data.error = FieldDataService.registerValidator(
-					data.value,
-					verdict,
-					Validators.validateNull
-				);
-				data.isValid = !data.error;
-
-				this.mutateState((p) => {
-					p.firstForm.unitWeightInputField = data;
-				});
-			}
-		}
-		return verdict.isValid;
-	}
-
 	//* first form validtion;
 	async validateFirstForm(onSuccess: () => void) {
 		const v = [
 			await this.validateCategoryName(),
 			await this.validateCategoryCode(),
 			this.validateDescirption(),
-			this.validateUnit(),
 		];
 		const verdict = v.reduce((a, c) => {
 			return a && c;
@@ -158,7 +136,9 @@ export default class ValidateAddCategory extends ServerStateUtils<AddCategory.St
 		const verdict = { isValid: true };
 
 		const key = this.state.creditInput.key;
+		key.value = key.value.trim();
 		const value = this.state.creditInput.value;
+		value.value = value.value.trim();
 
 		// check null and unique
 		key.error = FieldDataService.registerValidator(
@@ -253,7 +233,9 @@ export default class ValidateAddCategory extends ServerStateUtils<AddCategory.St
 		const verdict = { isValid: true };
 
 		const key = this.state.descriptionEntry.key;
+		key.value = key.value.trim();
 		const value = this.state.descriptionEntry.value;
+		value.value = value.value.trim();
 
 		key.error = FieldDataService.registerValidator(
 			key.value,

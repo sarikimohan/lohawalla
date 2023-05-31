@@ -12,6 +12,7 @@ import Tip from "@src/Components/feedback/Tooltip/Tip";
 import ValidatedEntry from "@src/Components/special/ValidatedEntry/ValidatedEntry";
 import { Groups, useEditCompanyContext } from "../../EditCompany";
 import { FieldDataService, Validators } from "@src/modules/FieldData/FieldData";
+import AddMore from "@src/Components/common/buttons/AddMore/AddMore";
 
 interface Props {}
 
@@ -69,7 +70,7 @@ export default function SecondPart(props: Props) {
 										</p>
 									</td>
 									<td align="center">
-										<Checkbox checked={v.isFixed} disabled />
+										<Checkbox checked={v.isFixed} />
 									</td>
 									<td align="center" className="w-2/5 py-3">
 										<ValidatedEntry
@@ -98,6 +99,9 @@ export default function SecondPart(props: Props) {
 							))}
 						</tbody>
 					</table>
+					<div className="mt-4 jfe">
+						<AddMore handleAdd={() => {}} />
+					</div>
 				</div>
 			</Card>
 			{showAddForm && (

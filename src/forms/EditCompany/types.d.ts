@@ -2,6 +2,7 @@ namespace EditCompany {
 	interface State {
 		companyName: string;
 		description: string;
+		images: string[];
 		priceStructure: {
 			_id: string;
 			name: string;
@@ -10,7 +11,9 @@ namespace EditCompany {
 			isFixed: boolean;
 			type: PercNum;
 			operation: OpType;
+			wasAdded?: boolean;
 		}[];
+		deletedId: string[];
 		descriptionLabels: {
 			id: string;
 			key: string;
@@ -20,6 +23,15 @@ namespace EditCompany {
 		descriptionEntry: {
 			key: string;
 			value: string;
-		}
+		};
+	}
+
+	interface Actions {
+		fetch();
+		save();
+
+		setPfValue();
+		setPfFixed();
+		deletePf();
 	}
 }

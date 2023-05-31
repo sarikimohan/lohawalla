@@ -42,7 +42,6 @@ export default function ThirdPart(props: Props) {
 
 						<tbody>
 							{state.descriptionLabels
-								.sort((a, b) => a.position - b.position)
 								.map((v, i) => (
 									<tr className="mb-2 border-b" key={v.id}>
 										<td align="center">

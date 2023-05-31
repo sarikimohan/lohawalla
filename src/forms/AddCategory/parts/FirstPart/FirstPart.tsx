@@ -8,12 +8,6 @@ import AssetIndex from "@src/assets/AssetIndex";
 import { useAddCategoryContext } from "../../AddCategoryForm";
 import FieldInput from "@src/Components/forms/FieldInput/FieldInput";
 import FieldTextArea from "@src/Components/forms/FieldInput/FieldTextArea";
-import {
-	Autocomplete,
-	AutocompleteRenderInputParams,
-	TextField,
-} from "@mui/material";
-import DefaultFormLabel from "@src/Components/forms/FormLabel/DefaultFormLabel";
 
 function FirstPart() {
 	const { state, setStateActions, addCategoryActions, validate } =
@@ -52,71 +46,8 @@ function FirstPart() {
 				inputClassName={style.formInput}
 				name="categoryCode"
 			/>
-
 			<Spacer height={8 * 2} />
 
-			<p className="body fw-medium fcolor-fuschia">Unit</p>
-			<Spacer height={8} />
-			<Autocomplete
-				getOptionLabel={(d) => d.name}
-				renderInput={(params) => (
-					<TextField error={undefined} {...params} label="Unit" />
-				)}
-				options={state.firstForm.unitList}
-				onOpen={() => {
-					if (state.loading.fetchUnits.status !== "success")
-						addCategoryActions.fetchUnits();
-				}}
-				onChange={(e, val) => {
-					addCategoryActions.setSelectedUnit(val);
-				}}
-				onInputChange={(e, v, r) => {
-					if (r === "clear") {
-						addCategoryActions.setSelectedUnit(null);
-					}
-				}}
-				loading={state.loading.fetchUnits.status === "initialized"}
-				clearOnEscape
-				isOptionEqualToValue={(o, v) => o.id === v.id}
-				value={state.firstForm.unit}
-			/>
-			<Spacer height={20} />
-			{state.firstForm.unit && !state.firstForm.unit.weight && (
-				<>
-					<p className="body fw-medium fcolor-fuschia">
-						{"Enter " + state.firstForm.unit.name + " weight"}
-					</p>
-					<FieldInput
-						type="number"
-						{...state.firstForm.unitWeightInputField}
-						onChange={(d) => {
-							addCategoryActions.setUnitWeightInput(d.target.value);
-						}}
-						width={"100%"}
-						placeHolder={`${state.firstForm.unit.name} weight in kg`}
-						inputClassName={style.formInput}
-						name="description"
-					/>
-				</>
-			)}
-			{state.firstForm.unit && state.firstForm.unit.weight && (
-				<>
-					<p className="body fw-medium fcolor-fuschia">Unit weight is</p>
-					<FieldInput
-						type="number"
-						value={state.firstForm.unit.weight.toString()}
-						onChange={(d) => {}}
-						width={"100%"}
-						placeHolder={`Enter ${state.firstForm.unit.name} weight`}
-						inputClassName={style.formInput}
-						name="description"
-						disabled
-					/>
-				</>
-			)}
-
-			<Spacer height={8 * 2} />
-			{/* <SelectUnit /> */}
 			<p className="body fw-medium fcolor-fuschia">Description</p>
 			<Spacer height={8} />
 			<FieldTextArea
@@ -145,6 +76,7 @@ function FirstPart() {
 			<Spacer height={16} />
 
 			<FormFileUpload
+				values={state.images}
 				onChange={(d) => {
 					setStateActions.mutateState((p) => {
 						p.images = d;
@@ -161,10 +93,7 @@ function FirstPart() {
 					loadingColor={"#fff"}
 					onClick={() => {
 						validate.validateFirstForm(() => {
-							const verdict = addCategoryActions.validateUnitWeightInput();
-							if (verdict) {
-								addCategoryActions.mutateState((p) => p.page++);
-							}
+							addCategoryActions.mutateState((p) => p.page++);
 						});
 					}}
 					label={"Next"}

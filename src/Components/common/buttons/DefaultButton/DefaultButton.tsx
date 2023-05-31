@@ -8,6 +8,7 @@ import {
 import useInteraction from "@src/modules/hooks/useInteraction/useInteraction";
 import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 import InteractionObserver from "../../InteractionObserver/InteractionObserver";
+import { CircularProgress } from "@mui/material";
 
 interface StylesForStates {
 	transition?: { duration: number };
@@ -130,7 +131,8 @@ function DefaultButton(props: DefaultButtonProps) {
 			onClick={() => props.onClick()}
 		>
 			{props.loading ? (
-				<LoadingSpinner radius={28} color={color} />
+				// <LoadingSpinner radius={28} color={color} />
+				<CircularProgress size={"20px"} sx={{ color }} disableShrink />
 			) : (
 				<motion.p
 					style={{ ...animateStyle.default.text, userSelect: "none" }}

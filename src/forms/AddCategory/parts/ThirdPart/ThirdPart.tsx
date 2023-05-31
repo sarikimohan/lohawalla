@@ -11,15 +11,8 @@ import { verify } from "crypto";
 import { useAuthGuardContext } from "@src/auth/AuthGuard/AuthGuard";
 
 function ThirdPart() {
-	const {
-		state,
-		descriptionActions,
-		addCategoryActions,
-		saveActions,
-		validate,
-		refresh,
-		onClose,
-	} = useAddCategoryContext();
+	const { state, descriptionActions, saveActions, validate, refresh, onClose } =
+		useAddCategoryContext();
 	const { user } = useAuthGuardContext();
 
 	return (
@@ -128,13 +121,13 @@ function ThirdPart() {
 					<SaveButton
 						onClick={() => {
 							validate.validateDescriptionLabels(() => {
-								saveActions.save([], user).then(() => {
-									refresh();
-									onClose();
-								});
+								saveActions.save(user);
 							});
 						}}
-						isLoading={state.loading["save"].status === "initialized"}
+						isLoading={
+							state.loading["save"].status === "initialized" ||
+							state.loading.saveImages.status === "initialized"
+						}
 					>
 						Save
 					</SaveButton>

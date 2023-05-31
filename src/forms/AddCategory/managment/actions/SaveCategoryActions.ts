@@ -2,60 +2,45 @@ import { ServerStateUtils } from "@src/modules/StateManagement/Core/StateUtils";
 // import server from "@src/modules/axios/instances";
 import { apiIndex } from "../../fetch/apis";
 import AddCategoryInstance from "../../fetch/instance";
+import SaveImage from "@src/modules/SaveImage/SaveImage";
 
 export default class SaveCategoryActions extends ServerStateUtils<AddCategory.State> {
-	async save(images: string[], by: NameIdPair) {
+	async save(by: NameIdPair) {
 		const state = this.state;
 		const firstForm = state.firstForm;
 		const credits = state.credit;
 
 		const d: AddCategoryAsync.FormData = {
-			name: firstForm.categoryName.value,
-			code: firstForm.categoryCode.value,
-			unit: {
-				unitsId: "",
-				weight: -1,
-			},
-			description: firstForm.description.value,
+			name: firstForm.categoryName.value.trim(),
+			code: firstForm.categoryCode.value.trim(),
+			description: firstForm.description.value.trim(),
 			credit: credits.map((v, i) => ({
 				days: v.days,
 				type: v.type,
-				value: parseFloat(v.value.value),
+				value: parseFloat(v.value.value.trim()),
 			})),
-			negotiation: parseFloat(state.negotiation.value),
+			negotiation: parseFloat(state.negotiation.value.trim()),
 			descriptionLabels: state.descriptionLabels.map((v, i) => ({
 				key: v.key,
 				value: v.value.value,
 				position: i,
 			})),
 			by,
-			images,
+			images: [],
 		};
 
-		if (this.state.firstForm.unit) {
-			const selectedUnit = this.state.firstForm.unit;
-			const unit: {
-				unitsId: string;
-				weight: number | null;
-			} = {
-				unitsId: "",
-				weight: -1,
-			};
-			unit.unitsId = selectedUnit.id;
-			unit.weight = !selectedUnit.weight
-				? parseFloat(this.state.firstForm.unitWeightInputField.value)
-				: null;
-			d.unit = unit;
-		} else {
-			d.unit = null;
-		}
+		await this.handleAsync("saveImages", () => SaveImage(this.state.images), {
+			initializedMessage: "saving images...",
+			errMessage: "cannot save images, proceeding to save data...",
+		});
 
-		const res = await this.handleAsync(
+		await this.handleAsync(
 			"save",
 			() => {
 				return AddCategoryInstance.post<string>(apiIndex.createCategory, d);
 			},
 			{
+				initializedMessage: "saving data",
 				errMessage:
 					"failed to save category, check the internet connection or try again",
 			}

@@ -6,6 +6,7 @@ import Spacer from "../Spacer/Spacer";
 
 type UploadResponse = { Location: string }[];
 interface FormFileUploadProps {
+	values?: File[] | null;
 	onUploadStart?: () => void;
 	onUploadEnd?: (data: UploadResponse) => void;
 	onError?: (err: Error) => void;
@@ -14,9 +15,22 @@ interface FormFileUploadProps {
 
 function FormFileUpload(props: FormFileUploadProps) {
 	type FileSelectionState = { file: File; status: boolean };
+
+	const getStateFromProps = (): FileSelectionState[] | null => {
+		if (props.values) {
+			return props.values.map((v) => ({ file: v, status: true }));
+		} else {
+			return null;
+		}
+	};
+
 	const [fileSelection, setFileSelection] = useState<
 		FileSelectionState[] | null
-	>(null);
+	>(getStateFromProps());
+
+	useEffect(() => {
+		setFileSelection(getStateFromProps());
+	}, [props.values && props.values.length, props.values]);
 
 	const removeImage = (f: File) => {
 		const fileList: FileSelectionState[] = [];
@@ -106,4 +120,4 @@ function FormFileUpload(props: FormFileUploadProps) {
 	);
 }
 
-export default FormFileUpload;
+export default React.memo(FormFileUpload);

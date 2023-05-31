@@ -15,8 +15,9 @@ import SaveCategoryActions from "./managment/actions/SaveCategoryActions";
 import ErrorCard from "@src/Components/feedback/ErrorCard/ErrorCard";
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 import ValidateAddCategory from "./managment/actions/Validate";
-// import SelectUnitActions from "./managment/actions/SelectUnitActions";
 import { FieldDataService } from "@src/modules/FieldData/FieldData";
+import AsyncProcessBoundary from "@src/Components/feedback/AsyncProcessBoundary/AsyncProcessBoundary";
+import { Snackbar } from "@mui/material";
 
 interface Props {
 	onClose: () => void;
@@ -41,17 +42,6 @@ export function useAddCategoryContext() {
 	return useContext(Context);
 }
 
-function Mapper() {
-	const { state } = useAddCategoryContext();
-	return (
-		<>
-			{state.page === 0 && <FirstPart />}
-			{state.page === 1 && <SecondPart />}
-			{state.page === 2 && <ThirdPart />}
-		</>
-	);
-}
-
 function isError(state: { [key: string]: AsyncState }) {
 	const values = Object.values(state);
 	for (let value of values) {
@@ -68,13 +58,12 @@ function AddCategoryForm(props: Props) {
 			checkName: AsyncStateFactory(),
 			checkCode: AsyncStateFactory(),
 			fetchUnits: AsyncStateFactory(),
+			saveImages: AsyncStateFactory(),
 		},
 		firstForm: {
 			categoryName: FieldDataService.getDefaultField(),
 			categoryCode: FieldDataService.getDefaultField(),
 			description: FieldDataService.getDefaultField(),
-			unitList: [],
-			unit: null,
 			showUnitWeightInput: false,
 			unitWeightInputField: FieldDataService.getDefaultField(),
 		},
@@ -98,7 +87,6 @@ function AddCategoryForm(props: Props) {
 	const creditActions = new CreditActions(state, setState);
 	const saveActions = new SaveCategoryActions(state, setState);
 	const validate = new ValidateAddCategory(state, setState);
-	// const selectUnitActions = new SelectUnitActions(state, setState);
 
 	return (
 		<Context.Provider
@@ -116,7 +104,7 @@ function AddCategoryForm(props: Props) {
 			}}
 		>
 			<PopUpContainer>
-				{isError(state.loading) ? (
+				{/* {isError(state.loading) ? (
 					<ErrorCard
 						handleCut={props.onClose}
 						messages={[state.loading.save.message]}
@@ -134,7 +122,16 @@ function AddCategoryForm(props: Props) {
 							label: "Close",
 						}}
 					/>
-				) : (
+				) : ( */}
+				<AsyncProcessBoundary
+					asyncStates={[state.loading.saveImages]}
+					primaryAction={{
+						onClick: () => {
+							props.refresh();
+							props.onClose();
+						},
+					}}
+				>
 					<FormContainer>
 						<div className="mb-4">
 							<FormHeader
@@ -152,9 +149,24 @@ function AddCategoryForm(props: Props) {
 						<div className="mb-5">
 							<ProgressBar currentStep={state.page + 1} steps={3} />
 						</div>
-						<Mapper />
+						{state.page === 0 && <FirstPart />}
+						{state.page === 1 && <SecondPart />}
+						{state.page === 2 && <ThirdPart />}
 					</FormContainer>
-				)}
+				</AsyncProcessBoundary>
+				{/* )} */}
+				<Snackbar
+					open={
+						state.loading.saveImages.status === "initialized" ||
+						state.loading.save.status === "initialized"
+					}
+					message={
+						(state.loading.saveImages.status === "initialized" &&
+							state.loading.saveImages.message) ||
+						(state.loading.save.status === "initialized" &&
+							state.loading.save.message)
+					}
+				/>
 			</PopUpContainer>
 		</Context.Provider>
 	);

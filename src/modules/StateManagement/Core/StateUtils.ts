@@ -27,7 +27,7 @@ export class ServerStateUtils<
 		config?: {
 			initializedMessage?: string;
 			successMessage?: string;
-			errMessage?: string;
+			errMessage?: string | ((err: AxiosError) => string);
 			onError?: (err: AxiosError) => void;
 			onSuccess?: (data: T) => void;
 			onEnd?: (data?: T, err?: AxiosError) => void;
@@ -60,7 +60,11 @@ export class ServerStateUtils<
 			const error = err as AxiosError;
 			conf.onError && conf.onError(error);
 			const message =
-				error.status && error.status >= 500 ? "server error" : errMessage;
+				error.status && error.status >= 500
+					? "server error"
+					: typeof errMessage === "string"
+					? errMessage
+					: errMessage(error);
 			console.log("error received wasa", error);
 			this.mutateState((p) => {
 				p.loading[name] = {

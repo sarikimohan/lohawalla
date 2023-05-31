@@ -17,6 +17,7 @@ namespace AddCategory {
 		images: File[] | null;
 
 		credit: {
+			id: string;
 			days: number;
 			value: FieldData;
 			type: PercNum;
@@ -43,16 +44,6 @@ namespace AddCategory {
 		categoryName: FieldData;
 		categoryCode: FieldData;
 		description: FieldData;
-		unitList: {
-			id: string;
-			name: string;
-			weight: number | null;
-		}[];
-		unit: {
-			id: string;
-			name: string;
-			weight: number | null;
-		} | null;
 		showUnitWeightInput: boolean;
 		unitWeightInputField: FieldData;
 	}
@@ -94,10 +85,6 @@ namespace AddCategoryAsync {
 		name: string;
 		code: string;
 		description: string;
-		unit: {
-			unitsId: string;
-			weight: number | null;
-		} | null;
 		credit: CreditData[];
 		negotiation: number;
 		descriptionLabels: DescriptionData[];

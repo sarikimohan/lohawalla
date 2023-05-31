@@ -1,5 +1,6 @@
 import { FieldDataService, Validators } from "@src/modules/FieldData/FieldData";
 import StateUtils from "@src/modules/StateManagement/Core/StateUtils";
+import { nanoid } from "nanoid";
 
 export default class CreditActions extends StateUtils<AddCategory.State> {
 	validateAdd() {
@@ -60,8 +61,9 @@ export default class CreditActions extends StateUtils<AddCategory.State> {
 				return;
 			}
 			p.credit.push({
-				days: parseInt(p.creditInput.key.value),
-				value: { value: p.creditInput.value.value },
+				id: nanoid(),
+				days: parseInt(p.creditInput.key.value.trim()),
+				value: { value: p.creditInput.value.value.trim() },
 				type: "percentage",
 			});
 			p.creditInput.key.value = "";

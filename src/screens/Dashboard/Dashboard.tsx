@@ -50,8 +50,23 @@ function Dashboard() {
 				{/* <AddProductForm /> */}
 				{/* <EditCategory /> */}
 				{/* <EditCompany /> */}
-				<EditItem />
-				
+				{/* <AddCompany
+					close={function (): void {
+						throw new Error("Function not implemented.");
+					}}
+					refresh={function (): void {
+						throw new Error("Function not implemented.");
+					}}
+				/> */}
+				{/* <EditItem /> */}
+				<ErrorCard
+					turnToSuccess
+					messages={["this is a test error message"]}
+					primaryAction={{
+						onClick: undefined,
+						label: undefined,
+					}}
+				/>
 			</div>
 		</div>
 	);
