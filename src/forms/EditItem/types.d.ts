@@ -45,7 +45,12 @@ namespace EditItemAsync {
 		itemCode: string;
 		itemHSNCode: number;
 		description: string;
-
+    unit: {
+			id: string;
+			name: string;
+			weight: number | null;
+			value: number | null;
+		},
 		images: string[];
 		margin: {
 			online: number;

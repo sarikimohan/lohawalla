@@ -12,6 +12,7 @@ import {
 } from "@src/Components/special/ValidatedEntry/ValidatedEntry";
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 import ValueChange from "@src/modules/ValueChange/ValueChangeImpl";
+import { PIUnitInput } from "@src/Components/special/UnitInput/UnitInput";
 
 interface Props {}
 
@@ -29,6 +30,7 @@ interface ContextProps {
 		>
 	>;
 	setHandle: (name: string) => SetHandle;
+	setUnitInput: (data: PIUnitInput.SetHandleProps) => void;
 }
 
 const EditItemContext = React.createContext({} as ContextProps);
@@ -57,10 +59,14 @@ export default function EditItem(props: Props) {
 		unit: null,
 	});
 
-	const id = "6477b5c6abe20ff51f41d37e";
+	const id = "6477efcf6defd8464791357d";
 
 	const editItemFormActions = new EditItemActions(state, setState);
 	const handle = useRef<Record<string, SetHandleProps>>({});
+	const unitInputHandle = useRef<PIUnitInput.SetHandleProps | null>(null);
+	const setUnitInput = (data: PIUnitInput.SetHandleProps) => {
+		unitInputHandle.current = data;
+	};
 	const setHandle = (name: string): SetHandle => {
 		return (data: SetHandleProps) => {
 			handle.current[name] = data;
@@ -73,7 +79,14 @@ export default function EditItem(props: Props) {
 
 	return (
 		<EditItemContext.Provider
-			value={{ state, editItemFormActions, handle, setHandle, id }}
+			value={{
+				state,
+				editItemFormActions,
+				handle,
+				setHandle,
+				id,
+				setUnitInput,
+			}}
 		>
 			<PopUpContainer>
 				<FormContainer>

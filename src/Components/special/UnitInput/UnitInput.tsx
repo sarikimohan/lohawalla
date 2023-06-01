@@ -59,7 +59,7 @@ export default function UnitInput(props: RIUnitInput) {
 					id: props.value.id,
 					name: props.value.name,
 					weight: props.value.weight,
-					value: props.value?.value
+					value: props.value.value
 						? FieldDataService.getDefaultField(props.value.value.toString())
 						: FieldDataService.getDefaultField(),
 			  }

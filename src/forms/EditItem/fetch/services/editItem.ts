@@ -19,6 +19,10 @@ export interface EditItemData {
 		position: number;
 	}[];
 	by: NameIdPair;
+	unit: {
+		unitId: string;
+		weight: number | null;
+	};
 }
 
 export default async function editItem(data: EditItemData) {

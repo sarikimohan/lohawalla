@@ -10,11 +10,20 @@ import Spacer from "@src/Components/common/Spacer/Spacer";
 import ImageSmall from "@src/Components/common/ImageSmall/ImageSmall";
 import { motion } from "framer-motion";
 import DeleteIcon from "@mui/icons-material/Delete";
+import DefaultFormLabel from "@src/Components/forms/FormLabel/DefaultFormLabel";
+import UnitInput, {
+	PIUnitInput,
+} from "@src/Components/special/UnitInput/UnitInput";
 
 interface Props {}
 
 export default function FirstPart(props: Props) {
-	const { state, editItemFormActions: _, setHandle } = useEditItemContext();
+	const {
+		state,
+		editItemFormActions: _,
+		setHandle,
+		setUnitInput,
+	} = useEditItemContext();
 
 	return (
 		<div>
@@ -108,6 +117,21 @@ export default function FirstPart(props: Props) {
 				/>
 			</div>
 
+			<div className="mb-4">
+				<DefaultFormLabel>Edit Unit</DefaultFormLabel>
+				<UnitInput
+					unitList={state.unitList}
+					value={state.unit}
+					setHandle={setUnitInput}
+					onChange={(e) => {
+						_.mutateState((p) => {
+							p.unit = e;
+						});
+					}}
+				/>
+			</div>
+
+			<DefaultFormLabel>Delete images</DefaultFormLabel>
 			<div className="border p-4 rounded-md">
 				<div className="crow">
 					{state.images.map((v, i) => (
