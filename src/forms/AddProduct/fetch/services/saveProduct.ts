@@ -23,7 +23,6 @@ interface FormData {
 		key: string;
 		value: string;
 	}[];
-	unit: UnitData;
 	images: string[];
 }
 

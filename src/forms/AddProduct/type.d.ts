@@ -15,18 +15,6 @@ namespace AddProduct {
 			selectedCompany: FieldData<Entity | null>;
 			selectedCategory: FieldData<Entity | null>;
 			selectedItem: FieldData<Entity | null>;
-
-			disableUnitSelection: boolean;
-			unitList: {
-				id: string;
-				name: string;
-				weight: number;
-			}[];
-			unit: {
-				id: string;
-				name: string;
-				weight: number;
-			} | null;
 			unitWeightInputField: FieldData;
 			unitValidationVerdict: boolean;
 		};

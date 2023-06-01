@@ -15,11 +15,6 @@ interface FormPart1Props {}
 
 function FormPart1(p: FormPart1Props) {
 	const { state, addProductActions, validate } = useAddProductContext();
-
-	useEffect(() => {
-		addProductActions.fetchUnitList();
-	}, []);
-
 	return (
 		<>
 			<div className="flex flex-wrap mb-4">
@@ -114,69 +109,6 @@ function FormPart1(p: FormPart1Props) {
 						value={state.firstForm.selectedItem.value}
 					/>
 				</div>
-			</div>
-
-			<div className="p-3">
-				<p className="body fw-medium fcolor-fuschia">Unit</p>
-				<Spacer height={8} />
-				<Autocomplete
-					getOptionLabel={(d) => d.name}
-					renderInput={(params) => (
-						<TextField
-							error={state.firstForm.unitValidationVerdict === false}
-							{...params}
-							label="Unit"
-						/>
-					)}
-					options={state.firstForm.unitList}
-					onOpen={() => {}}
-					onChange={(e, val) => {
-						addProductActions.setSelectedUnit(val);
-					}}
-					onInputChange={(e, v, r) => {
-						if (r === "clear") {
-							addProductActions.setSelectedUnit(null);
-						}
-					}}
-					loading={state.loading.fetchUnits.status === "initialized"}
-					clearOnEscape
-					isOptionEqualToValue={(o, v) => o.id === v.id}
-					value={state.firstForm.unit}
-				/>
-				<Spacer height={20} />
-				{state.firstForm.unit && state.firstForm.unit.weight === -1 && (
-					<>
-						<p className="body fw-medium fcolor-fuschia">
-							{"Enter " + state.firstForm.unit.name + " weight"}
-						</p>
-						<FieldInput
-							{...state.firstForm.unitWeightInputField}
-							type="number"
-							onChange={(d) => {
-								addProductActions.mutateState((p) => {
-									p.firstForm.unitWeightInputField.value = d.target.value;
-								});
-							}}
-							width={"100%"}
-							placeHolder={`${state.firstForm.unit.name} weight in kg`}
-							name="description"
-						/>
-					</>
-				)}
-				{state.firstForm.unit && state.firstForm.unit.weight !== -1 && (
-					<>
-						<p className="body fw-medium fcolor-fuschia">Unit weight is</p>
-						<FieldInput
-							type="number"
-							value={state.firstForm.unit.weight.toString()}
-							onChange={(d) => {}}
-							width={"100%"}
-							placeHolder={`Enter ${state.firstForm.unit.name} weight`}
-							name="description"
-							disabled
-						/>
-					</>
-				)}
 			</div>
 			<div className="mb-5">
 				<FormFileUpload />

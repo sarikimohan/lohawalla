@@ -138,8 +138,10 @@ export default function FormPart3(props: Props) {
 								addProductActions.mutateState((p) => {
 									p.thirdForm.descriptionLabels.push({
 										id: nanoid(),
-										key: p.thirdForm.descriptionEntry.key.value,
-										value: { value: p.thirdForm.descriptionEntry.value.value },
+										key: p.thirdForm.descriptionEntry.key.value.trim(),
+										value: {
+											value: p.thirdForm.descriptionEntry.value.value.trim(),
+										},
 									});
 									p.thirdForm.descriptionEntry.value.value = "";
 									p.thirdForm.descriptionEntry.key.value = "";

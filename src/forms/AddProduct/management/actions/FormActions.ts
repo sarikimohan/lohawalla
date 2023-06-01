@@ -48,49 +48,6 @@ export default class FirstFormActions extends ServerStateUtils<AddProduct.State>
 		}
 	}
 
-	async fetchUnitList() {
-		const res = await this.handleAsync("fetchUnits", () => getAllUnits());
-		if (res) {
-			this.mutateState((p) => {
-				p.firstForm.unitList = res.data;
-			});
-		}
-	}
-
-	async fetchCategoryUnit(id: string) {
-		const res = await this.handleAsync("fetchDefaultUnit", () =>
-			getCategoryUnit(id)
-		);
-		if (res) {
-			const found = (() => {
-				for (let i = 0; i < this.state.firstForm.unitList.length; ++i) {
-					if (this.state.firstForm.unitList[i].id === res.data.unitsId) {
-						return this.state.firstForm.unitList[i];
-					}
-				}
-			})();
-			console.log(this.state.firstForm.unitList, found, res.data);
-			this.mutateState((p) => {
-				if (found) {
-					this.state.firstForm.unit = found;
-					if (found.weight === -1) {
-						p.firstForm.unitWeightInputField.value = res.data.weight.toFixed(1);
-					}
-				}
-			});
-		}
-	}
-
-	setSelectedUnit(unit: { id: string; name: string; weight: number } | null) {
-		this.mutateState((p) => {
-			p.firstForm.unit = unit;
-		});
-	}
-
-	valiadteUnitWeightInput() {
-		const unitSelection = this.state.firstForm.unit;
-	}
-
 	setSelectedCompany(entity: AddProduct.Entity | null) {
 		this.mutateState((p) => {
 			p.firstForm.selectedCompany.value = entity;
@@ -101,9 +58,6 @@ export default class FirstFormActions extends ServerStateUtils<AddProduct.State>
 			p.firstForm.selectedCategory.value = entity;
 			p.firstForm.itemList = [];
 			p.firstForm.selectedItem.value = null;
-			if (entity) {
-				this.fetchCategoryUnit(entity._id);
-			}
 		});
 	}
 	setSelectedItem(entity: AddProduct.Entity | null) {
@@ -126,20 +80,6 @@ export class SecondFormActions extends ServerStateUtils<AddProduct.State> {
 		const companyId = this.state.firstForm.selectedCompany.value?._id;
 
 		if (categoryId && itemId && companyId) {
-			const unitData: UnitData = {
-				unitsId: "",
-				weight: -1,
-			};
-			const selectedUnit = this.state.firstForm.unit;
-			console.log(selectedUnit);
-			if (selectedUnit) {
-				unitData.unitsId = selectedUnit.id;
-				unitData.weight =
-					selectedUnit.weight === -1
-						? parseFloat(this.state.firstForm.unitWeightInputField.value)
-						: selectedUnit.weight;
-			}
-
 			const d = {
 				companyId,
 				categoryId,
@@ -162,7 +102,6 @@ export class SecondFormActions extends ServerStateUtils<AddProduct.State> {
 					})
 				),
 				images,
-				unit: unitData,
 			};
 			console.log(d);
 			const res = await this.handleAsync("save", () => saveProduct(d));

@@ -6,8 +6,8 @@ export default class DescriptionActions extends StateUtils<AddProduct.State> {
 		this.mutateState((p) => {
 			p.thirdForm.descriptionLabels.push({
 				id: nanoid(),
-				key: p.thirdForm.descriptionEntry.key.value,
-				value: { value: p.thirdForm.descriptionEntry.value.value },
+				key: p.thirdForm.descriptionEntry.key.value.trim(),
+				value: { value: p.thirdForm.descriptionEntry.value.value.trim() },
 			});
 			p.thirdForm.descriptionEntry.value.value = "";
 			p.thirdForm.descriptionEntry.key.value = "";
@@ -48,18 +48,20 @@ export default class DescriptionActions extends StateUtils<AddProduct.State> {
 			value: undefined,
 		};
 
-		if (this.state.thirdForm.descriptionEntry.key.value === "") {
+		if (this.state.thirdForm.descriptionEntry.key.value.trim() === "") {
 			err.key = "required";
 			verdict = false;
 		}
 
-		if (this.state.thirdForm.descriptionEntry.value.value === "") {
+		if (this.state.thirdForm.descriptionEntry.value.value.trim() === "") {
 			err.value = "required";
 			verdict = false;
 		}
 
 		for (let d of this.state.thirdForm.descriptionLabels) {
-			if (d.key === this.state.thirdForm.descriptionEntry.key.value) {
+			if (
+				d.key.trim() === this.state.thirdForm.descriptionEntry.key.value.trim()
+			) {
 				err.key = "already present";
 				verdict = false;
 				break;

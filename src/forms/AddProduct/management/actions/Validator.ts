@@ -28,45 +28,12 @@ export default class AddProductValidators extends ServerStateUtils<AddProduct.St
 		});
 		return !data.error;
 	}
-	validateUnit() {
-		const verdict = { isValid: true };
-		console.log(this.state.firstForm.unitValidationVerdict);
-		const selectedUnit = this.state.firstForm.unit;
-		if (selectedUnit === null) {
-			this.mutateState((p) => {
-				p.firstForm.unitValidationVerdict = false;
-				verdict.isValid = false;
-			});
-		} else {
-			this.mutateState((p) => {
-				p.firstForm.unitValidationVerdict = true;
-			});
-			if (selectedUnit.weight === -1) {
-				this.mutateState((p) => {
-					p.firstForm.unitValidationVerdict = true;
-				});
-				this.mutateState((p) => {
-					const data = p.firstForm.unitWeightInputField;
-					data.error = FieldDataService.registerValidator(
-						data.value,
-						verdict,
-						Validators.validateNull,
-						Validators.validateFloat,
-						(d) => Validators.min(d, 0)
-					);
-					p.firstForm.unitWeightInputField = data;
-				});
-			}
-		}
 
-		return verdict.isValid;
-	}
 	validateFirstForm() {
 		const v = [
 			this.validateCategory(),
 			this.validateCompany(),
 			this.validateItem(),
-			this.validateUnit(),
 		];
 		console.log(v);
 		return v.reduce((a, c) => a && c, true);
@@ -186,7 +153,7 @@ export default class AddProductValidators extends ServerStateUtils<AddProduct.St
 			const data = p.thirdForm.descriptionEntry;
 
 			data.key.error = FieldDataService.registerValidator(
-				data.key.value,
+				data.key.value.trim(),
 				verdict,
 				Validators.validateNull,
 				(d) => {

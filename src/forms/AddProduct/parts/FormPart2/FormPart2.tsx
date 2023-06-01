@@ -65,8 +65,17 @@ export default function FormPart2(props: Props) {
 								<tr key={i}>
 									<td>
 										<div className="ml-2 border pl-6 py-3">
-											<p className="text-md font-bold text-slate-900">
-												{v.name}
+											<p className="text-md font-bold text-slate-700">
+												<span
+													className={
+														v.operation === "add"
+															? "text-green-500"
+															: "text-red-500"
+													}
+												>
+													{v.operation === "add" ? "+" : "-"} {v.name}{" "}
+													{v.type === "numeric" ? "(₹)" : "(%)"}
+												</span>
 											</p>
 										</div>
 									</td>
