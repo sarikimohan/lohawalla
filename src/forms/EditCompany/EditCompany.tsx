@@ -117,6 +117,14 @@ export default function EditCompany(props: Props) {
 			key: "",
 			value: "",
 		},
+		tempPriceFields: [
+			{
+				id: nanoid(),
+				name: { value: "" },
+				type: "percentage",
+				operation: "add",
+			},
+		],
 	});
 	const stateUtils = new StateUtils<EditCompany.State>(state, setState);
 	return (

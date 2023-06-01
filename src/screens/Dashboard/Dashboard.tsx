@@ -49,7 +49,7 @@ function Dashboard() {
 				{/* <PriceCalculation /> */}
 				{/* <AddProductForm /> */}
 				{/* <EditCategory /> */}
-				{/* <EditCompany /> */}
+				<EditCompany />
 				{/* <AddCompany
 					close={function (): void {
 						throw new Error("Function not implemented.");
@@ -58,7 +58,7 @@ function Dashboard() {
 						throw new Error("Function not implemented.");
 					}}
 				/> */}
-				<EditItem />
+				{/* <EditItem /> */}
 				{/* <ErrorCard
 					turnToSuccess
 					messages={["this is a test error message"]}

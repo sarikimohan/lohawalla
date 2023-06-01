@@ -12,6 +12,13 @@ import { nanoid } from "nanoid";
 
 interface Props {
 	close: () => void;
+	data: EditCompany.NewPriceField[];
+	onChangeType: (d: PercNum, i: number) => void;
+	onChangeOperation: (d: OpType, i: number) => void;
+	onChange: (d: string, i: number) => void;
+	addPriceField: () => void;
+	onSave: () => void;
+	deletePriceField: (i: number) => void;
 }
 
 export default function AddPriceField(props: Props) {
@@ -24,31 +31,30 @@ export default function AddPriceField(props: Props) {
 						<Header onClose={props.close} />
 					</div>
 					<div className="mx-8">
-						{[].map((v, i) => (
-							<div className="mb-3">
+						{props.data.map((v, i) => (
+							<div className="mb-3" key={v.id}>
 								<AddCard
+									onDelete={() => {
+										props.deletePriceField(i);
+									}}
 									data={v}
 									descName={""}
-									onChangeType={function (d: PercNum): void {
-										throw new Error("Function not implemented.");
-									}}
-									onChangeOperation={function (d: OpType): void {
-										throw new Error("Function not implemented.");
-									}}
-									onChange={function (d: string): void {
-										throw new Error("Function not implemented.");
-									}}
+									onChangeType={(d) => props.onChangeType(d, i)}
+									onChangeOperation={(d) => props.onChangeOperation(d, i)}
+									onChange={(d) => props.onChange(d, i)}
 								/>
 							</div>
 						))}
 					</div>
 					<div className="mt-4 jfe">
-						<AddMore handleAdd={() => {}} />
+						<AddMore handleAdd={props.addPriceField} />
 					</div>
 
 					<div>
 						<DefaultButton
-							onClick={function (): void {}}
+							onClick={function (): void {
+								props.onSave();
+							}}
 							label={"Save"}
 							styles={NextButtonStyleConfig}
 						/>

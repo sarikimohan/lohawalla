@@ -1,4 +1,11 @@
 namespace EditCompany {
+	interface NewPriceField {
+		id: string;
+		name: FieldData;
+		type: PercNum;
+		operation: OpType;
+	}
+
 	interface State {
 		companyName: string;
 		description: string;
@@ -11,9 +18,10 @@ namespace EditCompany {
 			isFixed: boolean;
 			type: PercNum;
 			operation: OpType;
-			wasAdded?: boolean;
+			wasAdded?: boolean; 
 		}[];
 		deletedId: string[];
+		tempPriceFields: NewPriceField[];
 		descriptionLabels: {
 			id: string;
 			key: string;

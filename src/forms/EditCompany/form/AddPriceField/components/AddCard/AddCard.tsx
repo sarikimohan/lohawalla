@@ -10,7 +10,7 @@ interface Props {
 	width?: number;
 	position?: number;
 	descName: string;
-	data: AddCompany.NewPriceField;
+	data: EditCompany.NewPriceField;
 	onDelete?: () => void;
 	onChangeType: (d: PercNum) => void;
 	onChangeOperation: (d: OpType) => void;

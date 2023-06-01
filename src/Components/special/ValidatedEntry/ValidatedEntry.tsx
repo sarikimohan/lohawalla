@@ -19,6 +19,7 @@ interface Props {
 	asyncValidator?: (d: string) => Promise<string | undefined>;
 	rightIcon?: React.ReactNode;
 	width?: string | number;
+	disabled?: boolean;
 }
 
 const ValidatedEntry = forwardRef<
@@ -101,6 +102,7 @@ const ValidatedEntry = forwardRef<
 			isLoading={loading.status === "initialized"}
 			rightIcon={props.rightIcon}
 			width={props.width}
+			disabled={props.disabled}
 		/>
 	);
 });

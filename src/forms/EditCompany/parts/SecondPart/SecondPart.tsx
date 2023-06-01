@@ -13,6 +13,7 @@ import ValidatedEntry from "@src/Components/special/ValidatedEntry/ValidatedEntr
 import { Groups, useEditCompanyContext } from "../../EditCompany";
 import { FieldDataService, Validators } from "@src/modules/FieldData/FieldData";
 import AddMore from "@src/Components/common/buttons/AddMore/AddMore";
+import { nanoid } from "nanoid";
 
 interface Props {}
 
@@ -54,7 +55,7 @@ export default function SecondPart(props: Props) {
 
 						<tbody>
 							{state.priceStructure.map((v, i) => (
-								<tr className="mb-2 border-b">
+								<tr className="mb-2 border-b" key={v._id}>
 									<td align="center">
 										<p className="text-md font-bold text-slate-700 py-3">
 											<span
@@ -70,10 +71,25 @@ export default function SecondPart(props: Props) {
 										</p>
 									</td>
 									<td align="center">
-										<Checkbox checked={v.isFixed} />
+										{v.name === "basic rate" ? (
+											<></>
+										) : (
+											<Checkbox
+												checked={v.isFixed}
+												onChange={(e) => {
+													stateUtils.mutateState((p) => {
+														p.priceStructure[i].isFixed = e.target.checked;
+														if (!e.target.checked) {
+															p.priceStructure[i].value = "";
+														}
+													});
+												}}
+											/>
+										)}
 									</td>
 									<td align="center" className="w-2/5 py-3">
 										<ValidatedEntry
+											disabled={!v.isFixed}
 											type={"number"}
 											placeHolder={"enter value"}
 											value={v.value}
@@ -82,16 +98,20 @@ export default function SecondPart(props: Props) {
 													p.priceStructure[i].value = d;
 												});
 											}}
-											validateFunction={FieldDataService.clubValidators(
-												Validators.validateNull,
-												Validators.validateFloat,
-												(d) => {
-													if (v.type === "percentage") {
-														return Validators.max(d, 100);
-													}
-												},
-												(d) => Validators.min(d, 0)
-											)}
+											validateFunction={
+												v.isFixed
+													? FieldDataService.clubValidators(
+															Validators.validateNull,
+															Validators.validateFloat,
+															(d) => {
+																if (v.type === "percentage") {
+																	return Validators.max(d, 100);
+																}
+															},
+															(d) => Validators.min(d, 0)
+													  )
+													: undefined
+											}
 											setHandle={setHandle(Groups.priceField, "pf" + v._id)}
 										/>
 									</td>
@@ -100,7 +120,11 @@ export default function SecondPart(props: Props) {
 						</tbody>
 					</table>
 					<div className="mt-4 jfe">
-						<AddMore handleAdd={() => {}} />
+						<AddMore
+							handleAdd={() => {
+								setShowAddForm(true);
+							}}
+						/>
 					</div>
 				</div>
 			</Card>
@@ -108,6 +132,85 @@ export default function SecondPart(props: Props) {
 				<AddPriceField
 					close={function (): void {
 						setShowAddForm(false);
+					}}
+					data={state.tempPriceFields}
+					onChangeType={function (d: PercNum, i: number): void {
+						stateUtils.mutateState((p) => {
+							p.tempPriceFields[i].type = d;
+						});
+					}}
+					onChangeOperation={function (d: OpType, i: number): void {
+						stateUtils.mutateState((p) => {
+							p.tempPriceFields[i].operation = d;
+						});
+					}}
+					onChange={function (d: string, i: number): void {
+						stateUtils.mutateState((p) => {
+							p.tempPriceFields[i].name.value = d;
+						});
+					}}
+					addPriceField={() => {
+						stateUtils.mutateState((p) => {
+							p.tempPriceFields.push({
+								id: nanoid(),
+								name: { value: "" },
+								operation: "add",
+								type: "percentage",
+							});
+						});
+					}}
+					onSave={() => {
+						// validate
+						const verdict = { isValid: true };
+						const obj: Record<string, boolean> = {};
+						stateUtils.mutateState((p) => {
+							for (let pf of p.priceStructure) {
+								obj[pf.name.trim()] = true;
+							}
+
+							for (let i = 0; i < p.tempPriceFields.length; ++i) {
+								const tpf = p.tempPriceFields[i];
+								tpf.name.error = FieldDataService.registerValidator(
+									tpf.name.value,
+									verdict,
+									Validators.validateNull,
+									(d) => {
+										if (obj[d.trim()]) return d + " already exists";
+										else obj[d.trim()] = true;
+									}
+								);
+							}
+							// save
+							if (verdict.isValid) {
+								for (let i = 0; i < p.tempPriceFields.length; ++i) {
+									const tpf = p.tempPriceFields[i];
+									p.priceStructure.push({
+										_id: tpf.id,
+										name: tpf.name.value,
+										value: "",
+										position: p.priceStructure.length + i + 1,
+										isFixed: false,
+										type: tpf.type,
+										operation: tpf.operation,
+										wasAdded: true,
+									});
+								}
+								p.tempPriceFields = [
+									{
+										id: nanoid(),
+										name: { value: "" },
+										type: "percentage",
+										operation: "add",
+									},
+								];
+								setShowAddForm(false);
+							}
+						});
+					}}
+					deletePriceField={(i) => {
+						stateUtils.mutateState((p) => {
+							p.tempPriceFields = p.tempPriceFields.filter((v, k) => k !== i);
+						});
 					}}
 				/>
 			)}
