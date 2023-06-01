@@ -22,7 +22,7 @@ export default function ThirdPart(props: Props) {
 			</div>
 			<Card sx={{ padding: 3 }} variant="outlined">
 				<div className="border rounded-md overflow-hidden">
-					<table className="w-full">
+					<table className="w-full table-auto">
 						<thead
 							className="bg-slate-100 h-10 border-b border-slate-400"
 							style={{ boxSizing: "border-box" }}
@@ -68,7 +68,7 @@ export default function ThirdPart(props: Props) {
 												)}
 											/>
 										</td>
-										<td align="center" className="w-fit">
+										<td align="center">
 											<div
 												onClick={() => {
 													deleteHandle(Groups.descEntry, "desc-entry-" + v.id);

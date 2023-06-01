@@ -86,14 +86,23 @@ export default function EditCompany(props: Props) {
 			await i.validate();
 		}
 
+		// basic
 		const v1 = Object.values(handle.current[Groups.plain]).reduce(
 			(a, c) => a && c.isValid,
 			true
 		);
+		// price field
 		const v2 = Object.values(handle.current[Groups.descriptions]).reduce(
 			(a, c) => a && c.isValid,
 			true
 		);
+		// global fields
+		const v3 = Object.values(handle.current[Groups.priceField]).reduce(
+			(a, c) => a && c.isValid,
+			true
+		);
+
+		return v1 && v2 && v3;
 	};
 
 	const [state, setState] = useState<EditCompany.State>({
@@ -157,7 +166,12 @@ export default function EditCompany(props: Props) {
 						<ThirdPart />
 					</div>
 					<div className="mt-5">
-						<DefaultButton onClick={function (): void {}} label={"SAVE"} />
+						<DefaultButton
+							onClick={function (): void {
+								validate();
+							}}
+							label={"SAVE"}
+						/>
 					</div>
 				</FormContainer>
 			</PopUpContainer>
