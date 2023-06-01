@@ -35,7 +35,7 @@ import useHeight from "@src/modules/hooks/useHeight";
 
 function Dashboard() {
 	const heightHandle = useHeight();
-	console.log('rendering');
+
 	return (
 		<div>
 			<div ref={heightHandle.ref}>

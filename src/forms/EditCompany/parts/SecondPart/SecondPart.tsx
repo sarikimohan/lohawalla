@@ -14,7 +14,8 @@ import { nanoid } from "nanoid";
 interface Props {}
 
 export default function SecondPart(props: Props) {
-	const { setHandle, state, stateUtils } = useEditCompanyContext();
+	const { setHandle, state, stateUtils, deleteHandle } =
+		useEditCompanyContext();
 	const [showAddForm, setShowAddForm] = useState(false);
 
 	return (
@@ -122,6 +123,7 @@ export default function SecondPart(props: Props) {
 													p.priceStructure = p.priceStructure.filter(
 														(v, k) => k !== i
 													);
+													deleteHandle(Groups.priceField, "pf" + v._id);
 												});
 											}}
 										>

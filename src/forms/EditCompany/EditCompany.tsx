@@ -7,7 +7,6 @@ import SecondPart from "./parts/SecondPart/SecondPart";
 import ThirdPart from "./parts/ThirdPart/ThirdPart";
 import FirstPart from "./parts/FirstPart/FirstPart";
 import DefaultButton from "@src/Components/common/buttons/DefaultButton/DefaultButton";
-import { ImageIndex } from "@src/assets/AssetIndex";
 import {
 	SetHandle,
 	SetHandleProps,
@@ -17,6 +16,8 @@ import { nanoid } from "nanoid";
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 import ValueChange from "@src/modules/ValueChange/ValueChangeImpl";
 import EditCompanyActions from "./managment/actions/EditCompanyActions";
+import { useAuthGuardContext } from "@src/auth/AuthGuard/AuthGuard";
+import AsyncProcessBoundary from "@src/Components/feedback/AsyncProcessBoundary/AsyncProcessBoundary";
 
 export enum Groups {
 	plain = "plain",
@@ -39,6 +40,8 @@ export const useEditCompanyContext = () => useContext(EditCompanyContext);
 
 export default function EditCompany(props: Props) {
 	const id = "64788315acfbe9a997f514c5";
+	const { user } = useAuthGuardContext();
+
 	const handle = useRef<Record<string, Record<string, SetHandleProps>>>({
 		[Groups.plain]: {},
 		[Groups.priceField]: {},
@@ -113,16 +116,7 @@ export default function EditCompany(props: Props) {
 		description: "",
 		imageFiles: null,
 		images: [],
-		priceStructure: [
-			{
-				_id: "",
-				name: "basic rate",
-				value: "",
-				isFixed: true,
-				type: "numeric",
-				operation: "add",
-			},
-		],
+		priceStructure: [],
 		deletedId: [],
 		descriptionLabels: [],
 		descriptionEntry: {
@@ -139,6 +133,8 @@ export default function EditCompany(props: Props) {
 		],
 		loading: {
 			fetch: AsyncStateFactory(),
+			save: AsyncStateFactory(),
+			saveImages: AsyncStateFactory(),
 		},
 	});
 	const stateUtils = new StateUtils<StateWithLoading<EditCompany.State>>(
@@ -151,46 +147,64 @@ export default function EditCompany(props: Props) {
 		editCompanyActions.fetch(id);
 	}, []);
 
-	console.log(state);
+	console.log(handle);
 
 	return (
 		<EditCompanyContext.Provider
 			value={{ setHandle, state, deleteHandle, stateUtils, addDesc }}
 		>
 			<PopUpContainer>
-				<FormContainer>
-					<div className="mb-5">
-						<FormHeader
-							navBack={function (): void {
-								throw new Error("Function not implemented.");
-							}}
-							close={function (): void {
-								throw new Error("Function not implemented.");
-							}}
-							heading={"Company"}
-							preHeading={"Edit"}
-						/>
-					</div>
-					<div>
-						<FirstPart />
-						<div className="my-5">
-							<Divider />
+				<AsyncProcessBoundary
+					asyncStates={[state.loading.save, state.loading.saveImages]}
+					primaryAction={{
+						onClick: undefined,
+						label: undefined,
+					}}
+				>
+					<FormContainer>
+						<div className="mb-5">
+							<FormHeader
+								navBack={function (): void {
+									throw new Error("Function not implemented.");
+								}}
+								close={function (): void {
+									throw new Error("Function not implemented.");
+								}}
+								heading={"Company"}
+								preHeading={"Edit"}
+							/>
 						</div>
-						<SecondPart />
-						<div className="my-5">
-							<Divider />
+						<div>
+							<FirstPart />
+							<div className="my-5">
+								<Divider />
+							</div>
+							<SecondPart />
+							<div className="my-5">
+								<Divider />
+							</div>
+							<ThirdPart />
 						</div>
-						<ThirdPart />
-					</div>
-					<div className="mt-5">
-						<DefaultButton
-							onClick={function (): void {
-								validate();
-							}}
-							label={"SAVE"}
-						/>
-					</div>
-				</FormContainer>
+						<div className="mt-5">
+							<DefaultButton
+								onClick={function (): void {
+									validate().then((v) => {
+										console.log(v);
+										if (v) {
+											editCompanyActions.save(id, user);
+										}
+									});
+								}}
+								label={"SAVE"}
+								loading={
+									state.loading.save.status === "initialized" ||
+									state.loading.saveImages.status === "initialized"
+								}
+								loadingColor={"white"}
+							/>
+						</div>
+					</FormContainer>
+				</AsyncProcessBoundary>
 			</PopUpContainer>
 		</EditCompanyContext.Provider>
 	);
