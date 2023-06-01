@@ -42,7 +42,11 @@ export default class PriceCalculationAction extends ServerStateUtils<
 		let total = 0;
 		this.state.calculationData.priceField.forEach((v, i) => {
 			if (v.type === "numeric") {
-				total += v.value;
+				if (v.operation === "add") {
+					total += v.value;
+				} else {
+					total -= v.value;
+				}
 			}
 		});
 		return total;
@@ -51,7 +55,15 @@ export default class PriceCalculationAction extends ServerStateUtils<
 		let total = 0;
 		this.state.calculationData.priceField.forEach((v, i) => {
 			if (v.type === "percentage") {
-				total += getValForOperation((v.value / 100) * numTotal, v.operation);
+				const value = getValForOperation(
+					(v.value / 100) * numTotal,
+					v.operation
+				);
+				if (v.operation === "add") {
+					total += value;
+				} else {
+					total -= value;
+				}
 			}
 		});
 		return total;
@@ -66,7 +78,11 @@ export default class PriceCalculationAction extends ServerStateUtils<
 		let total = 0;
 		data.forEach((v, i) => {
 			if (v.type === "numeric") {
-				total += v.value;
+				if (v.operation === "add") {
+					total += v.value;
+				} else {
+					total -= v.value;
+				}
 			}
 		});
 		return total;
@@ -78,7 +94,15 @@ export default class PriceCalculationAction extends ServerStateUtils<
 		let total = 0;
 		data.forEach((v, i) => {
 			if (v.type === "percentage") {
-				total += getValForOperation((v.value / 100) * numTotal, v.operation);
+				const value = getValForOperation(
+					(v.value / 100) * numTotal,
+					v.operation
+				);
+				if (v.operation === "add") {
+					total += value;
+				} else {
+					total -= value;
+				}
 			}
 		});
 		return total;

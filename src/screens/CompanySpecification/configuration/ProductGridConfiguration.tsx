@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ImageIndex } from "@src/assets/AssetIndex";
 
 function BannerCell(name: string, width: number) {
@@ -86,9 +86,11 @@ export const columnConfig: ColumnConfig<CompanySpecification.CompanyProduct>[] =
 			width: 100,
 			growthOrder: 1,
 			component: (data, width) => (
-				<div style={{ width }}>
-					<p className="body fcolor-iris">View Price</p>
-				</div>
+				<Link to={"/priceCalculation/" + data._id}>
+					<div style={{ width }}>
+						<p className="body fcolor-iris">View Price</p>
+					</div>
+				</Link>
 			),
 			bannerComponent: BannerCell,
 		},

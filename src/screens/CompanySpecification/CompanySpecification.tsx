@@ -35,7 +35,7 @@ function CompanySpecification() {
 	return (
 		<CompanySpecificationContext.Provider value={{}}>
 			<div className={style.navContainer} ref={ref}>
-				<BackNavBar title={"Category/Item/Company Product"} />
+				<BackNavBar title={"Comapny / Company Specifications"} />
 			</div>
 			<div
 				className={style.pageContainer}

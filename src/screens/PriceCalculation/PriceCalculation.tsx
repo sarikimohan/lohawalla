@@ -10,13 +10,16 @@ import PriceCalculationInstance from "./fetch/instance";
 import PriceCalculator from "./calculators/PriceCalculator/PriceCalculator";
 import CashCalculator from "./actions/CashCalculator";
 import CreditCalculator from "./actions/CreditCalculator";
+import { useParams } from "react-router-dom";
+import useHeight from "@src/modules/hooks/useHeight";
+import BackNavBar from "@src/Components/common/NavBar/BackNavBar";
 
 interface Props {}
 interface ContextProps {
 	cashCalcActions: CashCalculator;
-	state: StateWithLoading<PriceCalculation.State>,
-	creditCalcActions: CreditCalculator,
-	priceCalcActions: PriceCalculationAction
+	state: StateWithLoading<PriceCalculation.State>;
+	creditCalcActions: CreditCalculator;
+	priceCalcActions: PriceCalculationAction;
 }
 
 const CalculationContext = React.createContext<ContextProps>(
@@ -66,53 +69,70 @@ export default function PriceCalculation(props: Props) {
 			marginValue: 0,
 			taxableValue: 0,
 			netTotal: 0,
-			gst: ''
+			gst: "",
 		},
 		loading: {
 			fetchData: AsyncStateFactory(),
 		},
-		selectedCalculator: 0
+		selectedCalculator: 0,
 	});
 
 	const priceCalcActions = new PriceCalculationAction(state, setState);
 	const cashCalcActions = new CashCalculator(state, setState);
 	const creditCalcActions = new CreditCalculator(state, setState);
 
+	const { id } = useParams();
+
 	useEffect(() => {
-		priceCalcActions.fetch("6468672de4f0808edfcebc26");
+		if (id) priceCalcActions.fetch(id);
 	}, []);
 
-	console.log(state.loading.fetchData);
+	const heightService = useHeight();
+
+	if (!id)
+		return (
+			<>
+				<p className="text-xl">no id given</p>
+			</>
+		);
 
 	return (
-		<CalculationContext.Provider value={{ cashCalcActions, state, creditCalcActions, priceCalcActions }}>
+		<CalculationContext.Provider
+			value={{ cashCalcActions, state, creditCalcActions, priceCalcActions }}
+		>
 			<LoadingBoundary asyncState={state.loading.fetchData}>
-				<div
-					style={{
-						overflow: "auto",
-						padding: "50px",
-						width: "100%",
-					}}
-				>
-					<ProductHeaderCard
-						data={{
-							name: state.calculationData.productName,
-							bottomLeftText: state.calculationData.companyName,
-							bottomRightText: "Sold 528 tons",
-						}}
-					/>
-					<div className="my-6">
-						<Divider />
+				<div style={{ width: "100%", minHeight: "100vh" }}>
+					<div ref={heightService.ref}>
+						<BackNavBar title={"Price Calculation"} />
 					</div>
-					<div className="flex justify-between">
-						<div className="basis-7/12 mr-[35px]">
-							<PriceListing
-								priceList={state.renderPriceList}
-								total={getRoundedVal(priceCalcActions.getTotal())}
-							/>
+					<div
+						style={{
+							overflow: "auto",
+							padding: "50px",
+							width: "100%",
+							height: `calc(100vh - ${heightService.height}px)`,
+						}}
+					>
+						<ProductHeaderCard
+							data={{
+								name: state.calculationData.productName,
+								bottomLeftText: state.calculationData.companyName,
+								bottomRightText: "Sold 528 tons",
+							}}
+						/>
+						<div className="my-6">
+							<Divider />
 						</div>
-						<div className="grow">
-							<PriceCalculator />
+						<div className="flex justify-between">
+							<div className="basis-7/12 mr-[35px]">
+								<PriceListing
+									priceList={state.renderPriceList}
+									total={getRoundedVal(priceCalcActions.getTotal())}
+								/>
+							</div>
+							<div className="grow">
+								<PriceCalculator />
+							</div>
 						</div>
 					</div>
 				</div>
