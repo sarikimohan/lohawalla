@@ -151,6 +151,7 @@ export default function EditCompany(props: Props) {
 		editCompanyActions.fetch(id);
 	}, []);
 
+	console.log(state);
 
 	return (
 		<EditCompanyContext.Provider
