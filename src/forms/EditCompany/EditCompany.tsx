@@ -1,7 +1,7 @@
 import FormContainer from "@src/Components/common/FormContainer/FormContainer";
 import PopUpContainer from "@src/Components/common/Layout/PopUpContainer/PopUpContainer";
 import FormHeader from "@src/Components/forms/FormHeader/FormHeader";
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Divider } from "@mui/material";
 import SecondPart from "./parts/SecondPart/SecondPart";
 import ThirdPart from "./parts/ThirdPart/ThirdPart";
@@ -14,6 +14,9 @@ import {
 } from "@src/Components/special/ValidatedEntry/ValidatedEntry";
 import StateUtils from "@src/modules/StateManagement/Core/StateUtils";
 import { nanoid } from "nanoid";
+import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
+import ValueChange from "@src/modules/ValueChange/ValueChangeImpl";
+import EditCompanyActions from "./managment/actions/EditCompanyActions";
 
 export enum Groups {
 	plain = "plain",
@@ -25,16 +28,17 @@ export enum Groups {
 interface Props {}
 
 interface ContextProps {
-	state: EditCompany.State;
+	state: StateWithLoading<EditCompany.State>;
 	setHandle: (gname: string, pname: string) => SetHandle;
 	deleteHandle: (gname: string, pname: string) => void;
-	stateUtils: StateUtils<EditCompany.State>;
+	stateUtils: StateUtils<StateWithLoading<EditCompany.State>>;
 	addDesc: () => Promise<void>;
 }
 const EditCompanyContext = React.createContext({} as ContextProps);
 export const useEditCompanyContext = () => useContext(EditCompanyContext);
 
 export default function EditCompany(props: Props) {
+	const id = "64788315acfbe9a997f514c5";
 	const handle = useRef<Record<string, Record<string, SetHandleProps>>>({
 		[Groups.plain]: {},
 		[Groups.priceField]: {},
@@ -64,7 +68,6 @@ export default function EditCompany(props: Props) {
 					id: nanoid(),
 					key: state.descriptionEntry.key,
 					value: state.descriptionEntry.value,
-					position: -1,
 				});
 				p.descriptionEntry.key = "";
 				p.descriptionEntry.value = "";
@@ -105,17 +108,17 @@ export default function EditCompany(props: Props) {
 		return v1 && v2 && v3;
 	};
 
-	const [state, setState] = useState<EditCompany.State>({
-		companyName: "",
+	const [state, setState] = useState<StateWithLoading<EditCompany.State>>({
+		companyName: new ValueChange(""),
 		description: "",
+		imageFiles: null,
 		images: [],
 		priceStructure: [
 			{
 				_id: "",
 				name: "basic rate",
-				value: "200",
+				value: "",
 				isFixed: true,
-				position: 0,
 				type: "numeric",
 				operation: "add",
 			},
@@ -134,8 +137,21 @@ export default function EditCompany(props: Props) {
 				operation: "add",
 			},
 		],
+		loading: {
+			fetch: AsyncStateFactory(),
+		},
 	});
-	const stateUtils = new StateUtils<EditCompany.State>(state, setState);
+	const stateUtils = new StateUtils<StateWithLoading<EditCompany.State>>(
+		state,
+		setState
+	);
+	const editCompanyActions = new EditCompanyActions(state, setState);
+
+	useEffect(() => {
+		editCompanyActions.fetch(id);
+	}, []);
+
+
 	return (
 		<EditCompanyContext.Provider
 			value={{ setHandle, state, deleteHandle, stateUtils, addDesc }}

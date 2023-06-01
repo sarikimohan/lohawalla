@@ -7,14 +7,14 @@ namespace EditCompany {
 	}
 
 	interface State {
-		companyName: string;
+		companyName: IStringValueChange;
 		description: string;
-		images: string[];
+		images: {link: string, deleted: boolean}[];
+		imageFiles: File[] | null;
 		priceStructure: {
 			_id: string;
 			name: string;
 			value: string;
-			position: number;
 			isFixed: boolean;
 			type: PercNum;
 			operation: OpType;
@@ -26,7 +26,6 @@ namespace EditCompany {
 			id: string;
 			key: string;
 			value: string;
-			position: number;
 		}[];
 		descriptionEntry: {
 			key: string;

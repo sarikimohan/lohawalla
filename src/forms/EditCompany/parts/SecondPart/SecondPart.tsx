@@ -1,14 +1,10 @@
-import { Alert, Button, Card, Checkbox, Input } from "@mui/material";
+import { Card, Checkbox } from "@mui/material";
 import FormCardHeader from "@src/Components/forms/FormCardHeader/FormCardHeader";
 import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAndScale";
 import AssetIndex from "@src/assets/AssetIndex";
 import React, { useState } from "react";
 import AddPriceField from "../../form/AddPriceField/AddPriceField";
-import FieldInput from "@src/Components/forms/FieldInput/FieldInput";
-import DefaultButton from "@src/Components/common/buttons/DefaultButton/DefaultButton";
-import NextButtonStyleConfig from "@src/Components/common/buttons/configurations/NextButtonStyle.config";
 import Attention from "@src/Components/feedback/Alerts/Attention";
-import Tip from "@src/Components/feedback/Tooltip/Tip";
 import ValidatedEntry from "@src/Components/special/ValidatedEntry/ValidatedEntry";
 import { Groups, useEditCompanyContext } from "../../EditCompany";
 import { FieldDataService, Validators } from "@src/modules/FieldData/FieldData";
@@ -50,6 +46,7 @@ export default function SecondPart(props: Props) {
 										Amount
 									</p>
 								</th>
+								<th className="w-[40px]"></th>
 							</tr>
 						</thead>
 
@@ -114,6 +111,24 @@ export default function SecondPart(props: Props) {
 											}
 											setHandle={setHandle(Groups.priceField, "pf" + v._id)}
 										/>
+									</td>
+									<td align="center" className="w-[40px]">
+										<div
+											onClick={() => {
+												stateUtils.mutateState((p) => {
+													if (p.priceStructure[i].wasAdded === undefined) {
+														p.deletedId.push(p.priceStructure[i]._id);
+													}
+													p.priceStructure = p.priceStructure.filter(
+														(v, k) => k !== i
+													);
+												});
+											}}
+										>
+											<RotateAndScale>
+												<AssetIndex.MinusCircleIcon />
+											</RotateAndScale>
+										</div>
 									</td>
 								</tr>
 							))}
@@ -188,7 +203,6 @@ export default function SecondPart(props: Props) {
 										_id: tpf.id,
 										name: tpf.name.value,
 										value: "",
-										position: p.priceStructure.length + i + 1,
 										isFixed: false,
 										type: tpf.type,
 										operation: tpf.operation,

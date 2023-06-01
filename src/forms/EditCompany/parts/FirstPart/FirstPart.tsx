@@ -7,6 +7,7 @@ import NextButtonStyleConfig from "@src/Components/common/buttons/configurations
 import ValidatedEntry from "@src/Components/special/ValidatedEntry/ValidatedEntry";
 import { Groups, useEditCompanyContext } from "../../EditCompany";
 import { FieldDataService, Validators } from "@src/modules/FieldData/FieldData";
+import AssetIndex from "@src/assets/AssetIndex";
 
 function FirstPart() {
 	const { setHandle, state, stateUtils } = useEditCompanyContext();
@@ -23,10 +24,10 @@ function FirstPart() {
 					validateFunction={FieldDataService.clubValidators(
 						Validators.validateNull
 					)}
-					value={state.companyName}
+					value={state.companyName.getValue()}
 					onChange={(d) => {
 						stateUtils.mutateState((p) => {
-							p.companyName = d;
+							p.companyName.setValue(d);
 						});
 					}}
 				/>
@@ -43,11 +44,24 @@ function FirstPart() {
 							p.description = d;
 						});
 					}}
-					validateFunction={Validators.validateNull}	
+					validateFunction={Validators.validateNull}
 				/>
 			</div>
 			<div className="mb-5">
-				<FormFileUpload />
+				<div className="vc w-100 mb-3">
+					<p className="h3 fcolor-text-body fw-bold mr-4">
+						Upload a Photo of Company
+					</p>
+					<AssetIndex.LinkIcon />
+				</div>
+				<FormFileUpload
+					values={state.imageFiles}
+					onChange={(e) => {
+						stateUtils.mutateState((p) => {
+							p.imageFiles = e;
+						});
+					}}
+				/>
 			</div>
 		</div>
 	);
