@@ -91,7 +91,6 @@ export default function FirstPart(props: Props) {
 					onClick={() => {
 						validate.validateFirstForm(() => {
 							if (ref.current) {
-								console.log("running validatin");
 								ref.current.validate();
 								if (ref.current.isValid)
 									firstFormActions.mutateState((p) => p.page++);

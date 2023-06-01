@@ -1,7 +1,7 @@
 namespace SetActiveCompany {
 	interface Entity {
 		name: string;
-		_id: string;
+		id: string;
 	}
 	interface State {
 		query: string;

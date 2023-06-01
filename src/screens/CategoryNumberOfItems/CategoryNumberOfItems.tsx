@@ -12,6 +12,8 @@ import { useParams, Link } from "react-router-dom";
 import LoadingBoundary from "@src/Components/common/LoadingBoundary/LoadingBoundary";
 import SetActiveCompany from "@src/forms/SetActiveCompany/SetActiveCompany";
 import BackNavBar from "@src/Components/common/NavBar/BackNavBar";
+import setActiveCompany from "./fetch/services/setActiveCompany";
+import { useAuthGuardContext } from "@src/auth/AuthGuard/AuthGuard";
 
 interface Props {}
 
@@ -26,12 +28,15 @@ export default function CategoryNumberOfItems(props: Props) {
 		showForm: {
 			status: false,
 			id: "",
+			inActiveCompanies: [],
+			activeCompany: null,
 		},
 		refresh: false,
 	});
 
 	const { id } = useParams();
 	const categoryNumberOfItemsActions = new ServerActions(state, setState);
+	const { user } = useAuthGuardContext();
 
 	useEffect(() => {
 		if (id) {
@@ -95,7 +100,11 @@ export default function CategoryNumberOfItems(props: Props) {
 										<TableRow
 											data={v}
 											onClick={() => {
-												categoryNumberOfItemsActions.showForm(v._id);
+												categoryNumberOfItemsActions.showForm(
+													v._id,
+													v.inactiveCompany,
+													v.activeCompany
+												);
 											}}
 										/>
 									))}
@@ -122,6 +131,15 @@ export default function CategoryNumberOfItems(props: Props) {
 							refresh={function (): void {
 								categoryNumberOfItemsActions.refresh();
 							}}
+							inActiveCompanies={state.showForm.inActiveCompanies}
+							activeCompany={state.showForm.activeCompany}
+							save={(d) =>
+								setActiveCompany({
+									itemId: state.showForm.id,
+									companyId: d,
+									by: user,
+								})
+							}
 						/>
 					)}
 				</LoadingBoundary>

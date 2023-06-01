@@ -16,8 +16,8 @@ export default function AsyncProcessBoundary({
 	...props
 }: Props) {
 	const hasFailed = asyncStates.reduce(
-		(a, c) => a && c.status === "failed",
-		true
+		(a, c) => a || c.status === "failed",
+		false
 	);
 	const hasPassed = asyncStates.reduce(
 		(a, c) => a && c.status === "success",

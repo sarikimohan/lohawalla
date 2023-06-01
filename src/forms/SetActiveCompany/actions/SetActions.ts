@@ -1,6 +1,7 @@
 import { ServerStateUtils } from "@src/modules/StateManagement/Core/StateUtils";
 import SetActiveCompany from "../SetActiveCompany";
 import isPrefix from "@src/modules/Utils/isPrefix";
+import fetchActiveCompany from "../fetch/service/fetchActiveCompany";
 
 export default class SetActions extends ServerStateUtils<SetActiveCompany.State> {
 	search() {
@@ -15,10 +16,11 @@ export default class SetActions extends ServerStateUtils<SetActiveCompany.State>
 	setActive(data: SetActiveCompany.Entity) {
 		this.mutateState((p) => {
 			p.inActiveCompanies = p.inActiveCompanies.filter(
-				(v) => v._id !== data._id
+				(v) => v.id !== data.id
 			);
 			if (p.activeCompany) p.inActiveCompanies.push(p.activeCompany);
 			p.activeCompany = data;
 		});
 	}
+
 }

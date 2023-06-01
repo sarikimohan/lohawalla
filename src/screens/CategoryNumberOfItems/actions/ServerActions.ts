@@ -13,11 +13,17 @@ export default class ServerActions extends ServerStateUtils<
 		}
 	}
 
-	showForm(id: string) {
+	showForm(
+		id: string,
+		inc: CategoryNumberOfItems.Entity[],
+		atc: CategoryNumberOfItems.Entity | null
+	) {
 		this.mutateState((p) => {
 			p.showForm = {
 				status: true,
 				id,
+				inActiveCompanies: inc,
+				activeCompany: atc,
 			};
 		});
 	}
@@ -27,6 +33,8 @@ export default class ServerActions extends ServerStateUtils<
 			p.showForm = {
 				status: false,
 				id: "",
+				inActiveCompanies: [],
+				activeCompany: null,
 			};
 		});
 	}

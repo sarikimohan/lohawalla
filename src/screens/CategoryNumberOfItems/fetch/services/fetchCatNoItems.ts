@@ -14,7 +14,7 @@ interface GridData {
 		name: string;
 		id: string;
 	};
-	inactiveCompany: string[]; // delete the active company name from it
+	inactiveCompany: { name: string; id: string }[]; // delete the active company name from it
 }
 
 export default async function fetchCatNoItems(id: string) {

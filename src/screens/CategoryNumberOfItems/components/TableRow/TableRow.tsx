@@ -66,16 +66,21 @@ export default function TableRow(props: Props) {
 				<div
 					onClick={props.onClick}
 					className={`px-4 py-3 rounded-md ${
-						data.activeCompany.name === "" ? "bg-red-100" : "bg-green-100"
+						!data.activeCompany ? "bg-red-100" : "bg-green-100"
 					} hover:shadow-md cursor-pointer`}
 				>
 					<Text className="select-none">
-						{data.activeCompany.name === "" ? "none" : data.activeCompany.name}
+						{!data.activeCompany ? "none" : data.activeCompany.name}
 					</Text>
 				</div>
 			</TableData>
 			<TableData>
-				<Text>{data.inactiveCompany.join("/").slice(0, 10)}</Text>
+				<Text>
+					{data.inactiveCompany
+						.map((v) => v.name)
+						.join("/")
+						.slice(0, 10)}
+				</Text>
 			</TableData>
 		</tr>
 	);
