@@ -14,7 +14,6 @@ interface FormFileUploadProps {
 }
 
 function FormFileUpload(props: FormFileUploadProps) {
-	console.log(props.values);
 
 	type FileSelectionState = { file: File; status: boolean };
 

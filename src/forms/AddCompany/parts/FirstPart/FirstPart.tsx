@@ -5,6 +5,8 @@ import React from "react";
 import { useAddCompanyContext } from "../../AddCompany";
 import DefaultButton from "@src/Components/common/buttons/DefaultButton/DefaultButton";
 import NextButtonStyleConfig from "@src/Components/common/buttons/configurations/NextButtonStyle.config";
+import AssetIndex from "@src/assets/AssetIndex";
+import Spacer from "@src/Components/common/Spacer/Spacer";
 
 function FirstPart() {
 	const { firstFormActions, state, addCompanyActions, validate } =
@@ -38,7 +40,15 @@ function FirstPart() {
 				/>
 			</div>
 			<div className="mb-5">
+				<div className="vc w-100">
+					<p className="h3 fcolor-text-body fw-bold mr-4">
+						Upload a Photo of Category
+					</p>
+					<AssetIndex.LinkIcon />
+				</div>
+				<Spacer height={16} />
 				<FormFileUpload
+					values={state.images}
 					onChange={(e) => {
 						addCompanyActions.setImages(e);
 					}}

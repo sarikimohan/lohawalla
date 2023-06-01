@@ -77,7 +77,7 @@ export default class SecondFormActions extends StateUtils<AddCompany.State> {
 			p.priceStructure = p.priceStructure.concat(
 				p.tempPriceStructure.map((v) => ({
 					id: v.id,
-					name: v.name.value,
+					name: v.name.value.trim(),
 					value: { value: "" },
 					fixed: v.name.value === "basic rate",
 					type: v.type,
@@ -110,13 +110,13 @@ export default class SecondFormActions extends StateUtils<AddCompany.State> {
 		const obj: { [key: string]: boolean | undefined } = {};
 
 		for (let i = 0; i < this.state.priceStructure.length; ++i) {
-			obj[this.state.priceStructure[i].name] = true;
+			obj[this.state.priceStructure[i].name.trim()] = true;
 		}
 
 		let verdict: (string | undefined)[] = [];
 		for (let i = 0; i < this.state.tempPriceStructure.length; ++i) {
 			const pf = this.state.tempPriceStructure[i];
-			if (obj[pf.name.value]) {
+			if (obj[pf.name.value.trim()]) {
 				verdict.push("value already exists");
 				isValid = false;
 			} else {

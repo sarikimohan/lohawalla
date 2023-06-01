@@ -128,15 +128,12 @@ export default function ThirdPart(props: Props) {
 						const verdict = validate.validateDescriptionLabels();
 						console.log(verdict);
 						if (verdict) {
-							saveFormActions.saveForm([], user, () => {
-								close();
-								refresh();
-							});
+							saveFormActions.saveForm(user);
 						}
 					}}
 					label={"Save"}
 					styles={NextButtonStyleConfig}
-					loading={state.loading.save.status === "initialized"}
+					loading={state.loading.save.status === "initialized" || state.loading.saveImages.status === 'initialized'}
 					loadingColor={"#fff"}
 				/>
 			</div>

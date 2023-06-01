@@ -15,6 +15,7 @@ import ValidateAddCompany from "./managment/actions/Validate";
 import { nanoid } from "nanoid";
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 import ErrorCard from "@src/Components/feedback/ErrorCard/ErrorCard";
+import AsyncProcessBoundary from "@src/Components/feedback/AsyncProcessBoundary/AsyncProcessBoundary";
 
 interface Props {
 	close: FTN;
@@ -65,6 +66,7 @@ export default function AddCompany(props: Props) {
 		loading: {
 			save: AsyncStateFactory(),
 			checkName: AsyncStateFactory(),
+			saveImages: AsyncStateFactory(),
 		},
 		descriptionEntry: {
 			key: { value: "" },
@@ -94,7 +96,7 @@ export default function AddCompany(props: Props) {
 			}}
 		>
 			<PopUpContainer>
-				{state.loading.save.status === "failed" ? (
+				{/* {state.loading.save.status === "failed" ? (
 					<ErrorCard
 						messages={[state.loading.save.message]}
 						primaryAction={{
@@ -102,28 +104,39 @@ export default function AddCompany(props: Props) {
 							label: "Close",
 						}}
 					/>
-				) : (
-					<FormContainer>
-						<div className="mb-4">
-							<FormHeader
-								navBack={function (): void {
-									addCompanyActions.navBack(props.close);
-								}}
-								close={props.close}
-								heading={"Company"}
-								preHeading={"Add"}
-							/>
-						</div>
-						<div className="mb-5">
-							<ProgressBar currentStep={state.page + 1} steps={3} />
-						</div>
-						<div className="mb-4">
-							{state.page === 0 && <FirstPart />}
-							{state.page === 1 && <SecondPart />}
-							{state.page === 2 && <ThirdPart />}
-						</div>
-					</FormContainer>
-				)}
+				) : ( */}
+					<AsyncProcessBoundary
+						asyncStates={[state.loading.saveImages, state.loading.save]}
+						primaryAction={{
+							onClick: () => {
+								props.close();
+								props.refresh();
+							},
+							label: "close",
+						}}
+					>
+						<FormContainer>
+							<div className="mb-4">
+								<FormHeader
+									navBack={function (): void {
+										addCompanyActions.navBack(props.close);
+									}}
+									close={props.close}
+									heading={"Company"}
+									preHeading={"Add"}
+								/>
+							</div>
+							<div className="mb-5">
+								<ProgressBar currentStep={state.page + 1} steps={3} />
+							</div>
+							<div className="mb-4">
+								{state.page === 0 && <FirstPart />}
+								{state.page === 1 && <SecondPart />}
+								{state.page === 2 && <ThirdPart />}
+							</div>
+						</FormContainer>
+					</AsyncProcessBoundary>
+				{/* )} */}
 			</PopUpContainer>
 		</AddCompanyContext.Provider>
 	);

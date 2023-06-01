@@ -149,7 +149,9 @@ export default class ValidateAddCompany extends ServerStateUtils<AddCompany.Stat
 		const verdict = { isValid: true };
 
 		const key = this.state.descriptionEntry.key;
+		key.value = key.value.trim();
 		const value = this.state.descriptionEntry.value;
+		value.value = value.value.trim();
 
 		key.error = FieldDataService.registerValidator(
 			key.value,

@@ -24,6 +24,8 @@ export default function AsyncProcessBoundary({
 		true
 	);
 
+	console.log(asyncStates);
+
 	const [failedMessages, successMessages] = [
 		asyncStates.filter((v) => v.status === "failed").map((v) => v.message),
 		asyncStates.filter((v) => v.status === "success").map((v) => v.message),

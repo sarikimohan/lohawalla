@@ -6,8 +6,8 @@ export default class ThirdFormActions extends StateUtils<AddCompany.State> {
 		this.mutateState((p) => {
 			p.descriptionLabels.push({
 				id: nanoid(),
-				key: p.descriptionEntry.key.value,
-				value: { value: p.descriptionEntry.value.value },
+				key: p.descriptionEntry.key.value.trim(),
+				value: { value: p.descriptionEntry.value.value.trim() },
 			});
 			p.descriptionEntry.value.value = "";
 			p.descriptionEntry.key.value = "";
@@ -71,7 +71,7 @@ export default class ThirdFormActions extends StateUtils<AddCompany.State> {
 			p.descriptionEntry.value.error = err.value;
 			p.descriptionEntry.value.isValid = !err.value;
 		});
-    
+
 		return verdict;
 	}
 	validateAll() {
