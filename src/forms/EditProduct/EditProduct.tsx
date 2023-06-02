@@ -13,7 +13,6 @@ import PopUpContainer from "@src/Components/common/Layout/PopUpContainer/PopUpCo
 import ProgressBar from "@src/Components/common/ProgressBar/ProgressBar";
 import AddMore from "@src/Components/common/buttons/AddMore/AddMore";
 import DefaultButton from "@src/Components/common/buttons/DefaultButton/DefaultButton";
-import NextButtonStyleConfig from "@src/Components/common/buttons/configurations/NextButtonStyle.config";
 import Tip from "@src/Components/feedback/Tooltip/Tip";
 import FieldInput from "@src/Components/forms/FieldInput/FieldInput";
 import FieldTextArea from "@src/Components/forms/FieldInput/FieldTextArea";
@@ -23,8 +22,12 @@ import FormHeader from "@src/Components/forms/FormHeader/FormHeader";
 import DefaultFormLabel from "@src/Components/forms/FormLabel/DefaultFormLabel";
 import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAndScale";
 import AssetIndex from "@src/assets/AssetIndex";
-import { nanoid } from "nanoid";
+import { motion } from "framer-motion";
+import DeleteIcon from "@mui/icons-material/Delete";
 import React from "react";
+import ImageSmall from "@src/Components/common/ImageSmall/ImageSmall";
+import FormFileUploadHeader from "@src/Components/forms/FormFileUploadHeader/FormFileUploadHeader";
+import FormFileUpload from "@src/Components/forms/FormFileUpload/FormFileUpload";
 
 export interface RIEditProduct {}
 
@@ -83,6 +86,66 @@ export default function EditProduct(props: RIEditProduct) {
 							options={[]}
 						/>
 					</div>
+				</div>
+
+				<DefaultFormLabel>Delete images</DefaultFormLabel>
+				<div className="border p-4 rounded-md mb-5">
+					<div className="crow">
+						{[].map((v, i) => (
+							<div
+								className="ml-3"
+								onClick={() => {}}
+								style={{ display: false ? "none" : "block" }}
+								key={""}
+							>
+								<div
+									style={{
+										position: "relative",
+									}}
+								>
+									<ImageSmall
+										index={0}
+										src={"v.link"}
+										key={"v.link"}
+										currentSelected={0}
+										setSelected={function (): void {}}
+									/>
+									<motion.div
+										className="flex justify-center items-center cursor-pointer"
+										animate={{ color: "#ff0000" }}
+										transition={{ duration: 0.1 }}
+										style={{
+											position: "absolute",
+											width: "100%",
+											height: "100%",
+											background: "white",
+											opacity: 0,
+											zIndex: 200,
+											top: 0,
+											left: 0,
+										}}
+										whileHover={{
+											opacity: 0.8,
+											scale: 1.05,
+											border: "1px solid lightgrey",
+											borderRadius: 6,
+										}}
+									>
+										<DeleteIcon />
+									</motion.div>
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
+
+				<div className="mb-5">
+					<div className="mb-3">
+						<FormFileUploadHeader>
+							Upload Images for product
+						</FormFileUploadHeader>
+					</div>
+					<FormFileUpload />
 				</div>
 
 				<div className="mb-5">
