@@ -14,6 +14,7 @@ import SetActiveCompany from "@src/forms/SetActiveCompany/SetActiveCompany";
 import React, { useRef } from "react";
 import PriceCalculation from "../PriceCalculation/PriceCalculation";
 import useHeight from "@src/modules/hooks/useHeight";
+import EditProduct from "@src/forms/EditProduct/EditProduct";
 
 <div style={{ padding: 50 }}>
 	{/* <AddCategoryForm
@@ -69,6 +70,7 @@ function Dashboard() {
 						label: undefined,
 					}}
 				/> */}
+				<EditProduct />
 			</div>
 		</div>
 	);

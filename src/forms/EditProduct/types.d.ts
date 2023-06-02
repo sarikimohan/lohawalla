@@ -1,16 +1,14 @@
 namespace EditProduct {
-  interface State {
-    selectedCompany: string;
-    selectedCategory: string;
-    selectedItem: string;
-    productName: FieldData;
-    productCode: FieldData;
-    description: FieldData;
+	interface State {
+		selectedCompany: string;
+		selectedCategory: string;
+		selectedItem: string;
 
-    images: string[];
-    addedImages: string[];
-    imageFiles: File[];
+		images: { link: string; deleted: boolean }[];
+		imageFiles: File[];
 
-    priceStructure: (PriceField & {_id: string})[];
-  }
+		description: FieldData;
+
+		priceStructure: (PriceField & { _id: string })[];
+	}
 }
