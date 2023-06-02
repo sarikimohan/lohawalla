@@ -6,19 +6,25 @@ interface LoadingBoundaryInterface {
 	children: React.ReactNode;
 	asyncState?: AsyncState;
 	size?: number | string;
+	loadingWidget?: React.ReactNode;
 }
 
 function LoadingBoundary({
 	children,
 	asyncState,
 	size = 24,
+	loadingWidget,
 }: LoadingBoundaryInterface) {
 	if (asyncState) {
 		return (
 			<>
 				{asyncState.status === "initialized" && (
 					<div>
-						<CircularProgress size={size} disableShrink />
+						{loadingWidget ? (
+							loadingWidget
+						) : (
+							<CircularProgress size={size} disableShrink />
+						)}
 					</div>
 				)}
 				{asyncState.status === "failed" && (

@@ -11,22 +11,12 @@ import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStat
 import TableRow from "./component/TableRow/TableRow";
 import { useAuthGuardContext } from "@src/auth/AuthGuard/AuthGuard";
 import Snackbar from "@mui/material/Snackbar";
+import LoadingBoundary from "@src/Components/common/LoadingBoundary/LoadingBoundary";
+import LoadingWidget from "@src/Components/widget/LoadingWidget/LoadingWidget";
 
 function AddBasePrice() {
 	const [state, setState] = useState<SetBasePrice.State>({
-		setList: [
-			// {
-			// 	srNo: 1,
-			// 	companyName: {
-			// 		imageURL: "",
-			// 		name: "lohawalla",
-			// 	},
-			// 	companyId: "asldkfa",
-			// 	priceFieldId: "asl;dfjasd",
-			// 	cost: { value: "12342", hasChanged: false },
-			// 	entryTime: "today",
-			// },
-		],
+		setList: [],
 		filter: {
 			query: "",
 			filters: [],
@@ -49,7 +39,7 @@ function AddBasePrice() {
 				<TitleNavBar title={"Set Base Price"} />
 			</div>
 			<div className={"p-7"}>
-				<Card variant="outlined" sx={{ padding: 5 }}>
+				<Card variant="outlined" sx={{ padding: 5, borderRadius: "12px" }}>
 					<div>
 						<div className="crow mb-6">
 							<p className="subtitle fcolor-onyx">
@@ -91,8 +81,10 @@ function AddBasePrice() {
 									"cost",
 									"entry time",
 								]}
+								tableAsyncState={state.loading.fetch}
+								rowAsyncState={state.loading.save}
 							>
-								{state.setList.map((v, i) => (
+								{setBasePriceActions.filter().map((v, i) => (
 									<TableRow
 										data={v}
 										setValue={(d) => {

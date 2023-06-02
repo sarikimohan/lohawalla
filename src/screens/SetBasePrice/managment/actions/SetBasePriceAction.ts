@@ -21,7 +21,7 @@ export default class SetBasePriceAction
 {
 	// TODO fetch the values
 	async fetch() {
-		const res = await this.handleAsync("fetchList", () => getBasePriceList());
+		const res = await this.handleAsync("fetch", () => getBasePriceList());
 		if (res) {
 			this.mutateState((p) => {
 				p.setList = res.data.map((v) => ({

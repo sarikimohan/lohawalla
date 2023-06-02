@@ -166,6 +166,7 @@ export default function FormPart3(props: Props) {
 					label={"Save"}
 					styles={NextButtonStyleConfig}
 					loading={state.loading.save.status === "initialized"}
+					disabled={state.loading.save.status === "initialized"}
 				/>
 			</div>
 		</Card>
