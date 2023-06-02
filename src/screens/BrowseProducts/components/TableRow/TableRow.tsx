@@ -18,8 +18,8 @@ export default function TableRow(props: Props) {
 				<Text>{data.srNo}</Text>
 			</TableData>
 			<TableData>
-				<div className="flex">
-					<div className="mr-1 flex-shrink-0">
+				<div className="flex items-center">
+					<div className="mr-2 flex-shrink-0">
 						<img
 							src={
 								data.productName.imgURL === ""

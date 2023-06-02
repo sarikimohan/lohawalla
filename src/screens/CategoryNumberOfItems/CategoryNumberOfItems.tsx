@@ -14,6 +14,7 @@ import SetActiveCompany from "@src/forms/SetActiveCompany/SetActiveCompany";
 import BackNavBar from "@src/Components/common/NavBar/BackNavBar";
 import setActiveCompany from "./fetch/services/setActiveCompany";
 import { useAuthGuardContext } from "@src/auth/AuthGuard/AuthGuard";
+import AddItem from "@src/forms/AddItem/AddItem";
 
 interface Props {}
 
@@ -32,17 +33,20 @@ export default function CategoryNumberOfItems(props: Props) {
 			activeCompany: null,
 		},
 		refresh: false,
+		showAddItem: false,
 	});
 
 	const { id } = useParams();
 	const categoryNumberOfItemsActions = new ServerActions(state, setState);
 	const { user } = useAuthGuardContext();
 
+	if (!id) return <p className="text-xl">no id found for category</p>;
+
 	useEffect(() => {
 		if (id) {
 			categoryNumberOfItemsActions.fetch(id);
 		}
-	}, []);
+	}, [state.refresh]);
 
 	return (
 		<div className="mx-6">
@@ -76,7 +80,11 @@ export default function CategoryNumberOfItems(props: Props) {
 											</Link>
 										</div>
 										<DefaultButton
-											onClick={function (): void {}}
+											onClick={function (): void {
+												categoryNumberOfItemsActions.mutateState((p) => {
+													p.showAddItem = true;
+												});
+											}}
 											label={"+ add items"}
 										/>
 									</div>
@@ -111,16 +119,6 @@ export default function CategoryNumberOfItems(props: Props) {
 								</DefaultGrid>
 							</div>
 						</div>
-						<div className="mt-5 flex justify-end">
-							<DefaultButton
-								onClick={() => {}}
-								label={"save"}
-								defaultStyles={{
-									container: { background: "var(--iris)" },
-									text: { color: "#fff" },
-								}}
-							/>
-						</div>
 					</Card>
 					{state.showForm.status && (
 						<SetActiveCompany
@@ -140,6 +138,19 @@ export default function CategoryNumberOfItems(props: Props) {
 									by: user,
 								})
 							}
+						/>
+					)}
+					{state.showAddItem && (
+						<AddItem
+							onClose={function (): void {
+								categoryNumberOfItemsActions.mutateState((p) => {
+									p.showAddItem = false;
+								});
+							}}
+							refresh={function (): void {
+								categoryNumberOfItemsActions.refresh();
+							}}
+							categoryId={id}
 						/>
 					)}
 				</LoadingBoundary>

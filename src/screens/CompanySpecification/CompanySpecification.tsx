@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import style from "./CompanySpecification.module.css";
 import { columnConfig } from "./configuration/ProductGridConfiguration";
 import AssetIndex from "@src/assets/AssetIndex";
@@ -68,7 +68,11 @@ function CompanySpecification() {
 				</div>
 				<div className={"crow mb-5 mt-3 sb"}>
 					<p className="h2 fcolor-fuschia">About</p>
-					<DefaultButton onClick={() => {}} label={"change product price"} />
+					<Link
+						to={`/browseProducts?companyId=${id}&companyName=${state.companyName}`}
+					>
+						<DefaultButton onClick={() => {}} label={"change product price"} />
+					</Link>
 				</div>
 
 				<div className="d-flex w-100 mb-3">

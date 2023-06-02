@@ -10,7 +10,7 @@ export default function DefaultFormLabel(props: Props) {
 	return (
 		<p
 			className={
-				"text-md font-semibold text-slate-900 mb-1" + (className ? className : "")
+				"text-md font-semibold text-slate-900 mb-1 " + (className ? className : "")
 			}
 		>
 			{props.children}

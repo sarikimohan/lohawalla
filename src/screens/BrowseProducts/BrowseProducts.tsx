@@ -1,27 +1,35 @@
 import { Autocomplete, Card, TextField } from "@mui/material";
 import DefaultGrid from "@src/Components/Grid/Grid/DefaultGrid/DefaultGrid";
-import TitleNavBar from "@src/Components/common/NavBar/TitleNavBar";
-import SearchBar from "@src/Components/common/SearchBar/SearchBar";
-import SearchFilters from "@src/Components/common/SearchFilters/SearchFilters";
 import DefaultButton from "@src/Components/common/buttons/DefaultButton/DefaultButton";
-import DefaultFormLabel from "@src/Components/forms/FormLabel/DefaultFormLabel";
 import React, { useState, useEffect } from "react";
 import BrowseActions from "./actions/BrowseActions";
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 import TableRow from "./components/TableRow/TableRow";
-import NextButtonStyleConfig from "@src/Components/common/buttons/configurations/NextButtonStyle.config";
 import { useAuthGuardContext } from "@src/auth/AuthGuard/AuthGuard";
+import Attention from "@src/Components/feedback/Alerts/Attention";
+import { useSearchParams } from "react-router-dom";
+import BackNavBar from "@src/Components/common/NavBar/BackNavBar";
+import AddProductForm from "@src/forms/AddProduct/AddProductForm";
 
 interface Props {}
 
 export default function BrowseProducts(props: Props) {
+	const [params, setParams] = useSearchParams();
+
+	const _id = params.get("companyId");
+	const companyName = params.get("companyName");
+
 	const [state, setState] = useState<StateWithLoading<BrowseProducts.State>>({
 		companiesList: [],
 		categoryList: [],
 		itemList: [],
-		selectedCategory: { value: null },
+		selectedCategory: {
+			value: null,
+		},
 		selectedItem: { value: null },
-		selectedCompany: { value: null },
+		selectedCompany: {
+			value: _id && companyName ? { _id, name: companyName } : null,
+		},
 		loading: {
 			fetchCompanies: AsyncStateFactory(),
 			fetchCategory: AsyncStateFactory(),
@@ -31,6 +39,8 @@ export default function BrowseProducts(props: Props) {
 		},
 		gridData: [],
 		gridHeader: [],
+		refresh: false,
+		showAddForm: false,
 	});
 
 	const browseActions = new BrowseActions(state, setState);
@@ -39,27 +49,27 @@ export default function BrowseProducts(props: Props) {
 	useEffect(() => {
 		browseActions.fetchProducts();
 	}, [
-		// add dependency for initiate fetch
 		state.selectedCategory.value,
 		state.selectedCompany.value,
 		state.selectedItem.value,
+		state.refresh,
 	]);
 
 	return (
 		<div className="mx-6">
 			<div className="w-full">
-				<TitleNavBar title={"Company Products"} />
+				<BackNavBar title={"Company Products"} />
 			</div>
 			<div className={"p-7"}>
 				<Card variant="outlined" sx={{ padding: 5 }}>
 					<div>
-						<div className="crow mb-6">
+						<div className="crow mb-6 justify-between items-center">
 							<p className="subtitle fcolor-onyx">
 								Product Price ({state.gridData.length})
 							</p>
 						</div>
-						<div className="crow sb">
-							<div className="flex flex-wrap mb-4">
+						<div className="crow sb items-center mb-4">
+							<div className="flex flex-wrap">
 								<div className="p-3">
 									<Autocomplete
 										sx={{ width: 200 }}
@@ -92,6 +102,7 @@ export default function BrowseProducts(props: Props) {
 								</div>
 								<div className="p-3">
 									<Autocomplete
+										disabled={state.selectedCompany.value === null}
 										sx={{ width: 200 }}
 										getOptionLabel={(d) => d.name}
 										renderInput={(params) => (
@@ -152,58 +163,98 @@ export default function BrowseProducts(props: Props) {
 							</div>
 							<div>
 								<DefaultButton
-									onClick={function (): void {}}
+									onClick={function (): void {
+										browseActions.mutateState((p) => {
+											p.showAddForm = true;
+										});
+									}}
 									label={"add company product"}
 								/>
 							</div>
 						</div>
-						<div>
-							<DefaultGrid
-								tableAsyncState={state.loading.fetchProducts}
-								columns={[
-									{
-										name: "sr no",
-										width: 100,
-									},
-									"product name",
-									...state.gridHeader,
-								]}
-							>
-								{state.gridData.map((v, i) => (
-									<TableRow
-										index={i}
-										data={v}
-										key={i}
-										onChange={function (position: number, data: string): void {
-											browseActions.mutateState((p) => {
-												p.gridData[i].priceStructure[position].value.value =
-													data;
-												p.gridData[i].priceStructure[
-													position
-												].value.hasChanged = true;
-											});
+						{state.selectedCompany.value ? (
+							<>
+								<div>
+									<DefaultGrid
+										tableAsyncState={state.loading.fetchProducts}
+										columns={[
+											{
+												name: "sr no",
+												width: 100,
+											},
+											"product name",
+											...state.gridHeader,
+										]}
+									>
+										{state.gridData.map((v, i) => (
+											<TableRow
+												index={i}
+												data={v}
+												key={i}
+												onChange={function (
+													position: number,
+													data: string
+												): void {
+													browseActions.mutateState((p) => {
+														p.gridData[i].priceStructure[position].value.value =
+															data;
+														p.gridData[i].priceStructure[
+															position
+														].value.hasChanged = true;
+													});
+												}}
+											/>
+										))}
+									</DefaultGrid>
+								</div>
+								<div className="crow jfe mt-5">
+									<DefaultButton
+										onClick={function (): void {
+											if (
+												browseActions.validateEntry() &&
+												state.gridHeader.length !== 0
+											) {
+												browseActions.save(user);
+											}
 										}}
+										loading={
+											state.loading.saveProducts.status === "initialized"
+										}
+										label={"Save"}
 									/>
-								))}
-							</DefaultGrid>
-						</div>
-						<div className="crow jfe">
-							<DefaultButton
-								onClick={function (): void {
-									if (
-										browseActions.validateEntry() &&
-										state.gridHeader.length !== 0
-									) {
-										browseActions.save(user);
-									}
-								}}
-								loading={state.loading.saveProducts.status === "initialized"}
-								label={"Save"}
-							/>
-						</div>
+								</div>
+							</>
+						) : (
+							<Attention severity={"warning"}>Please Select Company</Attention>
+						)}
 					</div>
 				</Card>
 			</div>
+			{state.showAddForm && (
+				<AddProductForm
+					close={function (): void {
+						browseActions.mutateState((p) => {
+							p.showAddForm = false;
+						});
+					}}
+					refresh={function (): void {
+						browseActions.mutateState((p) => {
+							p.refresh = !p.refresh;
+						});
+					}}
+					selected={{
+						company: state.selectedCompany.value
+							? state.selectedCompany.value
+							: undefined,
+						category: state.selectedCategory.value
+							? state.selectedCategory.value
+							: undefined,
+						item: state.selectedItem.value
+							? state.selectedItem.value
+							: undefined,
+					}}
+				/>
+			)}
 		</div>
 	);
 }

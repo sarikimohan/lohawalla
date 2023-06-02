@@ -31,5 +31,7 @@ namespace BrowseProducts {
 		selectedCompany: FieldData<Entity | null>;
 		selectedCategory: FieldData<Entity | null>;
 		selectedItem: FieldData<Entity | null>;
+		showAddForm: boolean;
+		refresh: boolean;
 	}
 }

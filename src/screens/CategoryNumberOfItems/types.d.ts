@@ -28,5 +28,7 @@ namespace CategoryNumberOfItems {
 			inActiveCompanies: { id: string; name: string }[];
 		};
 		refresh: boolean;
+		showAddItem: boolean;
+		
 	}
 }

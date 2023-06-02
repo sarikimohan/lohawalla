@@ -12,6 +12,7 @@ import Header from "@src/Components/Grid/Header/Header";
 import RowStat from "@src/Components/Grid/RowStat/RowStat";
 import TableRow from "./components/TableRow/TableRow";
 import AddCompany from "@src/forms/AddCompany/AddCompany";
+import { Link } from "react-router-dom";
 
 function Company() {
 	const widthService = useWidth();
@@ -38,10 +39,12 @@ function Company() {
 								</p>
 							</div>
 							<div>
-								{/* <DefaultButton
-									onClick={() => {}}
-									label={"change product price"}
-								/> */}
+								<Link to={"/browseProducts"}>
+									<DefaultButton
+										onClick={() => {}}
+										label={"$ change product price"}
+									/>
+								</Link>
 							</div>
 						</div>
 						<div className="crow sb mb-6">

@@ -114,7 +114,7 @@ function AddProductForm(props: RIAddProductForm) {
 				preSelected,
 			}}
 		>
-			<PopUpContainer>
+			<PopUpContainer zIndex={1000}>
 				<ErrorBoundary
 					asyncStates={[
 						state.loading.fetchCompanies,

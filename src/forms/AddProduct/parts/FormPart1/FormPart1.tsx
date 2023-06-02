@@ -20,7 +20,7 @@ function FormPart1(p: FormPart1Props) {
 		<>
 			<div className="flex flex-wrap mb-4">
 				<div className="basis-1/2 p-3">
-					<DefaultFormLabel className="mb-2">Select Company</DefaultFormLabel>
+					<DefaultFormLabel className="mb-3">Select Company</DefaultFormLabel>
 					<Autocomplete
 						getOptionLabel={(d) => d.name}
 						renderInput={(params) => (
@@ -50,7 +50,7 @@ function FormPart1(p: FormPart1Props) {
 					/>
 				</div>
 				<div className="basis-1/2 p-3">
-					<DefaultFormLabel className="mb-2">Select Category</DefaultFormLabel>
+					<DefaultFormLabel className="mb-3">Select Category</DefaultFormLabel>
 					<Autocomplete
 						getOptionLabel={(d) => d.name}
 						renderInput={(params) => (
@@ -81,7 +81,7 @@ function FormPart1(p: FormPart1Props) {
 					/>
 				</div>
 				<div className="basis-1/2 p-3">
-					<DefaultFormLabel className="mb-2">Select Item</DefaultFormLabel>
+					<DefaultFormLabel className="mb-3">Select Item</DefaultFormLabel>
 					<Autocomplete
 						disabled={state.firstForm.selectedCategory.value === null}
 						getOptionLabel={(d) => d.name}
