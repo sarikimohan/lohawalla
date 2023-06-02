@@ -10,12 +10,12 @@ import React, { useEffect } from "react";
 import { useAddProductContext } from "../../AddProductForm";
 import Spacer from "@src/Components/common/Spacer/Spacer";
 import FieldInput from "@src/Components/forms/FieldInput/FieldInput";
+import FormFileUploadHeader from "@src/Components/forms/FormFileUploadHeader/FormFileUploadHeader";
 
 interface FormPart1Props {}
 
 function FormPart1(p: FormPart1Props) {
-	const { state, addProductActions, validate } =
-		useAddProductContext();
+	const { state, addProductActions, validate } = useAddProductContext();
 	return (
 		<>
 			<div className="flex flex-wrap mb-4">
@@ -112,18 +112,37 @@ function FormPart1(p: FormPart1Props) {
 				</div>
 			</div>
 			<div className="mb-5">
-				<FormFileUpload />
+				<p className="text-sm font-medium text-red-400">
+					{state.firstForm.uniqueError}
+				</p>
+			</div>
+			<div className="mb-5">
+				<FormFileUploadHeader marginBottom={16}>
+					Upload Images of product
+				</FormFileUploadHeader>
+				<FormFileUpload
+					values={state.firstForm.imageList}
+					onChange={(e) => {
+						addProductActions.mutateState((p) => {
+							p.firstForm.imageList = e;
+						});
+					}}
+				/>
 			</div>
 			<div>
 				<DefaultButton
 					onClick={function (): void {
-						const verdict = validate.validateFirstForm();
-						if (verdict) {
-							addProductActions.mutateState((p) => p.page++);
-						}
+						validate.validateFirstForm().then((verdict) => {
+							if (verdict) {
+								addProductActions.mutateState((p) => p.page++);
+							}
+						});
 					}}
 					label={"Next"}
 					styles={NextButtonStyleConfig}
+					loading={state.loading.checkUnique.status === "initialized"}
+					loadingColor={"white"}
+					disabled={state.loading.checkUnique.status === "initialized"}
 				/>
 			</div>
 		</>

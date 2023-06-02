@@ -25,22 +25,23 @@ export default function TableRow(props: Props) {
 				{data.weight !== -1 ? (
 					<Text>{data.weight}</Text>
 				) : (
-					<ValidatedEntry
-						onChange={function (e: string): void {
-							throw new Error("Function not implemented.");
-						}}
-						value={""}
-						placeHolder="enter value"
-					/>
+					// <ValidatedEntry
+					// 	onChange={function (e: string): void {
+					// 		throw new Error("Function not implemented.");
+					// 	}}
+					// 	value={""}
+					// 	placeHolder="enter value"
+					// />
+					<Text>custom</Text>
 				)}
 			</TableData>
 			<TableData>
 				<Text>{data.categoryCount}</Text>
 			</TableData>
-			<TableData>
+			{/* <TableData>
 				<Text>{data.productCount}</Text>
-			</TableData>
-			<TableData>
+			</TableData> */}
+			{/* <TableData>
 				<RotateAndScale>
 					<svg
 						width="22"
@@ -59,7 +60,7 @@ export default function TableRow(props: Props) {
 						/>
 					</svg>
 				</RotateAndScale>
-			</TableData>
+			</TableData> */}
 		</tr>
 	);
 }

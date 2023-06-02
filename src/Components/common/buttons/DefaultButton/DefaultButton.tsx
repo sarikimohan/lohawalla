@@ -38,6 +38,7 @@ interface DefaultButtonProps {
 				active: string;
 		  };
 	initialValue?: InteractionEnum;
+	disabled?: boolean;
 }
 
 const defaultStyles: StylesForStates = {
@@ -128,10 +129,13 @@ function DefaultButton(props: DefaultButtonProps) {
 			animate={container}
 			className={containerClassName}
 			transition={props.styles?.transition}
-			onClick={() => props.onClick()}
+			onClick={() => {
+				if(!props.disabled) {
+					props.onClick();
+				}
+			}}
 		>
 			{props.loading ? (
-				// <LoadingSpinner radius={28} color={color} />
 				<CircularProgress size={"20px"} sx={{ color }} disableShrink />
 			) : (
 				<motion.p

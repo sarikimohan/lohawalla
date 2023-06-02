@@ -15,6 +15,7 @@ import FormActions, {
 import AddProductValidators from "./management/actions/Validator";
 import DescriptionActions from "./management/actions/DescriptionActions";
 import ErrorBoundary from "@src/Components/feedback/ErrorBoundary/ErrorBoundary";
+import AsyncProcessBoundary from "@src/Components/feedback/AsyncProcessBoundary/AsyncProcessBoundary";
 
 export interface AddProductAutoConfig {
 	company?: { _id: string; name: string };
@@ -48,6 +49,7 @@ function AddProductForm(props: RIAddProductForm) {
 	const [state, setState] = useState<AddProduct.State>({
 		page: 0,
 		firstForm: {
+			uniqueError: "",
 			companiesList: [],
 			categoryList: [],
 			itemList: [],
@@ -91,6 +93,7 @@ function AddProductForm(props: RIAddProductForm) {
 			fetchItems: AsyncStateFactory(),
 			fetchUnits: AsyncStateFactory(),
 			fetchDefaultUnit: AsyncStateFactory(),
+			checkUnique: AsyncStateFactory(),
 		},
 	});
 
@@ -115,7 +118,7 @@ function AddProductForm(props: RIAddProductForm) {
 			}}
 		>
 			<PopUpContainer zIndex={1000}>
-				<ErrorBoundary
+				<AsyncProcessBoundary
 					asyncStates={[
 						state.loading.fetchCompanies,
 						state.loading.fetchCategories,
@@ -123,7 +126,10 @@ function AddProductForm(props: RIAddProductForm) {
 						state.loading.fetchUnits,
 					]}
 					primaryAction={{
-						onClick: () => {},
+						onClick: () => {
+							props.close();
+							props.refresh();
+						},
 						label: "Close",
 					}}
 				>
@@ -153,7 +159,7 @@ function AddProductForm(props: RIAddProductForm) {
 							{page === 2 && <FormPart3 />}
 						</div>
 					</FormContainer>
-				</ErrorBoundary>
+				</AsyncProcessBoundary>
 			</PopUpContainer>
 		</AddProductContext.Provider>
 	);

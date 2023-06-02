@@ -160,11 +160,7 @@ export default function FormPart3(props: Props) {
 						const v2 = validate.validateDescription();
 
 						if (v1 && v2) {
-							// TODO -- save the images not from here;
-							secondFormActions.saveData(user, []).then((v) => {
-								close();
-								refresh();
-							});
+							secondFormActions.saveData(user, []);
 						}
 					}}
 					label={"Save"}

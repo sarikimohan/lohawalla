@@ -7,6 +7,7 @@ namespace AddProduct {
 		page: number;
 
 		firstForm: {
+			uniqueError: string;
 			companiesList: Entity[];
 			categoryList: Entity[];
 			itemList: Entity[];

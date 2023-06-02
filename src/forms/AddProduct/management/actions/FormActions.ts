@@ -5,9 +5,8 @@ import getAllCompanyNames from "../../fetch/services/getAllCompanyNames";
 import getAllCategoryNames from "../../fetch/services/getAllCategoryNames";
 import getAllItemNamesOfCategory from "../../fetch/services/getAllItemNamesOfCategory";
 import getSecondFormData from "../../fetch/services/getSecondFormData";
-import saveProduct, { UnitData } from "../../fetch/services/saveProduct";
-import getAllUnits from "../../fetch/services/getAllUnits";
-import getCategoryUnit from "../../fetch/services/getCategoryUnit";
+import saveProduct from "../../fetch/services/saveProduct";
+import SaveImage from "@src/modules/ImageServerUtils/services/SaveImage";
 
 export default class FirstFormActions extends ServerStateUtils<AddProduct.State> {
 	async fetchCompanies() {
@@ -79,6 +78,8 @@ export class SecondFormActions extends ServerStateUtils<AddProduct.State> {
 		const itemId = this.state.firstForm.selectedItem.value?._id;
 		const companyId = this.state.firstForm.selectedCompany.value?._id;
 
+		const imgRes = await this.handleAsync('saveImages', () => SaveImage(this.state.firstForm.imageList));
+		
 		if (categoryId && itemId && companyId) {
 			const d = {
 				companyId,
@@ -103,7 +104,9 @@ export class SecondFormActions extends ServerStateUtils<AddProduct.State> {
 				),
 				images,
 			};
-			console.log(d);
+			if(imgRes) {
+				d.images = imgRes.data;
+			}
 			const res = await this.handleAsync("save", () => saveProduct(d));
 		}
 	}

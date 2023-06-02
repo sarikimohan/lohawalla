@@ -62,10 +62,10 @@ export default function Units(props: Props) {
 							</div>
 							<div className="flex">
 								<div className="mr-2">
-									<DefaultButton
+									{/* <DefaultButton
 										onClick={function (): void {}}
 										label={"save changes"}
-									/>
+									/> */}
 								</div>
 								<div>
 									<DefaultButton
@@ -86,15 +86,15 @@ export default function Units(props: Props) {
 									},
 									"unit name",
 									"weight",
-									"category count",
-									"product count",
-									"delete",
+									"item count",
+									// "product count",
+									// "delete",
 								]}
 							>
 								<RowStat
 									isEmpty={state.unitList.length === 0}
 									asyncState={state.loading.fetch}
-									colSpan={6}
+									colSpan={4}
 								>
 									{state.unitList.map((v, i) => (
 										<TableRow data={v} key={i} />

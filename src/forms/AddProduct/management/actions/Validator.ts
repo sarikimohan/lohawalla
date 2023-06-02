@@ -1,5 +1,6 @@
 import { FieldDataService, Validators } from "@src/modules/FieldData/FieldData";
 import { ServerStateUtils } from "@src/modules/StateManagement/Core/StateUtils";
+import checkIsEntryUnique from "../../fetch/services/checkIsEntryUnique";
 
 export default class AddProductValidators extends ServerStateUtils<AddProduct.State> {
 	//* //////////////////////// FIRST FORM ////////////////////////
@@ -29,11 +30,42 @@ export default class AddProductValidators extends ServerStateUtils<AddProduct.St
 		return !data.error;
 	}
 
-	validateFirstForm() {
+	async validateUnique() {
+		const companyId = this.state.firstForm.selectedCompany.value;
+		const itemId = this.state.firstForm.selectedItem.value;
+
+		if (!companyId || !itemId) return false;
+
+		const res = await this.handleAsync("checkUnique", () =>
+			checkIsEntryUnique({
+				companyId: companyId._id,
+				itemId: itemId._id,
+			})
+		);
+
+		if (res) {
+			if (res.data === false) {
+				this.mutateState((p) => {
+					p.firstForm.uniqueError =
+						"product already exists for the selected company and the item";
+				});
+			}
+			return res.data;
+		} else {
+			this.mutateState((p) => {
+				p.firstForm.uniqueError =
+					"server error, couldn't check for the uniqueness of the product entry";
+			});
+			return false;
+		}
+	}
+
+	async validateFirstForm() {
 		const v = [
 			this.validateCategory(),
 			this.validateCompany(),
 			this.validateItem(),
+			await this.validateUnique(),
 		];
 		console.log(v);
 		return v.reduce((a, c) => a && c, true);
