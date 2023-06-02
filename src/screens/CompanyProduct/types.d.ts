@@ -6,7 +6,7 @@ namespace CompanyProducts {
 			imageURL: string;
 			name: string;
 		};
-		companyProductName: string;
+		ProductName: string;
 		productId: string;
 		entryTime: string;
 	}

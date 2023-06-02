@@ -22,7 +22,7 @@ import useHeight from "@src/modules/hooks/useHeight";
 						}}
 						refresh={() => {}}
 					/> */}
-	<AddProductForm />
+	{/* <AddProductForm /> */}
 	{/* <AddCompany /> */}
 	{/* <AddItem /> */}
 	{/* <AddCategoryForm /> */}
@@ -51,7 +51,7 @@ function Dashboard() {
 				{/* <AddProductForm /> */}
 				{/* <EditCategory /> */}
 				{/* <EditCompany /> */}
-				<AddProductForm />
+				{/* <AddProductForm /> */}
 				{/* <AddCompany
 					close={function (): void {
 						throw new Error("Function not implemented.");

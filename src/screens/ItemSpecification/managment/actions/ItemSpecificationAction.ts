@@ -57,4 +57,9 @@ export default class ItemSpecificationAction
 			});
 		}
 	}
+	setshowForm(show: boolean) {
+		this.mutateState((p) => {
+			p.showForm = show;
+		});
+	}
 }

@@ -20,6 +20,9 @@ import SearchFilters from "@src/Components/common/SearchFilters/SearchFilters";
 import DefaultButton from "@src/Components/common/buttons/DefaultButton/DefaultButton";
 import LoadingBoundary from "@src/Components/common/LoadingBoundary/LoadingBoundary";
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
+import AddProductForm, {
+	AddProductAutoConfig,
+} from "@src/forms/AddProduct/AddProductForm";
 
 const ItemSpecificationContext = React.createContext({});
 
@@ -46,14 +49,33 @@ function ItemSpecification() {
 		loading: {
 			fetch: AsyncStateFactory(),
 		},
+		showForm: false,
+		refresh: false,
 	});
 
+	if (!pid) return <p className="text-xl">no item id found</p>;
+
 	const itemSpecActions = new ItemSpecificationAction(state, setState);
+	const [params, setParams] = useSearchParams();
+
+	const categoryName = params.get("categoryName");
+	const categoryId = params.get("categoryId");
+
+	const selected: AddProductAutoConfig = {
+		category:
+			categoryName && categoryId
+				? { _id: categoryId, name: categoryName }
+				: undefined,
+		item: {
+			_id: pid,
+			name: state.itemName,
+		},
+	};
 
 	useEffect(() => {
 		itemSpecActions.fetch(pid as string);
 		itemSpecActions.fetchGrid(pid as string);
-	}, []);
+	}, [state.refresh]);
 
 	return (
 		<ItemSpecificationContext.Provider value={{}}>
@@ -180,8 +202,10 @@ function ItemSpecification() {
 							</div>
 							<div>
 								<DefaultButton
-									onClick={function (): void {}}
-									label={"+ ADD ITEMS"}
+									onClick={function (): void {
+										itemSpecActions.setshowForm(true);
+									}}
+									label={"+ ADD COMPANY PRODUCT"}
 								/>
 							</div>
 						</SpacingDiv>
@@ -205,6 +229,19 @@ function ItemSpecification() {
 					</div>
 				</Card>
 			</div>
+			{state.showForm && (
+				<AddProductForm
+					close={function (): void {
+						itemSpecActions.setshowForm(false);
+					}}
+					refresh={function (): void {
+						itemSpecActions.mutateState((p) => {
+							p.refresh = !p.refresh;
+						});
+					}}
+					selected={selected}
+				/>
+			)}
 		</ItemSpecificationContext.Provider>
 	);
 }

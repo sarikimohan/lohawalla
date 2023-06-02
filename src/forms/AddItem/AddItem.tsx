@@ -89,7 +89,10 @@ function AddItem(props: Props) {
 					<ErrorCard
 						messages={[state.loading.save.message]}
 						primaryAction={{
-							onClick: props.onClose,
+							onClick: () => {
+								props.onClose();
+								props.refresh();
+							},
 							label: "Close",
 						}}
 					/>
@@ -100,6 +103,7 @@ function AddItem(props: Props) {
 								navBack={function (): void {
 									firstFormActions.mutateState((p) => {
 										if (p.page > 0) p.page--;
+										if (p.page === 0) props.onClose();
 									});
 								}}
 								close={function (): void {

@@ -22,6 +22,8 @@ export default function FormPart3(props: Props) {
 		secondFormActions,
 		descriptionActions,
 		state,
+		close,
+		refresh,
 	} = useAddProductContext();
 	const { user } = useAuthGuardContext();
 	console.log(state.loading.save);
@@ -158,7 +160,11 @@ export default function FormPart3(props: Props) {
 						const v2 = validate.validateDescription();
 
 						if (v1 && v2) {
-							secondFormActions.saveData(user, []);
+							// TODO -- save the images not from here;
+							secondFormActions.saveData(user, []).then((v) => {
+								close();
+								refresh();
+							});
 						}
 					}}
 					label={"Save"}

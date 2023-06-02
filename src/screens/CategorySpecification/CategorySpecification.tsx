@@ -39,7 +39,7 @@ function CategorySpecification() {
 
 	useEffect(() => {
 		specActions.fetchData(id as string);
-	}, []);
+	}, [state.refresh]);
 
 	return (
 		<CategorySpecificationContext.Provider value={{ label: "label" }}>
@@ -202,9 +202,13 @@ function CategorySpecification() {
 								]}
 							/>
 							<tbody>
-								<RowStat colSpan={5} isEmpty={state.itemList.length === 0	}>
+								<RowStat colSpan={5} isEmpty={state.itemList.length === 0}>
 									{state.itemList.map((v, i) => (
-										<TableRow data={v} key={i} />
+										<TableRow
+											data={v}
+											key={i}
+											link={`/categories/item/${v._id}?categoryName=${state.categorySpec.name}&categoryId=${id}`}
+										/>
 									))}
 								</RowStat>
 							</tbody>

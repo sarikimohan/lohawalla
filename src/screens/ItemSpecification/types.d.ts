@@ -19,6 +19,8 @@ namespace ItemSpecification {
 		companyProductList: CompanyProduct[];
 		filter: Filter;
 		images: string[];
+		showForm: boolean;
+		refresh: boolean;
 
 		loading: {
 			fetch: AsyncState;

@@ -22,7 +22,7 @@ export default class CompanyProductsAction
 	getFilteredList(): CompanyProducts.CompanyProduct[] {
 		return this.state.products.filter((v) => {
 			const query = this.state.filter.query.toLowerCase().trim();
-			const name = v.companyProductName.toLowerCase();
+			const name = v.ProductName.toLowerCase();
 			return isPrefix(name, query);
 		});
 	}

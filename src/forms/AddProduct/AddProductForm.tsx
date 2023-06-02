@@ -16,10 +16,10 @@ import AddProductValidators from "./management/actions/Validator";
 import DescriptionActions from "./management/actions/DescriptionActions";
 import ErrorBoundary from "@src/Components/feedback/ErrorBoundary/ErrorBoundary";
 
-interface AddProductFormInterface {
-	company?: { _id: string; companyName: string };
+export interface AddProductAutoConfig {
+	company?: { _id: string; name: string };
 	item?: { _id: string; name: string };
-	categories?: { _id: string; categoryName: string };
+	category?: { _id: string; name: string };
 }
 
 interface ContextProps {
@@ -28,12 +28,23 @@ interface ContextProps {
 	validate: AddProductValidators;
 	secondFormActions: SecondFormActions;
 	descriptionActions: DescriptionActions;
+	close: () => void;
+	refresh: () => void;
+	preSelected: AddProductAutoConfig;
+}
+
+interface RIAddProductForm {
+	selected?: AddProductAutoConfig;
+	close: () => void;
+	refresh: () => void;
 }
 
 const AddProductContext = React.createContext({} as ContextProps);
 export const useAddProductContext = () => useContext(AddProductContext);
 
-function AddProductForm() {
+function AddProductForm(props: RIAddProductForm) {
+	const preSelected = props.selected ? props.selected : {};
+
 	const [state, setState] = useState<AddProduct.State>({
 		page: 0,
 		firstForm: {
@@ -41,9 +52,13 @@ function AddProductForm() {
 			categoryList: [],
 			itemList: [],
 			imageList: null,
-			selectedCompany: { value: null },
-			selectedCategory: { value: null },
-			selectedItem: { value: null },
+			selectedCompany: {
+				value: preSelected.company ? preSelected.company : null,
+			},
+			selectedCategory: {
+				value: preSelected.category ? preSelected.category : null,
+			},
+			selectedItem: { value: preSelected.item ? preSelected.item : null },
 			unitWeightInputField: { value: "" },
 			unitValidationVerdict: true,
 		},
@@ -94,6 +109,9 @@ function AddProductForm() {
 				validate,
 				secondFormActions,
 				descriptionActions,
+				close: props.close,
+				refresh: props.refresh,
+				preSelected,
 			}}
 		>
 			<PopUpContainer>
@@ -115,11 +133,14 @@ function AddProductForm() {
 								navBack={() => {
 									if (state.page > 0)
 										addProductActions.mutateState((p) => p.page--);
+									if (state.page === 0) {
+										props.close();
+									}
 								}}
 								heading={"Product"}
 								preHeading={"ADD"}
 								close={function (): void {
-									throw new Error("Function not implemented.");
+									props.close();
 								}}
 							/>
 						</div>

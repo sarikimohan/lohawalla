@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 interface Props {
 	data: CategorySpecification.ItemGridData;
+	link: string;
 }
 
 export default function TableRow(props: Props) {
@@ -18,7 +19,7 @@ export default function TableRow(props: Props) {
 				<Text>{data.srNo}</Text>
 			</td>
 			<td align="center" className="py-3 border-b">
-				<Link to={`/categories/item/${data._id}`}>
+				<Link to={props.link}>
 					<RotateAndScale config={{ rotate: 0, scale: 1.01 }}>
 						<div className="flex items-center w-fit cursor-pointer group select-none">
 							<img

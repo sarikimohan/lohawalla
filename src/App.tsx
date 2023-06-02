@@ -16,6 +16,7 @@ import Profile from "./screens/Profile/Profile";
 import BrowseProducts from "./screens/BrowseProducts/BrowseProducts";
 import Units from "./screens/Units/Units";
 import PriceCalculation from "./screens/PriceCalculation/PriceCalculation";
+import CompanyProductListing from "./screens/CompanyProduct/CompanyProductListing";
 
 //* screen imports
 const LazyDashboard = React.lazy(() => import("./screens/Dashboard/Dashboard"));
@@ -91,6 +92,10 @@ function App() {
 							<Route
 								path="/priceCalculation/:id"
 								element={<PriceCalculation />}
+							/>
+							<Route
+								path="/companyProducts/:id"
+								element={<CompanyProductListing />}
 							/>
 						</Routes>
 					</div>

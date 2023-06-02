@@ -14,7 +14,8 @@ import FieldInput from "@src/Components/forms/FieldInput/FieldInput";
 interface FormPart1Props {}
 
 function FormPart1(p: FormPart1Props) {
-	const { state, addProductActions, validate } = useAddProductContext();
+	const { state, addProductActions, validate } =
+		useAddProductContext();
 	return (
 		<>
 			<div className="flex flex-wrap mb-4">

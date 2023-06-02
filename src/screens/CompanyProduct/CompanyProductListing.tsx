@@ -18,12 +18,16 @@ function CompanyProductListing() {
 	const { id } = useParams();
 	const [refresh, setRefresh] = useState(false);
 	const [showForm, setShowForm] = useState(false);
-	const [state,setState] = useState<CompanyProducts.State>(InitialState)
-	const CompanyProductActions = new CompanyProductsAction(state,setState)
+	const [state, setState] = useState<CompanyProducts.State>(InitialState);
+	const CompanyProductActions = new CompanyProductsAction(state, setState);
 
-	useEffect(()=>{
-		CompanyProductActions.fetchProducts(id as string)
-	},[])
+	useEffect(() => {
+		if (id) CompanyProductActions.fetchProducts(id as string);
+	}, []);
+
+	if (!id) return <p className="text-xl">no id provided</p>;
+
+	console.log(state.products);
 
 	return (
 		<>
@@ -31,14 +35,14 @@ function CompanyProductListing() {
 				<BackNavBar title={"Category/Item/Company Product"} />
 			</div>
 			<div className={style.pageContainer}>
-				<Card className="p-3 w-100 mt-5" variant="outlined">
+				<Card className="p-8 w-100 mt-10" variant="outlined">
 					<div ref={widthService.ref}>
-						<div className="crow mb-3">
+						<div className="crow mb-6">
 							<p className="subtitle fcolor-onyx">Company Products ({})</p>
 						</div>
-						<div className="crow sb mb-3">
+						<div className="crow sb mb-6">
 							<div className="vc">
-								<div className="pr-2">
+								<div className="pr-4">
 									<SearchBar />
 								</div>
 								<div>
@@ -53,7 +57,7 @@ function CompanyProductListing() {
 							/>
 						</div>
 						<Grid<CompanyProducts.CompanyProduct>
-							data={[]}
+							data={state.products}
 							config={columnConfig}
 							BannerContainer={(children) => (
 								<BannerContainer>{children}</BannerContainer>
