@@ -40,7 +40,7 @@ function Categories() {
 					}}
 					className="p-7"
 				>
-					<Card variant="outlined" sx={{ padding: 5 }}>
+					<Card variant="outlined" sx={{ padding: 5, borderRadius: '12px' }}>
 						<SpacingDiv marginBottom={24}>
 							<Subtitle>
 								Category({categoryAction.getCategoryGridData().length})

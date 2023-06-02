@@ -4,7 +4,7 @@ import { Small } from "../Typography/TypeStyles";
 
 interface LoadingBoundaryInterface {
 	children: React.ReactNode;
-	asyncState?: AsyncState;
+	asyncState?: AsyncState[] | AsyncState;
 	size?: number | string;
 	loadingWidget?: React.ReactNode;
 }
@@ -15,7 +15,7 @@ function LoadingBoundary({
 	size = 24,
 	loadingWidget,
 }: LoadingBoundaryInterface) {
-	if (asyncState) {
+	if (asyncState && !Array.isArray(asyncState)) {
 		return (
 			<>
 				{asyncState.status === "initialized" && (
@@ -36,9 +36,42 @@ function LoadingBoundary({
 					children}
 			</>
 		);
-	} else {
-		return <>{children}</>;
+	} else if (asyncState && Array.isArray(asyncState)) {
+		const isSuccess = asyncState.reduce(
+			(a, c) => a && c.status === "success",
+			true
+		);
+		const hasFailed = asyncState.reduce(
+			(a, c) => a || c.status === "failed",
+			false
+		);
+		const isDormant = asyncState.reduce(
+			(a, c) => a && c.status === "dormant",
+			true
+		);
+		if (isDormant || isSuccess) {
+			return <>{children}</>;
+		}
+		if (hasFailed) {
+			return (
+				<div>
+					<Alert severity="error">
+						{asyncState.map((v) => v.message).join("\n")}
+					</Alert>
+				</div>
+			);
+		}
+		return (
+			<div>
+				{loadingWidget ? (
+					loadingWidget
+				) : (
+					<CircularProgress size={size} disableShrink />
+				)}
+			</div>
+		);
 	}
+	return <>{children}</>;
 }
 
 export default LoadingBoundary;

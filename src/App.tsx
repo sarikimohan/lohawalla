@@ -17,6 +17,7 @@ import BrowseProducts from "./screens/BrowseProducts/BrowseProducts";
 import Units from "./screens/Units/Units";
 import PriceCalculation from "./screens/PriceCalculation/PriceCalculation";
 import CompanyProductListing from "./screens/CompanyProduct/CompanyProductListing";
+import LoadingWidget from "./Components/widget/LoadingWidget/LoadingWidget";
 
 //* screen imports
 const LazyDashboard = React.lazy(() => import("./screens/Dashboard/Dashboard"));
@@ -45,7 +46,7 @@ function App() {
 								<Route
 									index
 									element={
-										<React.Suspense fallback="loading...">
+										<React.Suspense fallback={<LoadingWidget />}>
 											<LazyDashboard />
 										</React.Suspense>
 									}
@@ -56,7 +57,7 @@ function App() {
 								<Route
 									path=""
 									element={
-										<React.Suspense fallback="loading...">
+										<React.Suspense fallback={<LoadingWidget />}>
 											<LazyCategories />
 										</React.Suspense>
 									}
