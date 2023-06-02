@@ -26,7 +26,9 @@ namespace CompanySpecification {
 		images: string[];
 		loading: {
 			fetch: AsyncState
-		}
+		};
+		show: boolean;
+		refresh: boolean;
 	}
 
 	interface Actions {

@@ -14,8 +14,9 @@ import Grid from "@src/Components/common/Grid/Grid";
 import BannerContainer from "@src/Components/common/BannerContainer/BannerContainer";
 import RowContainer from "@src/Components/common/Grid/RowContainer.default";
 import { Card } from "@mui/material";
-import { InitialState } from "./managment/state/InitialState";
 import CompanySpecActions from "./managment/actions/CompanySpecificationAction";
+import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
+import AddProductForm from "@src/forms/AddProduct/AddProductForm";
 
 const CompanySpecificationContext = React.createContext({});
 
@@ -24,13 +25,34 @@ function CompanySpecification() {
 	const widthService = useWidth();
 	const { id } = useParams();
 
-	const [state, setState] = useState<CompanySpecification.State>(InitialState);
+	if (!id) return <p className="text-xl">no id found for company</p>;
+
+	const [state, setState] = useState<CompanySpecification.State>({
+		companyName: "",
+		description: "",
+		descriptionLabels: [],
+		priceStructure: [],
+		companyList: [],
+		filter: {
+			query: "",
+			filters: [],
+		},
+		images: [],
+		loading: {
+			fetch: AsyncStateFactory(),
+		},
+		refresh: true,
+		show: false,
+	});
 	const companySpecActions = new CompanySpecActions(state, setState);
 
 	useEffect(() => {
 		companySpecActions.fetch(id as string);
-		companySpecActions.fetchAllCompanyItem(id as string);
 	}, []);
+
+	useEffect(() => {
+		companySpecActions.fetchAllCompanyItem(id as string);
+	}, [state.refresh]);
 
 	return (
 		<CompanySpecificationContext.Provider value={{}}>
@@ -153,7 +175,11 @@ function CompanySpecification() {
 								</div>
 							</div>
 							<DefaultButton
-								onClick={() => {}}
+								onClick={() => {
+									companySpecActions.mutateState((p) => {
+										p.show = true;
+									});
+								}}
 								label={"+ add company product"}
 							/>
 						</div>
@@ -171,6 +197,26 @@ function CompanySpecification() {
 					</div>
 				</Card>
 			</div>
+			{state.show && (
+				<AddProductForm
+					close={function (): void {
+						companySpecActions.mutateState((p) => {
+							p.show = false;
+						});
+					}}
+					refresh={function (): void {
+						companySpecActions.mutateState((p) => {
+							p.refresh = !p.refresh;
+						});
+					}}
+					selected={{
+						company: {
+							_id: id,
+							name: state.companyName,
+						},
+					}}
+				/>
+			)}
 		</CompanySpecificationContext.Provider>
 	);
 }

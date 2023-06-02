@@ -1,6 +1,6 @@
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 
-export const InitialState: CompanySpecification.State = {
+export const InitialState = {
 	companyName: "",
 	description: "",
 	descriptionLabels: [],
