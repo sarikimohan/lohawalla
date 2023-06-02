@@ -24,20 +24,79 @@ import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAn
 import AssetIndex from "@src/assets/AssetIndex";
 import { motion } from "framer-motion";
 import DeleteIcon from "@mui/icons-material/Delete";
-import React from "react";
+import React, { useState } from "react";
 import ImageSmall from "@src/Components/common/ImageSmall/ImageSmall";
 import FormFileUploadHeader from "@src/Components/forms/FormFileUploadHeader/FormFileUploadHeader";
 import FormFileUpload from "@src/Components/forms/FormFileUpload/FormFileUpload";
+import { FieldDataService } from "@src/modules/FieldData/FieldData";
+import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
+import SetActions from "./actions/SetActions";
 
 export interface RIEditProduct {}
 
 export namespace PIEditProduct {}
 
 export default function EditProduct(props: RIEditProduct) {
+	const [state, setState] = useState<EditProduct.State>({
+		selectedCompany: "",
+		selectedCategory: "",
+		selectedItem: "",
+		images: [],
+		imageFiles: null,
+		priceStructure: [],
+		margin: {
+			online: 0,
+			cash: 0,
+		},
+		credits: [],
+		negotiation: 0,
+		gst: {
+			type: "numeric",
+			value: FieldDataService.getDefaultField(),
+		},
+		description: FieldDataService.getDefaultField(),
+		descriptionLabels: [],
+		descriptionEntry: {
+			key: FieldDataService.getDefaultField(),
+			value: FieldDataService.getDefaultField(),
+		},
+		loading: {
+			fetch: AsyncStateFactory(),
+		},
+	});
+
+	const [] = useState<EditProduct.State>({
+		selectedCompany: "",
+		selectedCategory: "",
+		selectedItem: "",
+		images: [],
+		imageFiles: null,
+		priceStructure: [],
+		margin: {
+			online: 0,
+			cash: 0,
+		},
+		credits: [],
+		negotiation: 0,
+		gst: {
+			type: "numeric",
+			value: FieldDataService.getDefaultField(),
+		},
+		description: FieldDataService.getDefaultField(),
+		descriptionLabels: [],
+		descriptionEntry: {
+			key: FieldDataService.getDefaultField(),
+			value: FieldDataService.getDefaultField(),
+		},
+		loading: {},
+	});
+
+	const setActions = new SetActions(state, setState);
+
 	return (
 		<PopUpContainer>
 			<FormContainer>
-				<div className="mb-4">
+				<div className="mb-8">
 					<FormHeader
 						navBack={() => {}}
 						heading={"Product"}
@@ -46,9 +105,6 @@ export default function EditProduct(props: RIEditProduct) {
 							throw new Error("Function not implemented.");
 						}}
 					/>
-				</div>
-				<div className="mb-5">
-					<ProgressBar currentStep={0} steps={3} />
 				</div>
 				<div className="flex flex-wrap mb-4">
 					<div className="basis-1/2 p-3">
@@ -59,7 +115,7 @@ export default function EditProduct(props: RIEditProduct) {
 							)}
 							options={[]}
 							disabled
-							value={""}
+							value={state.selectedCompany}
 						/>
 					</div>
 					<div className="basis-1/2 p-3">
@@ -72,7 +128,7 @@ export default function EditProduct(props: RIEditProduct) {
 							)}
 							disabled
 							options={[]}
-							value={""}
+							value={state.selectedCategory}
 						/>
 					</div>
 					<div className="basis-1/2 p-3">
@@ -82,7 +138,7 @@ export default function EditProduct(props: RIEditProduct) {
 								<TextField {...params} label="Company" />
 							)}
 							disabled
-							value={""}
+							value={state.selectedItem}
 							options={[]}
 						/>
 					</div>
@@ -91,12 +147,14 @@ export default function EditProduct(props: RIEditProduct) {
 				<DefaultFormLabel>Delete images</DefaultFormLabel>
 				<div className="border p-4 rounded-md mb-5">
 					<div className="crow">
-						{[].map((v, i) => (
+						{state.images.map((v, i) => (
 							<div
 								className="ml-3"
-								onClick={() => {}}
-								style={{ display: false ? "none" : "block" }}
-								key={""}
+								onClick={() => {
+									setActions.deleteImage(i);
+								}}
+								style={{ display: v.deleted ? "none" : "block" }}
+								key={v.link}
 							>
 								<div
 									style={{
@@ -105,8 +163,7 @@ export default function EditProduct(props: RIEditProduct) {
 								>
 									<ImageSmall
 										index={0}
-										src={"v.link"}
-										key={"v.link"}
+										src={v.link}
 										currentSelected={0}
 										setSelected={function (): void {}}
 									/>
@@ -182,33 +239,35 @@ export default function EditProduct(props: RIEditProduct) {
 										</tr>
 									</thead>
 									<tbody>
-										{[].map((v, i) => (
-											<tr key={i}>
+										{state.priceStructure.map((v, i) => (
+											<tr key={v._id}>
 												<td>
 													<div className="ml-2 border pl-6 py-3">
 														<p className="text-md font-bold text-slate-700">
 															<span
 																className={
-																	false ? "text-green-500" : "text-red-500"
+																	v.operation === "add"
+																		? "text-green-500"
+																		: "text-red-500"
 																}
 															>
-																{false ? "+" : "-"} {"v.name"}{" "}
-																{false ? "(₹)" : "(%)"}
+																{v.operation === "add" ? "+" : "-"} {v.name}{" "}
+																{v.type === "numeric" ? "(₹)" : "(%)"}
 															</span>
 														</p>
 													</div>
 												</td>
 												<td align="center">
-													<Checkbox checked={false} disabled />
+													<Checkbox checked={v.isFixed} disabled />
 												</td>
 												<td>
 													<div className="p-2 pl-6">
 														<FieldInput
 															onChange={(d) => {
-																// secondFormActions.setPriceFieldValue(
-																// 	i,
-																// 	d.target.value
-																// );
+																setActions.editPriceStructure(
+																	d.target.value,
+																	i
+																);
 															}}
 															type={"number"}
 															placeHolder={"value"}
@@ -262,7 +321,7 @@ export default function EditProduct(props: RIEditProduct) {
 													<td align="center" className="">
 														<FieldInput
 															disabled
-															// value={state.secondForm.margin.online + ""}
+															value={state.margin.online + ""}
 															width={"80%"}
 															type={"number"}
 															placeHolder={"enter value"}
@@ -280,7 +339,7 @@ export default function EditProduct(props: RIEditProduct) {
 													<td align="center">
 														<FieldInput
 															disabled
-															// value={state.secondForm.margin.cash + ""}
+															value={state.margin.cash + ""}
 															width={"80%"}
 															type={"number"}
 															placeHolder={"enter value"}
@@ -324,7 +383,7 @@ export default function EditProduct(props: RIEditProduct) {
 											</thead>
 
 											<tbody>
-												{[].map((v, i) => (
+												{state.credits.map((v, i) => (
 													<tr className="mb-2 border-b" key={i}>
 														<td align="center">
 															<p className="text-md font-bold text-slate-700 py-5">
@@ -335,8 +394,8 @@ export default function EditProduct(props: RIEditProduct) {
 															<div className="p-2">
 																<FieldInput
 																	disabled
-																	// value={v.value + ""}
-																	rightIcon={false ? "rs" : "%"}
+																	value={v.value + ""}
+																	rightIcon={v.isNumeric ? "rs" : "%"}
 																	onChange={(d) => {}}
 																	type={"text"}
 																	placeHolder={"enter value"}
@@ -359,7 +418,7 @@ export default function EditProduct(props: RIEditProduct) {
 								</DefaultFormLabel>
 								<FieldInput
 									disabled
-									// value={state.secondForm.negotiation + ""}
+									value={state.negotiation + ""}
 									type={"number"}
 									placeHolder={""}
 									rightIcon={"%"}
@@ -387,8 +446,10 @@ export default function EditProduct(props: RIEditProduct) {
 												labelId="demo-simple-select-label"
 												id="demo-simple-select"
 												label="GST"
-												// value={state.secondForm.gst.type}
-												onChange={(e) => {}}
+												value={state.gst.type}
+												onChange={(e) =>
+													setActions.setGst(e.target.value as PercNum)
+												}
 											>
 												<MenuItem value={"numeric"}>GST Numeric</MenuItem>
 												<MenuItem value={"percentage"}>GST Percentage</MenuItem>
@@ -396,7 +457,11 @@ export default function EditProduct(props: RIEditProduct) {
 										</FormControl>
 									</div>
 									<div className="basis-2/5">
-										<FieldInput type={"number"} placeHolder={"enter value"} />
+										<FieldInput
+											type={"number"}
+											placeHolder={"enter value"}
+											rightIcon={state.gst.type === "numeric" ? "₹" : "%"}
+										/>
 									</div>
 								</div>
 							</Card>
@@ -411,7 +476,9 @@ export default function EditProduct(props: RIEditProduct) {
 						<div className="mb-4">
 							<DefaultFormLabel className="mb-2">Description</DefaultFormLabel>
 							<FieldTextArea
-								onChange={(d) => {}}
+								onChange={(d) => {
+									setActions.setDescription(d.target.value);
+								}}
 								height={120}
 								placeHolder={"enter description"}
 							/>
@@ -443,20 +510,29 @@ export default function EditProduct(props: RIEditProduct) {
 									</thead>
 
 									<tbody>
-										{[].map((v, i) => (
+										{state.descriptionLabels.map((v, i) => (
 											<tr className="mb-2 border-b">
 												<td align="center">
-													<p className="text-md font-bold text-slate-700 py-5"></p>
+													<p className="text-md font-bold text-slate-700 py-5">
+														{v.key}
+													</p>
 												</td>
 												<td align="center" className="w-2/5">
 													<FieldInput
-														onChange={(e) => {}}
+														{...v.value}
+														onChange={(e) => {
+															setActions.setDescEdit(e.target.value, i);
+														}}
 														type={"text"}
 														placeHolder={"enter value"}
 													/>
 												</td>
 												<td align="center" className="w-fit">
-													<div onClick={() => {}}>
+													<div
+														onClick={() => {
+															setActions.deleteDescription(i);
+														}}
+													>
 														<RotateAndScale>
 															<AssetIndex.MinusCircleIcon />
 														</RotateAndScale>
@@ -471,7 +547,10 @@ export default function EditProduct(props: RIEditProduct) {
 											<td align="center" className="p-1">
 												<div className="p-2">
 													<FieldInput
-														onChange={(d) => {}}
+														{...state.descriptionEntry.key}
+														onChange={(d) => {
+															setActions.setDescriptionKey(d.target.value);
+														}}
 														width={"85%"}
 														type={"text"}
 														placeHolder={"enter key"}
@@ -481,7 +560,10 @@ export default function EditProduct(props: RIEditProduct) {
 											<td align="center" className="p-1" colSpan={2}>
 												<div className="p-2">
 													<FieldInput
-														onChange={(d) => {}}
+														{...state.descriptionEntry.value}
+														onChange={(d) => {
+															setActions.setDescriptionValue(d.target.value);
+														}}
 														width={"85%"}
 														type={"text"}
 														placeHolder={"enter value"}
@@ -493,7 +575,12 @@ export default function EditProduct(props: RIEditProduct) {
 								</table>
 							</div>
 							<div className="crow jfe mt-5">
-								<AddMore handleAdd={() => {}} />
+								<AddMore
+									handleAdd={() => {
+										// validate
+										setActions.addDescription();
+									}}
+								/>
 							</div>
 						</Card>
 					</Card>
