@@ -1,6 +1,6 @@
 import { Card } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import style from "./CompanyProductListing.module.css";
 import { columnConfig } from "./configuration/ProductGridConfiguration";
 import useWidth from "@src/modules/hooks/useWidth";
@@ -11,15 +11,17 @@ import Grid from "@src/Components/common/Grid/Grid";
 import BannerContainer from "@src/Components/common/BannerContainer/BannerContainer";
 import RowContainer from "@src/Components/common/Grid/RowContainer.default";
 import CompanyProductsAction from "./managment/actions/CompanyProductAction";
-import { InitialState } from "./managment/state/initialState";
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 import LoadingBoundary from "@src/Components/common/LoadingBoundary/LoadingBoundary";
 import LoadingWidget from "@src/Components/widget/LoadingWidget/LoadingWidget";
 import useHeight from "@src/modules/hooks/useHeight";
+import AddProductForm from "@src/forms/AddProduct/AddProductForm";
 
 function CompanyProductListing() {
 	const widthService = useWidth();
 	const { id } = useParams();
+	const [params, seParams] = useSearchParams();
+	const companyName = params.get("companyName");
 	const [refresh, setRefresh] = useState(false);
 	const [showForm, setShowForm] = useState(false);
 	const [state, setState] = useState<CompanyProducts.State>({
@@ -36,7 +38,7 @@ function CompanyProductListing() {
 
 	useEffect(() => {
 		if (id) CompanyProductActions.fetchProducts(id as string);
-	}, []);
+	}, [refresh]);
 
 	if (!id) return <p className="text-xl">no id provided</p>;
 
@@ -63,14 +65,15 @@ function CompanyProductListing() {
 					}}
 				>
 					<Card
-						className="p-8 w-100 mt-10"
+						className="p-10 w-100 mt-10"
 						variant="outlined"
 						sx={{ borderRadius: "12px" }}
 					>
 						<div ref={widthService.ref}>
 							<div className="crow mb-6">
 								<p className="subtitle fcolor-onyx">
-									Company Products ({filteredList.length})
+									{companyName} Company Products (
+									{filteredList.length})
 								</p>
 							</div>
 							<div className="crow sb mb-6">
@@ -108,6 +111,24 @@ function CompanyProductListing() {
 					</Card>
 				</div>
 			</LoadingBoundary>
+			{showForm && (
+				<AddProductForm
+					selected={{
+						company: companyName
+							? {
+									_id: id,
+									name: companyName,
+							  }
+							: undefined,
+					}}
+					close={function (): void {
+						setShowForm(false);
+					}}
+					refresh={function (): void {
+						setRefresh((p) => !p);
+					}}
+				/>
+			)}
 		</>
 	);
 }

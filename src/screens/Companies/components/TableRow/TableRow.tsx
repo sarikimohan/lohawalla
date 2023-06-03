@@ -52,7 +52,9 @@ export default function TableRow(props: Props) {
 				<Text>{data.entryTime}</Text>
 			</td>
 			<td align="center" className="py-3 border-b">
-				<Link to={"/companyProducts/" + data._id}>
+				<Link
+					to={`/companyProducts/${data._id}?companyName=${data.companyName.name}`}
+				>
 					<RotateAndScale config={{ rotate: 0, scale: 1.1 }}>
 						<BorderOnHover
 							borderConfig={{
