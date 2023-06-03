@@ -9,6 +9,7 @@ import DefaultFormLabel from "@src/Components/forms/FormLabel/DefaultFormLabel";
 import ImageSmall from "@src/Components/common/ImageSmall/ImageSmall";
 import { motion } from "framer-motion";
 import DeleteIcon from "@mui/icons-material/Delete";
+import FormFileUploadHeader from "@src/Components/forms/FormFileUploadHeader/FormFileUploadHeader";
 
 interface Props {}
 
@@ -152,6 +153,11 @@ export default function FirstPart(props: Props) {
 				</div>
 			</div>
 			<div>
+				<div className="mb-4">
+					<FormFileUploadHeader>
+						Upload images for category
+					</FormFileUploadHeader>
+				</div>
 				<FormFileUpload
 					onChange={(e) => {
 						editCategoryActions.mutateState((p) => {

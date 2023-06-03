@@ -28,6 +28,7 @@ namespace CategorySpecification {
 		itemList: ItemGridData[];
 		filter: Filter;
 		loading: { [key: string]: AsyncState };
+		showEditForm: boolean;
 	}
 
 	interface Actions {

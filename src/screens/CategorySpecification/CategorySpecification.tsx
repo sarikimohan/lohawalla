@@ -25,6 +25,8 @@ import TableRow from "./components/TableRow/TableRow";
 import RowStat from "@src/Components/Grid/RowStat/RowStat";
 import LoadingBoundary from "@src/Components/common/LoadingBoundary/LoadingBoundary";
 import LoadingWidget from "@src/Components/widget/LoadingWidget/LoadingWidget";
+import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
+import EditCategory from "@src/forms/EditCategory/EditCategory";
 
 export const CategorySpecificationContext = React.createContext({});
 
@@ -33,7 +35,42 @@ function CategorySpecification() {
 	const heightService = useHeight();
 	const { id } = useParams();
 
-	const [state, setState] = useState<CategorySpecification.State>(InitialState);
+	if (!id) return <p className="text-xl">no id found for category</p>;
+
+	const [state, setState] = useState<CategorySpecification.State>({
+		categorySpec: {
+			_id: "",
+			name: "",
+			description: "",
+			descriptionLabels: [],
+			credit: [],
+			negotiation: 0,
+			images: [],
+		},
+		itemList: [],
+		filter: {
+			query: "",
+			filters: [
+				{
+					id: "1",
+					name: "item name",
+					isActive: true,
+				},
+				{
+					id: "2",
+					name: "item code",
+					isActive: true,
+				},
+			],
+		},
+		loading: {
+			fetchItemData: AsyncStateFactory(),
+			fetchSpecData: AsyncStateFactory(),
+		},
+		showForm: false,
+		refresh: false,
+		showEditForm: false,
+	});
 	const { categorySpec } = state;
 	const specActions = new CategorySpecificationAction(state, (p) =>
 		setState(p)
@@ -128,7 +165,13 @@ function CategorySpecification() {
 										{categorySpec.name}
 									</p>
 								</div>
-								<div>
+								<div
+									onClick={() => {
+										specActions.mutateState((p) => {
+											p.showEditForm = true;
+										});
+									}}
+								>
 									<AssetIndex.EditSquare />
 								</div>
 							</div>
@@ -253,6 +296,21 @@ function CategorySpecification() {
 						}}
 						// TODO add a check
 						categoryId={id as string}
+					/>
+				)}
+				{state.showEditForm && (
+					<EditCategory
+						refresh={function (): void {
+							specActions.mutateState((p) => {
+								p.refresh = !p.refresh;
+							});
+						}}
+						close={function (): void {
+							specActions.mutateState((p) => {
+								p.showEditForm = false;
+							});
+						}}
+						id={id}
 					/>
 				)}
 			</CategorySpecificationContext.Provider>

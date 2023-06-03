@@ -20,8 +20,13 @@ import { nanoid } from "nanoid";
 import ServerActions from "./managment/actions/ServerActions";
 import { useAuthGuardContext } from "@src/auth/AuthGuard/AuthGuard";
 import AsyncProcessBoundary from "@src/Components/feedback/AsyncProcessBoundary/AsyncProcessBoundary";
+import LoadingBoundary from "@src/Components/common/LoadingBoundary/LoadingBoundary";
 
-interface Props {}
+interface Props {
+	refresh: () => void;
+	close: () => void;
+	id: string;
+}
 interface ContextProps {
 	state: EditCategory.State;
 	editCategoryActions: EditCategoryActions;
@@ -75,7 +80,7 @@ export default function EditCategory(props: Props) {
 		negotiation: "",
 	});
 
-	const id = "64771643a9e44cf4400146c4";
+	const id = props.id;
 
 	const inputRef = useRef<Handle>({
 		plainFields: {},
@@ -218,7 +223,10 @@ export default function EditCategory(props: Props) {
 				<AsyncProcessBoundary
 					asyncStates={[state.loading.saveImages, state.loading.saveData]}
 					primaryAction={{
-						onClick: () => {},
+						onClick: () => {
+							props.close();
+							props.refresh();
+						},
 						label: undefined,
 					}}
 				>
@@ -230,37 +238,42 @@ export default function EditCategory(props: Props) {
 										editCategoryActions.mutateState((p) => p.page--);
 								}}
 								close={function (): void {
-									// throw new Error("Function not implemented.");
+									props.close();
 								}}
 								heading={"Category"}
 								preHeading={"Edit"}
 							/>
 						</div>
-
-						<FirstPart />
-						<div className="my-5">
-							<Divider />
-						</div>
-						<SecondPart />
-						<div className="my-5">
-							<Divider />
-						</div>
-						<ThirdPart />
-						<div className="my-5">
-							<DefaultButton
-								onClick={function () {
-									validate().then((d) => {
-										serverActions.save(id, user);
-									});
-								}}
-								label={"Save"}
-								loading={
-									state.loading.saveData.status === "initialized" ||
-									state.loading.saveImages.status === "initialized"
-								}
-								loadingColor={"white"}
-							/>
-						</div>
+						<LoadingBoundary asyncState={state.loading.fetchForm}>
+							<FirstPart />
+							<div className="my-5">
+								<Divider />
+							</div>
+							<SecondPart />
+							<div className="my-5">
+								<Divider />
+							</div>
+							<ThirdPart />
+							<div className="my-5">
+								<DefaultButton
+									onClick={function () {
+										validate().then((d) => {
+											serverActions.save(id, user);
+										});
+									}}
+									label={"Save"}
+									loading={
+										state.loading.saveData.status === "initialized" ||
+										state.loading.saveImages.status === "initialized"
+									}
+									disabled={
+										state.loading.saveData.status === "initialized" ||
+										state.loading.saveImages.status === "initialized"
+									}
+									loadingColor={"white"}
+								/>
+							</div>
+						</LoadingBoundary>
 					</FormContainer>
 				</AsyncProcessBoundary>
 			</PopUpContainer>

@@ -1,6 +1,6 @@
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 
-export const InitialState: CategorySpecification.State = {
+export const InitialState = {
 	categorySpec: {
 		_id: "",
 		name: "",
