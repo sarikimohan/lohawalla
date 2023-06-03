@@ -13,6 +13,7 @@ import CreditCalculator from "./actions/CreditCalculator";
 import { useParams } from "react-router-dom";
 import useHeight from "@src/modules/hooks/useHeight";
 import BackNavBar from "@src/Components/common/NavBar/BackNavBar";
+import LoadingWidget from "@src/Components/widget/LoadingWidget/LoadingWidget";
 
 interface Props {}
 interface ContextProps {
@@ -100,7 +101,10 @@ export default function PriceCalculation(props: Props) {
 		<CalculationContext.Provider
 			value={{ cashCalcActions, state, creditCalcActions, priceCalcActions }}
 		>
-			<LoadingBoundary asyncState={state.loading.fetchData}>
+			<LoadingBoundary
+				asyncState={state.loading.fetchData}
+				loadingWidget={<LoadingWidget />}
+			>
 				<div style={{ width: "100%", minHeight: "100vh" }}>
 					<div ref={heightService.ref}>
 						<BackNavBar title={"Price Calculation"} />
@@ -112,6 +116,7 @@ export default function PriceCalculation(props: Props) {
 							width: "100%",
 							height: `calc(100vh - ${heightService.height}px)`,
 						}}
+						className="bg-offWhite"
 					>
 						<ProductHeaderCard
 							data={{

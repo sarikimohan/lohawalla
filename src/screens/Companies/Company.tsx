@@ -24,13 +24,15 @@ function Company() {
 		companyActions.fetchCompanyGridData();
 	}, [state.refresh]);
 
+	const companyList = companyActions.filterCompanylistRow();
+
 	return (
 		<>
 			<div className={style.navContainer + " mb-4"}>
 				<TitleNavBar title={"Company"} />
 			</div>
-			<div className={style.pageContainer}>
-				<Card sx={{ padding: 4 }} variant="outlined">
+			<div className={style.pageContainer + " bg-offWhite"}>
+				<Card sx={{ padding: 4, borderRadius: "12px" }} variant="outlined">
 					<div ref={widthService.ref}>
 						<div className="crow sb mb-3">
 							<div>
@@ -82,8 +84,12 @@ function Company() {
 								]}
 							/>
 							<tbody>
-								<RowStat colSpan={6}>
-									{state.companyList.map((v, i) => (
+								<RowStat
+									colSpan={6}
+									asyncState={state.loading.get}
+									isEmpty={companyList.length === 0}
+								>
+									{companyList.map((v, i) => (
 										<TableRow data={v} key={i} />
 									))}
 								</RowStat>

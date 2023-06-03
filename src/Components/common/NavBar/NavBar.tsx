@@ -12,7 +12,7 @@ interface NavBarProps {
 function NavBar(p: NavBarProps) {
 	const { loginData } = useAuthGuardContext();
 	return (
-		<div className={style.box}>
+		<div className={style.box + ' bg-white'}>
 			<div className={style.container + " vc"}>
 				{/* <p className="subtitle fcolor-text-body fw-medium">Category</p> */}
 				{p.leftCom}
