@@ -138,7 +138,15 @@ export default function ThirdPart(props: Props) {
 					}}
 					label={"Save"}
 					styles={NextButtonStyleConfig}
-					loading={state.loading.save.status === "initialized"}
+					loading={
+						state.loading.save.status === "initialized" ||
+						state.loading.saveImages.status === "initialized"
+					}
+					disabled={
+						state.loading.save.status === "initialized" ||
+						state.loading.saveImages.status === "initialized"
+					}
+					loadingColor={"white"}
 				/>
 			</div>
 		</>

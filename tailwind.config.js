@@ -7,6 +7,7 @@ module.exports = {
 				iris: "#4B4DED",
 				"subtitle": "#9797AA",
 				fuschia: "#2A333E",
+				offWhite: "#fafafa"
 			},
 		},
 	},

@@ -8,6 +8,7 @@ import { useAddItemContext } from "../../AddItem";
 import UnitInput, {
 	PIUnitInput,
 } from "@src/Components/special/UnitInput/UnitInput";
+import FormFileUploadHeader from "@src/Components/forms/FormFileUploadHeader/FormFileUploadHeader";
 
 interface Props {}
 
@@ -80,6 +81,9 @@ export default function FirstPart(props: Props) {
 				/>
 			</div>
 			<div className="mb-5">
+				<div className="mb-3">
+					<FormFileUploadHeader>Upload image of item</FormFileUploadHeader>
+				</div>
 				<FormFileUpload
 					onChange={(e) => {
 						firstFormActions.mutateState((p) => (p.images = e));

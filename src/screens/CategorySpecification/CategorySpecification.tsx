@@ -43,6 +43,8 @@ function CategorySpecification() {
 		specActions.fetchData(id as string);
 	}, [state.refresh]);
 
+	const filteredList = specActions.filterList();
+
 	return (
 		<LoadingBoundary
 			asyncState={[state.loading.fetchItemData, state.loading.fetchSpecData]}
@@ -58,18 +60,19 @@ function CategorySpecification() {
 						overflow: "auto",
 						padding: 80,
 						paddingTop: 40,
+						background: "#fafafa",
 					}}
 				>
 					<div className={style.headingRow + " mb-5"}>
 						<H2>{categorySpec.name}</H2>
 					</div>
 
-					<div className="d-flex w-100">
+					<div className="d-flex w-100 mb-8">
 						<div className={style.col_1}>
-							<div className="mb-2">
+							<div className="mb-6">
 								<ImagePreview images={categorySpec.images} />
 							</div>
-							<div className={style.descriptionCard + " mb-3"}>
+							<div className={style.descriptionCard + " mb-6 bg-white"}>
 								<div className={style.descriptionBanner}>
 									<div className={style.descriptionCell}>
 										<p className="fw-bold fcolor-light body">Credit</p>
@@ -93,7 +96,7 @@ function CategorySpecification() {
 								</div>
 							</div>
 
-							<div className={style.descriptionCard}>
+							<div className={style.descriptionCard + " bg-white"}>
 								<div className={style.descriptionBanner}>
 									<div className={style.descriptionCell}>
 										<p className="fw-bold fcolor-light body">
@@ -119,8 +122,8 @@ function CategorySpecification() {
 						</div>
 						<div className={style.col_2}>
 							<div className="crow">
-								<div className="mb-3" style={{ marginRight: 100 }}>
-									<p className="pretitle fcolor-text-subtitle mb-1">CATEGORY</p>
+								<div className="mb-6" style={{ marginRight: 100 }}>
+									<p className="pretitle fcolor-text-subtitle mb-2">CATEGORY</p>
 									<p className="body fw-bold fcolor-text-body">
 										{categorySpec.name}
 									</p>
@@ -129,7 +132,7 @@ function CategorySpecification() {
 									<AssetIndex.EditSquare />
 								</div>
 							</div>
-							<div className={style.descriptionContainer + " mb-3"}>
+							<div className={style.descriptionContainer + " mb-6"}>
 								<p className="pretitle fcolor-text-subtitle mb-1">
 									DESCRIPTION
 								</p>
@@ -138,7 +141,7 @@ function CategorySpecification() {
 								</p>
 							</div>
 
-							<div className={style.descriptionCard}>
+							<div className={style.descriptionCard + " bg-white"}>
 								<div className={style.descriptionBanner}>
 									<div className={style.descriptionCell}>
 										<p className="fw-bold fcolor-light body">Description</p>
@@ -166,7 +169,11 @@ function CategorySpecification() {
 							</div>
 						</div>
 					</div>
-					<Card className={style.cardContainer + " mb-8"} variant="outlined">
+					<Card
+						className={style.cardContainer}
+						style={{ borderRadius: "12px" }}
+						variant="outlined"
+					>
 						<div ref={widthService.ref}>
 							<p className="subtitle fcolor-onyx ">
 								Items({state.itemList.length})
@@ -214,8 +221,8 @@ function CategorySpecification() {
 									]}
 								/>
 								<tbody>
-									<RowStat colSpan={5} isEmpty={state.itemList.length === 0}>
-										{state.itemList.map((v, i) => (
+									<RowStat colSpan={5} isEmpty={filteredList.length === 0}>
+										{filteredList.map((v, i) => (
 											<TableRow
 												data={v}
 												key={i}

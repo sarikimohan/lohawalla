@@ -17,6 +17,7 @@ import Validate from "./managment/actions/Validate";
 import ErrorCard from "@src/Components/feedback/ErrorCard/ErrorCard";
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 import AsyncSnackBar from "@src/Components/feedback/AsyncSnackBar/AsyncSnackBar";
+import AsyncProcessBoundary from "@src/Components/feedback/AsyncProcessBoundary/AsyncProcessBoundary";
 
 interface ContextProps {
 	firstFormActions: FirstFormActions;
@@ -73,30 +74,40 @@ function AddItem(props: Props) {
 	}, []);
 
 	return (
-		<AddItemContext.Provider
-			value={{
-				state,
-				firstFormActions,
-				secondFormActions,
-				descriptionActions,
-				saveFormAction,
-				validate,
-				...props,
+		<AsyncProcessBoundary
+			asyncStates={[state.loading.save, state.loading.saveImages]}
+			primaryAction={{
+				onClick: () => {
+					props.onClose();
+					props.refresh();
+				},
+				label: "Close",
 			}}
 		>
-			<PopUpContainer>
-				{state.loading.save.status === "failed" ? (
-					<ErrorCard
-						messages={[state.loading.save.message]}
-						primaryAction={{
-							onClick: () => {
-								props.onClose();
-								props.refresh();
-							},
-							label: "Close",
-						}}
-					/>
-				) : (
+			<AddItemContext.Provider
+				value={{
+					state,
+					firstFormActions,
+					secondFormActions,
+					descriptionActions,
+					saveFormAction,
+					validate,
+					...props,
+				}}
+			>
+				<PopUpContainer>
+					{/* {state.loading.save.status === "failed" ? (
+						<ErrorCard
+							messages={[state.loading.save.message]}
+							primaryAction={{
+								onClick: () => {
+									props.onClose();
+									props.refresh();
+								},
+								label: "Close",
+							}}
+						/>
+					) : ( */}
 					<FormContainer>
 						<div className="mb-4">
 							<FormHeader
@@ -122,11 +133,12 @@ function AddItem(props: Props) {
 							{state.page === 2 && <ThirdPart />}
 						</div>
 					</FormContainer>
-				)}
-				<AsyncSnackBar asyncState={state.loading.saveImages} />
-				<AsyncSnackBar asyncState={state.loading.save} />
-			</PopUpContainer>
-		</AddItemContext.Provider>
+					{/* )} */}
+					<AsyncSnackBar asyncState={state.loading.saveImages} />
+					<AsyncSnackBar asyncState={state.loading.save} />
+				</PopUpContainer>
+			</AddItemContext.Provider>
+		</AsyncProcessBoundary>
 	);
 }
 

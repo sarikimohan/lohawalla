@@ -23,11 +23,11 @@ function ImagePreview(props: ImagePreviewProps) {
 	const widthConf = useWidth({});
 
 	return (
-		<div className={style.container}>
-			<div className="crow">
+		<div className={style.container + ' border p-3 rounded-md bg-white'}>
+			<div className="crow border-b mb-3">
 				<div
 					style={{ height: widthConf.width / 1.66 }}
-					className={style.imageLargeContainer + " mb-3"}
+					className={style.imageLargeContainer + " mb-4"}
 					ref={widthConf.ref}
 				>
 					<img src={images[selection]} className={style.imageView} />
