@@ -60,8 +60,12 @@ function CompanySpecification() {
 				<BackNavBar title={"Comapny / Company Specifications"} />
 			</div>
 			<div
-				className={style.pageContainer}
-				style={{ height: `calc(100vh - ${height}px)` }}
+				className={style.pageContainer + " bg-offWhite"}
+				style={{
+					height: `calc(100vh - ${height}px)`,
+					padding: 80,
+					paddingTop: 40,
+				}}
 			>
 				<div className={style.headingRow + " mb-8 mt-3"}>
 					<p className="h2 fcolor-fuschia">{state.companyName}</p>
@@ -75,9 +79,9 @@ function CompanySpecification() {
 					</Link>
 				</div>
 
-				<div className="d-flex w-100 mb-3">
+				<div className="d-flex w-100 mb-6">
 					<div className={style.col_1}>
-						<div className="mb-2">
+						<div className="mb-6">
 							<ImagePreview images={state.images} />
 						</div>
 
@@ -93,9 +97,17 @@ function CompanySpecification() {
 									.map((val, index) => (
 										<div className="crow sb" key={index}>
 											<div className={style.descriptionCell}>
-												<p className="fw-bold fcolor-text-subtitle body">
-													{val.operation === "add" ? "+" : "-"} {val.name}
-													{val.type === "percentage" && "%"}
+												<p className="text-md font-bold text-slate-700">
+													<span
+														className={
+															val.operation === "add"
+																? "text-green-500"
+																: "text-red-500"
+														}
+													>
+														{val.operation === "add" ? "+" : "-"} {val.name}{" "}
+														{val.type === "numeric" ? "(₹)" : "(%)"}
+													</span>
 												</p>
 											</div>
 											<div className={style.descriptionCell}>
@@ -109,8 +121,8 @@ function CompanySpecification() {
 						</div>
 					</div>
 					<div className={style.col_2}>
-						<div className="crow">
-							<div className="mb-3 mr-5">
+						<div className="crow mb-4">
+							<div className="mb-3 mr-10">
 								<p className="pretitle fcolor-text-subtitle mb-1">COMPANY</p>
 								<p className="body fw-bold fcolor-text-body">
 									{state.companyName}
@@ -124,7 +136,7 @@ function CompanySpecification() {
 							<p className="pretitle fcolor-text-subtitle mb-1">TYPE</p>
 							<p className="body fw-bold fcolor-text-body">STEEL INDUSTRY</p>
 						</div> */}
-						<div className={style.descriptionContainer + " mb-3"}>
+						<div className={style.descriptionContainer + " mb-5"}>
 							<p className="pretitle fcolor-text-subtitle mb-1">DESCRIPTION</p>
 							<p className="body fw-medium fcolor-text-body">
 								{state.description}
@@ -158,14 +170,18 @@ function CompanySpecification() {
 					</div>
 				</div>
 
-				<Card className="p-3 w-100 mb-8" variant="outlined">
+				<Card
+					className="w-100 mb-8"
+					sx={{ padding: 5, borderRadius: "12px" }}
+					variant="outlined"
+				>
 					<div ref={widthService.ref}>
-						<div className="crow mb-3">
+						<div className="crow mb-7">
 							<p className="subtitle fcolor-onyx">
 								Company Products ({state.companyList.length})
 							</p>
 						</div>
-						<div className="crow sb mb-3">
+						<div className="crow sb mb-7">
 							<div className="vc">
 								<div className="pr-2">
 									<SearchBar
