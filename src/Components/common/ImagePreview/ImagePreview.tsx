@@ -1,8 +1,5 @@
 import { ImageIndex } from "@src/assets/AssetIndex";
-
-import { motion } from "framer-motion";
-import React, { useContext, useState } from "react";
-import { CategorySpecificationContext } from "../../../screens/CategorySpecification/CategorySpecification";
+import React, { useState } from "react";
 import style from "./ImagePreview.module.css";
 import ImageSmall from "../ImageSmall/ImageSmall";
 import useWidth from "@src/modules/hooks/useWidth";
