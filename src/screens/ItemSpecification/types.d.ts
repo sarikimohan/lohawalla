@@ -24,6 +24,7 @@ namespace ItemSpecification {
 
 		loading: {
 			fetch: AsyncState;
+			fetchGrid: AsyncState;
 		};
 	}
 

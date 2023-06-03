@@ -15,7 +15,7 @@ interface CategorySpecificationData {
 		value: string;
 		position: number;
 	}[];
-	credit: Credit[];
+	credit: (Credit & {isNumeric: boolean})[];
 	negotiation: number;
 	images: string[];
 }

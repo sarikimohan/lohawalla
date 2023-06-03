@@ -88,7 +88,7 @@ function CategorySpecification() {
 											</div>
 											<div className={style.descriptionCell}>
 												<p className="fw-medium fcolor-onyx body">
-													{val.value}%
+													{val.value} {val.isNumeric ? "₹" : "%"}
 												</p>
 											</div>
 										</div>

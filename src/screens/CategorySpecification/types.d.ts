@@ -16,7 +16,7 @@ namespace CategorySpecification {
 		name: string;
 		description: string;
 		descriptionLabels: DescriptionLabels[];
-		credit: Credit[];
+		credit: (Credit & { isNumeric: boolean })[];
 		negotiation: number;
 		images: string[];
 	}

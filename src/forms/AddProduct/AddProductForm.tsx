@@ -88,6 +88,7 @@ function AddProductForm(props: RIAddProductForm) {
 		},
 		loading: {
 			save: AsyncStateFactory(),
+			saveImages: AsyncStateFactory(),
 			fetchCompanies: AsyncStateFactory(),
 			fetchCategories: AsyncStateFactory(),
 			fetchItems: AsyncStateFactory(),
@@ -119,12 +120,7 @@ function AddProductForm(props: RIAddProductForm) {
 		>
 			<PopUpContainer zIndex={1000}>
 				<AsyncProcessBoundary
-					asyncStates={[
-						state.loading.fetchCompanies,
-						state.loading.fetchCategories,
-						state.loading.fetchItems,
-						state.loading.fetchUnits,
-					]}
+					asyncStates={[state.loading.save, state.loading.saveImages]}
 					primaryAction={{
 						onClick: () => {
 							props.close();
