@@ -130,10 +130,7 @@ export default function ThirdPart(props: Props) {
 					onClick={function (): void {
 						const verdict = validate.validateDescriptionLabels();
 						if (verdict) {
-							saveFormAction.saveForm(categoryId, user, () => {
-								refresh();
-								onClose();
-							});
+							saveFormAction.saveForm(categoryId, user, () => {});
 						}
 					}}
 					label={"Save"}

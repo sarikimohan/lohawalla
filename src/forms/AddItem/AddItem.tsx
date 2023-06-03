@@ -74,28 +74,28 @@ function AddItem(props: Props) {
 	}, []);
 
 	return (
-		<AsyncProcessBoundary
-			asyncStates={[state.loading.save, state.loading.saveImages]}
-			primaryAction={{
-				onClick: () => {
-					props.onClose();
-					props.refresh();
-				},
-				label: "Close",
+		<AddItemContext.Provider
+			value={{
+				state,
+				firstFormActions,
+				secondFormActions,
+				descriptionActions,
+				saveFormAction,
+				validate,
+				...props,
 			}}
 		>
-			<AddItemContext.Provider
-				value={{
-					state,
-					firstFormActions,
-					secondFormActions,
-					descriptionActions,
-					saveFormAction,
-					validate,
-					...props,
-				}}
-			>
-				<PopUpContainer>
+			<PopUpContainer>
+				<AsyncProcessBoundary
+					asyncStates={[state.loading.save, state.loading.saveImages]}
+					primaryAction={{
+						onClick: () => {
+							props.onClose();
+							props.refresh();
+						},
+						label: "Close",
+					}}
+				>
 					{/* {state.loading.save.status === "failed" ? (
 						<ErrorCard
 							messages={[state.loading.save.message]}
@@ -136,9 +136,9 @@ function AddItem(props: Props) {
 					{/* )} */}
 					<AsyncSnackBar asyncState={state.loading.saveImages} />
 					<AsyncSnackBar asyncState={state.loading.save} />
-				</PopUpContainer>
-			</AddItemContext.Provider>
-		</AsyncProcessBoundary>
+				</AsyncProcessBoundary>
+			</PopUpContainer>
+		</AddItemContext.Provider>
 	);
 }
 

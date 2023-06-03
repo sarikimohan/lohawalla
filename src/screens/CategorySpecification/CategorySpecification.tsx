@@ -171,7 +171,9 @@ function CategorySpecification() {
 					</div>
 					<Card
 						className={style.cardContainer}
-						style={{ borderRadius: "12px" }}
+						style={{
+							borderRadius: "12px",
+						}}
 						variant="outlined"
 					>
 						<div ref={widthService.ref}>
@@ -207,31 +209,33 @@ function CategorySpecification() {
 								</div>
 							</SpacingDiv>
 							<Spacer height={24} />
-							<table className="w-full table-auto">
-								<Header
-									columns={[
-										"sr no",
-										"item name",
-										"item code",
-										"entry time",
-										{
-											name: "",
-											width: 100,
-										},
-									]}
-								/>
-								<tbody>
-									<RowStat colSpan={5} isEmpty={filteredList.length === 0}>
-										{filteredList.map((v, i) => (
-											<TableRow
-												data={v}
-												key={i}
-												link={`/categories/item/${v._id}?categoryName=${state.categorySpec.name}&categoryId=${id}`}
-											/>
-										))}
-									</RowStat>
-								</tbody>
-							</table>
+							<div>
+								<table className="w-full table-auto">
+									<Header
+										columns={[
+											"sr no",
+											"item name",
+											"item code",
+											"entry time",
+											{
+												name: "",
+												width: 100,
+											},
+										]}
+									/>
+									<tbody style={{ maxHeight: "330px", overflow: "auto" }}>
+										<RowStat colSpan={5} isEmpty={filteredList.length === 0}>
+											{filteredList.map((v, i) => (
+												<TableRow
+													data={v}
+													key={i}
+													link={`/categories/item/${v._id}?categoryName=${state.categorySpec.name}&categoryId=${id}`}
+												/>
+											))}
+										</RowStat>
+									</tbody>
+								</table>
+							</div>
 						</div>
 					</Card>
 				</div>
