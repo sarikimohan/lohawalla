@@ -2,6 +2,7 @@ import StateUtils, {
 	ServerStateUtils,
 } from "@src/modules/StateManagement/Core/StateUtils";
 import fetchUnits from "../fetch/services/fetchUnits";
+import isPrefix from "@src/modules/Utils/isPrefix";
 
 export default class UnitActions
 	extends ServerStateUtils<Unit.State>
@@ -27,5 +28,14 @@ export default class UnitActions
 		this.mutateState((p) => {
 			p.query = d;
 		});
+	}
+
+	filter() {
+		const query = this.state.query.trim();
+		const data = this.state.unitList;
+
+		if (query.length === 0) return data;
+
+		return data.filter((v) => isPrefix(v.name, query));
 	}
 }

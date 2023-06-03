@@ -11,6 +11,7 @@ import UnitActions from "./actions/UnitActions";
 import RowStat from "@src/Components/Grid/RowStat/RowStat";
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 import TableRow from "./components/TableRow/TableRow";
+import useHeight from "@src/modules/hooks/useHeight";
 
 interface Props {}
 
@@ -41,13 +42,26 @@ export default function Units(props: Props) {
 		unitActions.fetchData();
 	}, []);
 
+	const fileteredData = unitActions.filter();
+
+	const heightHandle = useHeight();
+
 	return (
-		<div className="mx-6">
-			<div className="w-full">
+		<div>
+			<div className="w-full" ref={heightHandle.ref}>
 				<TitleNavBar title={"Manage Units"} />
 			</div>
-			<div className={"p-7"}>
-				<Card variant="outlined" sx={{ padding: 5 }}>
+			<div
+				style={{
+					height: `calc(100vh - ${heightHandle.height})`,
+					// padding: 60,
+					paddingTop: 30,
+					overflow: "auto",
+				}}
+				className="bg-offWhite p-14"
+				
+			>
+				<Card variant="outlined" sx={{ padding: 5, borderRadius: "12px" }}>
 					<div>
 						<div className="crow mb-6">
 							<p className="subtitle fcolor-onyx">Total Units</p>
@@ -92,11 +106,11 @@ export default function Units(props: Props) {
 								]}
 							>
 								<RowStat
-									isEmpty={state.unitList.length === 0}
+									isEmpty={fileteredData.length === 0}
 									asyncState={state.loading.fetch}
 									colSpan={4}
 								>
-									{state.unitList.map((v, i) => (
+									{fileteredData.map((v, i) => (
 										<TableRow data={v} key={i} />
 									))}
 								</RowStat>

@@ -26,4 +26,8 @@ export default class AddUnitActions extends ServerStateUtils<
 			})
 		);
 	}
+	
+	filter() {
+		
+	}
 }

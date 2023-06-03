@@ -13,6 +13,7 @@ import React, { useState, useRef } from "react";
 import AddUnitActions from "./actions/AddUnitActions";
 import checkNameUnique from "./fetch/services/checkNameUnique";
 import LoadingBoundary from "@src/Components/common/LoadingBoundary/LoadingBoundary";
+import AsyncProcessBoundary from "@src/Components/feedback/AsyncProcessBoundary/AsyncProcessBoundary";
 
 interface Props {
 	refresh: () => void;
@@ -32,7 +33,7 @@ export default function AddUnit(props: Props) {
 	const handle = useRef<Record<string, SetHandleProps>>({});
 	const setHandle = (name: string) => {
 		const fn: SetHandle = (d) => {
-			handle.current[name] = d
+			handle.current[name] = d;
 		};
 		return fn;
 	};
@@ -52,7 +53,16 @@ export default function AddUnit(props: Props) {
 
 	return (
 		<PopUpContainer>
-			<LoadingBoundary asyncState={state.loading.save}>
+			<AsyncProcessBoundary
+				asyncStates={[state.loading.save]}
+				primaryAction={{
+					onClick: () => {
+						props.close();
+						props.refresh();
+					},
+					label: undefined,
+				}}
+			>
 				<FormContainer>
 					<div className="mb-8">
 						<FormHeader
@@ -111,9 +121,11 @@ export default function AddUnit(props: Props) {
 							save();
 						}}
 						label={"Save"}
+						loading={state.loading.save.status === "initialized"}
+						disabled={state.loading.save.status === "initialized"}
 					/>
 				</FormContainer>
-			</LoadingBoundary>
+			</AsyncProcessBoundary>
 		</PopUpContainer>
 	);
 }
