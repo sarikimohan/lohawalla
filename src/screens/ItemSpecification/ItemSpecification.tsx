@@ -25,6 +25,8 @@ import AddProductForm, {
 } from "@src/forms/AddProduct/AddProductForm";
 import AsyncProcessBoundary from "@src/Components/feedback/AsyncProcessBoundary/AsyncProcessBoundary";
 import LoadingWidget from "@src/Components/widget/LoadingWidget/LoadingWidget";
+import EditItem from "@src/forms/EditItem/EditItem";
+import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAndScale";
 
 const ItemSpecificationContext = React.createContext({});
 
@@ -53,6 +55,7 @@ function ItemSpecification() {
 			fetchGrid: AsyncStateFactory(),
 		},
 		showForm: false,
+		showEditForm: false,
 		refresh: false,
 	});
 
@@ -148,9 +151,22 @@ function ItemSpecification() {
 										{state.categoryName}
 									</p>
 								</div>
-								<div onClick={() => {}}>
-									<AssetIndex.EditSquare />
-								</div>
+								<RotateAndScale
+									config={{
+										rotate: 0,
+									}}
+								>
+									<div
+										className="cursor-pointer"
+										onClick={() => {
+											itemSpecActions.mutateState((p) => {
+												p.showEditForm = true;
+											});
+										}}
+									>
+										<AssetIndex.EditSquare />
+									</div>
+								</RotateAndScale>
 							</div>
 							<div className={style.descriptionContainer + " mb-6"}>
 								<p className="pretitle fcolor-text-subtitle mb-1">
@@ -261,6 +277,21 @@ function ItemSpecification() {
 							});
 						}}
 						selected={selected}
+					/>
+				)}
+				{state.showEditForm && (
+					<EditItem
+						refresh={function (): void {
+							itemSpecActions.mutateState((p) => {
+								p.refresh = !p.refresh;
+							});
+						}}
+						close={function (): void {
+							itemSpecActions.mutateState((p) => {
+								p.showEditForm = false;
+							});
+						}}
+						id={pid}
 					/>
 				)}
 			</ItemSpecificationContext.Provider>

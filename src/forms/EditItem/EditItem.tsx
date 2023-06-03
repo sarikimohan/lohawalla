@@ -13,8 +13,14 @@ import {
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 import ValueChange from "@src/modules/ValueChange/ValueChangeImpl";
 import { PIUnitInput } from "@src/Components/special/UnitInput/UnitInput";
+import AsyncProcessBoundary from "@src/Components/feedback/AsyncProcessBoundary/AsyncProcessBoundary";
+import LoadingBoundary from "@src/Components/common/LoadingBoundary/LoadingBoundary";
 
-interface Props {}
+interface Props {
+	refresh: () => void;
+	close: () => void;
+	id: string;
+}
 
 interface ContextProps {
 	id: string;
@@ -51,6 +57,8 @@ export default function EditItem(props: Props) {
 		descriptionLabels: [],
 		loading: {
 			saveData: AsyncStateFactory(),
+			fetch: AsyncStateFactory(),
+			fetchUnits: AsyncStateFactory(),
 		},
 		validation: true,
 		triggerSubmit: false,
@@ -59,7 +67,7 @@ export default function EditItem(props: Props) {
 		unit: null,
 	});
 
-	const id = "6477efcf6defd8464791357d";
+	const id = props.id;
 
 	const editItemFormActions = new EditItemActions(state, setState);
 	const handle = useRef<Record<string, SetHandleProps>>({});
@@ -89,21 +97,38 @@ export default function EditItem(props: Props) {
 			}}
 		>
 			<PopUpContainer>
-				<FormContainer>
-					<div className="mb-5">
-						<FormHeader
-							navBack={function (): void {}}
-							close={function (): void {}}
-							heading={"Item"}
-							preHeading={"Edit"}
-						/>
-					</div>
-					<div>
-						<FirstPart />
-						<SecondPart />
-						<ThirdPart />
-					</div>
-				</FormContainer>
+				<AsyncProcessBoundary
+					asyncStates={[state.loading.saveData, state.loading.fetchUnits]}
+					primaryAction={{
+						onClick: () => {
+							props.close();
+							props.refresh();
+						},
+						label: undefined,
+					}}
+				>
+					<FormContainer>
+						<div className="mb-5">
+							<FormHeader
+								navBack={function (): void {
+									props.close();
+								}}
+								close={function (): void {
+									props.close();
+								}}
+								heading={"Item"}
+								preHeading={"Edit"}
+							/>
+						</div>
+						<LoadingBoundary asyncState={state.loading.fetch}>
+							<div>
+								<FirstPart />
+								<SecondPart />
+								<ThirdPart />
+							</div>
+						</LoadingBoundary>
+					</FormContainer>
+				</AsyncProcessBoundary>
 			</PopUpContainer>
 		</EditItemContext.Provider>
 	);

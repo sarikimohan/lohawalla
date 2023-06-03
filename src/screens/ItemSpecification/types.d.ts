@@ -20,6 +20,7 @@ namespace ItemSpecification {
 		filter: Filter;
 		images: string[];
 		showForm: boolean;
+		showEditForm: boolean;
 		refresh: boolean;
 
 		loading: {
