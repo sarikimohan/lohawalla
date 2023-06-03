@@ -9,7 +9,7 @@ export default class ProdSpecActions
 	implements ProductSpecification.Actions
 {
 	async fetch(id: string) {
-		const res = await this.handleAsync("fetchSpecData", () =>
+		const res = await this.handleAsync("fetch", () =>
 			fetchProductSpecification(id)
 		);
 		if (res) {

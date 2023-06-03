@@ -23,7 +23,6 @@
 
 .col_1 {
   flex-basis: 50%;
-  padding-right: 50px;
 }
 
 .col_2 {
@@ -33,6 +32,7 @@
 .descriptionContainer {
   max-width: 470px;
   width: fit-content;
+  background-color: white;
 }
 
 .descriptionCard {
@@ -40,6 +40,7 @@
   border-radius: 8px;
   max-width: 500px;
   padding: 8px;
+  background-color: white;
 }
 
 .descriptionBanner {
