@@ -1,12 +1,12 @@
 namespace CompanySpecification {
 	interface CompanyProduct {
-    _id: string;
-    srNo: number;
-    company: {
-      imageURL: string;
-      name: string;
-    };
-    companyProductName: string;
+		_id: string;
+		srNo: number;
+		company: {
+			imageURL: string;
+			name: string;
+		};
+		companyProductName: string;
 	}
 
 	interface State {
@@ -25,7 +25,8 @@ namespace CompanySpecification {
 		filter: Filter;
 		images: string[];
 		loading: {
-			fetch: AsyncState
+			fetch: AsyncState;
+			fetchList: AsyncState;
 		};
 		show: boolean;
 		refresh: boolean;

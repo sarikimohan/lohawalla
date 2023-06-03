@@ -12,6 +12,7 @@ namespace CategoryViewMargin {
 	}
 	interface State {
 		data: ItemMarginGridData[];
-		loading: Record<string, AsyncState>
+		loading: Record<string, AsyncState>;
+		query: string;
 	}
 }

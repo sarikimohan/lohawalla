@@ -1,5 +1,6 @@
 import { ServerStateUtils } from "@src/modules/StateManagement/Core/StateUtils";
 import fetchCatNoItems from "../fetch/services/fetchCatNoItems";
+import isPrefix from "@src/modules/Utils/isPrefix";
 
 export default class ServerActions extends ServerStateUtils<
 	StateWithLoading<CategoryNumberOfItems.State>
@@ -41,6 +42,15 @@ export default class ServerActions extends ServerStateUtils<
 	refresh() {
 		this.mutateState((p) => {
 			p.refresh = !p.refresh;
+		});
+	}
+
+	filter() {
+		if (this.state.query.trim().length === 0) {
+			return this.state.grid;
+		}
+		return this.state.grid.filter((v) => {
+			isPrefix(v.itemName.name.trim(), this.state.query.trim());
 		});
 	}
 }

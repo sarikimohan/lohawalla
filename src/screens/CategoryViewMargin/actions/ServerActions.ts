@@ -2,6 +2,7 @@ import { ServerStateUtils } from "@src/modules/StateManagement/Core/StateUtils";
 import fetchViewMargin from "../fetch/services/fetchViewMargin";
 import saveViewMargin from "../fetch/services/saveViewMargin";
 import { FieldDataService, Validators } from "@src/modules/FieldData/FieldData";
+import isPrefix from "@src/modules/Utils/isPrefix";
 
 export class ServerActions extends ServerStateUtils<CategoryViewMargin.State> {
 	async fetch(id: string) {
@@ -72,5 +73,13 @@ export class ServerActions extends ServerStateUtils<CategoryViewMargin.State> {
 				by,
 			})
 		);
+	}
+
+	filter() {
+		const query = this.state.query.trim();
+
+		if (query.length === 0) return this.state.data;
+
+		return this.state.data.filter((v) => isPrefix(v.itemName.name, query));
 	}
 }

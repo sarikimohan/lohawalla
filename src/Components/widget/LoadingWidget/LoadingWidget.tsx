@@ -1,7 +1,9 @@
 import { CircularProgress, LinearProgress } from "@mui/material";
 import React from "react";
 
-export interface RILoadingWidget {}
+export interface RILoadingWidget {
+	height?: number|string;
+}
 
 export namespace PILoadingWidget {}
 
@@ -9,7 +11,7 @@ export default function LoadingWidget(props: RILoadingWidget) {
 	return (
 		<div
 			className="h-full w-full flex justify-center items-center"
-			style={{ minHeight: "100vh" }}
+			style={{ minHeight: props.height ? props.height : "100vh" }}
 		>
 			<div
 				className="rounded-xl shadow-xl border flex flex-col justify-center items-center "

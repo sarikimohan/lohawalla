@@ -15,6 +15,9 @@ import BackNavBar from "@src/Components/common/NavBar/BackNavBar";
 import setActiveCompany from "./fetch/services/setActiveCompany";
 import { useAuthGuardContext } from "@src/auth/AuthGuard/AuthGuard";
 import AddItem from "@src/forms/AddItem/AddItem";
+import useHeight from "@src/modules/hooks/useHeight";
+import LoadingWidget from "@src/Components/widget/LoadingWidget/LoadingWidget";
+import RowStat from "@src/Components/Grid/RowStat/RowStat";
 
 interface Props {}
 
@@ -34,6 +37,7 @@ export default function CategoryNumberOfItems(props: Props) {
 		},
 		refresh: false,
 		showAddItem: false,
+		query: "",
 	});
 
 	const { id } = useParams();
@@ -48,78 +52,104 @@ export default function CategoryNumberOfItems(props: Props) {
 		}
 	}, [state.refresh]);
 
+	const heightHandle = useHeight();
+	const gridData = categoryNumberOfItemsActions.filter();
+
 	return (
-		<div className="mx-6">
-			<div className="w-full">
+		<div>
+			<div className="w-full" ref={heightHandle.ref}>
 				<BackNavBar title={"Category / Number of Item"} />
 			</div>
-			<div className={"p-7"}>
-				<LoadingBoundary asyncState={state.loading.fetch}>
-					<Card variant="outlined" sx={{ padding: 5 }}>
-						<div>
-							<div className="crow mb-6">
-								<p className="subtitle fcolor-onyx">Number Of Items ()</p>
-							</div>
-							<div className="crow mb-6 sb">
-								<div className="d-flex vc">
-									<div className="mr-4">
-										<SearchBar onChange={(e) => {}} />
+			<LoadingBoundary
+				asyncState={state.loading.fetch}
+				loadingWidget={
+					<LoadingWidget height={`calc(100vh - ${heightHandle.height}px)`} />
+				}
+			>
+				<div
+					className="bg-offWhite"
+					style={{
+						height: `calc(100vh - ${heightHandle.height}px)`,
+						overflow: "auto",
+						padding: 40,
+						paddingTop: 20,
+					}}
+				>
+					<div className="p-7">
+						<Card variant="outlined" sx={{ padding: 5, borderRadius: "12px" }}>
+							<div>
+								<div className="crow mb-6">
+									<p className="subtitle fcolor-onyx">Number Of Items ()</p>
+								</div>
+								<div className="crow mb-6 sb">
+									<div className="d-flex vc">
+										<div className="mr-4">
+											<SearchBar
+												onChange={(e) => {
+													categoryNumberOfItemsActions.mutateState((p) => {
+														p.query = e;
+													});
+												}}
+											/>
+										</div>
+										<div>
+											<SearchFilters options={[]} onItemClick={() => {}} />
+										</div>
 									</div>
 									<div>
-										<SearchFilters options={[]} onItemClick={() => {}} />
+										<div className="flex">
+											<div className="mr-2">
+												<Link to={"/categories/viewMargin/" + id}>
+													<DefaultButton
+														onClick={function (): void {}}
+														label={"view margin"}
+													/>
+												</Link>
+											</div>
+											<DefaultButton
+												onClick={function (): void {
+													categoryNumberOfItemsActions.mutateState((p) => {
+														p.showAddItem = true;
+													});
+												}}
+												label={"+ add items"}
+											/>
+										</div>
 									</div>
 								</div>
 								<div>
-									<div className="flex">
-										<div className="mr-2">
-											<Link to={"/categories/viewMargin/" + id}>
-												<DefaultButton
-													onClick={function (): void {}}
-													label={"view margin"}
+									<DefaultGrid
+										columns={[
+											{
+												name: "sr no",
+												width: 100,
+											},
+											"item name",
+											"price",
+											"no of companies",
+											"active company",
+											"inactive company",
+										]}
+									>
+										{gridData.map((v, i) => (
+											<RowStat colSpan={6} isEmpty={gridData.length === 0}>
+												<TableRow
+													data={v}
+													onClick={() => {
+														categoryNumberOfItemsActions.showForm(
+															v._id,
+															v.inactiveCompany,
+															v.activeCompany
+														);
+													}}
 												/>
-											</Link>
-										</div>
-										<DefaultButton
-											onClick={function (): void {
-												categoryNumberOfItemsActions.mutateState((p) => {
-													p.showAddItem = true;
-												});
-											}}
-											label={"+ add items"}
-										/>
-									</div>
+											</RowStat>
+										))}
+									</DefaultGrid>
 								</div>
 							</div>
-							<div>
-								<DefaultGrid
-									columns={[
-										{
-											name: "sr no",
-											width: 100,
-										},
-										"item name",
-										"price",
-										"no of companies",
-										"active company",
-										"inactive company",
-									]}
-								>
-									{state.grid.map((v, i) => (
-										<TableRow
-											data={v}
-											onClick={() => {
-												categoryNumberOfItemsActions.showForm(
-													v._id,
-													v.inactiveCompany,
-													v.activeCompany
-												);
-											}}
-										/>
-									))}
-								</DefaultGrid>
-							</div>
-						</div>
-					</Card>
+						</Card>
+					</div>
 					{state.showForm.status && (
 						<SetActiveCompany
 							id={state.showForm.id}
@@ -153,8 +183,8 @@ export default function CategoryNumberOfItems(props: Props) {
 							categoryId={id}
 						/>
 					)}
-				</LoadingBoundary>
-			</div>
+				</div>
+			</LoadingBoundary>
 		</div>
 	);
 }

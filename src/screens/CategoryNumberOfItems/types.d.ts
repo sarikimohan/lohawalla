@@ -29,6 +29,6 @@ namespace CategoryNumberOfItems {
 		};
 		refresh: boolean;
 		showAddItem: boolean;
-		
+		query: string;
 	}
 }
