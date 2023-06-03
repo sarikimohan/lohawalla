@@ -30,6 +30,7 @@ namespace CompanySpecification {
 		};
 		show: boolean;
 		refresh: boolean;
+		showEditForm: boolean;
 	}
 
 	interface Actions {

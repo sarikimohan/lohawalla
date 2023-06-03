@@ -18,6 +18,7 @@ import ValueChange from "@src/modules/ValueChange/ValueChangeImpl";
 import EditCompanyActions from "./managment/actions/EditCompanyActions";
 import { useAuthGuardContext } from "@src/auth/AuthGuard/AuthGuard";
 import AsyncProcessBoundary from "@src/Components/feedback/AsyncProcessBoundary/AsyncProcessBoundary";
+import LoadingBoundary from "@src/Components/common/LoadingBoundary/LoadingBoundary";
 
 export enum Groups {
 	plain = "plain",
@@ -26,7 +27,11 @@ export enum Groups {
 	descEntry = "descEntry",
 }
 
-interface Props {}
+interface Props {
+	close: () => void;
+	refresh: () => void;
+	id: string;
+}
 
 interface ContextProps {
 	state: StateWithLoading<EditCompany.State>;
@@ -39,7 +44,7 @@ const EditCompanyContext = React.createContext({} as ContextProps);
 export const useEditCompanyContext = () => useContext(EditCompanyContext);
 
 export default function EditCompany(props: Props) {
-	const id = "64788315acfbe9a997f514c5";
+	const id = props.id;
 	const { user } = useAuthGuardContext();
 
 	const handle = useRef<Record<string, Record<string, SetHandleProps>>>({
@@ -157,7 +162,11 @@ export default function EditCompany(props: Props) {
 				<AsyncProcessBoundary
 					asyncStates={[state.loading.save, state.loading.saveImages]}
 					primaryAction={{
-						onClick: undefined,
+						onClick: () => {
+							props.close();
+							props.refresh();
+							
+						},
 						label: undefined,
 					}}
 				>
@@ -165,44 +174,46 @@ export default function EditCompany(props: Props) {
 						<div className="mb-5">
 							<FormHeader
 								navBack={function (): void {
-									throw new Error("Function not implemented.");
+									props.close();
 								}}
 								close={function (): void {
-									throw new Error("Function not implemented.");
+									props.close();
 								}}
 								heading={"Company"}
 								preHeading={"Edit"}
 							/>
 						</div>
-						<div>
-							<FirstPart />
-							<div className="my-5">
-								<Divider />
+						<LoadingBoundary asyncState={state.loading.fetch}>
+							<div>
+								<FirstPart />
+								<div className="my-5">
+									<Divider />
+								</div>
+								<SecondPart />
+								<div className="my-5">
+									<Divider />
+								</div>
+								<ThirdPart />
 							</div>
-							<SecondPart />
-							<div className="my-5">
-								<Divider />
+							<div className="mt-5">
+								<DefaultButton
+									onClick={function (): void {
+										validate().then((v) => {
+											console.log(v);
+											if (v) {
+												editCompanyActions.save(id, user);
+											}
+										});
+									}}
+									label={"SAVE"}
+									loading={
+										state.loading.save.status === "initialized" ||
+										state.loading.saveImages.status === "initialized"
+									}
+									loadingColor={"white"}
+								/>
 							</div>
-							<ThirdPart />
-						</div>
-						<div className="mt-5">
-							<DefaultButton
-								onClick={function (): void {
-									validate().then((v) => {
-										console.log(v);
-										if (v) {
-											editCompanyActions.save(id, user);
-										}
-									});
-								}}
-								label={"SAVE"}
-								loading={
-									state.loading.save.status === "initialized" ||
-									state.loading.saveImages.status === "initialized"
-								}
-								loadingColor={"white"}
-							/>
-						</div>
+						</LoadingBoundary>
 					</FormContainer>
 				</AsyncProcessBoundary>
 			</PopUpContainer>

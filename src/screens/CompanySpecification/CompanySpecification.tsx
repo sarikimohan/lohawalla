@@ -19,6 +19,8 @@ import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStat
 import AddProductForm from "@src/forms/AddProduct/AddProductForm";
 import LoadingBoundary from "@src/Components/common/LoadingBoundary/LoadingBoundary";
 import LoadingWidget from "@src/Components/widget/LoadingWidget/LoadingWidget";
+import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAndScale";
+import EditCompany from "@src/forms/EditCompany/EditCompany";
 
 const CompanySpecificationContext = React.createContext({});
 
@@ -46,12 +48,13 @@ function CompanySpecification() {
 		},
 		refresh: true,
 		show: false,
+		showEditForm: false,
 	});
 	const companySpecActions = new CompanySpecActions(state, setState);
 
 	useEffect(() => {
 		companySpecActions.fetch(id as string);
-	}, []);
+	}, [state.refresh]);
 
 	useEffect(() => {
 		companySpecActions.fetchAllCompanyItem(id as string);
@@ -138,14 +141,18 @@ function CompanySpecification() {
 										{state.companyName}
 									</p>
 								</div>
-								<div onClick={() => {}}>
-									<AssetIndex.EditSquare />
-								</div>
+								<RotateAndScale config={{ rotate: 0, scale: 1.1 }}>
+									<div
+										onClick={() => {
+											companySpecActions.mutateState((p) => {
+												p.showEditForm = true;
+											});
+										}}
+									>
+										<AssetIndex.EditSquare />
+									</div>
+								</RotateAndScale>
 							</div>
-							{/* <div className={style.descriptionContainer + " mb-3"}>
-							<p className="pretitle fcolor-text-subtitle mb-1">TYPE</p>
-							<p className="body fw-bold fcolor-text-body">STEEL INDUSTRY</p>
-						</div> */}
 							<div className={style.descriptionContainer + " mb-5"}>
 								<p className="pretitle fcolor-text-subtitle mb-1">
 									DESCRIPTION
@@ -249,6 +256,21 @@ function CompanySpecification() {
 								name: state.companyName,
 							},
 						}}
+					/>
+				)}
+				{state.showEditForm && (
+					<EditCompany
+						close={function (): void {
+							companySpecActions.mutateState((p) => {
+								p.showEditForm = false;
+							});
+						}}
+						refresh={function (): void {
+							companySpecActions.mutateState((p) => {
+								p.refresh = !p.refresh;
+							});
+						}}
+						id={id}
 					/>
 				)}
 			</CompanySpecificationContext.Provider>
