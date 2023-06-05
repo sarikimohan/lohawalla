@@ -54,7 +54,7 @@ export default class CreditCalculator extends StateUtils<
 			let gstShare =
 				GST.type === "percentage"
 					? (GST.value / 100) * _.taxableValue
-					: GST.value + _.taxableValue;
+					: GST.value;
 
 			_.netTotal = getRoundedNumber(gstShare + _.taxableValue);
 		});
@@ -76,7 +76,7 @@ export default class CreditCalculator extends StateUtils<
 			let gstShare =
 				GST.type === "percentage"
 					? (GST.value / 100) * _.taxableValue
-					: GST.value + _.taxableValue;
+					: GST.value;
 
 			_.netTotal = getRoundedNumber(gstShare + _.taxableValue);
 		});
@@ -102,7 +102,7 @@ export default class CreditCalculator extends StateUtils<
 				let gstShare =
 					GST.type === "percentage"
 						? (GST.value / 100) * _.taxableValue
-						: GST.value + _.taxableValue;
+						: GST.value;
 				_.netTotal = getRoundedNumber(gstShare + _.taxableValue);
 			}
 		});

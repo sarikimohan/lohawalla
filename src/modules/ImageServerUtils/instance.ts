@@ -1,7 +1,7 @@
 import AxiosFactory from "../axios/AxiosFactory";
 
 const ImageInstance = AxiosFactory.createInstance({
-	baseURL: "images/",
+	baseURL: "imageService/",
 });
 
 export default ImageInstance;

@@ -18,8 +18,8 @@ interface AuthProps {
 interface LoginData {
 	success: boolean;
 	userId: string;
-	createdAt: Date;
-	maxAge: Date;
+	createdAt: number;
+	maxAge: number;
 	role: RoleIndex;
 	token: string;
 	name: string;
@@ -38,28 +38,32 @@ export default function AuthGuard(props: Props) {
 
 	const [state, setState] = useState<LoginData>({} as LoginData);
 
-	const [isLoggedIn, setIsLoggedIn] = useState(true);
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
 
 	useEffect(() => {
 		// TODO validate the token from the server
 		const token = localStorage.getItem("userData");
-		// if (token) {
-		// 	const tokenObj = JSON.parse(token) as LoginData;
+		if (token) {
+			const tokenObj = JSON.parse(token) as LoginData;
 
-		// 	setState(tokenObj);
+			if (tokenObj.createdAt < new Date().getTime()) {
+				localStorage.removeItem("userData");
+			}
 
-		// 	setIsLoggedIn(true);
+			setState(tokenObj);
 
-		// 	setUserDetails({
-		// 		userId: tokenObj.userId,
-		// 		name: tokenObj.name,
-		// 	});
-		// }
+			setIsLoggedIn(true);
 
-		setUserDetails({
-			userId: "646cee6bcd9d75a02a8172f6",
-			name: "snehal",
-		});
+			setUserDetails({
+				userId: tokenObj.userId,
+				name: tokenObj.name,
+			});
+		}
+
+		// setUserDetails({
+		// 	userId: "646cee6bcd9d75a02a8172f6",
+		// 	name: "snehal",
+		// });
 	}, []);
 
 	if (isLoggedIn) {

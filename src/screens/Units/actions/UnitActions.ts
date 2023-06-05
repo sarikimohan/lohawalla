@@ -8,7 +8,6 @@ export default class UnitActions
 	extends ServerStateUtils<Unit.State>
 	implements Unit.Actions
 {
-	// TODO
 	saveChanges() {}
 	async fetchData() {
 		const res = await this.handleAsync("fetch", () => fetchUnits());

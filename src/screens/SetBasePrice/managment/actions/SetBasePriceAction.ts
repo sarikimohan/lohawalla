@@ -19,7 +19,6 @@ export default class SetBasePriceAction
 	extends ServerStateUtils<SetBasePrice.State>
 	implements SetBasePrice.Actions
 {
-	// TODO fetch the values
 	async fetch() {
 		const res = await this.handleAsync("fetch", () => getBasePriceList());
 		if (res) {
@@ -32,7 +31,6 @@ export default class SetBasePriceAction
 		}
 	}
 
-	// TODO save the values
 	async save(by: NameIdPair) {
 		const d: PostData = {
 			list: this.state.setList

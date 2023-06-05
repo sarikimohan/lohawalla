@@ -289,8 +289,7 @@ function CategorySpecification() {
 								p.refresh = !p.refresh;
 							});
 						}}
-						// TODO add a check
-						categoryId={id as string}
+						categoryId={id}
 					/>
 				)}
 				{state.showEditForm && (

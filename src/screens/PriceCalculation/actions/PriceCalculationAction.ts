@@ -9,7 +9,6 @@ function getValForOperation(a: number, operation: OpType) {
 	return a;
 }
 
-//* TODO set the initial state in server inflation of state
 export default class PriceCalculationAction extends ServerStateUtils<
 	StateWithLoading<PriceCalculation.State>
 > {
