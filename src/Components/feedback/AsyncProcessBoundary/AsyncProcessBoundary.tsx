@@ -1,10 +1,18 @@
 import React from "react";
 import ErrorCard, { ErrorCardProps } from "../ErrorCard/ErrorCard";
+import StatusPreview, {
+	StatusPreviewMessageFormat,
+} from "./component/StatusPreview/StatusPreview";
+import getGatedValue from "./services/getGatedValue";
 
 interface Props {
 	asyncStates: AsyncState[];
 	children?: React.ReactNode;
 	primaryAction: {
+		onClick?: () => void;
+		label?: string;
+	};
+	secondaryAction?: {
 		onClick?: () => void;
 		label?: string;
 	};
@@ -15,25 +23,49 @@ export default function AsyncProcessBoundary({
 	children,
 	...props
 }: Props) {
-	const hasFailed = asyncStates.reduce(
-		(a, c) => a || c.status === "failed",
-		false
-	);
-	const hasPassed = asyncStates.reduce(
-		(a, c) => a && c.status === "success",
-		true
-	);
+	const status = {
+		showCard: false,
+		hasSomeErrors: false,
+		hasAllErrors: false,
+	};
 
-	console.log(asyncStates);
+	const messages: StatusPreviewMessageFormat[] = [];
 
-	const [failedMessages, successMessages] = [
-		asyncStates.filter((v) => v.status === "failed").map((v) => v.message),
-		asyncStates.filter((v) => v.status === "success").map((v) => v.message),
-	];
+	let count = 0;
+	for (let as of asyncStates) {
+		if (as.status === "failed") {
+			count++;
+			status.hasSomeErrors = true;
+		}
+		messages.push({ status: as.status, message: as.message });
+	}
 
-	if (hasFailed) {
-		return <ErrorCard messages={failedMessages} {...props} />;
-	} else if (hasPassed) {
-		return <ErrorCard turnToSuccess messages={successMessages} {...props} />;
-	} else return <>{children}</>;
+	if (count !== 0 && count === asyncStates.length) {
+		status.hasAllErrors = true;
+	}
+
+	if (status.showCard) {
+		return (
+			<StatusPreview
+				heading={getGatedValue<"Success" | "Warning" | "Error">([
+					{
+						value: "Success",
+						gate: !status.hasAllErrors && !status.hasSomeErrors,
+					},
+					{
+						value: "Warning",
+						gate: status.hasSomeErrors && !status.hasAllErrors,
+					},
+					{
+						value: "Error",
+						gate: status.hasAllErrors,
+					},
+				])}
+				messages={[]}
+				{...props}
+			/>
+		);
+	}
+
+	return <>{children}</>;
 }
