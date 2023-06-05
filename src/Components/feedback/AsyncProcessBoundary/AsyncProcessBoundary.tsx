@@ -61,7 +61,7 @@ export default function AsyncProcessBoundary({
 						gate: status.hasAllErrors,
 					},
 				])}
-				messages={[]}
+				messages={messages}
 				{...props}
 			/>
 		);
