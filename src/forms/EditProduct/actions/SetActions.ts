@@ -23,6 +23,11 @@ export default class SetActions extends StateUtils<EditProduct.State> {
 			p.gst.type = type;
 		});
 	}
+	setGstValue(value: string) {
+		this.mutateState((p) => {
+			p.gst.value.value = value;
+		});
+	}
 	setDescription(desc: string) {
 		this.mutateState((p) => {
 			p.description.value = desc;

@@ -24,13 +24,14 @@ import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAn
 import AssetIndex from "@src/assets/AssetIndex";
 import { motion } from "framer-motion";
 import DeleteIcon from "@mui/icons-material/Delete";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ImageSmall from "@src/Components/common/ImageSmall/ImageSmall";
 import FormFileUploadHeader from "@src/Components/forms/FormFileUploadHeader/FormFileUploadHeader";
 import FormFileUpload from "@src/Components/forms/FormFileUpload/FormFileUpload";
 import { FieldDataService } from "@src/modules/FieldData/FieldData";
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 import SetActions from "./actions/SetActions";
+import ServerActions from "./actions/ServerActions";
 
 export interface RIEditProduct {}
 
@@ -88,10 +89,17 @@ export default function EditProduct(props: RIEditProduct) {
 			key: FieldDataService.getDefaultField(),
 			value: FieldDataService.getDefaultField(),
 		},
-		loading: {},
+		loading: {
+			fetch: AsyncStateFactory(),
+		},
 	});
 
 	const setActions = new SetActions(state, setState);
+	const serverActions = new ServerActions(state, setState);
+
+	useEffect(() => {
+		serverActions.fetch("647aab74256d9f964aa4069d");
+	}, []);
 
 	return (
 		<PopUpContainer>
@@ -263,6 +271,8 @@ export default function EditProduct(props: RIEditProduct) {
 												<td>
 													<div className="p-2 pl-6">
 														<FieldInput
+															disabled={v.isFixed}
+															{...v.value}
 															onChange={(d) => {
 																setActions.editPriceStructure(
 																	d.target.value,
@@ -458,6 +468,10 @@ export default function EditProduct(props: RIEditProduct) {
 									</div>
 									<div className="basis-2/5">
 										<FieldInput
+											{...state.gst.value}
+											onChange={(e) => {
+												setActions.setGstValue(e.target.value);
+											}}
 											type={"number"}
 											placeHolder={"enter value"}
 											rightIcon={state.gst.type === "numeric" ? "₹" : "%"}
@@ -476,6 +490,7 @@ export default function EditProduct(props: RIEditProduct) {
 						<div className="mb-4">
 							<DefaultFormLabel className="mb-2">Description</DefaultFormLabel>
 							<FieldTextArea
+								{...state.description}
 								onChange={(d) => {
 									setActions.setDescription(d.target.value);
 								}}
@@ -585,7 +600,9 @@ export default function EditProduct(props: RIEditProduct) {
 						</Card>
 					</Card>
 					<div className="mt-5">
-						<DefaultButton onClick={function (): void {}} label={"Save"} />
+						<DefaultButton onClick={function (): void {
+
+						}} label={"Save"} />
 					</div>
 				</div>
 			</FormContainer>
