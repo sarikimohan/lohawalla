@@ -42,31 +42,31 @@ export default function AuthGuard(props: Props) {
 
 	useEffect(() => {
 		// TODO validate the token from the server
-		const token = localStorage.getItem("userData");
-		if (token) {
-			const tokenObj = JSON.parse(token) as LoginData;
+		// const token = localStorage.getItem("userData");
+		// if (token) {
+		// 	const tokenObj = JSON.parse(token) as LoginData;
 
-			if (tokenObj.createdAt < new Date().getTime()) {
-				localStorage.removeItem("userData");
-			}
+		// 	if (tokenObj.createdAt < new Date().getTime()) {
+		// 		localStorage.removeItem("userData");
+		// 	}
 
-			setState(tokenObj);
+		// 	setState(tokenObj);
 
-			setIsLoggedIn(true);
+		// 	setIsLoggedIn(true);
 
-			setUserDetails({
-				userId: tokenObj.userId,
-				name: tokenObj.name,
-			});
-		}
+		// 	setUserDetails({
+		// 		userId: tokenObj.userId,
+		// 		name: tokenObj.name,
+		// 	});
+		// }
 
-		// setUserDetails({
-		// 	userId: "646cee6bcd9d75a02a8172f6",
-		// 	name: "snehal",
-		// });
+		setUserDetails({
+			userId: "646cee6bcd9d75a02a8172f6",
+			name: "snehal",
+		});
 	}, []);
 
-	if (isLoggedIn) {
+	if (isLoggedIn || true) {
 		return (
 			<AuthGuardContext.Provider
 				value={{
