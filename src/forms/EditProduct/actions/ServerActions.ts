@@ -1,6 +1,10 @@
 import { ServerStateUtils } from "@src/modules/StateManagement/Core/StateUtils";
 import fetchPreData from "../fetch/services/fetchPreData";
 import { nanoid } from "nanoid";
+import saveEditData, {
+	EditCompanyProductData,
+} from "../fetch/services/saveEditData";
+import SaveImage from "@src/modules/ImageServerUtils/services/SaveImage";
 
 export default class ServerActions extends ServerStateUtils<EditProduct.State> {
 	async fetch(id: string) {
@@ -37,5 +41,39 @@ export default class ServerActions extends ServerStateUtils<EditProduct.State> {
 				value: { value: v.value },
 			}));
 		});
+	}
+
+	async save(id: string, by: NameIdPair) {
+		const _ = this.state;
+		const d: EditCompanyProductData = {
+			id,
+			description: _.description.value,
+			descriptionLabels: _.descriptionLabels.map((v, i) => ({
+				key: v.key,
+				value: v.value.value,
+				position: i,
+			})),
+			images: _.images.filter((v) => !v.deleted).map((v) => v.link),
+			deletedImages: _.images.filter((v) => v.deleted).map((v) => v.link),
+			priceField: _.priceStructure
+				.filter((v) => v.value.hasChanged)
+				.map((v) => ({ id: v._id, value: parseFloat(v.value.value) })),
+			by,
+			gst: {
+				type: _.gst.type,
+				value: parseFloat(_.gst.value.value),
+			},
+		};
+
+		if (_.imageFiles && _.imageFiles.length !== 0) {
+			const res = await this.handleAsync("saveImages", () =>
+				SaveImage(_.imageFiles)
+			);
+			if(res) {
+				d.images = d.images.concat(res.data);
+			}
+		}
+
+		await this.handleAsync("save", () => saveEditData(d));
 	}
 }

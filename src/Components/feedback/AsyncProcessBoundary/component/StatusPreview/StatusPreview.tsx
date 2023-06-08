@@ -40,7 +40,7 @@ export default function StatusPreview(props: StatusPreview) {
 					className={`text-xl font-bold letter-tight ${getGatedValue([
 						{ value: "text-green-500", gate: heading === "Success" },
 						{ value: "text-red-800", gate: heading === "Error" },
-						{ value: "amber-red-700", gate: heading === "Warning" },
+						{ value: "text-amber-700", gate: heading === "Warning" },
 					])} mb-3`}
 				>
 					{heading}
