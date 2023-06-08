@@ -37,7 +37,11 @@ import LoadingBoundary from "@src/Components/common/LoadingBoundary/LoadingBound
 import { useAuthGuardContext } from "@src/auth/AuthGuard/AuthGuard";
 import AsyncProcessBoundary from "@src/Components/feedback/AsyncProcessBoundary/AsyncProcessBoundary";
 
-export interface RIEditProduct {}
+export interface RIEditProduct {
+	onClose: () => void;
+	refresh: () => void;
+	id: string;
+}
 
 export namespace PIEditProduct {}
 
@@ -73,7 +77,7 @@ export default function EditProduct(props: RIEditProduct) {
 	});
 
 	const { user } = useAuthGuardContext();
-	const id = "647aab74256d9f964aa4069d";
+	const id = props.id;
 
 	const setActions = new SetActions(state, setState);
 	const serverActions = new ServerActions(state, setState);
@@ -100,18 +104,23 @@ export default function EditProduct(props: RIEditProduct) {
 						: undefined,
 				]}
 				primaryAction={{
-					onClick: undefined,
+					onClick: () => {
+						props.onClose();
+						props.refresh();
+					},
 					label: undefined,
 				}}
 			>
 				<FormContainer>
 					<div className="mb-8">
 						<FormHeader
-							navBack={() => {}}
+							navBack={() => {
+								props.onClose();
+							}}
 							heading={"Product"}
 							preHeading={"ADD"}
 							close={function (): void {
-								throw new Error("Function not implemented.");
+								props.onClose();
 							}}
 						/>
 					</div>

@@ -5,18 +5,25 @@ import style from "./ProductSpecification.module.css";
 import useHeight from "@src/modules/hooks/useHeight";
 import BackNavBar from "@src/Components/common/NavBar/BackNavBar";
 import ImagePreview from "@src/Components/common/ImagePreview/ImagePreview";
-import { InitialState } from "./managment/state/initialState";
 import ProdSpecActions from "./managment/actions/ProductSpecificationAction";
 import LoadingBoundary from "@src/Components/common/LoadingBoundary/LoadingBoundary";
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 import LoadingWidget from "@src/Components/widget/LoadingWidget/LoadingWidget";
+import EditProduct from "@src/forms/EditProduct/EditProduct";
 
 const ProductSpecificationContext = React.createContext({});
 
 function ProductSpecification() {
 	const { ref, height } = useHeight();
 	const [showForm, setShowForm] = useState(false);
+	const [refresh, setRefresh] = useState(false);
 	const { id } = useParams();
+	if (!id)
+		return (
+			<>
+				<p className="text-xl">id not found</p>
+			</>
+		);
 	const [state, setState] = useState<ProductSpecification.State>({
 		productName: "",
 		companyName: "",
@@ -39,9 +46,7 @@ function ProductSpecification() {
 
 	useEffect(() => {
 		prodSpecActions.fetch(id as string);
-	}, []);
-
-	console.log(state.descriptionLabels);
+	}, [refresh]);
 
 	return (
 		<LoadingBoundary
@@ -224,6 +229,17 @@ function ProductSpecification() {
 					</div>
 				</div>
 			</ProductSpecificationContext.Provider>
+			{showForm && (
+				<EditProduct
+					onClose={function (): void {
+						setShowForm(false);
+					}}
+					refresh={function (): void {
+						setRefresh((p) => !p);
+					}}
+					id={id}
+				/>
+			)}
 		</LoadingBoundary>
 	);
 }

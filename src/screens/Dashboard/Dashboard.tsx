@@ -70,7 +70,6 @@ function Dashboard() {
 						label: undefined,
 					}}
 				/> */}
-				<EditProduct />
 			</div>
 		</div>
 	);
