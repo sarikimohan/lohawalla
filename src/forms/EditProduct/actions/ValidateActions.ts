@@ -119,7 +119,6 @@ export default class ValidateActions extends StateUtils<EditProduct.State> {
 
 	validateFirstForm() {
 		const v = [
-			this.validateAddDescription(),
 			this.validatePriceStructure(),
 			this.validateGST(),
 			this.validateDescription(),
