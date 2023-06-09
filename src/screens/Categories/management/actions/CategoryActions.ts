@@ -25,20 +25,26 @@ export default class CategoryActions
 	 * The setters
 	 */
 	filterCategoryData(): Categories.CategoryGridData[] {
+		const query = this.state.filter.query.toLowerCase().trim();
+		if (query === "") return this.state.categoryList;
 		return this.state.categoryList.filter((v) => {
+			let verdict = false;
+
 			for (let filter of this.state.filter.filters) {
 				if (filter.isActive) {
-					const query = this.state.filter.query.toLowerCase().trim();
-					if (filter.name === "category name") {
-						if (isPrefix(v.categoryName.name.toLowerCase(), query)) return true;
+					if (filter.id === "cname") {
+						verdict =
+							verdict || isPrefix(v.categoryName.name.toLowerCase(), query);
 					}
-					if (filter.name === "category code") {
-						if (isPrefix(v.categoryCode.toString().toLowerCase(), query))
-							return true;
+					if (filter.id === "ccode") {
+						verdict =
+							verdict ||
+							isPrefix(v.categoryCode.toString().toLowerCase(), query);
 					}
 				}
-				return false;
 			}
+			
+			return verdict;
 		});
 	}
 

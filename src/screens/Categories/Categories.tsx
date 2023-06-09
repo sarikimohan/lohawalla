@@ -17,10 +17,25 @@ import TableRow from "./components/TableRow/TableRow";
 import RowStat from "@src/Components/Grid/RowStat/RowStat";
 import LoadingBoundary from "@src/Components/common/LoadingBoundary/LoadingBoundary";
 import { useNavigate } from "react-router-dom";
+import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 
 function Categories() {
 	const heightService = useHeight();
-	const [state, setState] = useState<Categories.State>(InitialState);
+	const [state, setState] = useState<Categories.State>({
+		showForm: false,
+		categoryList: [],
+		filter: {
+			query: "",
+			filters: [
+				{ id: "cname", name: "category name", isActive: true },
+				{ id: "ccode", name: "category code", isActive: true },
+			],
+		},
+		loading: {
+			get: AsyncStateFactory(),
+		},
+		refresh: false,
+	});
 	const categoryAction = new CategoryActions(state, setState);
 
 	useEffect(() => {

@@ -1,7 +1,3 @@
-import {
-	getCategorySpecItemGridData,
-	getCategorySpecification,
-} from "@src/globals/constants/async";
 import StateUtils, {
 	ServerStateUtils,
 } from "@src/modules/StateManagement/Core/StateUtils";
@@ -39,7 +35,6 @@ export default class CategorySpecificationAction
 	}
 
 	filterList(): CategorySpecification.ItemGridData[] {
-		console.log("value of item list", this.state.itemList);
 		return this.state.itemList.filter((v) => {
 			for (let filter of this.state.filter.filters) {
 				if (filter.isActive) {
