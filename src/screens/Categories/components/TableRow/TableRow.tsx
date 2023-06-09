@@ -17,36 +17,35 @@ export default function TableRow(props: Props) {
 			<td align="center" className="py-3 border-b">
 				<Text>{data.srNo}</Text>
 			</td>
-			<td align="center" className="py-3 border-b">
-				<Link to={`/categories/${data._id}`}>
-					<RotateAndScale config={{ rotate: 0, scale: 1.01 }}>
-						<div
-							className="flex items-center cursor-pointer group select-none"
-							style={{ maxWidth: 400 }}
-						>
-							<img
-								src={
-									data.categoryName.imageURL === "" ||
-									data.categoryName.imageURL === null
-										? ImageIndex.CategoryImage
-										: data.categoryName.imageURL
-								}
-								alt="item image"
-								style={{
-									objectFit: "cover",
-									objectPosition: "center",
-									width: 32,
-									height: 32,
-									borderRadius: 200,
-								}}
-								className="mr-3"
-							/>
-							<Text className="group-hover:font-bold transition-all	">
-								{data.categoryName.name}
-							</Text>
-						</div>
-					</RotateAndScale>
-				</Link>
+			<td className="py-3 border-b" align="center">
+				<div className="w-full" style={{ maxWidth: 150 }}>
+					<Link to={`/categories/${data._id}`}>
+						<RotateAndScale config={{ rotate: 0, scale: 1.01 }}>
+							<div className="flex items-center cursor-pointer group select-none">
+								<img
+									src={
+										data.categoryName.imageURL === "" ||
+										data.categoryName.imageURL === null
+											? ImageIndex.CategoryImage
+											: data.categoryName.imageURL
+									}
+									alt="item image"
+									style={{
+										objectFit: "cover",
+										objectPosition: "center",
+										width: 32,
+										height: 32,
+										borderRadius: 200,
+									}}
+									className="mr-3"
+								/>
+								<Text className="group-hover:font-bold transition-all	">
+									{data.categoryName.name}
+								</Text>
+							</div>
+						</RotateAndScale>
+					</Link>
+				</div>
 			</td>
 			<td align="center" className="py-3 border-b">
 				<Text>{data.categoryCode}</Text>

@@ -2,6 +2,7 @@ import Text from "@src/Components/Grid/Text/Text";
 import FieldInput from "@src/Components/forms/FieldInput/FieldInput";
 import { ImageIndex } from "@src/assets/AssetIndex";
 import React from "react";
+import style from './TableRow.module.css'
 
 interface Props {
 	data: SetBasePrice.SetCompanyBasePrice;
