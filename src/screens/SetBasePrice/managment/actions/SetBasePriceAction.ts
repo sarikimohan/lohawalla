@@ -55,7 +55,7 @@ export default class SetBasePriceAction
 	filter(): SetBasePrice.SetCompanyBasePrice[] {
 		const query = this.state.filter.query.toLowerCase().trim();
 		return this.state.setList.filter((v) =>
-			isPrefix(v.companyName.name, query)
+			isPrefix(v.companyName.name.toLowerCase(), query)
 		);
 	}
 
@@ -76,6 +76,4 @@ export default class SetBasePriceAction
 
 		return verdict.isValid;
 	}
-
-	
 }

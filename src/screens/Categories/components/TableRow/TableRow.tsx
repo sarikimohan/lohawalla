@@ -20,7 +20,10 @@ export default function TableRow(props: Props) {
 			<td align="center" className="py-3 border-b">
 				<Link to={`/categories/${data._id}`}>
 					<RotateAndScale config={{ rotate: 0, scale: 1.01 }}>
-						<div className="flex items-center w-fit cursor-pointer group select-none">
+						<div
+							className="flex items-center cursor-pointer group select-none"
+							style={{ maxWidth: 400 }}
+						>
 							<img
 								src={
 									data.categoryName.imageURL === "" ||

@@ -20,7 +20,7 @@ export default function TableRow(props: Props) {
 				<Text>{data.srNo}</Text>
 			</td>
 			<td align="center" className="py-3 border-b">
-				<div className="flex items-center w-fit">
+				<div className="flex items-center w-full cursor-pointer" style={{ maxWidth: 200 }}>
 					<div>
 						<img
 							src={imageUrl}

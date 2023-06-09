@@ -77,7 +77,9 @@ function AddBasePrice() {
 										name: "sr no",
 										width: 100,
 									},
-									"company name",
+									{
+										name: "company name",
+									},
 									"cost",
 									"entry time",
 								]}
@@ -93,6 +95,7 @@ function AddBasePrice() {
 												p.setList[i].cost.hasChanged = true;
 											});
 										}}
+										key={i}
 									/>
 								))}
 							</DefaultGrid>
