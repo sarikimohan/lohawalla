@@ -13,6 +13,7 @@ import { useAuthGuardContext } from "@src/auth/AuthGuard/AuthGuard";
 import Snackbar from "@mui/material/Snackbar";
 import LoadingBoundary from "@src/Components/common/LoadingBoundary/LoadingBoundary";
 import LoadingWidget from "@src/Components/widget/LoadingWidget/LoadingWidget";
+import useHeight from "@src/modules/hooks/useHeight";
 
 function AddBasePrice() {
 	const [state, setState] = useState<SetBasePrice.State>({
@@ -33,12 +34,20 @@ function AddBasePrice() {
 		setBasePriceActions.fetch();
 	}, []);
 
+	const heightHandle = useHeight();
+
 	return (
 		<div className="mx-6">
-			<div className={style.navContainer}>
+			<div className={style.navContainer} ref={heightHandle.ref}>
 				<TitleNavBar title={"Set Base Price"} />
 			</div>
-			<div className={"p-7"}>
+			<div
+				className={"p-7"}
+				style={{
+					height: `calc( 100vh - ${heightHandle.height}px )`,
+					overflow: "auto",
+				}}
+			>
 				<Card variant="outlined" sx={{ padding: 5, borderRadius: "12px" }}>
 					<div>
 						<div className="crow mb-6">

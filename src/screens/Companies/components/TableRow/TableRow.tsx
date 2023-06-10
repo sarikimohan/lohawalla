@@ -18,32 +18,34 @@ export default function TableRow(props: Props) {
 				<Text>{data.srNo}</Text>
 			</td>
 			<td align="center" className="py-3 border-b">
-				<Link to={`/company/${data._id}`}>
-					<RotateAndScale config={{ rotate: 0, scale: 1.01 }}>
-						<div className="flex items-center w-fit cursor-pointer group select-none">
-							<img
-								src={
-									data.companyName.imageURL === "" ||
-									data.companyName.imageURL === null
-										? ImageIndex.CategoryImage
-										: data.companyName.imageURL
-								}
-								alt="item image"
-								style={{
-									objectFit: "cover",
-									objectPosition: "center",
-									width: 32,
-									height: 32,
-									borderRadius: 200,
-								}}
-								className="mr-3"
-							/>
-							<Text className="group-hover:font-bold transition-all	">
-								{data.companyName.name}
-							</Text>
-						</div>
-					</RotateAndScale>
-				</Link>
+				<div style={{ maxWidth: 150 }}>
+					<Link to={`/company/${data._id}`}>
+						<RotateAndScale config={{ rotate: 0, scale: 1.01 }}>
+							<div className="flex items-center w-fit cursor-pointer group select-none">
+								<img
+									src={
+										data.companyName.imageURL === "" ||
+										data.companyName.imageURL === null
+											? ImageIndex.CategoryImage
+											: data.companyName.imageURL
+									}
+									alt="item image"
+									style={{
+										objectFit: "cover",
+										objectPosition: "center",
+										width: 32,
+										height: 32,
+										borderRadius: 200,
+									}}
+									className="mr-3"
+								/>
+								<Text className="group-hover:font-bold transition-all	">
+									{data.companyName.name}
+								</Text>
+							</div>
+						</RotateAndScale>
+					</Link>
+				</div>
 			</td>
 			<td align="center" className="py-3 border-b">
 				<Text>{data.price}</Text>
@@ -62,7 +64,7 @@ export default function TableRow(props: Props) {
 								borderColor: "#0000ff",
 							}}
 						>
-							<Text className="text-blue-500 underline select-none">
+							<Text className="text-blue-500 underline select-none w-fit">
 								{data.noOfProducts}
 							</Text>
 						</BorderOnHover>
