@@ -33,8 +33,13 @@ export const columnConfig: ColumnConfig<CompanyProducts.CompanyProduct>[] = [
 		width: 200,
 		growthOrder: 1,
 		component: (data, width) => {
+			const navigate = useNavigate();
 			return (
-				<div style={{ width }} className="vc hc cursor-pointer">
+				<div
+					style={{ width }}
+					className="vc hc cursor-pointer group"
+					onClick={() => navigate(`/categories/product/${data._id}`)}
+				>
 					<div
 						style={{
 							height: 32,
@@ -54,7 +59,7 @@ export const columnConfig: ColumnConfig<CompanyProducts.CompanyProduct>[] = [
 							style={{ height: "100%", width: "100%" }}
 						/>
 					</div>
-					<p className="small fcolor-text-body fw-medium ml-2">
+					<p className="small fcolor-text-body fw-medium ml-2 group-hover:font-bold ">
 						{data.companyName.name}
 					</p>
 				</div>
