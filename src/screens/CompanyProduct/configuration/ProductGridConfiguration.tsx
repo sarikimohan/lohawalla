@@ -4,7 +4,10 @@ import { ImageIndex } from "@src/assets/AssetIndex";
 
 function BannerCell(name: string, width: number) {
 	return (
-		<p style={{ width, color: "var(--light)" }} className="pretitle">
+		<p
+			style={{ width, color: "var(--light)", textAlign: "center" }}
+			className="pretitle"
+		>
 			{name}
 		</p>
 	);
@@ -14,11 +17,11 @@ export const columnConfig: ColumnConfig<CompanyProducts.CompanyProduct>[] = [
 	{
 		name: "SR NO",
 		index: 0,
-		width: 200,
+		width: 100,
 		isWidthFixed: true,
 		growthOrder: 1,
 		component: (data, width) => (
-			<div style={{ width }}>
+			<div style={{ width }} className="hc">
 				<p className="small fcolor-text-body fw-medium">{data.srNo}</p>
 			</div>
 		),
@@ -31,11 +34,10 @@ export const columnConfig: ColumnConfig<CompanyProducts.CompanyProduct>[] = [
 		growthOrder: 1,
 		component: (data, width) => {
 			const navigate = useNavigate();
-			console.log(data);
 			return (
 				<div
 					style={{ width }}
-					className="vc cursor-pointer"
+					className="vc hc cursor-pointer"
 					onClick={() => navigate(`/category/product/${data._id}`)}
 				>
 					<div
@@ -64,6 +66,7 @@ export const columnConfig: ColumnConfig<CompanyProducts.CompanyProduct>[] = [
 			);
 		},
 		bannerComponent: BannerCell,
+		// isWidthFixed: true
 	},
 	{
 		name: "company product name",
@@ -76,18 +79,21 @@ export const columnConfig: ColumnConfig<CompanyProducts.CompanyProduct>[] = [
 			</p>
 		),
 		bannerComponent: BannerCell,
+		isWidthFixed: true,
 	},
 	{
-		name: "",
+		name: "view pricing",
 		index: 3,
 		width: 100,
 		growthOrder: 1,
 		component: (data, width) => (
-			<Link to={"/priceCalculation/" + data._id}>
-				<div style={{ width }} className="cursor-pointer">
-					<p className="body fcolor-iris">View Price</p>
-				</div>
-			</Link>
+			<div className="hc cursor-pointer group" style={{ width }}>
+				<Link to={"/priceCalculation/" + data._id}>
+					<p className="body fcolor-iris w-fit group-hover:font-bold">
+						View Price
+					</p>
+				</Link>
+			</div>
 		),
 		bannerComponent: BannerCell,
 	},

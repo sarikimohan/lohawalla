@@ -65,7 +65,7 @@ function CompanyProductListing() {
 					}}
 				>
 					<Card
-						className="p-10 w-100 mt-10"
+						className="p-10 w-100 my-10"
 						variant="outlined"
 						sx={{ borderRadius: "12px" }}
 					>
