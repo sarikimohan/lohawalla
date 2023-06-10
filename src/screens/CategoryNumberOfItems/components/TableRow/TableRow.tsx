@@ -3,6 +3,7 @@ import React from "react";
 import Text from "@src/Components/Grid/Text/Text";
 import { ImageIndex } from "@src/assets/AssetIndex";
 import TableData from "@src/Components/Grid/TableData/TableData";
+import style from "./TableRow.module.css";
 
 interface Props {
 	data: CategoryNumberOfItems.GridData;
@@ -31,7 +32,7 @@ export default function TableRow(props: Props) {
 				<Text>{data.srNo}</Text>
 			</TableData>
 			<TableData>
-				<div className="flex items-center w-fit">
+				<div className={"flex items-center w-fit"} style={{ minWidth: 300 }}>
 					<div>
 						<img
 							src={
