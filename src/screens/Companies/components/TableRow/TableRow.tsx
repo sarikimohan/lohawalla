@@ -57,18 +57,20 @@ export default function TableRow(props: Props) {
 				<Link
 					to={`/companyProducts/${data._id}?companyName=${data.companyName.name}`}
 				>
-					<RotateAndScale config={{ rotate: 0, scale: 1.1 }}>
-						<BorderOnHover
-							borderConfig={{
-								borderWidth: 1,
-								borderColor: "#0000ff",
-							}}
-						>
-							<Text className="text-blue-500 underline select-none w-fit">
-								{data.noOfProducts}
-							</Text>
-						</BorderOnHover>
-					</RotateAndScale>
+					<div className="w-full flex justify-center">
+						<RotateAndScale config={{ rotate: 0, scale: 1.1 }}>
+							<BorderOnHover
+								borderConfig={{
+									borderWidth: 1,
+									borderColor: "#0000ff",
+								}}
+							>
+								<Text className="text-blue-500 underline select-none w-full">
+									{data.noOfProducts}
+								</Text>
+							</BorderOnHover>
+						</RotateAndScale>
+					</div>
 				</Link>
 			</td>
 			<td align="center" className="py-3 border-b" style={{ width: 80 }}>
