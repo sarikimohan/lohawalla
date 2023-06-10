@@ -1,0 +1,9 @@
+.row {
+	padding-left: 30%;
+}
+
+@media (max-width: 1124px) {
+	.row {
+		padding-left: 20%;
+	}
+}

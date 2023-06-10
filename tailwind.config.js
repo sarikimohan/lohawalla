@@ -5,9 +5,13 @@ module.exports = {
 		extend: {
 			colors: {
 				iris: "#4B4DED",
-				"subtitle": "#9797AA",
+				subtitle: "#9797AA",
 				fuschia: "#2A333E",
-				offWhite: "#fafafa"
+				offWhite: "#fafafa",
+			},
+			padding: {
+				"80%": "80%",
+				"20%": "20%",
 			},
 		},
 	},

@@ -4,6 +4,7 @@ import { ImageIndex } from "@src/assets/AssetIndex";
 import BorderOnHover from "@src/Components/interactions/BorderOnHover/BorderOnHover";
 import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAndScale";
 import { Link, useNavigate } from "react-router-dom";
+import style from './TableRow.module.css'
 
 interface Props {
 	data: Categories.CategoryGridData;
@@ -17,8 +18,8 @@ export default function TableRow(props: Props) {
 			<td align="center" className="py-3 border-b">
 				<Text>{data.srNo}</Text>
 			</td>
-			<td className="py-3 border-b" align="center">
-				<div className="w-full" style={{ maxWidth: 150 }}>
+			<td className="py-3 border-b">
+				<div className={style.row + " w-full"}>
 					<Link to={`/categories/${data._id}`}>
 						<RotateAndScale config={{ rotate: 0, scale: 1.01 }}>
 							<div className="flex items-center cursor-pointer group select-none">
