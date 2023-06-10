@@ -33,13 +33,8 @@ export const columnConfig: ColumnConfig<CompanyProducts.CompanyProduct>[] = [
 		width: 200,
 		growthOrder: 1,
 		component: (data, width) => {
-			const navigate = useNavigate();
 			return (
-				<div
-					style={{ width }}
-					className="vc hc cursor-pointer"
-					onClick={() => navigate(`/category/product/${data._id}`)}
-				>
+				<div style={{ width }} className="vc hc cursor-pointer">
 					<div
 						style={{
 							height: 32,
@@ -73,11 +68,18 @@ export const columnConfig: ColumnConfig<CompanyProducts.CompanyProduct>[] = [
 		index: 2,
 		width: 300,
 		growthOrder: 1,
-		component: (data, width) => (
-			<p className="small fcolor-text-body fw-medium" style={{ width }}>
-				{data.ProductName}
-			</p>
-		),
+		component: (data, width) => {
+			const navigate = useNavigate();
+			return (
+				<p
+					className="small fcolor-text-body fw-medium hover:font-bold cursor-pointer"
+					style={{ width }}
+					onClick={() => navigate(`/categories/product/${data._id}`)}
+				>
+					{data.ProductName}
+				</p>
+			);
+		},
 		bannerComponent: BannerCell,
 		isWidthFixed: true,
 	},
