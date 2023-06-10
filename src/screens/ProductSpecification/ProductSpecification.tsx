@@ -10,6 +10,7 @@ import LoadingBoundary from "@src/Components/common/LoadingBoundary/LoadingBound
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 import LoadingWidget from "@src/Components/widget/LoadingWidget/LoadingWidget";
 import EditProduct from "@src/forms/EditProduct/EditProduct";
+import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAndScale";
 
 const ProductSpecificationContext = React.createContext({});
 
@@ -173,9 +174,11 @@ function ProductSpecification() {
 										{state.productName}
 									</p>
 								</div>
-								<div onClick={() => setShowForm(true)}>
-									<AssetIndex.EditSquare />
-								</div>
+								<RotateAndScale>
+									<div onClick={() => setShowForm(true)}>
+										<AssetIndex.EditSquare />
+									</div>
+								</RotateAndScale>
 							</div>
 							<div className={style.descriptionContainer + " mb-5"}>
 								<p className="pretitle fcolor-text-subtitle mb-1">COMPANY</p>

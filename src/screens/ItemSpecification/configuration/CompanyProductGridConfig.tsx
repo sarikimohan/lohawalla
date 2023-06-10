@@ -46,6 +46,7 @@ export const columnConfig: ColumnConfig<ItemSpecification.CompanyProduct>[] = [
 							overflow: "hidden",
 							objectFit: "cover",
 							objectPosition: "center center",
+							flexShrink: 0,
 						}}
 					>
 						<img

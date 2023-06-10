@@ -22,6 +22,7 @@ import LoadingBoundary from "@src/Components/common/LoadingBoundary/LoadingBound
 import LoadingWidget from "@src/Components/widget/LoadingWidget/LoadingWidget";
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 import EditCategory from "@src/forms/EditCategory/EditCategory";
+import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAndScale";
 
 export const CategorySpecificationContext = React.createContext({});
 
@@ -160,15 +161,17 @@ function CategorySpecification() {
 										{categorySpec.name}
 									</p>
 								</div>
-								<div
-									onClick={() => {
-										specActions.mutateState((p) => {
-											p.showEditForm = true;
-										});
-									}}
-								>
-									<AssetIndex.EditSquare />
-								</div>
+								<RotateAndScale>
+									<div
+										onClick={() => {
+											specActions.mutateState((p) => {
+												p.showEditForm = true;
+											});
+										}}
+									>
+										<AssetIndex.EditSquare />
+									</div>
+								</RotateAndScale>
 							</div>
 							<div className={style.descriptionContainer + " mb-6"}>
 								<p className="pretitle fcolor-text-subtitle mb-1">

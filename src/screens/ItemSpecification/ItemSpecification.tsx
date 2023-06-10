@@ -151,11 +151,7 @@ function ItemSpecification() {
 										{state.categoryName}
 									</p>
 								</div>
-								<RotateAndScale
-									config={{
-										rotate: 0,
-									}}
-								>
+								<RotateAndScale>
 									<div
 										className="cursor-pointer"
 										onClick={() => {

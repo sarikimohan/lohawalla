@@ -19,8 +19,9 @@ export default class ItemSpecificationAction
 		});
 	}
 	getFilteredList(): ItemSpecification.CompanyProduct[] {
+		const query = this.state.filter.query.trim().toLowerCase();
 		return this.state.companyProductList.filter((v) => {
-			return isPrefix(v.productName, this.state.filter.query);
+			return isPrefix(v.productName.toLowerCase().trim(), query);
 		});
 	}
 	fetch(id: string): void {
