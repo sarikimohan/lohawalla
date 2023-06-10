@@ -35,19 +35,23 @@ export default class CategorySpecificationAction
 	}
 
 	filterList(): CategorySpecification.ItemGridData[] {
+		const query = this.state.filter.query.trim().toLowerCase();
+
+		if (query.length === 0) return this.state.itemList;
+
 		return this.state.itemList.filter((v) => {
+			let verdict = false;
 			for (let filter of this.state.filter.filters) {
 				if (filter.isActive) {
-					const query = this.state.filter.query;
 					if (filter.name === "item name") {
-						if (isPrefix(v.itemName.name.toLowerCase(), query)) return true;
+						verdict ||= isPrefix(v.itemName.name.trim().toLowerCase(), query);
 					}
 					if (filter.name === "item code") {
-						if (isPrefix(v.itemCode.toString(), query)) return true;
+						verdict ||= isPrefix(v.itemCode.trim().toLowerCase(), query);
 					}
 				}
 			}
-			return false;
+			return verdict;
 		});
 	}
 	setQuery(query: string): void {
