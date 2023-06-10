@@ -8,7 +8,6 @@ export class ServerActions extends ServerStateUtils<CategoryViewMargin.State> {
 	async fetch(id: string) {
 		const res = await this.handleAsync("fetch", () => fetchViewMargin(id));
 		if (res) {
-			console.log(res);
 			this.mutateState((p) => {
 				p.data = res.data.map((v) => ({
 					srNo: v.srNo,
@@ -76,10 +75,12 @@ export class ServerActions extends ServerStateUtils<CategoryViewMargin.State> {
 	}
 
 	filter() {
-		const query = this.state.query.trim();
+		const query = this.state.query.trim().toLowerCase();
 
 		if (query.length === 0) return this.state.data;
 
-		return this.state.data.filter((v) => isPrefix(v.itemName.name, query));
+		return this.state.data.filter((v) =>
+			isPrefix(v.itemName.name.trim().toLowerCase(), query)
+		);
 	}
 }

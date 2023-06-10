@@ -50,8 +50,9 @@ export default class ServerActions extends ServerStateUtils<
 		if (query.length === 0) {
 			return this.state.grid;
 		}
-		return this.state.grid.filter((v) =>
-			isPrefix(v.itemName.name.trim().toLowerCase(), query)
-		);
+
+		return this.state.grid.filter((v) => {
+			return isPrefix(v.itemName.name.trim().toLowerCase(), query);
+		});
 	}
 }

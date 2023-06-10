@@ -21,7 +21,7 @@ export default function TableRow(props: Props) {
 				<Text>{value.srNo}</Text>
 			</td>
 			<td align="center" className="py-3 border-b">
-				<div className="flex items-center w-fit">
+				<div className="flex items-center w-fit" style={{ minWidth: 200 }}>
 					<div>
 						<img
 							src={imageUrl}
@@ -49,7 +49,7 @@ export default function TableRow(props: Props) {
 						}}
 						type={"number"}
 						placeHolder={"enter value"}
-						rightIcon="₹"
+						rightIcon="%"
 					/>
 				</div>
 			</td>
@@ -62,7 +62,7 @@ export default function TableRow(props: Props) {
 						}}
 						type={"number"}
 						placeHolder={"enter value"}
-						rightIcon="₹"
+						rightIcon="%"
 					/>
 				</div>
 			</td>
