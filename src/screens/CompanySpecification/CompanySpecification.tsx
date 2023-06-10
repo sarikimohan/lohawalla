@@ -141,7 +141,7 @@ function CompanySpecification() {
 										{state.companyName}
 									</p>
 								</div>
-								<RotateAndScale config={{ rotate: 0, scale: 1.1 }}>
+								<RotateAndScale>
 									<div
 										onClick={() => {
 											companySpecActions.mutateState((p) => {
