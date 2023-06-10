@@ -79,7 +79,9 @@ export default function CategoryNumberOfItems(props: Props) {
 						<Card variant="outlined" sx={{ padding: 5, borderRadius: "12px" }}>
 							<div>
 								<div className="crow mb-6">
-									<p className="subtitle fcolor-onyx">Number Of Items ()</p>
+									<p className="subtitle fcolor-onyx">
+										Number Of Items ({state.grid.length})
+									</p>
 								</div>
 								<div className="crow mb-6 sb">
 									<div className="d-flex vc">
