@@ -13,6 +13,7 @@ import RowStat from "@src/Components/Grid/RowStat/RowStat";
 import TableRow from "./components/TableRow/TableRow";
 import AddCompany from "@src/forms/AddCompany/AddCompany";
 import { Link } from "react-router-dom";
+import useHeight from "@src/modules/hooks/useHeight";
 
 function Company() {
 	const widthService = useWidth();
@@ -26,12 +27,20 @@ function Company() {
 
 	const companyList = companyActions.filterCompanylistRow();
 
+	const heightHandle = useHeight();
+
 	return (
 		<>
-			<div className={style.navContainer + " mb-4"}>
+			<div className={style.navContainer} ref={heightHandle.ref}>
 				<TitleNavBar title={"Company"} />
 			</div>
-			<div className={style.pageContainer + " bg-offWhite"}>
+			<div
+				className={style.pageContainer + " bg-offWhite"}
+				style={{
+					height: `calc( 100vh - ${heightHandle.height}px )`,
+					overflow: "auto",
+				}}
+			>
 				<Card sx={{ padding: 4, borderRadius: "12px" }} variant="outlined">
 					<div ref={widthService.ref}>
 						<div className="crow sb mb-3">
