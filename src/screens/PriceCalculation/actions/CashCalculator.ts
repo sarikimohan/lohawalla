@@ -27,7 +27,7 @@ export default class CashCalculator extends StateUtils<
 				"% " +
 				getRoundedVal(parseFloat(taxable) * (gst.value / 100))
 			);
-		} else return gst.value.toFixed(2) + "%";
+		} else return gst.value.toFixed(2) + "₹";
 	}
 	getNetTotal() {
 		return this.state.cashCalculator.netTotal;

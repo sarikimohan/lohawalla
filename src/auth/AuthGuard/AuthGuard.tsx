@@ -30,6 +30,12 @@ interface LoginData {
 const AuthGuardContext = React.createContext<AuthProps>({} as AuthProps);
 export const useAuthGuardContext = () => useContext(AuthGuardContext);
 
+function getToken() {
+	const token = window.localStorage.getItem("userData");
+	if (!token) return null;
+	return JSON.parse(token) as LoginData;
+}
+
 export default function AuthGuard(props: Props) {
 	const [userDetails, setUserDetails] = useState<UserDetails & NameIdPair>({
 		userId: "",
@@ -42,13 +48,18 @@ export default function AuthGuard(props: Props) {
 
 	useEffect(() => {
 		// TODO validate the token from the server
-		const token = localStorage.getItem("userData");
-		if (token) {
-			const tokenObj = JSON.parse(token) as LoginData;
-
-			if (tokenObj.createdAt < new Date().getTime()) {
+		const tokenObj = getToken();
+		if (
+			tokenObj &&
+			(tokenObj.role === RoleIndex.ADMIN || tokenObj.role === RoleIndex.SALES)
+		) {
+			if (tokenObj.createdAt < Date.now()) {
 				localStorage.removeItem("userData");
-			} 
+			} else {
+				setTimeout(() => {
+					localStorage.removeItem("userData");
+				}, Date.now() - tokenObj.createdAt);
+			}
 
 			setState(tokenObj);
 
@@ -65,6 +76,16 @@ export default function AuthGuard(props: Props) {
 		// 	name: "snehal",
 		// });
 	}, []);
+
+	useEffect(() => {
+		const tokenObj = getToken();
+		if (
+			!tokenObj ||
+			(tokenObj.role !== RoleIndex.ADMIN && tokenObj.role !== RoleIndex.SALES)
+		) {
+			setIsLoggedIn(false);
+		}
+	});
 
 	if (isLoggedIn) {
 		return (
