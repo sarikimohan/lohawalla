@@ -51,14 +51,22 @@ export class Validators {
 
 	static min(data: string, value: number) {
 		const val = parseFloat(data);
+		if (Number.isNaN(val)) return "not a number";
 		if (val < value) {
 			return "value cannot be less than " + value;
 		}
 	}
 	static max(data: string, value: number) {
 		const val = parseFloat(data);
+		if (Number.isNaN(val)) return "not a number";
 		if (val > value) {
 			return "value cannot be more than " + value;
 		}
+	}
+	static absMax(data: string, value: number) {
+		return Validators.max(data, Math.abs(value));
+	}
+	static absMin(data: string, value: number) {
+		return Validators.min(data, Math.abs(value));
 	}
 }
