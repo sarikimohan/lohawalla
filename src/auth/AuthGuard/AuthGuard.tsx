@@ -52,14 +52,15 @@ export default function AuthGuard(props: Props) {
 
 		if (
 			tokenObj &&
-			(tokenObj.role === RoleIndex.ADMIN || tokenObj.role === RoleIndex.PURCHASER)
-			) {
-			if (tokenObj.createdAt < Date.now()) {
+			(tokenObj.role === RoleIndex.ADMIN ||
+				tokenObj.role === RoleIndex.PURCHASER)
+		) {
+			if (tokenObj.maxAge < Date.now()) {
 				localStorage.removeItem("userData");
 			} else {
 				setTimeout(() => {
 					localStorage.removeItem("userData");
-				}, Date.now() - tokenObj.createdAt);
+				}, tokenObj.maxAge - Date.now());
 			}
 
 			setState(tokenObj);
@@ -82,7 +83,8 @@ export default function AuthGuard(props: Props) {
 		const tokenObj = getToken();
 		if (
 			!tokenObj ||
-			(tokenObj.role !== RoleIndex.ADMIN && tokenObj.role !== RoleIndex.PURCHASER)
+			(tokenObj.role !== RoleIndex.ADMIN &&
+				tokenObj.role !== RoleIndex.PURCHASER)
 		) {
 			setIsLoggedIn(false);
 		}
