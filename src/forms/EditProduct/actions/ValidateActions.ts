@@ -72,6 +72,7 @@ export default class ValidateActions extends StateUtils<EditProduct.State> {
 			data.value,
 			verdict,
 			Validators.validateNull,
+			Validators.validateFloat,
 			(d) => Validators.min(d, 0),
 			(d) => {
 				if (this.state.gst.type === "percentage") return Validators.max(d, 100);

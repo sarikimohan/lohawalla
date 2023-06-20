@@ -1,5 +1,5 @@
 export class FieldDataService {
-	static getDefaultField(initial: string = '') {
+	static getDefaultField(initial: string = "") {
 		const d: FieldData = {
 			value: initial,
 			isValid: undefined,
@@ -35,27 +35,15 @@ export class FieldDataService {
 
 export class Validators {
 	static validateInt(data: string) {
-		let verdict = true;
-		if (data.length === 0) verdict = false;
-		if (/^[0-9]*$/.test(data) === false) verdict = false;
-		if (data[0] === "0") verdict = false;
-		if (verdict === false) return "not an integer";
+		const transformed = parseInt(data);
+		if (Number.isNaN(transformed)) return "not an integer";
+		for (let ch of data) {
+			if (ch === ".") return "required only integer values";
+		}
 	}
 	static validateFloat(data: string) {
-		let verdict = true;
-		if (data.length === 0) verdict = false;
-		const split = data.split(".");
-		if (split.length > 2) verdict = false;
-		else if (split.length === 2) {
-			if (split[1].length === 0) verdict = false;
-			if (Validators.validateInt(split[0]) || /^[0-9]*$/.test(data))
-				verdict = false;
-			if (verdict === false) {
-				return "not a valid number";
-			}
-		} else {
-			return Validators.validateInt(split[0]);
-		}
+		const transformed = parseFloat(data);
+		if (Number.isNaN(transformed)) return "not a valid number";
 	}
 	static validateNull(data: string) {
 		if (data.trim().length === 0) return "required";

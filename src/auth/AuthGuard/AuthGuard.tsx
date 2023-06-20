@@ -49,10 +49,11 @@ export default function AuthGuard(props: Props) {
 	useEffect(() => {
 		// TODO validate the token from the server
 		const tokenObj = getToken();
+
 		if (
 			tokenObj &&
-			(tokenObj.role === RoleIndex.ADMIN || tokenObj.role === RoleIndex.SALES)
-		) {
+			(tokenObj.role === RoleIndex.ADMIN || tokenObj.role === RoleIndex.PURCHASER)
+			) {
 			if (tokenObj.createdAt < Date.now()) {
 				localStorage.removeItem("userData");
 			} else {
@@ -81,7 +82,7 @@ export default function AuthGuard(props: Props) {
 		const tokenObj = getToken();
 		if (
 			!tokenObj ||
-			(tokenObj.role !== RoleIndex.ADMIN && tokenObj.role !== RoleIndex.SALES)
+			(tokenObj.role !== RoleIndex.ADMIN && tokenObj.role !== RoleIndex.PURCHASER)
 		) {
 			setIsLoggedIn(false);
 		}

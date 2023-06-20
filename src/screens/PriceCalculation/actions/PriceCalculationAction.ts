@@ -54,15 +54,10 @@ export default class PriceCalculationAction extends ServerStateUtils<
 		let total = 0;
 		this.state.calculationData.priceField.forEach((v, i) => {
 			if (v.type === "percentage") {
-				const value = getValForOperation(
+				total += getValForOperation(
 					(v.value / 100) * numTotal,
 					v.operation
 				);
-				if (v.operation === "add") {
-					total += value;
-				} else {
-					total -= value;
-				}
 			}
 		});
 		return total;
@@ -93,15 +88,7 @@ export default class PriceCalculationAction extends ServerStateUtils<
 		let total = 0;
 		data.forEach((v, i) => {
 			if (v.type === "percentage") {
-				const value = getValForOperation(
-					(v.value / 100) * numTotal,
-					v.operation
-				);
-				if (v.operation === "add") {
-					total += value;
-				} else {
-					total -= value;
-				}
+				total += getValForOperation((v.value / 100) * numTotal, v.operation);
 			}
 		});
 		return total;
@@ -129,6 +116,7 @@ export default class PriceCalculationAction extends ServerStateUtils<
 				const numTotal = this._getNumTotal(res.data.priceField);
 				const percTotal = this._getPercTotal(numTotal, res.data.priceField);
 				const total = numTotal + percTotal;
+				console.log(numTotal, percTotal, total);
 				p.netSum = total;
 				const marginValue = total * (data.margin.cash / 100);
 				const negotiationShare = (marginValue * data.negotiation) / 100;

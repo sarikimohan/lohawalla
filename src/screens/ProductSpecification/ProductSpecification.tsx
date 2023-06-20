@@ -101,7 +101,7 @@ function ProductSpecification() {
 											</div>
 											<div className={style.descriptionCell}>
 												<p className="fw-medium fcolor-onyx body">
-													{v.value} {state.gst.key === "numeric" ? "₹" : "%"}
+													{v.value} {v.type === "numeric" ? "₹" : "%"}
 												</p>
 											</div>
 										</div>
