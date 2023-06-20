@@ -63,10 +63,4 @@ export class Validators {
 			return "value cannot be more than " + value;
 		}
 	}
-	static absMax(data: string, value: number) {
-		return Validators.max(data, Math.abs(value));
-	}
-	static absMin(data: string, value: number) {
-		return Validators.min(data, Math.abs(value));
-	}
 }
