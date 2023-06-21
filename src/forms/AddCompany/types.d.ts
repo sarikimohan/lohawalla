@@ -29,6 +29,7 @@ namespace AddCompany {
 		images: File[] | null;
 
 		priceStructure: FormPriceField[];
+		priceStructureError?: string;
 		tempPriceStructure: NewPriceField[];
 		descriptionLabels: DescriptionLabels[];
 

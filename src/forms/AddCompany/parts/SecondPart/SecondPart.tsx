@@ -51,6 +51,15 @@ export default function SecondPart(props: Props) {
 						</thead>
 
 						<tbody>
+							{state.priceStructureError && (
+								<tr>
+									<td colSpan={4}>
+										<p className="text-sm font-medium text-red-500 py-5 px-4">
+											{state.priceStructureError}
+										</p>
+									</td>
+								</tr>
+							)}
 							{state.priceStructure.map((v, i) => (
 								<tr className="mb-2 border-b" key={v.id}>
 									<td align="center">
@@ -85,7 +94,7 @@ export default function SecondPart(props: Props) {
 												secondFormActions.editField(d.target.value, i);
 											}}
 											type={"number"}
-											placeHolder={"enter value"}
+											placeHolder={v.fixed ? "enter value" : "custom (disabled)"}
 											disabled={!v.fixed}
 										/>
 									</td>

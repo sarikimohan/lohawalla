@@ -74,6 +74,7 @@ export default class SecondFormActions extends StateUtils<AddCompany.State> {
 
 	saveTempPriceField() {
 		this.mutateState((p) => {
+			p.priceStructureError = undefined;
 			p.priceStructure = p.priceStructure.concat(
 				p.tempPriceStructure.map((v) => ({
 					id: v.id,

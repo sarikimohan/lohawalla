@@ -71,6 +71,12 @@ export default class ValidateAddCompany extends ServerStateUtils<AddCompany.Stat
 		// value -> percentage float(0, 100)
 		// value --> num (1)
 		this.mutateState((p) => {
+			if (p.priceStructure.length === 0) {
+				p.priceStructureError =
+					"cannot save company with empty price structure";
+				verdict.isValid = false;
+				return;
+			}
 			p.priceStructure.map((v, i) => {
 				const data = v.value;
 				if (v.fixed) {
@@ -79,8 +85,7 @@ export default class ValidateAddCompany extends ServerStateUtils<AddCompany.Stat
 							data.value,
 							verdict,
 							Validators.validateNull,
-							Validators.validateFloat,
-							(d) => Validators.min(d, 1)
+							Validators.validateFloat
 						);
 					} else {
 						data.error = FieldDataService.registerValidator(
@@ -88,7 +93,7 @@ export default class ValidateAddCompany extends ServerStateUtils<AddCompany.Stat
 							verdict,
 							Validators.validateNull,
 							Validators.validateFloat,
-							(d) => Validators.min(d, 0),
+							(d) => Validators.min(d, -100),
 							(d) => Validators.max(d, 100)
 						);
 					}

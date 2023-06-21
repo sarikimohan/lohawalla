@@ -85,16 +85,15 @@ export default class AddProductValidators extends ServerStateUtils<AddProduct.St
 							verdict,
 							Validators.validateNull,
 							Validators.validateFloat,
-							(d) => Validators.min(d, 0),
-							(d) => Validators.max(d, 100)
+							(d) => Validators.max(d, 100),
+							(d) => Validators.min(d, -100)
 						);
 					} else {
 						data.error = FieldDataService.registerValidator(
 							data.value,
 							verdict,
 							Validators.validateNull,
-							Validators.validateFloat,
-							(d) => Validators.min(d, 1)
+							Validators.validateFloat
 						);
 					}
 					data.isValid = !data.error;
