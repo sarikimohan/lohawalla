@@ -13,14 +13,27 @@ export default class PriceCalculationAction extends ServerStateUtils<
 	StateWithLoading<PriceCalculation.State>
 > {
 	private getPriceList(data: PriceCalculation.PriceFields[]) {
+		const getSign = (value: number, operation: OpType) => {
+			if (
+				(operation === "subtract" && value > 0) ||
+				(operation === "add" && value < 0)
+			)
+				return "-";
+			else {
+				return "+";
+			}
+		};
+
 		const res: { name: string; value: string }[] = [];
 		let total = 0;
 		for (let i of data) {
+			const label =
+				getSign(i.value, i.operation) + Math.abs(i.value).toFixed(1);
 			if (i.type === "numeric") {
 				total += getValForOperation(i.value, i.operation);
 				res.push({
 					name: i.name,
-					value: `${i.operation === "add" ? "+" : "-"} ${i.value.toFixed(1)} ₹`,
+					value: label + `₹`,
 				});
 			}
 		}
@@ -28,9 +41,9 @@ export default class PriceCalculationAction extends ServerStateUtils<
 			if (i.type === "percentage") {
 				res.push({
 					name: i.name,
-					value: `${i.operation === "add" ? "+" : "-"} ${getRoundedVal(
-						(i.value / 100) * total
-					)} ₹ (${i.value}%)`,
+					value: `${getSign(i.value, i.operation)} ${getRoundedVal(
+						(Math.abs(i.value) / 100) * total
+					)} ₹ (${Math.abs(i.value).toFixed(1)}%)`,
 				});
 			}
 		}
@@ -54,10 +67,7 @@ export default class PriceCalculationAction extends ServerStateUtils<
 		let total = 0;
 		this.state.calculationData.priceField.forEach((v, i) => {
 			if (v.type === "percentage") {
-				total += getValForOperation(
-					(v.value / 100) * numTotal,
-					v.operation
-				);
+				total += getValForOperation((v.value / 100) * numTotal, v.operation);
 			}
 		});
 		return total;
@@ -116,7 +126,6 @@ export default class PriceCalculationAction extends ServerStateUtils<
 				const numTotal = this._getNumTotal(res.data.priceField);
 				const percTotal = this._getPercTotal(numTotal, res.data.priceField);
 				const total = numTotal + percTotal;
-				console.log(numTotal, percTotal, total);
 				p.netSum = total;
 				const marginValue = total * (data.margin.cash / 100);
 				const negotiationShare = (marginValue * data.negotiation) / 100;
@@ -135,30 +144,32 @@ export default class PriceCalculationAction extends ServerStateUtils<
 				}
 
 				// setting the second value
-				const _ = p.creditCalculator;
-				_.selectedDays = 0;
+				if (data.creditMargin.length !== 0) {
+					const _ = p.creditCalculator;
+					_.selectedDays = 0;
 
-				let marginShare = total * (data.margin.cash / 100);
-				const selectedMargin = data.creditMargin[0];
-				if (selectedMargin.type === "percentage") {
-					marginShare += (total * selectedMargin.value) / 100;
-				} else marginShare += selectedMargin.value;
-				const negoShare = marginShare * (data.negotiation / 100);
+					let marginShare = total * (data.margin.cash / 100);
+					const selectedMargin = data.creditMargin[0];
+					if (selectedMargin.type === "percentage") {
+						marginShare += (total * selectedMargin.value) / 100;
+					} else marginShare += selectedMargin.value;
+					const negoShare = marginShare * (data.negotiation / 100);
 
-				_.currentValue = getRoundedNumber(marginShare);
-				_.startValue = getRoundedNumber(marginShare - negoShare);
-				_.endValue = getRoundedNumber(marginShare + negoShare);
+					_.currentValue = getRoundedNumber(marginShare);
+					_.startValue = getRoundedNumber(marginShare - negoShare);
+					_.endValue = getRoundedNumber(marginShare + negoShare);
 
-				_.netMarginInput.value = marginShare.toFixed(2);
+					_.netMarginInput.value = marginShare.toFixed(2);
 
-				_.taxableValue = marginShare + total;
+					_.taxableValue = marginShare + total;
 
-				if (data.GST.type === "numeric") {
-					_.netTotal = getRoundedNumber(data.GST.value + _.taxableValue);
-				} else {
-					_.netTotal = getRoundedNumber(
-						_.taxableValue + (data.GST.value / 100) * _.taxableValue
-					);
+					if (data.GST.type === "numeric") {
+						_.netTotal = getRoundedNumber(data.GST.value + _.taxableValue);
+					} else {
+						_.netTotal = getRoundedNumber(
+							_.taxableValue + (data.GST.value / 100) * _.taxableValue
+						);
+					}
 				}
 
 				// setting the third value

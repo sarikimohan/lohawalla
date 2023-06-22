@@ -1,6 +1,6 @@
 import { FieldDataService, Validators } from "@src/modules/FieldData/FieldData";
 import StateUtils from "@src/modules/StateManagement/Core/StateUtils";
-import getRoundedVal from "@src/modules/Utils/getRoundedVal";
+import getRoundedVal, { getRoundedNumber } from "@src/modules/Utils/getRoundedVal";
 
 export default class CashCalculator extends StateUtils<
 	StateWithLoading<PriceCalculation.State>
@@ -46,8 +46,8 @@ export default class CashCalculator extends StateUtils<
 				verdict,
 				Validators.validateNull,
 				Validators.validateFloat,
-				(d) => Validators.max(d, p.cashCalculator.endValue),
-				(d) => Validators.min(d, p.cashCalculator.startValue)
+				(d) => Validators.max(d, getRoundedNumber(p.cashCalculator.endValue)),
+				(d) => Validators.min(d, getRoundedNumber(p.cashCalculator.startValue))
 			);
 
 			data.isValid = !data.error;

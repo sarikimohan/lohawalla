@@ -27,7 +27,7 @@ export default class CreditCalculator extends StateUtils<
 			const _ = p.creditCalculator;
 			const selection = p.calculationData.creditMargin[index];
 
-			// update the start and end
+			// update the start, end and current value 
 			let marginShare = 0,
 				negoShare = 0;
 			let totalMargin = p.calculationData.margin.cash;
@@ -91,8 +91,8 @@ export default class CreditCalculator extends StateUtils<
 				verdict,
 				Validators.validateNull,
 				Validators.validateFloat,
-				(d) => Validators.max(d, p.creditCalculator.endValue),
-				(d) => Validators.min(d, p.creditCalculator.startValue)
+				(d) => Validators.max(d, getRoundedNumber(p.creditCalculator.endValue)),
+				(d) => Validators.min(d, getRoundedNumber(p.creditCalculator.startValue))
 			);
 			if (verdict.isValid) {
 				const value = getRoundedNumber(parseFloat(d));

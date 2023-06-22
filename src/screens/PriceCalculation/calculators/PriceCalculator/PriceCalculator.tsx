@@ -39,7 +39,7 @@ function PriceCalculator() {
 				marginBottom={2}
 			/>
 			<Grid container className="mb-4">
-				<Grid item xs={4}>
+				<Grid item flexGrow={1}>
 					<DisplayFlop
 						buttonText="Cash"
 						labelText={state.calculationData.margin.cash + "%"}
@@ -49,21 +49,25 @@ function PriceCalculator() {
 						isActive={state.selectedCalculator === 0}
 					/>
 				</Grid>
-				<Grid item xs={4}>
-					<DisplayFlop
-						buttonText="Credit"
-						labelText={
-							selectedEntry?.type === "numeric"
-								? selectedEntry?.value + "rs"
-								: selectedEntry?.value + "%"
-						}
-						onClick={() => {
-							priceCalcActions.setCalculator(1);
-						}}
-						isActive={state.selectedCalculator === 1}
-					/>
-				</Grid>
-				<Grid item xs={4}>
+				{state.calculationData.creditMargin.length ? (
+					<Grid item flexGrow={1}>
+						<DisplayFlop
+							buttonText="Credit"
+							labelText={
+								selectedEntry?.type === "numeric"
+									? selectedEntry?.value + "rs"
+									: selectedEntry?.value + "%"
+							}
+							onClick={() => {
+								priceCalcActions.setCalculator(1);
+							}}
+							isActive={state.selectedCalculator === 1}
+						/>
+					</Grid>
+				) : (
+					<></>
+				)}
+				<Grid item flexGrow={1}>
 					<DisplayFlop
 						buttonText="Online"
 						isActive={state.selectedCalculator === 2}
