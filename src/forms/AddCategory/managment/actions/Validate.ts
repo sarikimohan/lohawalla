@@ -158,7 +158,8 @@ export default class ValidateAddCategory extends ServerStateUtils<AddCategory.St
 				if (isPresent) {
 					return days + " is already present";
 				}
-			}
+			},
+			(d) => Validators.min(d, 1)
 		);
 		key.isValid = !key.error;
 
@@ -167,7 +168,8 @@ export default class ValidateAddCategory extends ServerStateUtils<AddCategory.St
 			verdict,
 			Validators.validateNull,
 			Validators.validateFloat,
-			(d) => Validators.max(d, 100)
+			(d) => Validators.min(d, 0),
+			(d) => Validators.max(d, 100) // by default percentage
 		);
 		value.isValid = !value.error;
 

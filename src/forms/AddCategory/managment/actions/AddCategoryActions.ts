@@ -57,6 +57,7 @@ export default class AddCategoryActions extends ServerStateUtils<AddCategory.Sta
 					verdict,
 					Validators.validateNull,
 					Validators.validateFloat,
+					(d) => Validators.min(d, 0),
 					(d) => {
 						if (c.type === "percentage" && parseFloat(d) > 100)
 							return "percentage cannot be more than 100";
@@ -72,9 +73,8 @@ export default class AddCategoryActions extends ServerStateUtils<AddCategory.Sta
 				verdict,
 				Validators.validateNull,
 				Validators.validateFloat,
-				(d) => {
-					if (parseFloat(d) > 100) return "percentage cannot be more than 100";
-				}
+				(d) => Validators.min(d, 0),
+				(d) => Validators.max(d, 100)
 			);
 
 			for (let i = 0; i < p.credit.length; ++i) {
