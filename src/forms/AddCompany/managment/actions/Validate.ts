@@ -16,17 +16,23 @@ export default class ValidateAddCompany extends ServerStateUtils<AddCompany.Stat
 			Validators.validateNull
 		);
 
-		if (data.isValid) {
-			await this.handleAsync("checkName", () => checkIsNameUnique(data.value), {
-				onError: (err) => {
-					data.error = "server error, cannot check uniqueness of name";
-				},
-				onSuccess: ({ data: res }) => {
-					if (res === false) {
-						data.error = "name already exists";
-					}
-				},
-			});
+		if (verdict.isValid) {
+			const res = await this.handleAsync(
+				"checkName",
+				() => checkIsNameUnique(data.value),
+				{
+					onError: (err) => {
+						verdict.isValid = false;
+						data.error = "server error, cannot check uniqueness of name";
+					},
+					onSuccess: ({ data: res }) => {
+						if (res === false) {
+							verdict.isValid = false;
+							data.error = "name already exists";
+						}
+					},
+				}
+			);
 		}
 
 		data.isValid = !data.error;
