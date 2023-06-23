@@ -35,11 +35,9 @@ export class FieldDataService {
 
 export class Validators {
 	static validateInt(data: string) {
-		const transformed = parseInt(data);
-		if (Number.isNaN(transformed)) return "not an integer";
-		for (let ch of data) {
-			if (ch === ".") return "required only integer values";
-		}
+		const transformed = parseFloat(data);
+		if (Number.isNaN(transformed)) return "not an valid number";
+		if (Number.isInteger(transformed) === false) return "not an integer";
 	}
 	static validateFloat(data: string) {
 		const transformed = parseFloat(data);
