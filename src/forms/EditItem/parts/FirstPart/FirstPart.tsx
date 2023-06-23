@@ -23,6 +23,7 @@ export default function FirstPart(props: Props) {
 		editItemFormActions: _,
 		setHandle,
 		setUnitInput,
+		cid
 	} = useEditItemContext();
 
 	return (
@@ -46,7 +47,7 @@ export default function FirstPart(props: Props) {
 					placeHolder="enter item name"
 					setHandle={setHandle("v1")}
 					asyncValidator={(d) =>
-						checkNameIsUnique(d, state.itemName.hasChanged())
+						checkNameIsUnique(cid, d, state.itemName.hasChanged())
 					}
 				/>
 			</div>
@@ -92,7 +93,7 @@ export default function FirstPart(props: Props) {
 					placeHolder="enter item name"
 					setHandle={setHandle("v3")}
 					asyncValidator={(d) =>
-						checkCodeIsUnique(d, state.itemCode.hasChanged())
+						checkCodeIsUnique(cid, d, state.itemCode.hasChanged())
 					}
 				/>
 			</div>

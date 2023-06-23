@@ -20,9 +20,11 @@ interface Props {
 	refresh: () => void;
 	close: () => void;
 	id: string;
+	cid: string;
 }
 
 interface ContextProps {
+	cid: string;
 	id: string;
 	state: EditItem.State;
 	editItemFormActions: EditItemActions;
@@ -88,6 +90,7 @@ export default function EditItem(props: Props) {
 	return (
 		<EditItemContext.Provider
 			value={{
+				cid: props.cid,
 				state,
 				editItemFormActions,
 				handle,

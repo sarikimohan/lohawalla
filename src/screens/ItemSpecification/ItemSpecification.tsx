@@ -67,6 +67,8 @@ function ItemSpecification() {
 	const categoryName = params.get("categoryName");
 	const categoryId = params.get("categoryId");
 
+	if (!categoryId) return <p className="text-xl">no category id found</p>;
+
 	const selected: AddProductAutoConfig = {
 		category:
 			categoryName && categoryId
@@ -277,6 +279,7 @@ function ItemSpecification() {
 				)}
 				{state.showEditForm && (
 					<EditItem
+						cid={categoryId}
 						refresh={function (): void {
 							itemSpecActions.mutateState((p) => {
 								p.refresh = !p.refresh;
