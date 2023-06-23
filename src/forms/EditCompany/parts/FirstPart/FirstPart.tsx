@@ -8,6 +8,7 @@ import ImageSmall from "@src/Components/common/ImageSmall/ImageSmall";
 import { motion } from "framer-motion";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DefaultFormLabel from "@src/Components/forms/FormLabel/DefaultFormLabel";
+import checkIsNameUnique from "@src/forms/AddCompany/fetch/services/checkIsNameUnique";
 
 function FirstPart() {
 	const { setHandle, state, stateUtils } = useEditCompanyContext();
@@ -29,6 +30,13 @@ function FirstPart() {
 						stateUtils.mutateState((p) => {
 							p.companyName.setValue(d);
 						});
+					}}
+					asyncValidator={async (d) => {
+						if (!state.companyName.hasChanged()) return undefined;
+						const res = await checkIsNameUnique(d);
+						if (!res.data) {
+							return "name " + d + " already exists";
+						}
 					}}
 				/>
 			</div>
