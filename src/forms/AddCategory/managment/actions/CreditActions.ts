@@ -56,10 +56,6 @@ export default class CreditActions extends StateUtils<AddCategory.State> {
 
 	addCredit() {
 		this.mutateState((p) => {
-			const verdict = /^[0-9]*$/.test(p.creditInput.key.value);
-			if (verdict === false) {
-				return;
-			}
 			p.credit.push({
 				id: nanoid(),
 				days: parseInt(p.creditInput.key.value.trim()),
