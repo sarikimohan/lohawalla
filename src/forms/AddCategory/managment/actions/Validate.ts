@@ -244,8 +244,9 @@ export default class ValidateAddCategory extends ServerStateUtils<AddCategory.St
 			verdict,
 			Validators.validateNull,
 			(d) => {
+				const trimmedD = d.trim();
 				for (let { key } of this.state.descriptionLabels) {
-					if (key === d) return key + " already exists";
+					if (key === trimmedD) return key + " already exists";
 				}
 			}
 		);
