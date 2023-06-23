@@ -201,15 +201,27 @@ export default function SecondPart(props: Props) {
 							if (verdict.isValid) {
 								for (let i = 0; i < p.tempPriceFields.length; ++i) {
 									const tpf = p.tempPriceFields[i];
-									p.priceStructure.push({
-										_id: tpf.id,
-										name: tpf.name.value,
-										value: "",
-										isFixed: false,
-										type: tpf.type,
-										operation: tpf.operation,
-										wasAdded: true,
-									});
+									if (tpf.name.value === "basic rate") {
+										p.priceStructure.unshift({
+											_id: tpf.id,
+											name: tpf.name.value,
+											value: "0",
+											isFixed: true,
+											type: "numeric",
+											operation: "add",
+											wasAdded: true,
+										});
+									} else {
+										p.priceStructure.push({
+											_id: tpf.id,
+											name: tpf.name.value,
+											value: "",
+											isFixed: false,
+											type: tpf.type,
+											operation: tpf.operation,
+											wasAdded: true,
+										});
+									}
 								}
 								p.tempPriceFields = [
 									{
