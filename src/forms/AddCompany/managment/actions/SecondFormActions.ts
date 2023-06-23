@@ -75,16 +75,26 @@ export default class SecondFormActions extends StateUtils<AddCompany.State> {
 	saveTempPriceField() {
 		this.mutateState((p) => {
 			p.priceStructureError = undefined;
-			p.priceStructure = p.priceStructure.concat(
-				p.tempPriceStructure.map((v) => ({
-					id: v.id,
-					name: v.name.value.trim(),
-					value: { value: "" },
-					fixed: v.name.value === "basic rate",
-					type: v.type,
-					operation: v.operation,
-				}))
-			);
+			p.tempPriceStructure
+				.map((v) => {
+					const name = v.name.value.trim();
+					const isBasicRate = name === "basic rate";
+					return {
+						id: v.id,
+						name,
+						value: { value: "" },
+						fixed: isBasicRate,
+						type: isBasicRate ? "numeric" : v.type,
+						operation: isBasicRate ? "add" : v.operation,
+					};
+				})
+				.forEach((v) => {
+					if (v.name === "basic rate") {
+						p.priceStructure.unshift(v);
+					} else {
+						p.priceStructure.push(v);
+					}
+				});
 		});
 	}
 
