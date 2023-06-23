@@ -13,7 +13,7 @@ import FormFileUploadHeader from "@src/Components/forms/FormFileUploadHeader/For
 interface Props {}
 
 export default function FirstPart(props: Props) {
-	const { state, firstFormActions, validate } = useAddItemContext();
+	const { state, firstFormActions, validate, categoryId } = useAddItemContext();
 
 	const ref = useRef<PIUnitInput.SetHandleProps | null>(null);
 
@@ -93,7 +93,7 @@ export default function FirstPart(props: Props) {
 			<div>
 				<DefaultButton
 					onClick={() => {
-						validate.validateFirstForm(() => {
+						validate.validateFirstForm(categoryId, () => {
 							if (ref.current) {
 								ref.current.validate();
 								if (ref.current.isValid)

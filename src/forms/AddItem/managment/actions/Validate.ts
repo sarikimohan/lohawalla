@@ -5,7 +5,7 @@ import checkIsCodeUnique from "../../fetch/service/checkIsCodeUnique";
 
 export default class Validate extends ServerStateUtils<AddItem.State> {
 	//* ///////////////////////////// FIRST FORM /////////////////////////////
-	async validateName() {
+	async validateName(id: string) {
 		// ex, unq
 		const verdict = { isValid: true };
 
@@ -18,7 +18,7 @@ export default class Validate extends ServerStateUtils<AddItem.State> {
 		if (name.error === undefined) {
 			await this.handleAsync(
 				"checkName",
-				() => checkIsNameUnique(name.value.trim()),
+				() => checkIsNameUnique(id,name.value.trim()),
 				{
 					onError: (err) => {
 						name.error = "server error, cannot check uniqueness of name";
@@ -58,7 +58,7 @@ export default class Validate extends ServerStateUtils<AddItem.State> {
 
 		return verdict.isValid;
 	}
-	async validateCode() {
+	async validateCode(id: string) {
 		// ex, unq
 		const verdict = { isValid: true };
 		const code = this.state.itemCode;
@@ -71,7 +71,7 @@ export default class Validate extends ServerStateUtils<AddItem.State> {
 		if (!code.error) {
 			await this.handleAsync(
 				"checkCode",
-				() => checkIsCodeUnique(code.value.trim()),
+				() => checkIsCodeUnique(id, code.value.trim()),
 				{
 					onError: (err) => {
 						code.error = "server error, cannot check uniqueness of code";
@@ -111,11 +111,11 @@ export default class Validate extends ServerStateUtils<AddItem.State> {
 		return verdict.isValid;
 	}
 
-	async validateFirstForm(onSuccess: () => void) {
+	async validateFirstForm(id: string, onSuccess: () => void) {
 		const v = [
-			await this.validateName(),
+			await this.validateName(id),
 			this.validateHSNCode(),
-			await this.validateCode(),
+			await this.validateCode(id),
 			this.validateDescription(),
 		];
 		const verdict = v.reduce((a, c) => a && c, true);
