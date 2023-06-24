@@ -7,6 +7,7 @@ import saveEditCategory, {
 import React from "react";
 import { Handle } from "../../EditCategory";
 import SaveImage from "@src/modules/ImageServerUtils/services/SaveImage";
+import ValueChange from "@src/modules/ValueChange/ValueChangeImpl";
 
 export default class ServerActions extends ServerStateUtils<EditCategory.State> {
 	private ref: React.MutableRefObject<Handle>;
@@ -25,8 +26,8 @@ export default class ServerActions extends ServerStateUtils<EditCategory.State> 
 		if (res) {
 			const d = res.data;
 			this.mutateState((p) => {
-				p.categoryName = d.categoryName;
-				p.categoryCode = d.categoryCode;
+				p.categoryName = new ValueChange(d.categoryName);
+				p.categoryCode = new ValueChange(d.categoryCode);
 				p.description = d.description;
 				p.images = d.images.map((v) => ({ link: v, deleted: false }));
 				p.credit = d.credit.map((v) => ({
@@ -48,8 +49,8 @@ export default class ServerActions extends ServerStateUtils<EditCategory.State> 
 		console.log(this.state.images.filter((v) => !v.deleted));
 		const d: EditData = {
 			id,
-			name: this.state.categoryName.trim(),
-			code: this.state.categoryCode.trim(),
+			name: this.state.categoryName.getValue().trim(),
+			code: this.state.categoryCode.getValue().trim(),
 			discription: this.state.description.trim(),
 			negotiation: parseFloat(this.state.negotiation.trim()),
 			image: this.state.images.filter((v) => !v.deleted).map((v) => v.link),

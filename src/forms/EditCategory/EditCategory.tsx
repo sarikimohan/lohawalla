@@ -21,6 +21,7 @@ import ServerActions from "./managment/actions/ServerActions";
 import { useAuthGuardContext } from "@src/auth/AuthGuard/AuthGuard";
 import AsyncProcessBoundary from "@src/Components/feedback/AsyncProcessBoundary/AsyncProcessBoundary";
 import LoadingBoundary from "@src/Components/common/LoadingBoundary/LoadingBoundary";
+import ValueChange from "@src/modules/ValueChange/ValueChangeImpl";
 
 interface Props {
 	refresh: () => void;
@@ -37,7 +38,6 @@ interface ContextProps {
 	setDescHandle: (name: string) => SetHandle;
 	setCredInputHandle: (name: string) => SetHandle;
 	setDescInputHandle: (name: string) => SetHandle;
-	setUnitHandle: PIUnitInput.SetHandle;
 	validateAdd: () => Promise<void>;
 	validateAddDesc: () => Promise<void>;
 }
@@ -45,7 +45,6 @@ interface ContextProps {
 export interface Handle {
 	plainFields: Record<string, SetHandleProps>;
 	credit: Record<string, SetHandleProps>;
-	unitInput: PIUnitInput.SetHandleProps;
 	descRef: Record<string, SetHandleProps>;
 	descInput: Record<string, SetHandleProps>;
 	creditInput: Record<string, SetHandleProps>;
@@ -57,8 +56,8 @@ export const useEditCategoryContext = () => useContext(EditCategoryContext);
 export default function EditCategory(props: Props) {
 	const [state, setState] = useState<EditCategory.State>({
 		page: 0,
-		categoryName: "",
-		categoryCode: "",
+		categoryName: new ValueChange(""),
+		categoryCode: new ValueChange(""),
 		description: "",
 		images: [],
 		imageFiles: [],
@@ -85,7 +84,6 @@ export default function EditCategory(props: Props) {
 	const inputRef = useRef<Handle>({
 		plainFields: {},
 		credit: {},
-		unitInput: {} as PIUnitInput.SetHandleProps,
 		descRef: {},
 		creditInput: {},
 		descInput: {},
@@ -107,9 +105,6 @@ export default function EditCategory(props: Props) {
 	};
 	const setCreditHandle = (name: string) => (d: SetHandleProps) => {
 		inputRef.current.credit[name] = d;
-	};
-	const setUnitHandle: PIUnitInput.SetHandle = (d) => {
-		inputRef.current.unitInput = d;
 	};
 	const setDescHandle = (name: string) => (d: SetHandleProps) => {
 		inputRef.current.descRef[name] = d;
@@ -146,7 +141,6 @@ export default function EditCategory(props: Props) {
 			(a, c) => a && c.isValid,
 			true
 		);
-		verdict &&= current.unitInput.isValid;
 		verdict &&= Object.values(current.descRef).reduce(
 			(a, c) => a && c.isValid,
 			true
@@ -211,7 +205,6 @@ export default function EditCategory(props: Props) {
 				setInputHandle,
 				setCreditHandle,
 				creditActions,
-				setUnitHandle,
 				validateAdd,
 				setDescHandle,
 				validateAddDesc,
@@ -258,7 +251,11 @@ export default function EditCategory(props: Props) {
 								<DefaultButton
 									onClick={function () {
 										validate().then((d) => {
-											serverActions.save(id, user);
+											if (d) {
+												console.log("correct");
+											} else {
+												console.log("incorrect");
+											}
 										});
 									}}
 									label={"Save"}

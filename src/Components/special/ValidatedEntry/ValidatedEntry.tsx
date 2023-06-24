@@ -46,11 +46,9 @@ const ValidatedEntry = forwardRef<
 			setLoading((p) => ({ ...p, status: "initialized" }));
 			try {
 				const res = await asyncValidator(state.value);
-				console.log("res was", res);
 				err = res;
 				setLoading((p) => ({ ...p, status: "success" }));
 			} catch (error) {
-				console.log("async failed");
 				err = "server error, failed to validate";
 				setLoading((p) => ({ ...p, status: "failed" }));
 			} finally {

@@ -51,7 +51,7 @@ export default function SecondPart(props: Props) {
 
 						<tbody>
 							{state.credit.map((v, i) => (
-								<tr className="mb-2 border-b" key={i}>
+								<tr className="mb-2 border-b" key={v.id}>
 									<td align="center">
 										<p className="text-md font-bold text-slate-700 py-3">
 											{v.days} days
@@ -84,7 +84,9 @@ export default function SecondPart(props: Props) {
 											validateFunction={FieldDataService.clubValidators(
 												Validators.validateNull,
 												Validators.validateFloat,
-												(d) => Validators.min(d, 0),
+												(d) => {
+													return Validators.min(d, 1);
+												},
 												(d) => {
 													if (v.type === "percentage") {
 														return Validators.max(d, 100);

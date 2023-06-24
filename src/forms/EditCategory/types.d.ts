@@ -10,8 +10,8 @@ namespace EditCategory {
 	interface State {
 		page: number;
 		negotiation: string;
-		categoryName: string;
-		categoryCode: string;
+		categoryName: IStringValueChange;
+		categoryCode: IStringValueChange;
 		description: string;
 		images: {link: string, deleted: boolean}[];
 

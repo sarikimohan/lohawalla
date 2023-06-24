@@ -29,12 +29,14 @@ export default function FirstPart(props: Props) {
 						Validators.validateNull
 					)}
 					onChange={(d) => {
-						editCategoryActions.mutateState((p) => (p.categoryName = d));
+						editCategoryActions.mutateState((p) => {
+							p.categoryName.setValue(d);
+						});
 					}}
-					value={state.categoryName}
-					asyncValidator={(d) =>
-						checkNameIsUnique(d.trim(), state.categoryName)
-					}
+					value={state.categoryName.getValue()}
+					asyncValidator={(d) => {
+						return checkNameIsUnique(d.trim(), state.categoryName.getData());
+					}}
 				/>
 			</div>
 			<div className="mb-4">
@@ -49,14 +51,14 @@ export default function FirstPart(props: Props) {
 						(d) => Validators.min(d, 0)
 					)}
 					asyncValidator={(d) =>
-						checkCodeIsUnique(d.trim(), state.categoryCode)
+						checkCodeIsUnique(d.trim(), state.categoryCode.getData())
 					}
 					onChange={(d) => {
 						editCategoryActions.mutateState((p) => {
-							p.categoryCode = d;
+							p.categoryCode.setValue(d);
 						});
 					}}
-					value={state.categoryCode}
+					value={state.categoryCode.getValue()}
 				/>
 			</div>
 			<div className="mb-4">

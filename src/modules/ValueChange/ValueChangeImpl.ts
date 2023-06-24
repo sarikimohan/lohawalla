@@ -10,6 +10,10 @@ export default class ValueChange implements IStringValueChange {
 	hasChanged(): boolean {
 		return this.changed;
 	}
+	/**
+	 * sets the changeable value
+	 * @param value string
+	 */
 	setValue(value: string) {
 		if (this.data === value) {
 			this.changed = false;
@@ -21,6 +25,10 @@ export default class ValueChange implements IStringValueChange {
 	getValue() {
 		return this.value;
 	}
+	/**
+	 * get the initial value of the changeable value
+	 * @returns string
+	 */
 	getData(): string {
 		return this.data;
 	}
