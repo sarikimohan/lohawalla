@@ -40,7 +40,7 @@ export default function Units(props: Props) {
 
 	useEffect(() => {
 		unitActions.fetchData();
-	}, []);
+	}, [state.refresh]);
 
 	const fileteredData = unitActions.filter();
 
