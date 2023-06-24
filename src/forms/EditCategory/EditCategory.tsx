@@ -251,11 +251,7 @@ export default function EditCategory(props: Props) {
 								<DefaultButton
 									onClick={function () {
 										validate().then((d) => {
-											if (d) {
-												console.log("correct");
-											} else {
-												console.log("incorrect");
-											}
+											if (d) serverActions.save(id, user);
 										});
 									}}
 									label={"Save"}
