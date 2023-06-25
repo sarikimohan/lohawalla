@@ -111,8 +111,6 @@ export default function UnitInput(props: RIUnitInput) {
 	}, [selectedUnit, inputValue]);
 
 	const validate = () => {
-		console.log("validating");
-
 		const verdict = { isValid: true };
 		if (selectedUnit && selectedUnit.weight === null) {
 			const data = { ...selectedUnit };

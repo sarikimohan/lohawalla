@@ -190,8 +190,9 @@ export default class Validate extends ServerStateUtils<AddItem.State> {
 			verdict,
 			Validators.validateNull,
 			(d) => {
+				const trimmed = d.trim();
 				for (let dl of this.state.descriptionLabels) {
-					if (dl.key === d.trim()) {
+					if (dl.key === trimmed) {
 						return d + " already exists";
 					}
 				}

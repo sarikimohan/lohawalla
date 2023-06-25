@@ -96,25 +96,13 @@ function AddItem(props: Props) {
 						label: "Close",
 					}}
 				>
-					{/* {state.loading.save.status === "failed" ? (
-						<ErrorCard
-							messages={[state.loading.save.message]}
-							primaryAction={{
-								onClick: () => {
-									props.onClose();
-									props.refresh();
-								},
-								label: "Close",
-							}}
-						/>
-					) : ( */}
 					<FormContainer>
 						<div className="mb-4">
 							<FormHeader
 								navBack={function (): void {
 									firstFormActions.mutateState((p) => {
 										if (p.page > 0) p.page--;
-										if (p.page === 0) props.onClose();
+										else if (p.page === 0) props.onClose();
 									});
 								}}
 								close={function (): void {
@@ -133,7 +121,6 @@ function AddItem(props: Props) {
 							{state.page === 2 && <ThirdPart />}
 						</div>
 					</FormContainer>
-					{/* )} */}
 					<AsyncSnackBar asyncState={state.loading.saveImages} />
 					<AsyncSnackBar asyncState={state.loading.save} />
 				</AsyncProcessBoundary>

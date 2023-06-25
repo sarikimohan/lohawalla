@@ -74,6 +74,7 @@ export default class SubmitActions extends ServerStateUtils<AddItem.State> {
 			throw new Error("no unit present");
 		}
 
+		//* saving images 
 		const images = this.state.images;
 
 		const res = await this.handleAsync("saveImages", () => SaveImage(images), {
