@@ -27,7 +27,7 @@ export default function FirstPart(props: Props) {
 						firstFormActions.setName(e.target.value);
 					}}
 					type={"text"}
-					placeHolder={"enter item name"}
+					placeHolder={"Enter item name"}
 				/>
 			</div>
 			<div className="mb-4">
@@ -40,7 +40,7 @@ export default function FirstPart(props: Props) {
 						firstFormActions.setHSNCode(e.target.value);
 					}}
 					type={"number"}
-					placeHolder={"enter item HSN Code"}
+					placeHolder={"Enter item HSN Code"}
 				/>
 			</div>
 			<div className="mb-4">
@@ -51,7 +51,7 @@ export default function FirstPart(props: Props) {
 						firstFormActions.setCode(e.target.value);
 					}}
 					type={"text"}
-					placeHolder={"enter item Code"}
+					placeHolder={"Enter item Code"}
 				/>
 			</div>
 			<div className="mb-4">
@@ -77,7 +77,7 @@ export default function FirstPart(props: Props) {
 						firstFormActions.setDescription(e.target.value);
 					}}
 					height={100}
-					placeHolder={"enter company name"}
+					placeHolder={"Enter description "}
 				/>
 			</div>
 			<div className="mb-5">

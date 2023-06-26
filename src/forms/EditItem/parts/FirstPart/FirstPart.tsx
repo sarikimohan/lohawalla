@@ -113,7 +113,7 @@ export default function FirstPart(props: Props) {
 							Validators.validateNull
 						);
 					}}
-					placeHolder="enter item name"
+					placeHolder="Enter item code"
 					setHandle={setHandle("v4")}
 				/>
 			</div>
