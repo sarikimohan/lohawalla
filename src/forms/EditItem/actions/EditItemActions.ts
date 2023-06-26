@@ -5,6 +5,7 @@ import React from "react";
 import editItem, { EditItemData } from "../fetch/services/editItem";
 import ValueChange from "@src/modules/ValueChange/ValueChangeImpl";
 import getAllUnits from "@src/forms/AddItem/fetch/service/getAllUnits";
+import SaveImage from "@src/modules/ImageServerUtils/services/SaveImage";
 
 export default class EditItemActions extends ServerStateUtils<EditItem.State> {
 	constructor(
@@ -72,10 +73,10 @@ export default class EditItemActions extends ServerStateUtils<EditItem.State> {
 					? null
 					: parseFloat(this.state.unit.value as string),
 			},
-			name: this.state.itemName.getValue(),
-			code: this.state.itemCode.getValue(),
+			name: this.state.itemName.getValue().trim(),
+			code: this.state.itemCode.getValue().trim(),
 			HSNCode: parseInt(this.state.itemHSNCode),
-			description: this.state.description,
+			description: this.state.description.trim(),
 			images: this.state.images.filter((v) => !v.deleted).map((v) => v.link),
 			deletedImages: this.state.images
 				.filter((v) => v.deleted)
@@ -85,12 +86,30 @@ export default class EditItemActions extends ServerStateUtils<EditItem.State> {
 				cash: parseInt(this.state.margin.cash),
 			},
 			descriptionLabels: this.state.descriptionLabels.map((v, i) => ({
-				...v,
+				key: v.key.trim(),
+				value: v.value.trim(),
 				position: i,
 			})),
 			by,
 		};
 
-		await this.handleAsync("saveData", () => editItem(d));
+		//* saving images;
+		const imageFiles = this.state.imageFiles;
+		if (imageFiles) {
+			const res = await this.handleAsync(
+				"saveImages",
+				() => SaveImage(imageFiles),
+				{
+					successMessage: "successfully saved the images",
+				}
+			);
+			if (res) {
+				d.images = d.images.concat(res.data);
+			}
+		}
+
+		await this.handleAsync("saveData", () => editItem(d), {
+			successMessage: "successfully saved edited item data",
+		});
 	}
 }

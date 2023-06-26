@@ -130,7 +130,7 @@ function DefaultButton(props: DefaultButtonProps) {
 			className={containerClassName}
 			transition={props.styles?.transition}
 			onClick={() => {
-				if(!props.disabled) {
+				if(!props.disabled && !(props.loading !== undefined && props.loading === true)) {
 					props.onClick();
 				}
 			}}

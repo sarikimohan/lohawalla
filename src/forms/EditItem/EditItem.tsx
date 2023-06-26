@@ -51,7 +51,7 @@ export default function EditItem(props: Props) {
 		itemHSNCode: "",
 		description: "",
 		images: [],
-		imageFiles: [],
+		imageFiles: null,
 		margin: {
 			cash: "",
 			online: "",
@@ -61,6 +61,7 @@ export default function EditItem(props: Props) {
 			saveData: AsyncStateFactory(),
 			fetch: AsyncStateFactory(),
 			fetchUnits: AsyncStateFactory(),
+			saveImages: AsyncStateFactory(),
 		},
 		validation: true,
 		triggerSubmit: false,
@@ -101,7 +102,10 @@ export default function EditItem(props: Props) {
 		>
 			<PopUpContainer>
 				<AsyncProcessBoundary
-					asyncStates={[state.loading.saveData, state.loading.fetchUnits]}
+					asyncStates={[
+						state.loading.saveData,
+						state.imageFiles ? state.loading.saveImages : undefined,
+					]}
 					primaryAction={{
 						onClick: () => {
 							props.close();
@@ -123,7 +127,9 @@ export default function EditItem(props: Props) {
 								preHeading={"Edit"}
 							/>
 						</div>
-						<LoadingBoundary asyncState={state.loading.fetch}>
+						<LoadingBoundary
+							asyncState={[state.loading.fetch, state.loading.fetchUnits]}
+						>
 							<div>
 								<FirstPart />
 								<SecondPart />

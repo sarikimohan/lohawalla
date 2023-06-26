@@ -91,6 +91,7 @@ export default function ThirdPart(props: Props) {
 			</Card>
 			<DefaultButton
 				onClick={function (): void {
+					console.log("running");
 					Object.values(handle.current).map((v, i) => {
 						v.validate();
 					});
@@ -104,8 +105,12 @@ export default function ThirdPart(props: Props) {
 						) && ref.current.isVaid;
 
 					if (verdict) {
-						_.save(id, user);
+						// _.save(id, user);
+						console.log('ready to save');
+					} else {
+						console.log('error in form')
 					}
+
 				}}
 				loading={state.loading.saveData.status === "initialized"}
 				label={"SAVE"}
