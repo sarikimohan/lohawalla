@@ -118,7 +118,7 @@ export default function EditProduct(props: RIEditProduct) {
 								props.onClose();
 							}}
 							heading={"Product"}
-							preHeading={"ADD"}
+							preHeading={"Edit"}
 							close={function (): void {
 								props.onClose();
 							}}
@@ -145,7 +145,7 @@ export default function EditProduct(props: RIEditProduct) {
 								</DefaultFormLabel>
 								<Autocomplete
 									renderInput={(params) => (
-										<TextField {...params} label="Company" />
+										<TextField {...params} label="Category" />
 									)}
 									disabled
 									options={[]}
@@ -158,7 +158,7 @@ export default function EditProduct(props: RIEditProduct) {
 								</DefaultFormLabel>
 								<Autocomplete
 									renderInput={(params) => (
-										<TextField {...params} label="Company" />
+										<TextField {...params} label="Item" />
 									)}
 									disabled
 									value={state.selectedItem}

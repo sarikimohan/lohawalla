@@ -105,10 +105,7 @@ export default function ThirdPart(props: Props) {
 						) && ref.current.isVaid;
 
 					if (verdict) {
-						// _.save(id, user);
-						console.log('ready to save');
-					} else {
-						console.log('error in form')
+						_.save(id, user);
 					}
 
 				}}

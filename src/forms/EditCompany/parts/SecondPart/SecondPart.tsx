@@ -106,7 +106,11 @@ export default function SecondPart(props: Props) {
 																	return Validators.max(d, 100);
 																}
 															},
-															(d) => Validators.min(d, 0)
+															(d) => {
+																if (v.type === "percentage") {
+																	return Validators.max(d, -100);
+																}
+															}
 													  )
 													: undefined
 											}

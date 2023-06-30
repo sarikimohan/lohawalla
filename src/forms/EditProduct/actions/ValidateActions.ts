@@ -55,7 +55,11 @@ export default class ValidateActions extends StateUtils<EditProduct.State> {
 								return Validators.max(d, 100);
 							}
 						},
-						(d) => Validators.min(d, 0)
+						(d) => {
+							if (val.type === "percentage") {
+								return Validators.min(d, -100);
+							}
+						}
 					);
 				}
 			}
