@@ -31,12 +31,14 @@ import { ReactComponent as FaceId } from "./icons/FaceId.svg";
 import { ReactComponent as PasscodeLock } from "./icons/PasscodeLock.svg";
 import { ReactComponent as PriceTag } from "./icons/PriceTag.svg";
 import { ReactComponent as Recipt } from "./icons/Recipt.svg";
+import { ReactComponent as DeleteIcon } from "./icons/DeleteIcon.svg";
+
 import CategoryImage from "./image/CategoryImage.png";
 import PipesImage from "./image/PipesImage.png";
 import Lohawalla from "./image/Lohawalla.png";
 import HelloHandShake from "./image/HelloHandShake.png";
 import UnAuthImage from "./image/unauth.jpg";
-import DefaultUser from './image/defaultUser.png';
+import DefaultUser from "./image/defaultUser.png";
 
 const AssetIndex = {
 	DashboardInactive,
@@ -72,7 +74,8 @@ const AssetIndex = {
 	PasscodeLock,
 	PriceTag,
 	Recipt,
-	DefaultUser
+	DefaultUser,
+	DeleteIcon,
 };
 
 export const ImageIndex = {
@@ -81,7 +84,7 @@ export const ImageIndex = {
 	Lohawalla,
 	HelloHandShake,
 	UnAuthImage,
-	DefaultUser
+	DefaultUser,
 };
 
 export default AssetIndex;

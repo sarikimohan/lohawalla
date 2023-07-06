@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import style from "./CompanySpecification.module.css";
 import { columnConfig } from "./configuration/ProductGridConfiguration";
 import AssetIndex from "@src/assets/AssetIndex";
@@ -21,6 +21,8 @@ import LoadingBoundary from "@src/Components/common/LoadingBoundary/LoadingBound
 import LoadingWidget from "@src/Components/widget/LoadingWidget/LoadingWidget";
 import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAndScale";
 import EditCompany from "@src/forms/EditCompany/EditCompany";
+import DeleteEntity from "@src/Components/feedback/Alerts/DeleteEntity";
+import AsyncProcessBoundary from "@src/Components/feedback/AsyncProcessBoundary/AsyncProcessBoundary";
 
 const CompanySpecificationContext = React.createContext({});
 
@@ -28,6 +30,7 @@ function CompanySpecification() {
 	const { ref, height } = useHeight();
 	const widthService = useWidth();
 	const { id } = useParams();
+	const navigate = useNavigate();
 
 	if (!id) return <p className="text-xl">no id found for company</p>;
 
@@ -45,10 +48,12 @@ function CompanySpecification() {
 		loading: {
 			fetch: AsyncStateFactory(),
 			fetchList: AsyncStateFactory(),
+			deleteCompany: AsyncStateFactory(),
 		},
 		refresh: true,
 		show: false,
 		showEditForm: false,
+		showDelete: false,
 	});
 	const companySpecActions = new CompanySpecActions(state, setState);
 
@@ -141,17 +146,32 @@ function CompanySpecification() {
 										{state.companyName}
 									</p>
 								</div>
-								<RotateAndScale>
-									<div
-										onClick={() => {
-											companySpecActions.mutateState((p) => {
-												p.showEditForm = true;
-											});
-										}}
-									>
-										<AssetIndex.EditSquare />
+								<div className="flex items-center">
+									<div className="mr-4">
+										<RotateAndScale>
+											<div
+												onClick={() => {
+													companySpecActions.mutateState((p) => {
+														p.showEditForm = true;
+													});
+												}}
+											>
+												<AssetIndex.EditSquare />
+											</div>
+										</RotateAndScale>
 									</div>
-								</RotateAndScale>
+									<RotateAndScale>
+										<div
+											onClick={() => {
+												companySpecActions.mutateState((p) => {
+													p.showDelete = true;
+												});
+											}}
+										>
+											<AssetIndex.DeleteIcon />
+										</div>
+									</RotateAndScale>
+								</div>
 							</div>
 							<div className={style.descriptionContainer + " mb-5"}>
 								<p className="pretitle fcolor-text-subtitle mb-1">
@@ -272,6 +292,57 @@ function CompanySpecification() {
 						}}
 						id={id}
 					/>
+				)}
+				{state.showEditForm && (
+					<EditCompany
+						close={function (): void {
+							companySpecActions.mutateState((p) => {
+								p.showEditForm = false;
+							});
+						}}
+						refresh={function (): void {
+							companySpecActions.mutateState((p) => {
+								p.refresh = !p.refresh;
+							});
+						}}
+						id={id}
+					/>
+				)}
+				{state.showDelete && (
+					<AsyncProcessBoundary
+						asyncStates={[state.loading.deleteCompany]}
+						primaryAction={{
+							onClick: () => {
+								companySpecActions.mutateState((p) => {
+									p.showDelete = false;
+								});
+							},
+							label: "Close",
+						}}
+					>
+						<DeleteEntity
+							config={{
+								primaryAction: {
+									label: "Confirm",
+									onClick: () => {
+										companySpecActions.deleteCompany(id, () => {
+											navigate(-1);
+										});
+									},
+								},
+								secondaryActions: {
+									label: "Cancel",
+									onClick: () => {
+										companySpecActions.mutateState((p) => {
+											p.showDelete = false;
+										});
+									},
+								},
+							}}
+							heading={"Delete Company"}
+							subheading={"Do you confirm want to delete category named TATA?"}
+						/>
+					</AsyncProcessBoundary>
 				)}
 			</CompanySpecificationContext.Provider>
 		</LoadingBoundary>

@@ -8,6 +8,7 @@ import StateUtils, {
 import isPrefix from "@src/modules/Utils/isPrefix";
 import fetchSpecData from "../../fetch/services/fetchSpecData";
 import fetchListData from "../../fetch/services/fetchListData";
+import deleteCompany from "../../fetch/services/deleteCompany";
 
 export default class CompanySpecActions extends ServerStateUtils<CompanySpecification.State> {
 	async fetch(id: string) {
@@ -48,5 +49,10 @@ export default class CompanySpecActions extends ServerStateUtils<CompanySpecific
 		this.mutateState((p) => {
 			p.filter.query = query;
 		});
+	}
+
+	async deleteCompany(id: string, onSuccess: () => void) {
+		await this.handleAsync("deleteCompany", () => deleteCompany(id));
+		onSuccess();
 	}
 }

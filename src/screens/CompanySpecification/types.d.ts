@@ -27,10 +27,12 @@ namespace CompanySpecification {
 		loading: {
 			fetch: AsyncState;
 			fetchList: AsyncState;
+			deleteCompany: AsyncState;
 		};
 		show: boolean;
 		refresh: boolean;
 		showEditForm: boolean;
+		showDelete: boolean;
 	}
 
 	interface Actions {
