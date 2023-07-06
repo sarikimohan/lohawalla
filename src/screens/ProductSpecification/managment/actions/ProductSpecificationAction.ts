@@ -3,6 +3,7 @@ import StateUtils, {
 	ServerStateUtils,
 } from "@src/modules/StateManagement/Core/StateUtils";
 import fetchProductSpecification from "../../fetch/services/fetchProducSpecification";
+import deleteProduct from "../../fetch/services/deleteProduct";
 
 export default class ProdSpecActions
 	extends ServerStateUtils<ProductSpecification.State>
@@ -15,5 +16,10 @@ export default class ProdSpecActions
 		if (res) {
 			this.setState((p) => ({ ...p, ...res.data }));
 		}
+	}
+
+	async deleteCompanyProduct(id: string, onSuccess: () => void) {
+		this.handleAsync("deleteCompanyProduct", () => deleteProduct(id));
+		onSuccess();
 	}
 }

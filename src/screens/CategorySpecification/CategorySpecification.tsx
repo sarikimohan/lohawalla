@@ -349,7 +349,7 @@ function CategorySpecification() {
 									},
 								},
 								secondaryActions: {
-									label: "Confirm",
+									label: "Cancel",
 									onClick: () => {
 										specActions.mutateState((p) => {
 											p.showDeleteForm = false;

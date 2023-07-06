@@ -52,11 +52,11 @@ function ItemSpecification() {
 			query: "",
 		},
 		images: [],
-		showDelete: true,
 		loading: {
 			fetch: AsyncStateFactory(),
 			fetchGrid: AsyncStateFactory(),
 		},
+		showDelete: false,
 		showForm: false,
 		showEditForm: false,
 		refresh: false,

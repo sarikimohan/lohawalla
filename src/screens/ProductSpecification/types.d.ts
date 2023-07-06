@@ -13,10 +13,10 @@ namespace ProductSpecification {
 			value: string;
 			position: number;
 		}[];
-		priceStructure:  {
+		priceStructure: {
 			name: string;
-			type: 'numeric'|'percentage';
-			operation: 'subtract'|'add';
+			type: "numeric" | "percentage";
+			operation: "subtract" | "add";
 			value: number;
 			fixed: boolean;
 		}[];
@@ -27,8 +27,11 @@ namespace ProductSpecification {
 		gst: { key: string; value: string };
 		images: string[];
 
+		showDelete: boolean;
+
 		loading: {
 			fetch: AsyncState;
+			deleteCompanyProduct: AsyncState;
 		};
 	}
 

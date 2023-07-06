@@ -1,6 +1,6 @@
 import AssetIndex from "@src/assets/AssetIndex";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import style from "./ProductSpecification.module.css";
 import useHeight from "@src/modules/hooks/useHeight";
 import BackNavBar from "@src/Components/common/NavBar/BackNavBar";
@@ -11,6 +11,8 @@ import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStat
 import LoadingWidget from "@src/Components/widget/LoadingWidget/LoadingWidget";
 import EditProduct from "@src/forms/EditProduct/EditProduct";
 import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAndScale";
+import DeleteEntity from "@src/Components/feedback/Alerts/DeleteEntity";
+import AsyncProcessBoundary from "@src/Components/feedback/AsyncProcessBoundary/AsyncProcessBoundary";
 
 const ProductSpecificationContext = React.createContext({});
 
@@ -19,6 +21,7 @@ function ProductSpecification() {
 	const [showForm, setShowForm] = useState(false);
 	const [refresh, setRefresh] = useState(false);
 	const { id } = useParams();
+	const navigate = useNavigate();
 	if (!id)
 		return (
 			<>
@@ -37,11 +40,13 @@ function ProductSpecification() {
 		images: [],
 		loading: {
 			fetch: AsyncStateFactory(),
+			deleteCompanyProduct: AsyncStateFactory(),
 		},
 		category: {
 			name: "",
 			_id: "",
 		},
+		showDelete: false,
 	});
 	const prodSpecActions = new ProdSpecActions(state, setState);
 
@@ -174,11 +179,26 @@ function ProductSpecification() {
 										{state.productName}
 									</p>
 								</div>
-								<RotateAndScale>
-									<div onClick={() => setShowForm(true)}>
-										<AssetIndex.EditSquare />
+								<div className="flex items-center">
+									<div className="mr-2">
+										<RotateAndScale>
+											<div onClick={() => setShowForm(true)}>
+												<AssetIndex.EditSquare />
+											</div>
+										</RotateAndScale>
 									</div>
-								</RotateAndScale>
+									<RotateAndScale>
+										<div
+											onClick={() => {
+												prodSpecActions.mutateState((p) => {
+													p.showDelete = true;
+												});
+											}}
+										>
+											<AssetIndex.DeleteIcon />
+										</div>
+									</RotateAndScale>
+								</div>
 							</div>
 							<div className={style.descriptionContainer + " mb-5"}>
 								<p className="pretitle fcolor-text-subtitle mb-1">COMPANY</p>
@@ -242,6 +262,44 @@ function ProductSpecification() {
 					}}
 					id={id}
 				/>
+			)}
+			{state.showDelete && (
+				<AsyncProcessBoundary
+					asyncStates={[state.loading.deleteCompanyProduct]}
+					primaryAction={{
+						onClick: () => {
+							prodSpecActions.mutateState((p) => {
+								p.showDelete = false;
+							});
+						},
+						label: "Close",
+					}}
+				>
+					<DeleteEntity
+						config={{
+							primaryAction: {
+								label: "Confirm",
+								onClick: () => {
+									prodSpecActions.deleteCompanyProduct(id, () => {
+										navigate(-1);
+									});
+								},
+							},
+							secondaryActions: {
+								label: "Cancel",
+								onClick: () => {
+									prodSpecActions.mutateState((p) => {
+										p.showDelete = false;
+									});
+								},
+							},
+						}}
+						heading={"Delete Product"}
+						subheading={
+							"Do you confirm you want to delete this company product?"
+						}
+					/>
+				</AsyncProcessBoundary>
 			)}
 		</LoadingBoundary>
 	);
