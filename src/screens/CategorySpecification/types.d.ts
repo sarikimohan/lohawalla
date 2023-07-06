@@ -29,6 +29,7 @@ namespace CategorySpecification {
 		filter: Filter;
 		loading: { [key: string]: AsyncState };
 		showEditForm: boolean;
+		showDeleteForm: boolean;
 	}
 
 	interface Actions {

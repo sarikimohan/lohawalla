@@ -5,7 +5,7 @@ import ImagePreview from "@src/Components/common/ImagePreview/ImagePreview";
 import useWidth from "@src/modules/hooks/useWidth";
 import Spacer from "@src/Components/common/Spacer/Spacer";
 import useHeight from "@src/modules/hooks/useHeight";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AssetIndex from "@src/assets/AssetIndex";
 import { Card } from "@mui/material";
 import SpacingDiv from "@src/Components/common/Layout/SpacingDiv/SpacingDiv";
@@ -23,6 +23,8 @@ import LoadingWidget from "@src/Components/widget/LoadingWidget/LoadingWidget";
 import AsyncStateFactory from "@src/modules/StateManagement/AsyncState/AsyncStateFactory";
 import EditCategory from "@src/forms/EditCategory/EditCategory";
 import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAndScale";
+import DeleteEntity from "@src/Components/feedback/Alerts/DeleteEntity";
+import AsyncProcessBoundary from "@src/Components/feedback/AsyncProcessBoundary/AsyncProcessBoundary";
 
 export const CategorySpecificationContext = React.createContext({});
 
@@ -30,6 +32,7 @@ function CategorySpecification() {
 	const widthService = useWidth();
 	const heightService = useHeight();
 	const { id } = useParams();
+	const navigate = useNavigate();
 
 	if (!id) return <p className="text-xl">no id found for category</p>;
 
@@ -62,10 +65,12 @@ function CategorySpecification() {
 		loading: {
 			fetchItemData: AsyncStateFactory(),
 			fetchSpecData: AsyncStateFactory(),
+			deleteCategory: AsyncStateFactory(),
 		},
 		showForm: false,
 		refresh: false,
 		showEditForm: false,
+		showDeleteForm: false,
 	});
 	const { categorySpec } = state;
 	const specActions = new CategorySpecificationAction(state, (p) =>
@@ -161,17 +166,32 @@ function CategorySpecification() {
 										{categorySpec.name}
 									</p>
 								</div>
-								<RotateAndScale>
-									<div
-										onClick={() => {
-											specActions.mutateState((p) => {
-												p.showEditForm = true;
-											});
-										}}
-									>
-										<AssetIndex.EditSquare />
+								<div className="flex">
+									<div className="mr-2">
+										<RotateAndScale>
+											<div
+												onClick={() => {
+													specActions.mutateState((p) => {
+														p.showEditForm = true;
+													});
+												}}
+											>
+												<AssetIndex.EditSquare />
+											</div>
+										</RotateAndScale>
 									</div>
-								</RotateAndScale>
+									<RotateAndScale>
+										<div
+											onClick={() => {
+												specActions.mutateState((p) => {
+													p.showDeleteForm = true;
+												});
+											}}
+										>
+											<AssetIndex.DeleteIcon />
+										</div>
+									</RotateAndScale>
+								</div>
 							</div>
 							<div className={style.descriptionContainer + " mb-6"}>
 								<p className="pretitle fcolor-text-subtitle mb-1">
@@ -309,6 +329,38 @@ function CategorySpecification() {
 						}}
 						id={id}
 					/>
+				)}
+				{state.showDeleteForm && (
+					<AsyncProcessBoundary
+						asyncStates={[state.loading.deleteCategory]}
+						primaryAction={{
+							onClick: undefined,
+							label: undefined,
+						}}
+					>
+						<DeleteEntity
+							config={{
+								primaryAction: {
+									label: "Confirm",
+									onClick: () => {
+										specActions.deleteCategory(id, () => {
+											navigate(-1);
+										});
+									},
+								},
+								secondaryActions: {
+									label: "Confirm",
+									onClick: () => {
+										specActions.mutateState((p) => {
+											p.showDeleteForm = false;
+										});
+									},
+								},
+							}}
+							heading={"Delete Category"}
+							subheading={"Do you confirm want to delete category?"}
+						/>
+					</AsyncProcessBoundary>
 				)}
 			</CategorySpecificationContext.Provider>
 		</LoadingBoundary>

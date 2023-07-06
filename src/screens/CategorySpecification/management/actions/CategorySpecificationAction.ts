@@ -4,6 +4,7 @@ import StateUtils, {
 import isPrefix from "@src/modules/Utils/isPrefix";
 import fetchCategoryItems from "../../fetch/services/fetchCategoryItems";
 import fetchCategorySpec from "../../fetch/services/fetchCategorySpec";
+import deleteCategory from "../../fetch/services/deleteCategory";
 
 export default class CategorySpecificationAction
 	extends ServerStateUtils<CategorySpecification.State>
@@ -67,5 +68,10 @@ export default class CategorySpecificationAction
 				}
 			}
 		});
+	}
+
+	async deleteCategory(id: string, onSuccess: () => void) {
+		await this.handleAsync("deleteCategory", () => deleteCategory(id));
+		onSuccess();
 	}
 }
