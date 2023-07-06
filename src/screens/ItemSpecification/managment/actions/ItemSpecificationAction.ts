@@ -8,6 +8,7 @@ import StateUtils, {
 import isPrefix from "@src/modules/Utils/isPrefix";
 import getItemSpec from "../../fetch/service/getItemSpec";
 import getItemGridData from "../../fetch/service/getItemGridData";
+import deleteItem from "../../fetch/service/deleteItem";
 
 export default class ItemSpecificationAction
 	extends ServerStateUtils<ItemSpecification.State>
@@ -62,5 +63,9 @@ export default class ItemSpecificationAction
 		this.mutateState((p) => {
 			p.showForm = show;
 		});
+	}
+	async deleteItem(id: string, onSuccess: () => void) {
+		await this.handleAsync("deleteItem", () => deleteItem(id));
+		onSuccess();
 	}
 }

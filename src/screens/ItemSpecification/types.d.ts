@@ -23,6 +23,8 @@ namespace ItemSpecification {
 		showEditForm: boolean;
 		refresh: boolean;
 
+		showDelete: boolean;
+		
 		loading: {
 			fetch: AsyncState;
 			fetchGrid: AsyncState;

@@ -1,7 +1,7 @@
 import AssetIndex, { ImageIndex } from "@src/assets/AssetIndex";
 import React, { useEffect, useState } from "react";
 import style from "./ItemSpecification.module.css";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import useWidth from "@src/modules/hooks/useWidth";
 import useHeight from "@src/modules/hooks/useHeight";
 import BackNavBar from "@src/Components/common/NavBar/BackNavBar";
@@ -27,6 +27,7 @@ import AsyncProcessBoundary from "@src/Components/feedback/AsyncProcessBoundary/
 import LoadingWidget from "@src/Components/widget/LoadingWidget/LoadingWidget";
 import EditItem from "@src/forms/EditItem/EditItem";
 import RotateAndScale from "@src/Components/interactions/RotateAndScale/RotateAndScale";
+import DeleteEntity from "@src/Components/feedback/Alerts/DeleteEntity";
 
 const ItemSpecificationContext = React.createContext({});
 
@@ -34,6 +35,7 @@ function ItemSpecification() {
 	const widthService = useWidth();
 	const { ref, height } = useHeight();
 	const { pid } = useParams();
+	const navigate = useNavigate();
 
 	const [state, setState] = useState<ItemSpecification.State>({
 		itemName: "",
@@ -50,6 +52,7 @@ function ItemSpecification() {
 			query: "",
 		},
 		images: [],
+		showDelete: true,
 		loading: {
 			fetch: AsyncStateFactory(),
 			fetchGrid: AsyncStateFactory(),
@@ -153,18 +156,34 @@ function ItemSpecification() {
 										{state.categoryName}
 									</p>
 								</div>
-								<RotateAndScale>
-									<div
-										className="cursor-pointer"
-										onClick={() => {
-											itemSpecActions.mutateState((p) => {
-												p.showEditForm = true;
-											});
-										}}
-									>
-										<AssetIndex.EditSquare />
+								<div className="flex items-center">
+									<div className="mr-2">
+										<RotateAndScale>
+											<div
+												className="cursor-pointer"
+												onClick={() => {
+													itemSpecActions.mutateState((p) => {
+														p.showEditForm = true;
+													});
+												}}
+											>
+												<AssetIndex.EditSquare />
+											</div>
+										</RotateAndScale>
 									</div>
-								</RotateAndScale>
+									<RotateAndScale>
+										<div
+											className="cursor-pointer"
+											onClick={() => {
+												itemSpecActions.mutateState((p) => {
+													p.showDelete = true;
+												});
+											}}
+										>
+											<AssetIndex.DeleteIcon />
+										</div>
+									</RotateAndScale>
+								</div>
 							</div>
 							<div className={style.descriptionContainer + " mb-6"}>
 								<p className="pretitle fcolor-text-subtitle mb-1">
@@ -291,6 +310,30 @@ function ItemSpecification() {
 							});
 						}}
 						id={pid}
+					/>
+				)}
+				{state.showDelete && (
+					<DeleteEntity
+						config={{
+							primaryAction: {
+								label: "Confirm",
+								onClick: () => {
+									itemSpecActions.deleteItem(pid, () => {
+										navigate(-1);
+									});
+								},
+							},
+							secondaryActions: {
+								label: "Cancel",
+								onClick: () => {
+									itemSpecActions.mutateState((p) => {
+										p.showDelete = false;
+									});
+								},
+							},
+						}}
+						heading={"Delete Item"}
+						subheading={"Do you confirm want to delete item?"}
 					/>
 				)}
 			</ItemSpecificationContext.Provider>
