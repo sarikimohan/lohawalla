@@ -298,6 +298,9 @@ function ProductSpecification() {
 						subheading={
 							"Do you confirm you want to delete this company product?"
 						}
+						loading={
+							state.loading.deleteCompanyProduct.status === "initialized"
+						}
 					/>
 				</AsyncProcessBoundary>
 			)}

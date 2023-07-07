@@ -334,8 +334,12 @@ function CategorySpecification() {
 					<AsyncProcessBoundary
 						asyncStates={[state.loading.deleteCategory]}
 						primaryAction={{
-							onClick: undefined,
-							label: undefined,
+							onClick: () => {
+								specActions.mutateState((p) => {
+									p.showDeleteForm = false;
+								});
+							},
+							label: "Close",
 						}}
 					>
 						<DeleteEntity
@@ -358,7 +362,8 @@ function CategorySpecification() {
 								},
 							}}
 							heading={"Delete Category"}
-							subheading={"Do you confirm want to delete category?"}
+							subheading={"Do you confirm you want to delete this category?"}
+							loading={state.loading.deleteCategory.status === "initialized"}
 						/>
 					</AsyncProcessBoundary>
 				)}

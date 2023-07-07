@@ -55,6 +55,7 @@ function ItemSpecification() {
 		loading: {
 			fetch: AsyncStateFactory(),
 			fetchGrid: AsyncStateFactory(),
+			deleteItem: AsyncStateFactory(),
 		},
 		showDelete: false,
 		showForm: false,
@@ -313,28 +314,41 @@ function ItemSpecification() {
 					/>
 				)}
 				{state.showDelete && (
-					<DeleteEntity
-						config={{
-							primaryAction: {
-								label: "Confirm",
-								onClick: () => {
-									itemSpecActions.deleteItem(pid, () => {
-										navigate(-1);
-									});
-								},
+					<AsyncProcessBoundary
+						asyncStates={[state.loading.deleteItem]}
+						primaryAction={{
+							onClick: () => {
+								itemSpecActions.mutateState((p) => {
+									p.showDelete = false;
+								});
 							},
-							secondaryActions: {
-								label: "Cancel",
-								onClick: () => {
-									itemSpecActions.mutateState((p) => {
-										p.showDelete = false;
-									});
-								},
-							},
+							label: "Close",
 						}}
-						heading={"Delete Item"}
-						subheading={"Do you confirm want to delete item?"}
-					/>
+					>
+						<DeleteEntity
+							config={{
+								primaryAction: {
+									label: "Confirm",
+									onClick: () => {
+										itemSpecActions.deleteItem(pid, () => {
+											navigate(-1);
+										});
+									},
+								},
+								secondaryActions: {
+									label: "Cancel",
+									onClick: () => {
+										itemSpecActions.mutateState((p) => {
+											p.showDelete = false;
+										});
+									},
+								},
+							}}
+							heading={"Delete Item"}
+							subheading={"Do you confirm you want to delete this item?"}
+							loading={state.loading.deleteItem.status === "initialized"}
+						/>
+					</AsyncProcessBoundary>
 				)}
 			</ItemSpecificationContext.Provider>
 		</LoadingBoundary>

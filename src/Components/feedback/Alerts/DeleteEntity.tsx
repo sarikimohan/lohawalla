@@ -1,4 +1,4 @@
-import { Backdrop } from "@mui/material";
+import { Backdrop, CircularProgress } from "@mui/material";
 import React from "react";
 
 interface Actions {
@@ -10,6 +10,7 @@ export interface RIDeleteEntity {
 	config: { primaryAction: Actions; secondaryActions: Actions };
 	heading: string;
 	subheading: string;
+	loading: boolean;
 }
 
 export namespace PIDeleteEntity {}
@@ -29,14 +30,22 @@ export default function DeleteEntity(props: RIDeleteEntity) {
 					<div className="mr-2">
 						<button
 							className="rounded px-4 py-2 font-medium text-md text-white bg-indigo-500 active:scale-95 hover:brightness-90"
-							onClick={props.config.primaryAction.onClick}
+							onClick={
+								!props.loading ? props.config.primaryAction.onClick : undefined
+							}
 						>
-							{props.config.primaryAction.label}
+							{props.loading ? (
+								<CircularProgress size={16} sx={{ color: "white" }} />
+							) : (
+								props.config.primaryAction.label
+							)}
 						</button>
 					</div>
 					<button
 						className="rounded px-3 py-1 font-medium text-base bg-slate-50 text-slate-500 active:scale-95"
-						onClick={props.config.secondaryActions.onClick}
+						onClick={
+							!props.loading ? props.config.secondaryActions.onClick : undefined
+						}
 					>
 						{props.config.secondaryActions.label}
 					</button>

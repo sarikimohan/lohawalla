@@ -341,6 +341,7 @@ function CompanySpecification() {
 							}}
 							heading={"Delete Company"}
 							subheading={"Do you confirm want to delete category named TATA?"}
+							loading={state.loading.deleteCompany.status === "initialized"}
 						/>
 					</AsyncProcessBoundary>
 				)}
