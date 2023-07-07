@@ -362,7 +362,9 @@ function CategorySpecification() {
 								},
 							}}
 							heading={"Delete Category"}
-							subheading={"Do you confirm you want to delete this category?"}
+							subheading={
+								"Do you confirm you want to delete this category? Note that deleting a category also deletes it's items and the products in them"
+							}
 							loading={state.loading.deleteCategory.status === "initialized"}
 						/>
 					</AsyncProcessBoundary>

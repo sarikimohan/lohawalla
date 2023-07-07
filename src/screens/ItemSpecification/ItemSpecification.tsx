@@ -345,7 +345,7 @@ function ItemSpecification() {
 								},
 							}}
 							heading={"Delete Item"}
-							subheading={"Do you confirm you want to delete this item?"}
+							subheading={"Do you confirm you want to delete this item? Note that deleting an Item also deletes the products in it."}
 							loading={state.loading.deleteItem.status === "initialized"}
 						/>
 					</AsyncProcessBoundary>
