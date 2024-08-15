@@ -48,49 +48,50 @@ export default function AuthGuard(props: Props) {
 
 	useEffect(() => {
 		// TODO validate the token from the server
-		const tokenObj = getToken();
+		// const tokenObj = getToken();
 
-		if (
-			tokenObj &&
-			(tokenObj.role === RoleIndex.ADMIN ||
-				tokenObj.role === RoleIndex.PURCHASER)
-		) {
-			if (tokenObj.maxAge < Date.now()) {
-				localStorage.removeItem("userData");
-			} else {
-				setTimeout(() => {
-					localStorage.removeItem("userData");
-				}, tokenObj.maxAge - Date.now());
-			}
+		// if (
+		// 	tokenObj &&
+		// 	(tokenObj.role === RoleIndex.ADMIN ||
+		// 		tokenObj.role === RoleIndex.PURCHASER)
+		// ) {
+		// 	if (tokenObj.maxAge < Date.now()) {
+		// 		localStorage.removeItem("userData");
+		// 	} else {
+		// 		setTimeout(() => {
+		// 			localStorage.removeItem("userData");
+		// 		}, tokenObj.maxAge - Date.now());
+		// 	}
 
-			setState(tokenObj);
+		// 	setState(tokenObj);
 
-			setIsLoggedIn(true);
+		// 	setIsLoggedIn(true);
 
-			setUserDetails({
-				userId: tokenObj.userId,
-				name: tokenObj.name,
-			});
-		}
+		// 	setUserDetails({
+		// 		userId: tokenObj.userId,
+		// 		name: tokenObj.name,
+		// 	});
+		// }
 
-		// setUserDetails({
-		// 	userId: "646cee6bcd9d75a02a8172f6",
-		// 	name: "snehal",
-		// });
+		setUserDetails({
+			userId: "646cee6bcd9d75a02a8172f6",
+			name: "snehal",
+		});
 	}, []);
 
 	useEffect(() => {
-		const tokenObj = getToken();
-		if (
-			!tokenObj ||
-			(tokenObj.role !== RoleIndex.ADMIN &&
-				tokenObj.role !== RoleIndex.PURCHASER)
-		) {
-			setIsLoggedIn(false);
+		// const tokenObj = getToken();
+		// if (
+		// 	!tokenObj ||
+		// 	(tokenObj.role !== RoleIndex.ADMIN &&
+		// 		tokenObj.role !== RoleIndex.PURCHASER)
+		// ) {
+			setIsLoggedIn(true);
 		}
-	});
+	// });
+	)
 
-	if (isLoggedIn) {
+	if (true) {
 		return (
 			<AuthGuardContext.Provider
 				value={{

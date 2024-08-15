@@ -15,6 +15,7 @@ import React, { useRef } from "react";
 import PriceCalculation from "../PriceCalculation/PriceCalculation";
 import useHeight from "@src/modules/hooks/useHeight";
 import EditProduct from "@src/forms/EditProduct/EditProduct";
+import Graph from "@src/Components/graph/Graph";
 
 <div style={{ padding: 50 }}>
 	{/* <AddCategoryForm
@@ -61,6 +62,7 @@ function Dashboard() {
 						throw new Error("Function not implemented.");
 					}}
 				/> */}
+				<Graph/>
 				{/* <EditItem /> */}
 				{/* <ErrorCard
 					turnToSuccess
